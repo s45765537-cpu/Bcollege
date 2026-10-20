@@ -78,7 +78,7 @@ function ForbiddenWordsRun() {
 function ForbiddenWordsClick() {
 
 	// When the user clicks on the header buttons
-	if (MouseIn(1830, 60, 250, 65)) ForbiddenWordsExit();
+	if (MouseIn(1830, 60, 90, 90)) ForbiddenWordsExit();
 	if (MouseIn(1550, 175, 180, 60)) {
 		let Word = ElementValue("InputWord").trim().toUpperCase().replace("|", "");
 		if ((Word != "") && (ForbiddenWordsList.indexOf(Word) < 0)) {
@@ -95,7 +95,7 @@ function ForbiddenWordsClick() {
 		ForbiddenWordsConsequence = (Index >= ForbiddenWordsConsequenceList.length) ? ForbiddenWordsConsequenceList[0] : ForbiddenWordsConsequenceList[Index];
 		return;
 	}
-	if (MouseIn(1830, 175, 250, 65)) {
+	if (MouseIn(1830, 175, 90, 90)) {
 		ForbiddenWordsOffset = ForbiddenWordsOffset + 32;
 		if (ForbiddenWordsOffset >= ForbiddenWordsList.length) ForbiddenWordsOffset = 0;
 		return;

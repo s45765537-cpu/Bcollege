@@ -272,13 +272,16 @@ function WardrobeKeyDown(event) {
 	if (WardrobeSelection !== -1) return false;
 
 	const grid = ElementWrap(WardrobeID.slotGrid);
-	if (grid
-		&& !grid.hasAttribute("hidden")
-		&& CommonKey.NavigationKeyDown(
-			grid,
-			event,
-			(el) => el.querySelector(".wardrobe-slot:not([hidden])")?.clientHeight ?? el.clientHeight / WardrobeGetGridDimensions().rows)) {
-		return true;
+	if (grid && !grid.hasAttribute("hidden")) {
+		const prevTop = grid.scrollTop;
+		const rowHeight = () => grid.querySelector(".wardrobe-slot:not([hidden])")?.clientHeight ?? grid.clientHeight / WardrobeGetGridDimensions().rows;
+		if (CommonKey.NavigationKeyDown(grid, event, rowHeight)) {
+			if (Math.abs(grid.scrollTop - prevTop) < rowHeight() / 2) {
+				if (event.key === "PageDown") grid.scrollTop = 0;
+				else if (event.key === "PageUp") grid.scrollTop = grid.scrollHeight;
+			}
+			return true;
+		}
 	}
 
 	if (WardrobeReorderMode !== "None") return false;
@@ -545,14 +548,14 @@ function WardrobeLoadCharacterNames() { }
 function WardrobeFixLength() {
 	let Push = false;
 	if (Player.Wardrobe.length > WardrobeSize) {
-		Player.Wardrobe = Player.Wardrobe.slice(0, WardrobeSize - 1);
+		Player.Wardrobe = Player.Wardrobe.slice(0, WardrobeSize);
 		Push = true;
 	}
 	while (Player.Wardrobe.length < WardrobeSize) {
 		Player.Wardrobe.push(null);
 		Push = true;
 	}
-	while (Player.WardrobeCharacterNames.length <= WardrobeSize) {
+	while (Player.WardrobeCharacterNames.length < WardrobeSize) {
 		Player.WardrobeCharacterNames.push(Player.Name);
 		Push = true;
 	}
@@ -790,6 +793,9 @@ function WardrobeFastLoad(C, W, Update = false, Options = {}) {
 		if (item && w.Property) {
 			// TODO: Add a property blacklist to `ItemPropertiesDecompress()`
 			const expression = item.Property.Expression;
+			// `CharacterAppearanceSetItem` initializes extended items to their default option.
+			// Property union keeps that first value, so a default `TypeRecord` of 0 blocks the saved option.
+			item.Property = {};
 			item.Property = ItemPropertiesDecompress(item, w.Property);
 			item.Property.Expression = expression;
 		}

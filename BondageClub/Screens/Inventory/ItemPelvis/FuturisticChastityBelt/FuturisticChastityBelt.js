@@ -95,6 +95,7 @@ function AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, ShockType,
 	if (!ServerPlayerIsInChatRoom()) {
 		if (!NoShock)
 			AudioPlayInstantSound("Audio/Shocks.mp3");
+		InventoryShockExpression(C);
 	} else {
 		const Dictionary = new DictionaryBuilder()
 			.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
@@ -110,9 +111,17 @@ function AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, ShockType,
 			.shockIntensity(2)
 			.endif()
 			.build();
-		Dictionary.push({ ActivityName: "ShockItem" });
 
-		let ShockPhrase = !NoShock ? "Shock" : "Punish";
+		/** @type {string} */
+		let ShockPhrase;
+		if (NoShock) {
+			ShockPhrase = "Punish";
+		} else {
+			ShockPhrase = "Shock";
+			Dictionary.push({ ActivityName: "ShockItem" });
+			InventoryShockExpression(C);
+		}
+
 		if (Item.Property && Item.Property.ShowText) {
 			ServerSend("ChatRoomChat", {
 				Content: `FuturisticChastityBelt${ShockPhrase}${ShockType}`,
@@ -128,7 +137,6 @@ function AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, ShockType,
 			});
 		}
 	}
-	InventoryShockExpression(C);
 }
 
 /**

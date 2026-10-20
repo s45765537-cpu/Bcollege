@@ -27,7 +27,7 @@ var GLDrawAlphaThreshold = 0.01;
 var GLDrawHalfAlphaLow = 0.8 / 256.0;
 var GLDrawHalfAlphaHigh = 1.2 / 256.0;
 
-/** @type {ImageCache<GLDrawImageData>} */
+/** @type {ImageCache<GLDrawImageData> | undefined} */
 var GLDrawImageCache;
 
 /**
@@ -192,15 +192,14 @@ function GLDrawResetCanvas(force2d = false) {
 	console.info("WebGL: resetting canvas");
 	// Cleanup resources and canvas
 	GLDrawCanvas?.remove();
-	GLDrawImageCache.forEach((image, key) => {
-		image.unload();
-	});
+	GLDrawImageCache?.clear();
 	GLDrawCanvas?.GL?.maskCache?.forEach((texture) => {
 		GLDrawCanvas?.GL?.deleteTexture(texture);
 	});
 	GLDrawCanvas?.GL?.maskCache?.clear();
 	if (GLDrawScratchTexture) {
 		GLDrawCanvas?.GL?.deleteTexture(GLDrawScratchTexture);
+		GLDrawScratchTexture = undefined;
 	}
 	GLDrawCanvas = null;
 
@@ -619,9 +618,10 @@ function GLChooseProgram(gl, color, fullAlpha, blendingMode) {
  * @param {number} blinkOffset - Offset for the blink canvas
  * @param {readonly RectTuple[]} [alphaMasks] - A list of alpha masks to apply to the asset
  * @param {readonly TextureAlphaMask[]} [texMasks] - A list of mask layers to apply to the asset
+ * @param {DrawTransforms} [transforms] - The layer's transformations
  */
-function GLDraw2DCanvas(gl, Img, X, Y, blinkOffset, alphaMasks, texMasks) {
-	GLDrawImage(Img, gl, X, Y, { AlphaMasks: alphaMasks, TextureAlphaMask: texMasks }, blinkOffset);
+function GLDraw2DCanvas(gl, Img, X, Y, blinkOffset, alphaMasks, texMasks, transforms) {
+	GLDrawImage(Img, gl, X, Y, { AlphaMasks: alphaMasks, TextureAlphaMask: texMasks, ...transforms }, blinkOffset);
 }
 
 /**
@@ -633,18 +633,22 @@ async function GLDrawDecodeImage(blob) {
 	const gl = GLDrawCanvas?.GL;
 	if (!gl) throw new Error("WebGL context unavailable");
 
-	const bitmap = await createImageBitmap(blob, { premultiplyAlpha: "none" });
+	/** @type {ImageBitmap | undefined} */
+	let bitmap = undefined;
+	/** @type {WebGLTexture | undefined} */
+	let texture = undefined;
 	try {
-		const texture = GLDrawCreateTexture(gl);
-		try {
-			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, bitmap);
-			return { width: bitmap.width, height: bitmap.height, texture };
-		} catch (err) {
+		bitmap = await DrawDecodeImageBitmap(blob);
+		texture = GLDrawCreateTexture(gl);
+		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, bitmap);
+		return { width: bitmap.width, height: bitmap.height, texture };
+	} catch (e) {
+		if (texture) {
 			gl.deleteTexture(texture);
-			throw err;
 		}
+		throw e;
 	} finally {
-		bitmap.close();
+		bitmap?.close();
 	}
 }
 
@@ -678,8 +682,8 @@ function GLDrawCreateTexture(gl) {
  * @returns {GLDrawImageData | null} - The texture info of a given image, or null if it has nothing to draw yet
  */
 function GLDrawLoadImage(gl, url) {
-	const image = GLDrawImageCache.get(url);
-	return image.isLoaded() ? image.data : null;
+	const image = GLDrawImageCache?.get(url);
+	return image?.isLoaded() ? image.data : null;
 }
 
 /**
@@ -903,13 +907,13 @@ function GLDrawAppearanceBuild(C) {
 			CommonDrawMarkDrawnAsset(C, src);
 			GLDrawImage(src, gl, x, y, opts, blinkOffset);
 		},
-		drawCanvas: (Img, x, y, alphaMasks, maskLayers) => {
+		drawCanvas: (Img, x, y, alphaMasks, maskLayers, transforms) => {
 			CommonDrawMarkDrawnAsset(C, Img);
-			GLDraw2DCanvas(gl, Img, x, y, 0, alphaMasks, maskLayers);
+			GLDraw2DCanvas(gl, Img, x, y, 0, alphaMasks, maskLayers, transforms);
 		},
-		drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers) => {
+		drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers, transforms) => {
 			CommonDrawMarkDrawnAsset(C, Img);
-			GLDraw2DCanvas(gl, Img, x, y, blinkOffset, alphaMasks, maskLayers);
+			GLDraw2DCanvas(gl, Img, x, y, blinkOffset, alphaMasks, maskLayers, transforms);
 		},
 	});
 	C.Canvas?.getContext("2d")?.drawImage(GLDrawCanvas, 0, 0);

@@ -68,8 +68,18 @@ var ChatRoomMapViewKeysPressed = {
 	East: false,
 };
 var ChatRoomMapViewStartOfKeyPress = 0;
-/** @type {Map<number, Character>} */
+/** @type {Map<number, Character[]>} - The characters on each tile, the player first */
 var ChatRoomMapViewCharacterMap = new Map();
+/** @type {{ C: Character, rect: RectTuple, charX: number, charY: number }[]} */
+var ChatRoomMapViewNameTags = [];
+/** TRUE while an admin picks where the selected teleport pad sends to */
+var ChatRoomMapViewTeleportPadPicking = false;
+/** @type {null | number} - The teleport pad whose menu is open */
+var ChatRoomMapViewTeleportPadIndex = null;
+/** @type {null | { indexes: number[], color: HexColor }} - The teleport pads shown in the color being picked for them */
+var ChatRoomMapViewTeleportPadPreview = null;
+/** @type {Map<string, HTMLCanvasElement>} - Map object images already colorized, by image and color */
+var ChatRoomMapViewColoredImages = new Map();
 /** @type {null | HTMLElement} */
 var ChatRoomMapViewDialogMenu = null;
 /** @type {HTMLElement} */
@@ -204,7 +214,7 @@ function ChatRoomMapViewCreateDialogMenu() {
 						textContent: "Title"
 					},
 					ElementButton.Create(null, () => {
-						ChatRoomMapViewDialogMenu?.setAttribute("hidden", "true");
+						ChatRoomMapViewHideDialogMenu();
 					},
 					{
 						tooltip: "Close",
@@ -252,6 +262,8 @@ function ChatRoomMapViewShowDialogMenu(title, content, footer) {
 
 function ChatRoomMapViewHideDialogMenu() {
 	ChatRoomMapViewDialogMenu?.setAttribute("hidden", "true");
+	ChatRoomMapViewTeleportPadIndex = null;
+	ChatRoomMapViewTeleportPadPicking = false;
 }
 
 function ChatRoomMapViewShowEditor() {
@@ -769,6 +781,10 @@ function ChatRoomMapViewDeactivate() {
 
 function ChatRoomMapViewDestroyElements() {
 	document.removeEventListener("blur", ChatRoomMapViewBlur);
+	if (ChatRoomMapViewTeleportPadPreview) {
+		ChatRoomMapViewTeleportPadPreview = null;
+		ColorPickerExit(true);
+	}
 	if (ElementWrap("chat-room-map-view-panel")) {
 		ElementRemove("chat-room-map-view-panel");
 	}
@@ -1222,7 +1238,7 @@ function ChatRoomMapViewCollision() {
  */
 function ChatRoomMapViewGetCharacterAtPos(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return null;
-	return ChatRoomMapViewCharacterMap.get(X + Y * ChatRoomMapViewWidth) ?? null;
+	return ChatRoomMapViewCharacterMap.get(X + Y * ChatRoomMapViewWidth)?.[0] ?? null;
 }
 
 /**
@@ -1251,8 +1267,21 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	ChatRoomMapViewCharacterMap.clear();
 	for(let C of ChatRoomCharacter) {
 		if (!C.MapData?.Pos) continue;
-		ChatRoomMapViewCharacterMap.set(C.MapData.Pos.X + C.MapData.Pos.Y * ChatRoomMapViewWidth, C);
+		const index = C.MapData.Pos.X + C.MapData.Pos.Y * ChatRoomMapViewWidth;
+		const stack = ChatRoomMapViewCharacterMap.get(index);
+		if (!stack) {
+			ChatRoomMapViewCharacterMap.set(index, [C]);
+		} else if (C.IsPlayer()) {
+			stack.unshift(C);
+		} else {
+			stack.push(C);
+		}
 	}
+	/** @type {{ stack: Character[], x: number, y: number, charX: number, charY: number }[]} */
+	const sharedTiles = [];
+	// While a teleport pad's menu is open, the pad and where it sends to are outlined
+	const padMenuIndex = ChatRoomMapViewTeleportPadIndex != null && !ChatRoomMapViewDialogMenu?.hidden ? ChatRoomMapViewTeleportPadIndex : null;
+	const padDestination = padMenuIndex != null ? MapManager.Map.getTeleporterDestination(padMenuIndex) : null;
 
 	// Manages collisions, moves the player if she's on a tile that cannot be entered
 	ChatRoomMapViewCollision();
@@ -1361,14 +1390,21 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 				if (Char && Obj.OccupiedStyle) ImageName = Obj.OccupiedStyle;
 				ObjectData = Obj;
 				ObjectImage = MapGetAssetUrl("Object", Obj.Type, ImageName);
+				const color = Obj.BuildImageColor?.(X, Y);
+				const opacity = color?.length === 9 ? parseInt(color.slice(7), 16) / 255 : 1;
+				// While building, admins get a faint circle around objects colored nearly invisible so they can find them
+				const building = ["Tile", "Object", "Effect"].includes(ChatRoomMapViewEditMode)
+					|| (ChatRoomMapViewTeleportPadIndex === X + Y * ChatRoomMapViewWidth && !ChatRoomMapViewDialogMenu?.hidden);
+				const nearlyInvisible = opacity < 0.3 && building && ChatRoomPlayerIsAdmin();
 
-				DrawImageResize(ObjectImage,
+				DrawImageResize(color ? ChatRoomMapViewGetColoredImage(ObjectImage, CommonColorTrimAlpha(color)) : ObjectImage,
 					Math.floor(Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left)),
 					Math.floor(Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top)),
 					Math.ceil(TileWidth * ((Obj.Width == null) ? 1 : Obj.Width)),
 					Math.ceil(TileHeight * ((Obj.Height == null) ? 1 : Obj.Height)),
-					{ Rotation: Obj.Rotation }
+					{ Rotation: Obj.Rotation, Alpha: opacity }
 				);
+				if (nearlyInvisible) DrawCircle(Left + ScreenX + TileWidth / 2, Top + ScreenY + TileHeight / 2, TileWidth * 0.47, 1.5, "#FFFFFF80");
 			}
 		}
 
@@ -1391,6 +1427,16 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 				// Draws the character on the grid
 				DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.85), TileHeight * 1.8 / 1000);
+				const stack = ChatRoomMapViewCharacterMap.get(X + Y * ChatRoomMapViewWidth);
+				if (stack && stack.length > 1) {
+					sharedTiles.push({
+						stack,
+						x: Left + ScreenX + TileWidth / 2,
+						y: Top + ScreenY - TileHeight * 0.85,
+						charX: Left + ScreenX + TileWidth * 0.05,
+						charY: Top + ScreenY - TileHeight * 0.85,
+					});
+				}
 				DrawStatus(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.85), TileHeight * 1.8 / 1000);
 
 				// Keeps the character under the cursor
@@ -1425,6 +1471,9 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		// Draw the floor wall effect and rectancle if needed at the end
 		if (FloorWallEffect != -1) DrawImageResize(MapGetAssetUrl("Tile", "WallEffect", `${FloorWallEffect}`), Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 		if (DrawSelectionRect) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
+		if (padMenuIndex === X + Y * ChatRoomMapViewWidth) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "white", 2);
+		if (padDestination?.X === X && padDestination?.Y === Y) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 5);
+		if (ChatRoomMapViewTeleportPadPicking && MouseIn(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight)) DrawRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "#00FFFF60");
 
 	}
 
@@ -1512,6 +1561,57 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 
 
+
+	// Name tags to pick each character sharing a tile, hidden while editing since clicks place doodads then
+	ChatRoomMapViewNameTags = [];
+	const editing = ["Tile", "Object", "Effect"].includes(ChatRoomMapViewEditMode);
+	MainCanvas.font = CommonGetFont(24);
+	if (!editing) {
+		/** @type {{ C: Character, name: string, rect: RectTuple, charX: number, charY: number }[]} */
+		const placed = [];
+		/** @type {(rect: RectTuple) => boolean} */
+		const overlaps = (rect) => placed.some(tag => RectOverlapsWithRect(rect, tag.rect));
+		const tagHeight = 36;
+		for (const shared of sharedTiles.sort((a, b) => a.y - b.y)) {
+			const tags = shared.stack.map(C => {
+				const name = CharacterNickname(C);
+				return { C, name, width: Math.min(TileWidth * 3, Math.max(80, MainCanvas.measureText(name).width + 24)) };
+			});
+			tags.sort((a, b) => b.width - a.width);
+			let tagY = shared.y;
+			for (const tag of tags) {
+				let tagX = CommonClamp(shared.x - tag.width / 2, Left, Left + Width - tag.width);
+				tagY -= tagHeight + 3;
+				// A tag covering one already placed moves up, or to the side when there's no room left above
+				for (let tries = 0; tries < 40 && (tagY < Top || overlaps([tagX, tagY, tag.width, tagHeight])); tries++) {
+					if (tagY - tagHeight - 3 >= Top) {
+						tagY -= tagHeight + 3;
+					} else {
+						tagY = shared.y - tagHeight - 3;
+						tagX = CommonClamp(tagX + tag.width + 6, Left, Left + Width - tag.width);
+					}
+				}
+				tagY = Math.max(Top, tagY);
+				placed.push({ C: tag.C, name: tag.name, rect: [tagX, tagY, tag.width, tagHeight], charX: shared.charX, charY: shared.charY });
+			}
+		}
+		for (const tag of placed) {
+			const [x, y, width, height] = tag.rect;
+			const hover = MouseIn(x, y, width, height);
+			const color = CommonIsColor(tag.C.LabelColor) ? tag.C.LabelColor : "White";
+			DrawRect(x, y, width, height, hover ? "#505050E0" : "#000000B0");
+			DrawEmptyRect(x, y, width, height, tag.C.IsPlayer() ? "Cyan" : color, 2);
+			DrawTextFit(tag.name, x + width / 2, y + height / 2 + 1, width - 12, color, "Black");
+			ChatRoomMapViewNameTags.push({ C: tag.C, rect: tag.rect, charX: tag.charX, charY: tag.charY });
+			if (hover) {
+				ChatRoomMapViewFocusedCharacter = tag.C;
+				ChatRoomMapViewFocusedCharacterX = tag.charX;
+				ChatRoomMapViewFocusedCharacterY = tag.charY;
+				CharacterUnderCursor = null;
+			}
+		}
+	}
+	MainCanvas.font = CommonGetFont(36);
 
 	// If the user hovers the mouse over a tile occupied by a character
 	if (CharacterUnderCursor) {
@@ -1604,6 +1704,61 @@ function ChatRoomMapViewUpdateLastMapDataSync() {
 	if ((ChatRoomMapViewUpdateLastMapDataNext == null) || (ChatRoomMapViewUpdateLastMapDataNext > CommonTime())) return;
 	ChatRoomMapViewUpdateLastMapDataNext = null;
 	ServerAccountUpdate.QueueData({ LastMapData: Player.MapData }, true);
+}
+
+/**
+ * Characters can stand together on a shared object (teleport pads), where a teleport pad sends to,
+ * and on the tiles right around them, so a group arriving at once can always walk off
+ * @param {number} X - The X position on the map
+ * @param {number} Y - The Y position on the map
+ * @returns {boolean} - TRUE if more than one character can stand on that tile
+ */
+function ChatRoomMapViewTileIsShared(X, Y) {
+	for (let dX = -1; dX <= 1; dX++) {
+		for (let dY = -1; dY <= 1; dY++) {
+			if (X + dX < 0 || Y + dY < 0 || X + dX >= ChatRoomMapViewWidth || Y + dY >= ChatRoomMapViewHeight) continue;
+			const config = MapManager.Map.getObjectConfig(X + dX, Y + dY);
+			if ((config?.Type === "Teleporter" && config.Shared) || MapManager.Map.isTeleporterDestination(X + dX, Y + dY)) return true;
+		}
+	}
+	return false;
+}
+
+/**
+ * Gets a map object image colorized the way clothes are, it's only colorized once and then reused
+ * @param {string} url - The image
+ * @param {HexColor} color - The color
+ * @returns {DrawSource} - The colorized image, or the image itself while it's still loading
+ */
+function ChatRoomMapViewGetColoredImage(url, color) {
+	const key = url + color;
+	const cached = ChatRoomMapViewColoredImages.get(key);
+	if (cached) return cached;
+	const image = DrawGetImage(url);
+	if (!image) return url;
+	const canvas = document.createElement("canvas");
+	canvas.width = image.width;
+	canvas.height = image.height;
+	const context = canvas.getContext("2d");
+	if (!context) return url;
+	DrawImageEx(image, context, 0, 0, { HexColor: color, FullAlpha: true });
+	// The color picker makes a new color with every move, those don't all need to stay
+	if (ChatRoomMapViewColoredImages.size >= 64) ChatRoomMapViewColoredImages.clear();
+	ChatRoomMapViewColoredImages.set(key, canvas);
+	return canvas;
+}
+
+/**
+ * Sends the player from the teleport pad she's standing on to where it points, if she can stand there
+ * @returns {boolean} - TRUE if the player was teleported
+ */
+function ChatRoomMapViewTeleportPad() {
+	if (Player.X < 0 || Player.Y < 0) return false;
+	const destination = MapManager.Map.getTeleporterDestination(Player.X, Player.Y);
+	if (!destination || !ChatRoomMapViewCanEnterTile(destination.X, destination.Y)) return false;
+	ChatRoomMapViewMovement = null;
+	Player.Position = destination;
+	return true;
 }
 
 /**
@@ -1805,8 +1960,8 @@ function ChatRoomMapViewCanEnterTile(X, Y) {
 	// The MapImmobile effect prevents players from moving
 	if (Player.HasEffect("MapImmobile")) return 0;
 
-	// Cannot enter a tile occupied by another player
-	if (ChatRoomCharacter.some(c => !c.IsPlayer() && c.MapData?.Pos.X === X && c.MapData?.Pos.Y === Y)) return 0;
+	// Cannot enter a tile occupied by another player, unless that tile can be shared (around teleport pads)
+	if (!ChatRoomMapViewTileIsShared(X, Y) && ChatRoomCharacter.some(c => !c.IsPlayer() && c.MapData?.Pos.X === X && c.MapData?.Pos.Y === Y)) return 0;
 
 	if (ChatRoomMapViewPositionIsBlocked(X, Y)) return 0;
 
@@ -1933,6 +2088,22 @@ function ChatRoomMapViewClick() {
 	// Out of chatroom, exit right away
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 
+	if (ChatRoomMapViewTeleportPadPicking && ChatRoomMapViewTeleportPadIndex != null) {
+		const tile = ChatRoomMapViewPixelToTileCoordinates(MouseX, MouseY);
+		if (tile) {
+			ChatRoomMapViewTeleportPadPick(tile);
+			return;
+		}
+	}
+
+	// Taps don't hover first, so the name tags are checked on click too
+	const nameTag = ChatRoomMapViewNameTags.find(tag => MouseIn(...tag.rect));
+	if (nameTag) {
+		ChatRoomMapViewFocusedCharacter = nameTag.C;
+		ChatRoomMapViewFocusedCharacterX = nameTag.charX;
+		ChatRoomMapViewFocusedCharacterY = nameTag.charY;
+	}
+
 	// Toggle the superpowers on and off
 	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) {
 		ChatRoomMapViewSuperPowersActive = !ChatRoomMapViewSuperPowersActive;
@@ -2042,7 +2213,7 @@ function ChatRoomMapViewSetSelectedTile(pos) {
  */
 function ChatRoomMapViewMouseDown(event) {
 
-	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive() || ChatRoomMapViewTeleportPadPicking) return;
 
 	// In tile edit mode
 	else if ((ChatRoomMapViewEditMode == "Tile") && MouseIn(0, 0, 1000, 1000)) {

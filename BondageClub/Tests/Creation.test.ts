@@ -48,7 +48,7 @@ const expectedInputTypes = {
 } satisfies Record<keyof AccountCreationData, "text" | "password" | "email">;
 
 function queryInput(name: keyof AccountCreationData): HTMLInputElement {
-	return element.querySelector(`input[name="${name}"][type="${expectedInputTypes[name]}"]`)
+	return element.querySelector(`input[name="${name}"][type="${expectedInputTypes[name]}"]`);
 }
 
 function queryButton(name: string): HTMLButtonElement {
@@ -91,7 +91,7 @@ const statusResponsesCallbacks: Record<AccountCreationStatus, (creationData: Req
 		expect(Game.CurrentScreen).toBe("Creation");
 		expect(Game.CreationMessage).toBe(response);
 	}
-}
+};
 
 beforeAll(async () => {
 	return Game.loadAll();

@@ -112,6 +112,9 @@ ItemDevicesVacBedDeluxeSheet,Sheet
 ItemDevicesWoodenRackWood,Wood
 ItemDevicesXFrameFrame, Wood
 ItemDevicesXFrameMetal, Metal
+ItemDevicesBarStoolModern,Modern
+ItemDevicesBarStoolDirty,Dirty
+ItemDevicesBarStoolWooden,Wooden
 ItemFeetSturdyLeatherBeltsBelts,Belts
 ItemFeetSturdyLeatherBeltsMetal,Metal
 ItemHandheldElectricGuitarStrap,Strap

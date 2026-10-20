@@ -95,7 +95,7 @@ function TightenLoosenItemClick(C, item) {
 	item.Difficulty ??= 0;
 
 	// Loosen a lot
-	if (MouseIn(1040, 700, 200, 60) && (item.Difficulty > TightenLoosenItemMinimumDifficulty + 2)) {
+	if (MouseIn(1040, 700, 180, 60) && (item.Difficulty > TightenLoosenItemMinimumDifficulty + 2)) {
 		item.Difficulty = item.Difficulty - 4;
 		if (item.Difficulty < TightenLoosenItemMinimumDifficulty) item.Difficulty = TightenLoosenItemMinimumDifficulty;
 		TightenLoosenFacialExpression(C, "ShortBreath", "Closed", "Soft");
@@ -103,7 +103,7 @@ function TightenLoosenItemClick(C, item) {
 	}
 
 	// Loosen a little
-	if (MouseIn(1280, 700, 200, 60) && (item.Difficulty > TightenLoosenItemMinimumDifficulty)) {
+	if (MouseIn(1280, 700, 180, 60) && (item.Difficulty > TightenLoosenItemMinimumDifficulty)) {
 		item.Difficulty = item.Difficulty - 2;
 		if (item.Difficulty < TightenLoosenItemMinimumDifficulty) item.Difficulty = TightenLoosenItemMinimumDifficulty;
 		TightenLoosenFacialExpression(C, "", "Shy", "Lowered");
@@ -111,7 +111,7 @@ function TightenLoosenItemClick(C, item) {
 	}
 
 	// Tighten a little
-	if (MouseIn(1540, 700, 200, 60) && (item.Difficulty < TightenLoosenItemMaximumDifficulty)) {
+	if (MouseIn(1540, 700, 180, 60) && (item.Difficulty < TightenLoosenItemMaximumDifficulty)) {
 		item.Difficulty = item.Difficulty + 2;
 		if (item.Difficulty > TightenLoosenItemMaximumDifficulty) item.Difficulty = TightenLoosenItemMaximumDifficulty;
 		TightenLoosenFacialExpression(C, "Low", "Angry", "Angry");
@@ -119,7 +119,7 @@ function TightenLoosenItemClick(C, item) {
 	}
 
 	// Tighten a lot
-	if (MouseIn(1780, 700, 200, 60) && (item.Difficulty < TightenLoosenItemMaximumDifficulty - 2)) {
+	if (MouseIn(1780, 700, 180, 60) && (item.Difficulty < TightenLoosenItemMaximumDifficulty - 2)) {
 		item.Difficulty = item.Difficulty + 4;
 		if (item.Difficulty > TightenLoosenItemMaximumDifficulty) item.Difficulty = TightenLoosenItemMaximumDifficulty;
 		TightenLoosenFacialExpression(C, "Medium", "Surprised", "Harsh");

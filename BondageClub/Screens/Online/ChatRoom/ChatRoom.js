@@ -3406,6 +3406,7 @@ function ChatRoomGenerateChatRoomChatMessage(type, msg, replyId) {
 			Player.ChatSettings.OOCAutoClose
 			&& lastRange !== undefined
 			&& msg.charAt(lastRange.start + lastRange.length - 1) !== ")"
+			&& msg.charAt(lastRange.start + lastRange.length - 1) !== "）"//Another type bracket in Chinese
 			&& lastRange.start + lastRange.length === msg.length
 			&& lastRange.length !== 1) {
 			msg += ")";
@@ -3511,7 +3512,7 @@ function ChatRoomSendEmote(msg) {
 		const chance = parseInt(match[2] ? match[2] : 50);
 		const random = parseInt(Math.random() * 100);
 
-		const attemptSucceeded = random <= chance;
+		const attemptSucceeded = random < chance;
 		msg += attemptSucceeded ? ": ✔" : ": ❌";
 		msg += " (" + chance + "%)";
 	} else {
@@ -3870,7 +3871,7 @@ var ChatRoomMessageHandlers = [
 				}
 			}
 
-			if (intensity !== null && metadata.TargetCharacter.IsPlayer()) {
+			if (intensity !== null && metadata.TargetCharacter?.IsPlayer()) {
 				const duration = (Math.random() + intensity) * 500;
 				DrawFlashScreen("#FFFFFF", duration, 500);
 			}

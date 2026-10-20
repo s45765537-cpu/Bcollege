@@ -901,7 +901,7 @@ function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn =
 
 	let item = CharacterAppearanceSetItem(C, GroupName, SelectedAsset, SelectedColor, Difficulty);
 	if (Extend) {
-		item = InventoryRandomExtend(C, GroupName, undefined, false, false);
+		InventoryRandomExtend(C, GroupName, undefined, false, false);
 	}
 
 	if (Refresh) {
@@ -1592,7 +1592,7 @@ function InventoryIsWorn(C, group, assetName) {
 	const names = !Array.isArray(assetName) ? [assetName] : assetName;
 	const allowsNone = names.includes("None");
 	const wearsAny = C.Appearance.some(i => i.Asset.Group.Name === group && names.some(a => i.Asset.Name === a));
-	return wearsAny || allowsNone && !wearsAny;
+	return wearsAny || allowsNone && !C.Appearance.some(i => i.Asset.Group.Name === group);
 }
 
 /**
@@ -1763,7 +1763,7 @@ function InventoryIsAllowedLimited(C, item, type) {
 function InventoryIsKey(Item) {
 	if ((Item == null) || (Item.Asset == null) || (Item.Asset.Effect == null)) return false;
 	for (let E = 0; E < Item.Asset.Effect.length; E++)
-		if (Item.Asset.Effect[E].substr(0, 7) == "Unlock")
+		if (Item.Asset.Effect[E].startsWith("Unlock"))
 			return true;
 	return false;
 }

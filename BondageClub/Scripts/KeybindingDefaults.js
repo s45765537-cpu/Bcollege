@@ -8,6 +8,9 @@ var KeybindingDefaults = {
 	 */
 	DefaultCategories: [
 		{
+			id: "beep"
+		},
+		{
 			id: "chat"
 		},
 		{
@@ -64,6 +67,11 @@ var KeybindingDefaults = {
 		{
 			id: 'isChatRoomChatNOTFocused',
 			prerequisite: () => document.activeElement !== ElementWrap('InputChat'),
+			showInUI: true
+		},
+		{
+			id: 'isBeepMessageFocused',
+			prerequisite: () => document.activeElement === ElementWrap(FriendListIDs.beepTextArea),
 			showInUI: true
 		}
 	],
@@ -373,6 +381,24 @@ var KeybindingDefaults = {
 			}
 		},
 		// #endregion Chat
+		// #region Beep
+		{
+			id: 'beep_send_message',
+			action: (event) => {
+				if (event.isComposing) return false;
+				event.preventDefault();
+				if (!FriendListOnlineFriends.has(FriendListBeepTarget)) return false;
+				if (!event.repeat) FriendListBeepMenuSend();
+				return true;
+			},
+			contextIds: ['isBeepMessageFocused'],
+			categoryId: 'beep',
+			readonly: false,
+			defaultKeyCombo: {
+				key: 'Enter',
+			}
+		},
+		// #endregion Beep
 		// #region ChatRoom
 		{
 			id: 'chatroom_leave',

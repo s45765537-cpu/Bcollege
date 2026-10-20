@@ -1,4 +1,3 @@
-"use strict";
 import { Game } from "./Utils";
 
 // Mock out all the stuff that's required before ChatRoom.js can load
@@ -290,6 +289,157 @@ describe("MapManager", () => {
 			expect(Game.MapManager.Map.undo()).toBe(false);
 		});
 	});
+
+	describe("teleport pads", () => {
+		const pad = Game.MapDataGetObject(3530);
+		const colors = ["#3C8CFF", "#FF4060", "#40D080", "#FFC830", "#A050FF", "#FF60C0", "#FF8A30", "#30E0E0"];
+		expect(pad?.DefaultObjectConfig).toEqual({ Type: "Teleporter", Shared: true });
+
+		it("should give a placed pad its default config", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Teleporter", Shared: true, Color: colors[0] });
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).not.toBe(pad.DefaultObjectConfig);
+		});
+
+		it("should keep the color and sharing when the destination is removed", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 15, pad)).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterDestination(10, 10, null)).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Teleporter", Shared: true, Color: colors[0] });
+		});
+
+		it("should send nowhere until it has a pair", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.getTeleporterDestination(10, 10)).toBe(null);
+			expect(Game.MapManager.Map.getTeleporterDestination(11, 10)).toBe(null);
+		});
+
+		it("should pair two pads placed in a row both ways", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 15, pad)).toBe(true);
+			expect(Game.MapManager.Map.getTeleporterDestination(10, 10)).toEqual({ X: 20, Y: 15 });
+			expect(Game.MapManager.Map.getTeleporterDestination(20, 15)).toEqual({ X: 10, Y: 10 });
+			expect(Game.MapManager.Map.setObject(5, 5, pad)).toBe(true);
+			expect(Game.MapManager.Map.getTeleporterDestination(5, 5)).toBe(null);
+			expect(Game.MapManager.Map.setObject(6, 6, pad)).toBe(true);
+			expect(Game.MapManager.Map.getTeleporterDestination(5, 5)).toEqual({ X: 6, Y: 6 });
+		});
+
+		it("should pair pads placed from the editor, which places a copy of the object", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, Game.CommonCloneDeep(pad))).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 15, Game.CommonCloneDeep(pad))).toBe(true);
+			expect(Game.MapManager.Map.getTeleporterDestination(10, 10)).toEqual({ X: 20, Y: 15 });
+			expect(Game.MapManager.Map.getTeleporterDestination(20, 15)).toEqual({ X: 10, Y: 10 });
+		});
+
+		it("should not pair with a pad another pad sends to", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 15, pad)).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterDestination(20, 15, null)).toBe(true);
+			expect(Game.MapManager.Map.setObject(5, 5, pad)).toBe(true);
+			expect(Game.MapManager.Map.getTeleporterDestination(5, 5)).toBe(null);
+		});
+
+		it("should keep where a pad sends to when it's placed again", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 15, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.getTeleporterDestination(10, 10)).toEqual({ X: 20, Y: 15 });
+		});
+
+		it("should forget an old destination left on a cell that wasn't a pad", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 15, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 15, table)).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 15, pad)).toBe(true);
+			expect(Game.MapManager.Map.getTeleporterDestination(20, 15)).toBe(null);
+		});
+
+		it("should ignore range for pads", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad, 1)).toBe(true);
+			expect(Game.MapManager.Map.getObject(10, 10)).toBe(pad);
+			expect(Game.MapManager.Map.getObject(11, 11)).toBe(blankObject);
+		});
+
+		it("should send one way to any floor tile", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterDestination(10, 10, { X: 30, Y: 2 })).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Teleporter", Shared: true, Destination: { X: 30, Y: 2 }, Color: colors[0] });
+			expect(Game.MapManager.Map.getTeleporterDestination(10, 10)).toEqual({ X: 30, Y: 2 });
+		});
+
+		it("should give out a copy of where it sends to", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 15, pad)).toBe(true);
+			const destination = Game.MapManager.Map.getTeleporterDestination(10, 10);
+			destination.X = 0;
+			expect(Game.MapManager.Map.getTeleporterDestination(10, 10)).toEqual({ X: 20, Y: 15 });
+		});
+
+		it("should allow cycles", () => {
+			expect(Game.MapManager.Map.setObject(1, 1, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(2, 2, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(3, 3, pad)).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterDestination(1, 1, { X: 2, Y: 2 })).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterDestination(2, 2, { X: 3, Y: 3 })).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterDestination(3, 3, { X: 1, Y: 1 })).toBe(true);
+			expect(Game.MapManager.Map.getTeleporterDestination(3, 3)).toEqual({ X: 1, Y: 1 });
+		});
+
+		it("should refuse to send to itself, a wall or outside the map", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.setTile(12, 12, stoneWall)).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterDestination(10, 10, { X: 10, Y: 10 })).toBe(false);
+			expect(Game.MapManager.Map.setTeleporterDestination(10, 10, { X: 12, Y: 12 })).toBe(false);
+			expect(Game.MapManager.Map.setTeleporterDestination(10, 10, { X: -1, Y: 3 })).toBe(false);
+			expect(Game.MapManager.Map.setTeleporterDestination(10, 10, { X: 3, Y: 40 })).toBe(false);
+			expect(Game.MapManager.Map.getTeleporterDestination(10, 10)).toBe(null);
+		});
+
+		it("should give each new pair its own color", () => {
+			expect(Game.MapManager.Map.setObject(1, 1, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(2, 2, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(3, 3, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(4, 4, pad)).toBe(true);
+			expect(Game.MapManager.Map.getTeleporterColor(1, 1)).toBe(colors[0]);
+			expect(Game.MapManager.Map.getTeleporterColor(2, 2)).toBe(colors[0]);
+			expect(Game.MapManager.Map.getTeleporterColor(3, 3)).toBe(colors[1]);
+			expect(Game.MapManager.Map.getTeleporterColor(4, 4)).toBe(colors[1]);
+		});
+
+		it("should change a pad's color but keep where it sends to", () => {
+			expect(Game.MapManager.Map.setObject(1, 1, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(2, 2, pad)).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterColor(1, 1, colors[4])).toBe(true);
+			expect(Game.MapManager.Map.getTeleporterColor(1, 1)).toBe(colors[4]);
+			expect(Game.MapManager.Map.getTeleporterDestination(1, 1)).toEqual({ X: 2, Y: 2 });
+			expect(Game.MapManager.Map.setTeleporterDestination(1, 1, null)).toBe(true);
+			expect(Game.MapManager.Map.getTeleporterColor(1, 1)).toBe(colors[4]);
+		});
+
+		it("should take any color, but only a color", () => {
+			expect(Game.MapManager.Map.setObject(1, 1, pad)).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterColor(1, 1, "#123456")).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterColor(1, 1, "Default")).toBe(false);
+			expect(Game.MapManager.Map.getTeleporterColor(1, 1)).toBe("#123456");
+		});
+
+		it("should keep pads paired and colored when the map is saved and loaded", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 15, pad)).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterColor(10, 10, "#12345680")).toBe(true);
+			expect(Game.MapManager.Map.updateGlobalMapData()).toBe(true);
+			Game.MapManager.Map.loadGlobalMapData(Game.ChatRoomData.MapData);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Teleporter", Shared: true, Color: "#12345680", Destination: { X: 20, Y: 15 } });
+			expect(Game.MapManager.Map.getTeleporterDestination(20, 15)).toEqual({ X: 10, Y: 10 });
+		});
+
+		it("should not set a destination on something that isn't a pad", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, table)).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterDestination(10, 10, { X: 3, Y: 3 })).toBe(false);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toBeUndefined();
+		});
+	});
 });
 
 describe("with a test map", () => {
@@ -326,4 +476,4 @@ describe("with a test map", () => {
 			// expect(Game.MapManager.Map.getTile(x, y)).toBe(expected);
 		}
 	);
-})
+});

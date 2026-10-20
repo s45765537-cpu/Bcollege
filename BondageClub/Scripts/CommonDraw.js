@@ -319,6 +319,7 @@ function CommonDrawAppearanceBuild(
 		// CAREFUL! The dynamic function should not contain heavy computations, and should not have any side effects.
 		// Watch out for object references.
 		if (asset.DynamicBeforeDraw && !C.IsGhosted()) {
+			const transforms = CommonDrawResolveLayerTransforms(item, layer);
 			/** @type {DynamicDrawingData} */
 			const DrawingData = {
 				C,
@@ -336,9 +337,10 @@ function CommonDrawAppearanceBuild(
 				Pose: pose,
 				LayerType: layerType,
 				BlinkExpression: blinkExpressionSegment,
-				drawCanvas,
-				drawCanvasBlink,
+				drawCanvas: CommonDrawWithLayerTransforms(drawCanvas, transforms),
+				drawCanvasBlink: CommonDrawWithLayerTransforms(drawCanvasBlink, transforms),
 				AlphaMasks: masks ?? [],
+				Transforms: transforms,
 				PersistentData: () => AnimationPersistentDataGet(C, asset),
 			};
 			/** @type {DynamicBeforeDrawOverrides} */
@@ -480,45 +482,7 @@ function CommonDrawAppearanceBuild(
 				(m) => m.Priority < 0 || m.Priority >= layer.Priority,
 			);
 
-			const getTransform = (/** @type {"TranslationX" | "TranslationY" | "ScaleX" | "ScaleY" | "Rotation"} */ propName, /** @type {number} */ defaultValue) => {
-				const layerName = layer.Name ?? "";
-				/** @type {ItemProperties} */
-				const props = item.Property ?? {};
-				const key = /** @type {const} */(`Layer${propName}`);
-				const layerVal = props[key]?.[layerName];
-				const assetVal = props[propName];
-
-				const safeVal = (/** @type {any} */ v) => (v === undefined || v === null || Number.isNaN(v)) ? undefined : v;
-
-				const safeLayerVal = safeVal(layerVal);
-				const safeAssetVal = safeVal(assetVal);
-
-				// Translation and Rotation: Additive blending
-				if (propName === "TranslationX" || propName === "TranslationY" || propName === "Rotation") {
-					const combined = (safeLayerVal ?? 0) + (safeAssetVal ?? 0);
-					if (propName === "Rotation") {
-						return Math.max(-180, Math.min(180, combined));
-					}
-					return combined;
-				}
-
-				// Scale: Multiplicative blending
-				if (propName === "ScaleX" || propName === "ScaleY") {
-					let val = safeAssetVal ?? 1;
-					if (safeLayerVal !== undefined) val *= safeLayerVal;
-					return Math.max(0.01, Math.min(3.0, val));
-				}
-
-				return safeLayerVal ?? safeAssetVal ?? defaultValue;
-			};
-
-			const transforms = {
-				TranslationX: getTransform("TranslationX", 0),
-				TranslationY: getTransform("TranslationY", 0),
-				ScaleX: getTransform("ScaleX", 1),
-				ScaleY: getTransform("ScaleY", 1),
-				Rotation: getTransform("Rotation", 0),
-			};
+			const transforms = CommonDrawResolveLayerTransforms(item, layer);
 
 			const drawX = X + transforms.TranslationX;
 			const drawY = Y + transforms.TranslationY;
@@ -572,6 +536,7 @@ function CommonDrawAppearanceBuild(
 		// CAREFUL! The dynamic function should not contain heavy computations, and should not have any side effects.
 		// Watch out for object references.
 		if (asset.DynamicAfterDraw && !C.IsGhosted()) {
+			const transforms = CommonDrawResolveLayerTransforms(item, layer);
 			/** @type {DynamicDrawingData} */
 			const DrawingData = {
 				C,
@@ -589,9 +554,10 @@ function CommonDrawAppearanceBuild(
 				Pose: pose,
 				LayerType: layerType,
 				BlinkExpression: blinkExpressionSegment,
-				drawCanvas,
-				drawCanvasBlink,
+				drawCanvas: CommonDrawWithLayerTransforms(drawCanvas, transforms),
+				drawCanvasBlink: CommonDrawWithLayerTransforms(drawCanvasBlink, transforms),
 				AlphaMasks: masks ?? [],
+				Transforms: transforms,
 				PersistentData: () => AnimationPersistentDataGet(C, asset),
 			};
 			CommonCallFunctionByNameWarn(
@@ -794,6 +760,67 @@ function CommonDrawResolveLayerColor(C, item, layer, groupName, initialColor) {
 }
 
 /**
+ * Resolves a layer's transformations (set on the layering screen), combining the item's and the layer's own.
+ * @param {Item} item
+ * @param {AssetLayer} layer
+ * @returns {DrawTransforms}
+ */
+function CommonDrawResolveLayerTransforms(item, layer) {
+	const getTransform = (/** @type {"TranslationX" | "TranslationY" | "ScaleX" | "ScaleY" | "Rotation"} */ propName, /** @type {number} */ defaultValue) => {
+		const layerName = layer.Name ?? "";
+		/** @type {ItemProperties} */
+		const props = item.Property ?? {};
+		const key = /** @type {const} */(`Layer${propName}`);
+		const layerVal = props[key]?.[layerName];
+		const assetVal = props[propName];
+
+		const safeVal = (/** @type {any} */ v) => (v === undefined || v === null || Number.isNaN(v)) ? undefined : v;
+
+		const safeLayerVal = safeVal(layerVal);
+		const safeAssetVal = safeVal(assetVal);
+
+		// Translation and Rotation: Additive blending
+		if (propName === "TranslationX" || propName === "TranslationY" || propName === "Rotation") {
+			const combined = (safeLayerVal ?? 0) + (safeAssetVal ?? 0);
+			if (propName === "Rotation") {
+				return Math.max(-180, Math.min(180, combined));
+			}
+			return combined;
+		}
+
+		// Scale: Multiplicative blending
+		if (propName === "ScaleX" || propName === "ScaleY") {
+			let val = safeAssetVal ?? 1;
+			if (safeLayerVal !== undefined) val *= safeLayerVal;
+			return Math.max(0.01, Math.min(3.0, val));
+		}
+
+		return safeLayerVal ?? safeAssetVal ?? defaultValue;
+	};
+
+	return {
+		TranslationX: getTransform("TranslationX", 0),
+		TranslationY: getTransform("TranslationY", 0),
+		ScaleX: getTransform("ScaleX", 1),
+		ScaleY: getTransform("ScaleY", 1),
+		Rotation: getTransform("Rotation", 0),
+	};
+}
+
+/**
+ * Wraps a canvas drawing callback for the dynamic drawing hooks, so what they draw is moved, rotated and scaled
+ * like the layer's images (as set on the layering screen)
+ * @param {DrawCanvasCallback} drawCanvas
+ * @param {DrawTransforms} transforms - The layer's transformations
+ * @returns {DrawCanvasCallback}
+ */
+function CommonDrawWithLayerTransforms(drawCanvas, transforms) {
+	return (Img, x, y, alphaMasks, maskLayers) => drawCanvas(
+		Img, x + transforms.TranslationX, y + transforms.TranslationY, alphaMasks, maskLayers, transforms,
+	);
+}
+
+/**
  * Determines whether the provided color is valid
  * @param {string} Color - The color
  * @param {AssetGroup} AssetGroup - The asset group the color is being used fo
@@ -876,7 +903,7 @@ function CommonDrawWarmDrawnAssets() {
 			if (DrawImageCache.has(item)) {
 				DrawImageCache.get(item);
 			}
-			if (GLDrawImageCache.has(item)) {
+			if (GLDrawImageCache?.has(item)) {
 				GLDrawImageCache?.get(item);
 			}
 		});

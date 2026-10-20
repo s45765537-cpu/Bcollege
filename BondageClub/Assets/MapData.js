@@ -40,6 +40,165 @@ function ChatRoomMapViewCreateOnEnterConveyorLogic(direction, speed) {
 }
 
 /**
+ * Returns the OnEnter for a teleport pad: after the delay the player is sent to where it points
+ * @param {number} delay - How long the player stays on the pad first, in milliseconds
+ * @returns {ChatRoomMapObject["OnEnter"]}
+ */
+function ChatRoomMapViewCreateOnEnterTeleportLogic(delay) {
+	return function() {
+		const x = Player.X;
+		const y = Player.Y;
+		setTimeout(function() {
+			// Walking off the pad cancels it
+			if (Player.X === x && Player.Y === y && ChatRoomMapViewMovement == null) ChatRoomMapViewTeleportPad();
+		}, delay);
+	};
+}
+
+/**
+ * Returns the OnClick for a teleport pad: admins see where it sends to, outlined on the map, and change it
+ * @returns {ChatRoomMapObject["OnClick"]}
+ */
+function ChatRoomMapViewCreateOnClickTeleportLogic() {
+	return (x, y) => {
+		if (!ChatRoomPlayerIsAdmin()) return;
+		ChatRoomMapViewTeleportPadIndex = x + y * ChatRoomMapViewWidth;
+		ChatRoomMapViewTeleportPadPicking = false;
+		ChatRoomMapViewShowTeleportPadMenu(x, y);
+	};
+}
+
+/**
+ * Shows where a teleport pad sends to, with buttons to change it
+ * @param {number} x
+ * @param {number} y
+ * @param {string} [message] - Shown in the footer
+ */
+function ChatRoomMapViewShowTeleportPadMenu(x, y, message) {
+	const destination = MapManager.Map.getTeleporterDestination(x, y);
+	const destinationIsPad = !!destination && MapManager.Map.getObject(destination.X, destination.Y)?.DefaultObjectConfig?.Type === "Teleporter";
+	const back = destination && MapManager.Map.getTeleporterDestination(destination.X, destination.Y);
+	const twoWay = back?.X === x && back?.Y === y;
+
+	/** @type {(label: string, onClick: () => void) => HTMLButtonElement} */
+	const button = (label, onClick) => ElementCreate({
+		tag: "button",
+		classList: ["chat-room-map-view-dialog-button"],
+		children: [label],
+		eventListeners: { click: onClick },
+	});
+	const buttons = [];
+	const padPickingText = ChatRoomMapViewTeleportPadPicking ? "TeleportPadCancel" : "TeleportPadPick";
+	buttons.push(button(TextGet(padPickingText), () => {
+		ChatRoomMapViewTeleportPadPicking = !ChatRoomMapViewTeleportPadPicking;
+		ChatRoomMapViewShowTeleportPadMenu(x, y);
+	}));
+	if (!ChatRoomMapViewTeleportPadPicking && destination && destinationIsPad && !twoWay) {
+		buttons.push(button(TextGet("TeleportPadTwoWay"), () => {
+			MapManager.Map.setTeleporterDestination(destination.X, destination.Y, { X: x, Y: y });
+			ChatRoomMapViewTeleportPadSave();
+			ChatRoomMapViewShowTeleportPadMenu(x, y);
+		}));
+	}
+	if (!ChatRoomMapViewTeleportPadPicking && destination) {
+		buttons.push(button(TextGet("TeleportPadRemove"), () => {
+			MapManager.Map.setTeleporterDestination(x, y, null);
+			ChatRoomMapViewTeleportPadSave();
+			ChatRoomMapViewShowTeleportPadMenu(x, y);
+		}));
+	}
+
+	if (!ChatRoomMapViewTeleportPadPicking) {
+		const colorButton = button(TextGet("TeleportPadColor"), () => ChatRoomMapViewTeleportPadPickColor(x, y));
+		colorButton.prepend(ElementCreate({
+			tag: "span",
+			classList: ["chat-room-map-view-dialog-color"],
+			style: { "background-color": MapManager.Map.getTeleporterColor(x, y) ?? undefined },
+		}));
+		buttons.push(colorButton);
+	}
+
+	let text = TextGet("TeleportPadNoDestination");
+	if (twoWay) text = TextGet("TeleportPadSendsBothWays");
+	else if (destination) text = TextGet("TeleportPadSendsTo");
+
+	ChatRoomMapViewShowDialogMenu(TextGet("TeleportPadTitle"), ElementCreate({
+		tag: "div",
+		classList: ["chat-room-map-view-dialog-teleport-pad"],
+		children: [
+			{ tag: "div", children: [text] },
+			{ tag: "div", classList: ["chat-room-map-view-dialog-buttons"], children: buttons },
+		],
+	}), ElementCreate({ tag: "div", children: [message ?? (ChatRoomMapViewTeleportPadPicking ? TextGet("TeleportPadPicking") : "")] }));
+}
+
+/**
+ * Opens the color picker used for clothes on a teleport pad, a two way partner gets the same color
+ * @param {number} x
+ * @param {number} y
+ */
+function ChatRoomMapViewTeleportPadPickColor(x, y) {
+	const original = MapManager.Map.getTeleporterColor(x, y) ?? AssetsMapDataTeleportPadColors[0];
+	const destination = MapManager.Map.getTeleporterDestination(x, y);
+	const back = destination && MapManager.Map.getTeleporterDestination(destination.X, destination.Y);
+	const partner = back?.X === x && back?.Y === y ? destination : null;
+	const originalOpacity = original.length === 9 ? parseInt(original.slice(7), 16) / 255 : 1;
+	/** @type {(state: null | Pick<ItemColorExitState, "colors" | "opacity">) => null | HexColor} */
+	const toColor = (state) => {
+		const color = state?.colors[0];
+		if (!CommonIsColor(color)) return null;
+		const alpha = Math.round(CommonClamp(state?.opacity[0] ?? 1, 0, 1) * 255);
+		return alpha < 255 ? /** @type {HexColor} */ (color + alpha.toString(16).padStart(2, "0").toUpperCase()) : color;
+	};
+	// The pads show the color being picked, it's only kept on Accept
+	ChatRoomMapViewTeleportPadPreview = {
+		indexes: [MapCoordinatesToIndex(x, y), ...(partner ? [MapCoordinatesToIndex(partner.X, partner.Y)] : [])],
+		color: original,
+	};
+	CommonPromiseCatch(
+		ColorPickerInit({
+			colorState: { colors: [CommonColorTrimAlpha(original)], defaultColors: [CommonColorTrimAlpha(original)], opacity: [originalOpacity], editOpacity: true },
+			heading: TextGet("TeleportPadTitle"),
+			onInput: (fieldset) => {
+				const color = toColor(ColorPicker.getColor(fieldset.closest(".screen") ?? fieldset));
+				if (color && ChatRoomMapViewTeleportPadPreview) ChatRoomMapViewTeleportPadPreview.color = color;
+			},
+			onExit: (state, save) => {
+				const color = toColor(state);
+				ChatRoomMapViewTeleportPadPreview = null;
+				if (save && color) {
+					MapManager.Map.setTeleporterColor(x, y, color);
+					if (partner) MapManager.Map.setTeleporterColor(partner.X, partner.Y, color);
+					ChatRoomMapViewTeleportPadSave();
+				}
+				ChatRoomMapViewShowTeleportPadMenu(x, y);
+			},
+		})
+	);
+}
+
+/**
+ * Sets where the selected teleport pad sends to, from the tile clicked after "Pick on the map"
+ * @param {ChatRoomMapPos} pos - The tile clicked
+ */
+function ChatRoomMapViewTeleportPadPick(pos) {
+	ChatRoomMapViewTeleportPadPicking = false;
+	if (ChatRoomMapViewTeleportPadIndex == null) return;
+	const { X: x, Y: y } = MapIndexToCoordinates(ChatRoomMapViewTeleportPadIndex);
+	const picked = MapManager.Map.setTeleporterDestination(x, y, pos);
+	if (picked) ChatRoomMapViewTeleportPadSave();
+	ChatRoomMapViewShowTeleportPadMenu(x, y, picked ? undefined : TextGet("TeleportPadInvalid"));
+}
+
+/**
+ * Writes a teleport pad change to the map and sends it to the room
+ */
+function ChatRoomMapViewTeleportPadSave() {
+	MapManager.Map.updateGlobalMapData();
+	if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
+}
+
+/**
  * @param {unknown} text
  * @returns {string}
  */
@@ -54,7 +213,12 @@ function MapSanitizeSignText(text) {
  */
 function ChatRoomMapViewCreateOnClickSignLogic(name) {
 	return (x, y) => {
-		const signText = MapSanitizeSignText(MapManager.Map.getObjectConfig(x, y)?.Text);
+		// Configs are signs or teleport pads; only a sign has text
+		const signConfig = () => {
+			const config = MapManager.Map.getObjectConfig(x, y);
+			return config?.Type === "Sign" ? config : null;
+		};
+		const signText = MapSanitizeSignText(signConfig()?.Text);
 		ChatRoomMapViewShowDialogMenu(name, ElementCreate(
 			ChatRoomPlayerIsAdmin() ?
 			{
@@ -70,7 +234,7 @@ function ChatRoomMapViewCreateOnClickSignLogic(name) {
 					* @this {HTMLTextAreaElement}
 					*/
 					"change": function() {
-						const signData = MapManager.Map.getObjectConfig(x, y) ?? { Type: "Sign", Text: "" };
+						const signData = signConfig() ?? { Type: "Sign", Text: "" };
 						signData.Text = MapSanitizeSignText(this.value);
 						MapManager.Map.setObjectConfig(x, y, signData);
 						MapManager.Map.updateGlobalMapData();
@@ -81,12 +245,18 @@ function ChatRoomMapViewCreateOnClickSignLogic(name) {
 				tag: "div",
 				classList: ["chat-room-map-view-dialog-content-text"],
 				children: [
-					MapManager.Map.getObjectConfig(x, y)?.Text || ""
+					signConfig()?.Text || ""
 				],
 			}
 		));
 	};
 }
+
+/**
+ * The colors new pairs of teleport pads start with, any color can be picked afterwards
+ * @type {readonly HexColor[]}
+ */
+const AssetsMapDataTeleportPadColors = ["#3C8CFF", "#FF4060", "#40D080", "#FFC830", "#A050FF", "#FF60C0", "#FF8A30", "#30E0E0"];
 
 /**
  * A list of predefined lighting effects. May be replaced with a color picker in the future.
@@ -334,10 +504,10 @@ const AssetsMapDataObjects = [
 	{ ID: 350, Type: "FloorDecorationThemed", Style: "MedicalDesk", Top: -0.15 },
 	{ ID: 360, Type: "FloorDecorationThemed", Style: "anvil", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
 	{ ID: 361, Type: "FloorDecorationThemed", Style: "grindstone", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
-	{ ID: 362, Type: "FloorDecorationThemed", Style: "furnace", Top: -0.5, Left: 0.05, Height: 1.5, Width: 0.9 },
+	{ ID: 362, Type: "FloorDecorationThemed", Style: "furnace", Top: -0.8, Left: 0.05, Height: 1.8, Width: 0.9 },
 	{ ID: 363, Type: "FloorDecorationThemed", Style: "microwave", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
-	{ ID: 364, Type: "FloorDecorationThemed", Style: "stove", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
-	{ ID: 365, Type: "FloorDecorationThemed", Style: "fridge", Top: -0.5, Left: 0.05, Height: 1.5, Width: 0.9 },
+	{ ID: 364, Type: "FloorDecorationThemed", Style: "stove", Top: -0.29, Left: 0.05, Height: 1.22, Width: 0.9 },
+	{ ID: 365, Type: "FloorDecorationThemed", Style: "fridge", Top: -0.8, Left: 0.05, Height: 1.8, Width: 0.9 },
 	{ ID: 370, Type: "Bathroom", Style: "Toilet", Top: -0.65, Left: 0.05, Height: 1.5, Width: 0.9 },
 	{ ID: 380, Type: "FloorDecorationThemed", Style: "DeskBlue" },
 	{ ID: 381, Type: "FloorDecorationThemed", Style: "DeskPurple" },
@@ -451,7 +621,7 @@ const AssetsMapDataObjects = [
 		Top: -0.25,
 		Height: 1.25,
 		Transparency: 1,
-		TransparencyCutoutHeight: 0.96
+		TransparencyCutoutHeight: 0
 	},
 	{
 		ID: 750,
@@ -877,6 +1047,17 @@ const AssetsMapDataObjects = [
 	{ ID: 3522, Type: "Functional", Style: "SignMetal", OnClick: ChatRoomMapViewCreateOnClickSignLogic("Metal Sign"),  Top: -0.25},
 	{ ID: 3523, Type: "Functional", Style: "SignMetalWall", CanPlaceOnWalls: true, CanPlaceOnFloors: false, Top: 0.1, OnClick: ChatRoomMapViewCreateOnClickSignLogic("Metal Sign")},
 
+	{ ID: 3530, Type: "Functional", Style: "TeleportPad", Name: "Teleport Pad",
+		DefaultObjectConfig: { Type: "Teleporter", Shared: true },
+		BuildImageColor: (x, y) => {
+			const preview = ChatRoomMapViewTeleportPadPreview;
+			if (preview?.indexes.includes(MapCoordinatesToIndex(x, y))) return preview.color;
+			return MapManager.Map.getTeleporterColor(x, y);
+		},
+		OnEnter: ChatRoomMapViewCreateOnEnterTeleportLogic(400),
+		OnClick: ChatRoomMapViewCreateOnClickTeleportLogic(),
+	},
+
 	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
 	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
 	{ ID: 4011, Type: "WallPath", Style: "WoodClosed", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract(); } },
@@ -884,6 +1065,9 @@ const AssetsMapDataObjects = [
 	{ ID: 4013, Type: "WallPath", Style: "WoodLockedBronze", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.HasMapState("BronzeKey"); } },
 	{ ID: 4014, Type: "WallPath", Style: "WoodLockedSilver", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.HasMapState("SilverKey"); } },
 	{ ID: 4015, Type: "WallPath", Style: "WoodLockedGold", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.HasMapState("GoldKey"); } },
+	{ ID: 4016, Type: "WallPath", Style: "WoodClosedAuto", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
+	{ ID: 4017, Type: "WallPath", Style: "WoodClosedAutoUp", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "North" || Direction === ""; } },
+	{ ID: 4018, Type: "WallPath", Style: "WoodClosedAutoDown", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "South" || Direction === ""; } },
 	{ ID: 4020, Type: "WallPath", Style: "Metal", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
 	{ ID: 4021, Type: "WallPath", Style: "MetalUp", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "North" || Direction === "";  } },
 	{ ID: 4022, Type: "WallPath", Style: "MetalDown", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function (Direction) { return Direction === "South" || Direction === ""; } },
@@ -898,6 +1082,9 @@ const AssetsMapDataObjects = [
 	{ ID: 4035, Type: "WallPath", Style: "SteelDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return true; } },
 	{ ID: 4036, Type: "WallPath", Style: "GrayDoor", OccupiedStyle: "GrayDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return Player.CanInteract(); } },
 	{ ID: 4037, Type: "WallPath", Style: "GrayDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return true; } },
+	{ ID: 4038, Type: "WallPath", Style: "BrownDoorAuto", OccupiedStyle: "BrownDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return true; } },
+	{ ID: 4039, Type: "WallPath", Style: "SteelDoorAuto", OccupiedStyle: "SteelDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return true; } },
+	{ ID: 4040, Type: "WallPath", Style: "GrayDoorAuto", OccupiedStyle: "GrayDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return true; } },
 
 	{ ID: 4500,  Type: "FloorFoamTiles", Style: "Blank" },
 	{ ID: 4501,  Type: "FloorFoamTiles", Style: "PlayTileWhite", Top: -0.1, Left: -0.1, Height: 1.1, Width: 1.1 },

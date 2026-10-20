@@ -106,6 +106,7 @@ function ChatAdminRoomCustomizationCommand(args) {
 
 	/** @type {ServerChatRoomCustomData | undefined} */
 	const customData = CommonCloneDeep(ChatRoomData.Custom) ?? {};
+	const seen = new Set();
 	let param;
 	while ((param = args.shift()?.trim())) {
 		switch (param) {
@@ -119,10 +120,11 @@ function ChatAdminRoomCustomizationCommand(args) {
 					ChatRoomSendLocal("Editing the room customization requires administrator privileges.");
 					break;
 				}
-				if ("ImageURL" in customData) {
+				if (seen.has(param)) {
 					ChatRoomSendLocal(`Duplicate "${param}" parameter`);
 					return;
 				}
+				seen.add(param);
 				const arg = args.shift()?.trim();
 				if (!arg) {
 					ChatRoomSendLocal(`Missing argument for "${param}" parameter`);
@@ -130,7 +132,7 @@ function ChatAdminRoomCustomizationCommand(args) {
 				}
 				if (arg === "-") {
 					customData.ImageURL = undefined;
-					return;
+					break;
 				}
 				const safeArg = ServerChatRoomDataValidationRecord.Custom.ImageURL(arg);
 				if (!safeArg) {
@@ -145,10 +147,11 @@ function ChatAdminRoomCustomizationCommand(args) {
 					ChatRoomSendLocal("Editing the room customization requires administrator privileges.");
 					break;
 				}
-				if ("ImageFilter" in customData) {
+				if (seen.has(param)) {
 					ChatRoomSendLocal(`Duplicate "${param}" parameter`);
 					return;
 				}
+				seen.add(param);
 				const arg = args.shift()?.trim();
 				if (!arg) {
 					ChatRoomSendLocal(`Missing argument for "${param}" parameter`);
@@ -156,7 +159,7 @@ function ChatAdminRoomCustomizationCommand(args) {
 				}
 				if (arg === "-") {
 					customData.ImageFilter = undefined;
-					return;
+					break;
 				}
 				const safeArg = ServerChatRoomDataValidationRecord.Custom.ImageFilter(arg);
 				if (!safeArg) {
@@ -171,10 +174,11 @@ function ChatAdminRoomCustomizationCommand(args) {
 					ChatRoomSendLocal("Editing the room customization requires administrator privileges.");
 					break;
 				}
-				if ("MusicURL" in customData) {
+				if (seen.has(param)) {
 					ChatRoomSendLocal(`Duplicate "${param}" parameter`);
 					return;
 				}
+				seen.add(param);
 				const arg = args.shift()?.trim();
 				if (!arg) {
 					ChatRoomSendLocal(`Missing argument for "${param}" parameter`);
@@ -182,7 +186,7 @@ function ChatAdminRoomCustomizationCommand(args) {
 				}
 				if (arg.trim() === "-") {
 					customData.MusicURL = undefined;
-					return;
+					break;
 				}
 				const safeArg = ServerChatRoomDataValidationRecord.Custom.MusicURL(arg);
 				if (!safeArg) {
@@ -197,10 +201,11 @@ function ChatAdminRoomCustomizationCommand(args) {
 					ChatRoomSendLocal("Editing the room customization requires administrator privileges.");
 					break;
 				}
-				if ("MusicStart" in customData) {
+				if (seen.has(param)) {
 					ChatRoomSendLocal(`Duplicate "${param}" parameter`);
 					return;
 				}
+				seen.add(param);
 				let arg = args.shift()?.trim();
 				if (!arg) {
 					ChatRoomSendLocal(`Missing argument for "${param}" parameter`);
