@@ -62052,6 +62052,16 @@ var AssetFemale3DCG = [
 					{ Name: "Lock", Priority: 35, LockLayer: true },
 				],
 			},
+			{
+				Name: "PantiesMask",
+				DynamicGroupName: "ItemMouth",
+				Top: 0,
+				CopyConfig: {
+					AssetName: "PantiesMask",
+					GroupName: "ItemMouth",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -66595,6 +66605,17 @@ var AssetFemale3DCG = [
 					Author: "Echo (SugarChain)",
 					OriginalName: "乳胶头套",
 					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "PantiesMask",
+				DynamicGroupName: "ItemMouth",
+				Top: 0,
+				Block: [],
+				CopyConfig: {
+					AssetName: "PantiesMask",
+					GroupName: "ItemMouth",
+					BuyGroup: true,
 				},
 			},
 		],
