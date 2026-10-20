@@ -42436,6 +42436,8 @@ var AssetFemale3DCG = [
 				Difficulty: 25,
 				AllowLock: true,
 				DrawLocks: false,
+				Time: 15,
+				RemoveTime: 15,
 				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				Prerequisite: ["HasBreasts"],
 				SetPose: ["BackElbowTouch"],
@@ -42444,7 +42446,6 @@ var AssetFemale3DCG = [
 					{
 						Name: "LowerBody1",
 						ColorGroup: "Belt",
-						Priority: 31,
 						ParentGroup: "BodyLower",
 						PoseMapping: {
 							Kneel: "Kneel",
@@ -42457,7 +42458,6 @@ var AssetFemale3DCG = [
 					{
 						Name: "UpperBody1",
 						ColorGroup: "Belt",
-						Priority: 31,
 						ParentGroup: "BodyUpper",
 						PoseMapping: {
 							BackElbowTouch: "BackElbowTouch",
@@ -42467,7 +42467,6 @@ var AssetFemale3DCG = [
 					{
 						Name: "LowerBody2",
 						ColorGroup: "Ring",
-						Priority: 31,
 						ParentGroup: "BodyLower",
 						PoseMapping: {
 							Kneel: "Kneel",
@@ -42480,7 +42479,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "UpperBody2",
 						ColorGroup: "Ring",
-						Priority: 32,
+						Priority: 18,
 						ParentGroup: "BodyUpper",
 						PoseMapping: {
 							BackElbowTouch: "BackElbowTouch",
@@ -42490,7 +42489,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "LowerBodyStrap",
 						ColorGroup: "Strap",
-						Priority: 32,
+						Priority: 18,
 						ParentGroup: "BodyLower",
 						PoseMapping: {
 							Kneel: "Kneel",
@@ -42503,7 +42502,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "UpperBodyStrap",
 						ColorGroup: "Strap",
-						Priority: 32,
+						Priority: 18,
 						ParentGroup: "BodyUpper",
 						PoseMapping: {
 							BackElbowTouch: "BackElbowTouch",
@@ -42512,7 +42511,6 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Chain",
-						Priority: 30,
 						ParentGroup: "BodyLower",
 						PoseMapping: {
 							Kneel: "Kneel",
@@ -42556,6 +42554,20 @@ var AssetFemale3DCG = [
 						PoseMapping: {
 							BackElbowTouch: "BackElbowTouch",
 							Hogtied: PoseType.DEFAULT,
+						},
+					},
+					{
+						Name: "Lock",
+						Priority: 19,
+						LockLayer: true,
+						ParentGroup: "",
+						StyleOverride: [],
+						Left: 198,
+						Top: 238,
+						PoseMapping: {
+							...AssetPoseMapping.ItemTorso,
+							Hogtied: PoseType.DEFAULT,
+							AllFours: PoseType.DEFAULT,
 						},
 					},
 				],
