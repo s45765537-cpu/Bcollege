@@ -1404,7 +1404,7 @@ function CommonCensor(S, C=Player) {
 		for (let W of WordList)
 			if ((W != "") && (W != " ") && !W.includes("*") && S.toUpperCase().includes(W.toUpperCase())) {
 				let searchMask = W;
-				let regEx = new RegExp(searchMask, "ig");
+				let regEx = new RegExp(CommonRegEscape(searchMask), "ig");
 				let replaceMask = "***";
 				S = S.replace(regEx, replaceMask);
 			}
