@@ -3870,7 +3870,7 @@ var ChatRoomMessageHandlers = [
 				}
 			}
 
-			if (intensity !== null && metadata.TargetCharacter.IsPlayer()) {
+			if (intensity !== null && metadata.TargetCharacter?.IsPlayer()) {
 				const duration = (Math.random() + intensity) * 500;
 				DrawFlashScreen("#FFFFFF", duration, 500);
 			}
