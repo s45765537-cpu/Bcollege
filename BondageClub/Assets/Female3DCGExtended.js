@@ -24870,6 +24870,59 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				},
+				{
+					Name: "MansionValentine",
+					Key: "MansionValentine",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Julia Valentine
+						{}, // Luminas Valentine
+						{}, // Nina Valentine
+						{}, // Marsy Valentine
+						{}, // Audriana Valentine
+						{}, // Xiaohuahuo Valentine
+						{}, // Lucy Valentine
+						{}, // Alena Brenhines
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_JuliaValentine.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_LuminasValentine.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_NinaValentine.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_MarsyValentine.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_AudrianaValentine.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_XiaohuahuoValentine.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_LucyValentine.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_AlenaBrenhines.png",
+							},
+						],
+					},
+				},
 			],
 			ScriptHooks: {
 				SetOption: InventoryItemHandheldPlushiesSetOptionHook,

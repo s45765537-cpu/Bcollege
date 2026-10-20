@@ -6515,6 +6515,7 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "1" }, { Name: "2" }],
 			},
 			{ Name: "SADollhouse", Left: 178, Top: 268 },
+			{ Name: "MansionValentine", Left: 200, Top: 264 },
 		],
 	},
 	// #endregion
@@ -52823,6 +52824,38 @@ var AssetFemale3DCG = [
 					{
 						Name: "Dahlia",
 						AllowTypes: { FoxworthManor: 6 },
+					},
+					{
+						Name: "JuliaValentine",
+						AllowTypes: { MansionValentine: 1 },
+					},
+					{
+						Name: "LuminasValentine",
+						AllowTypes: { MansionValentine: 2 },
+					},
+					{
+						Name: "NinaValentine",
+						AllowTypes: { MansionValentine: 3 },
+					},
+					{
+						Name: "MarsyValentine",
+						AllowTypes: { MansionValentine: 4 },
+					},
+					{
+						Name: "AudrianaValentine",
+						AllowTypes: { MansionValentine: 5 },
+					},
+					{
+						Name: "XiaohuahuoValentine",
+						AllowTypes: { MansionValentine: 6 },
+					},
+					{
+						Name: "LucyValentine",
+						AllowTypes: { MansionValentine: 7 },
+					},
+					{
+						Name: "AlenaBrenhines",
+						AllowTypes: { MansionValentine: 8 },
 					},
 				],
 			},
