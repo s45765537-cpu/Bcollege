@@ -4188,7 +4188,7 @@ ItemDevicesCardBoardBoxOptiont1,Closed
 ItemDevicesCardBoardBoxOptiont2,Taped down
 ItemDevicesCardBoardBoxOptionx0,Nothing written
 ItemDevicesCardBoardBoxOptionx1,Text
-ItemDevicesCardBoardBoxSeth0,SoureCharacter plugs the handle hole on DestinationCharacter box.
+ItemDevicesCardBoardBoxSeth0,SourceCharacter plugs the handle hole on DestinationCharacter box.
 ItemDevicesCardBoardBoxSeth1,SourceCharacter opens the handle hole on DestinationCharacter box.
 ItemDevicesCardBoardBoxSett0,SourceCharacter opens DestinationCharacter box.
 ItemDevicesCardBoardBoxSett1,SourceCharacter closes DestinationCharacter box up.
@@ -8552,7 +8552,7 @@ ItemDevicesExclusiveWaitressSetl3,DestinationCharacterName puts a Club Card deck
 ItemDevicesExclusiveWaitressSetl4,DestinationCharacterName serves a coffee cup on TargetPronounPossessive right side.
 ItemDevicesExclusiveWaitressSetl5,DestinationCharacterName serves a iced tea glass on TargetPronounPossessive right side.
 ItemDevicesExclusiveWaitressSetl6,DestinationCharacterName serves a juice glass on TargetPronounPossessive right side.
-ItemDevicesExclusiveWaitressSetl7,DestinationCharacterName serves a soda on on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl7,DestinationCharacterName serves a soda on TargetPronounPossessive right side.
 ItemDevicesExclusiveWaitressSetl8,DestinationCharacterName serves a whiskey glass on TargetPronounPossessive right side.
 ItemDevicesExclusiveWaitressSetl9,DestinationCharacterName serves a long neck beer on TargetPronounPossessive right side.
 ItemDevicesExclusiveWaitressSetl10,DestinationCharacterName serves a beer glass on TargetPronounPossessive right side.
@@ -8576,7 +8576,7 @@ ItemDevicesExclusiveWaitressSetm3,DestinationCharacterName puts some Club Card d
 ItemDevicesExclusiveWaitressSetm4,DestinationCharacterName puts a old coffee pot on TargetPronounPossessive front.
 ItemDevicesExclusiveWaitressSetm5,DestinationCharacterName serves two iced tea cups on TargetPronounPossessive front.
 ItemDevicesExclusiveWaitressSetm6,DestinationCharacterName serves two juice glasses on TargetPronounPossessive front.
-ItemDevicesExclusiveWaitressSetm7,DestinationCharacterName serves a bunch of sodas on on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm7,DestinationCharacterName serves a bunch of sodas on TargetPronounPossessive front.
 ItemDevicesExclusiveWaitressSetm8,DestinationCharacterName serves a whiskey bottle on TargetPronounPossessive front.
 ItemDevicesExclusiveWaitressSetm9,DestinationCharacterName serves a lot of long neck beer on TargetPronounPossessive front.
 ItemDevicesExclusiveWaitressSetm10,DestinationCharacterName serves two beer bottles on TargetPronounPossessive front.
@@ -8600,7 +8600,7 @@ ItemDevicesExclusiveWaitressSetr3,DestinationCharacterName puts a Club Card deck
 ItemDevicesExclusiveWaitressSetr4,DestinationCharacterName serves a coffee cup on TargetPronounPossessive left side.
 ItemDevicesExclusiveWaitressSetr5,DestinationCharacterName serves a iced tea glass on TargetPronounPossessive left side.
 ItemDevicesExclusiveWaitressSetr6,DestinationCharacterName serves a juice glass on TargetPronounPossessive left side.
-ItemDevicesExclusiveWaitressSetr7,DestinationCharacterName serves a soda on on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr7,DestinationCharacterName serves a soda on TargetPronounPossessive left side.
 ItemDevicesExclusiveWaitressSetr8,DestinationCharacterName serves a whiskey glass on TargetPronounPossessive left side.
 ItemDevicesExclusiveWaitressSetr9,DestinationCharacterName serves a long neck beer on TargetPronounPossessive left side.
 ItemDevicesExclusiveWaitressSetr10,DestinationCharacterName serves a beer glass on TargetPronounPossessive left side.
