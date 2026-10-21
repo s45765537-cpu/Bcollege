@@ -632,7 +632,7 @@ function ItemColorGetGroups(item, colorableLayers) {
 		const groupKey = layer.ColorGroup || layer.Name || "";
 		(groupLookup[groupKey] || (groupLookup[groupKey] = [])).push(layer);
 		return groupLookup;
-	}, /** @type {Record<String, AssetLayer[]>} */({}));
+	}, /** @type {Record<string, AssetLayer[]>} */({}));
 
 	const colorGroups = Object.keys(groupMap)
 		.map(key => {

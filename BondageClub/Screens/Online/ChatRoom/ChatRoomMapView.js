@@ -48,9 +48,10 @@ const ChatRoomMapViewInteractionRange = 1;
 const ChatRoomMapViewRemoteRange = ChatRoomMapViewPerceptionRangeMax;
 const ChatRoomMapSignTextMaxLength = 150;
 
-/** @type {boolean[]}
+/**
+ * @type {boolean[]}
  * @deprecated Use {@link MapManager.Map.isTileVisible()}
-*/
+ */
 var ChatRoomMapViewVisibilityMask = [];
 /**
  * @type {boolean[]}
@@ -363,7 +364,7 @@ function ChatRoomMapViewShowEditor() {
  * @param {ChatRoomMapDoodad} item
  * @param {MapDataDoodadType} type
  * @param {boolean} updateRecent
- * @returns
+ * @returns {void}
  */
 function ChatRoomMapViewSetSelection(item, type, updateRecent=true) {
 	ChatRoomMapViewEditObject = CommonCloneDeep(item);
@@ -657,6 +658,7 @@ function ChatRoomMapViewIsChatRoomMapTile(element) {
  * Creates an item for the chat room map view
  * @param {ChatRoomMapDoodad} item - The map element to create
  * @param {boolean} [updateRecent]
+ * @param {boolean} [readOnly]
  * @returns {Element} - The created item
  */
 function ChatRoomMapViewCreateMapElementItem(item, updateRecent=true, readOnly=false) {

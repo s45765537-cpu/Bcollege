@@ -14,7 +14,7 @@ let KDReturnButtonXX = 1450;
 let KDIntenseFilter = null;
 
 // PIXI experimental
-/** @type HTMLCanvasElement */
+/** @type {HTMLCanvasElement} */
 let pixiview = null;
 let pixirenderer = null;
 let pixirendererKD = null;
@@ -206,7 +206,7 @@ function KDWallVertTunnel(x, y) {
 let KDChainablePillar = 'bdD';
 
 
-/** @type KDSprites */
+/** @type {KDSprites} */
 const KDSprites = {
 	"5": (x, y, Fog, noReplace) => {
 		let tile = KinkyDungeonTilesGet(x + "," + y);
@@ -388,7 +388,7 @@ const KDSprites = {
 	},
 };
 
-/** @type KDSprites */
+/** @type {KDSprites} */
 const KDOverlays = {
 	"5": (x, y, Fog, noReplace) => {
 		let tile = KinkyDungeonTilesGet(x + "," + y);
@@ -525,7 +525,7 @@ const KDOverlays = {
 	},
 };
 
-/** @type KDSprites */
+/** @type {KDSprites} */
 const KDOverlays2 = {
 	"V": (x, y, Fog, noReplace) => {
 		let tile = KinkyDungeonTilesGet(x + "," + y);

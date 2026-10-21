@@ -50,3 +50,10 @@ interface MapDataLookupTable {
 }
 
 type MapDataDoodadType = keyof MapDataLookupTable;
+
+/**
+ * Internal type to carry around the tile X,Y into index unpacking
+ */
+type UnpackedIndex<T extends readonly [number, ...unknown[]]> = T extends readonly [number, infer Y, ...infer Rest]
+	? Y extends number ? [number, ...Rest] : T
+	: T;

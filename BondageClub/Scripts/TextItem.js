@@ -2,7 +2,7 @@
 
 /**
  * A lookup for the text item configurations for each registered text item
- * @const
+ * @constant
  * @type {Record<string, TextItemData>}
  * @see {@link TextItemData}
  */
@@ -47,8 +47,8 @@ function TextItemRegister(asset, config, parentOption=null, createCallbacks=true
 /**
  * Parse the passed text item draw data as passed via the extended item config
  * @param {readonly TextItemNames[]} fieldNames
- * @param {ExtendedItemConfigDrawData<{}> | undefined} drawData - The to-be parsed draw data
- * @return {ExtendedItemDrawData<ElementMetaData.Text>} - The parsed draw data
+ * @param {ExtendedItemConfigDrawData<ElementMetaData> | undefined} drawData - The to-be parsed draw data
+ * @returns {ExtendedItemDrawData<ElementMetaData.Text>} - The parsed draw data
  */
 function TextItemGetDrawData(fieldNames, drawData) {
 	const itemsPerPage = 8;

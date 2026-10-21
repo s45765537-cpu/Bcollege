@@ -425,10 +425,11 @@ function MagicSchoolLaboratoryUngagStudent() {
 
 /**
  * Triggered when the player lost and get ungagged by the student, can affect reputation
+ * @param {number} RepChange
  * @returns {void} - Nothing
  */
 function MagicSchoolLaboratoryUngagPlayer(RepChange) {
-	if ((RepChange != "") && (RepChange != "0")) DialogChangeReputation("Dominant", parseInt(RepChange));
+	DialogChangeReputation("Dominant", RepChange);
 	InventoryRemove(Player, "ItemMouth");
 	InventoryRemove(Player, "ItemMouth2");
 	InventoryRemove(Player, "ItemMouth3");
@@ -436,10 +437,11 @@ function MagicSchoolLaboratoryUngagPlayer(RepChange) {
 
 /**
  * Triggered when the player lost and get untied by the student, can affect reputation
+ * @param {number} RepChange
  * @returns {void} - Nothing
  */
 function MagicSchoolLaboratoryReleasePlayer(RepChange) {
-	if ((RepChange != "") && (RepChange != "0")) DialogChangeReputation("Dominant", parseInt(RepChange));
+	DialogChangeReputation("Dominant", RepChange);
 	CharacterRelease(Player);
 }
 
@@ -530,12 +532,13 @@ function MagicSchoolLaboratoryApplyRandomSpellEffects(npc, lastSpell) {
 
 /**
  * When the player lost a battle and the student tests a spell on her
+ * @param {number} RepChange
  * @returns {void} - Nothing
  */
 function MagicSchoolLaboratoryLoserSpell(RepChange) {
 
 	// If we must change the player dom/sub reputation
-	if ((RepChange != "") && (RepChange != "0")) DialogChangeReputation("Dominant", parseInt(RepChange));
+	DialogChangeReputation("Dominant", RepChange);
 
 	// After many spells, the event ends CHANGE TO 5
 	if (MagicSchoolLaboratorySpellCount >= 5) {

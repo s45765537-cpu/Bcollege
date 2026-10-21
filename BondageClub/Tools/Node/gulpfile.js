@@ -285,7 +285,7 @@ function fileSizes() {
 			cb(null, file);
 		},
 	);
-	return /** @type {import("stream").Transform & {sizes: Map<any, any>}} */ (obj);
+	return /** @type {import("stream").Transform & {sizes: Map<string, number>}} */ (obj);
 }
 
 function getStreamSize(file) {

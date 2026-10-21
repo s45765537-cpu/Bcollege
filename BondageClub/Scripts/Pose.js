@@ -18,11 +18,11 @@ const PoseAllStanding = Object.freeze(["BaseLower", "LegsClosed", "Spread"]);
  */
 const PoseToMapping = /** @type {const} */({
 	/**
-     * Unflatten a pose name array, converting it into a record mapping pose categories to aforementioned pose names
-     * @param {readonly AssetPoseName[]} poses - The to-be unflattened pose array
-     * @param {null | string} warningPrefix - A prefix to-be prepended to any warning messages
-     * @returns {Partial<Record<AssetPoseCategory, AssetPoseName[]>>}
-     */
+	 * Unflatten a pose name array, converting it into a record mapping pose categories to aforementioned pose names
+	 * @param {readonly AssetPoseName[]} poses - The to-be unflattened pose array
+	 * @param {null | string} warningPrefix - A prefix to-be prepended to any warning messages
+	 * @returns {Partial<Record<AssetPoseCategory, AssetPoseName[]>>}
+	 */
 	Array: function (poses, warningPrefix=null) {
 		const prefix = warningPrefix == null ? "" : `${warningPrefix}: `;
 
@@ -50,12 +50,12 @@ const PoseToMapping = /** @type {const} */({
 		return poseMapping;
 	},
 	/**
-     * Unflatten a pose name array, converting it into a record mapping pose categories to a single pose.
-     * A warning will be logged if multiple poses within the same category are present.
-     * @param {readonly AssetPoseName[]} poses - The to-be unflattened pose array
-     * @param {null | string} warningPrefix - A prefix to-be prepended to any warning messages
-     * @returns {Partial<Record<AssetPoseCategory, AssetPoseName>>}
-     */
+	 * Unflatten a pose name array, converting it into a record mapping pose categories to a single pose.
+	 * A warning will be logged if multiple poses within the same category are present.
+	 * @param {readonly AssetPoseName[]} poses - The to-be unflattened pose array
+	 * @param {null | string} warningPrefix - A prefix to-be prepended to any warning messages
+	 * @returns {Partial<Record<AssetPoseCategory, AssetPoseName>>}
+	 */
 	Scalar: function (poses, warningPrefix=null) {
 		const prefix = warningPrefix == null ? "" : `${warningPrefix}: `;
 
@@ -194,7 +194,7 @@ function PoseSetByItems(C, category, poseName) {
  * Sets a new pose for the character
  * @param {Character} C - Character for which to set the pose
  * @param {null | AssetPoseName} poseName - Name of the pose to set as active or `null` to return to the default pose
- * @param {boolean} [ForceChange=false] - TRUE if the set pose should overwrite all current active poses
+ * @param {boolean} [ForceChange] - TRUE if the set pose should overwrite all current active poses
  * @param {boolean} [RefreshDialog] - Refresh {@link DialogSelfMenuMapping.Pose} if so required
  * @returns {void} - Nothing
  */

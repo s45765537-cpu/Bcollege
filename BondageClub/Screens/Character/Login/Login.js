@@ -83,7 +83,7 @@ var LoginErrorMessage = "";
  * The dummy on the login screen.
  *
  * Lifetime bound to the screen.
- * @type {NPCCharacter | null} */
+  @type {NPCCharacter | null} */
 var LoginCharacter;
 
 /* DEBUG: To measure FPS - uncomment this and change the + 4000 to + 40
@@ -649,7 +649,7 @@ function LoginPerformInventoryFixups(Inventory) {
  * Perform the appearance fixups needed.
  * TODO: only typed items are supported.
  * @param {ItemBundle[]} Appearance - The server-provided appearance object
- * @return {boolean}
+ * @returns {boolean}
  */
 function LoginPerformAppearanceFixups(Appearance) {
 	if (!Appearance) return true;
@@ -1362,6 +1362,7 @@ function LoginStatusReset() {
 /**
  *
  * @param {string} [ErrorMessage] - the login error message to set if the login is invalid - if not specified, will clear the login error message
+ * @param {boolean} [reset]
  */
 function LoginSetStatus(ErrorMessage = "", reset = false) {
 	if (reset) {

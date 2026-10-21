@@ -201,7 +201,7 @@ function InventoryItemNeckFuturisticCollarClickHook(data, originalFunction) {
 /**
  * @param {Character} C
  * @param {AssetLockType} LockType
- * @returns
+ * @returns {boolean}
  */
 function InventoryItemNeckFuturisticCollarCanLock(C, LockType) {
 	// First, we check if the inventory already exists, exit if it's the case
@@ -240,7 +240,7 @@ function InventoryItemNeckFuturisticCollarCanLock(C, LockType) {
 /**
  * @param {Character} C
  * @param {boolean} [OnlyUnlockable]
- * @returns
+ * @returns {Item[]}
  */
 function InventoryItemNeckFuturisticCollarGetItems(C, OnlyUnlockable) {
 	const items = [];

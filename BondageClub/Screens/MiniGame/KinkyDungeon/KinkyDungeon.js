@@ -551,7 +551,7 @@ function KDLoadPerks() {
 /**
  *
  * @param {any[]} list
- * @return {Record<any, any>}
+ * @returns {Record<any, any>}
  */
 function KDMapInit(list) {
 	let map = {};

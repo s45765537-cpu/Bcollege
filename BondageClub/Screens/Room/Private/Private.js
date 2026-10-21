@@ -1456,7 +1456,7 @@ function PrivateLoadCharacter(data) {
  * Triggered when a new character is added to the player's private room.
  * @param {NPCCharacter} Template - The base of the character, includes the name and appearance.
  * @param {"" | NPCArchetype | null} [Archetype] - The type of character such as maid or mistress.
- * @param {boolean} [incomplete=false] - Whether the caller plans to customize the NPC more. Skips generating random traits and calling {@link ServerPrivateCharacterSync()}.
+ * @param {boolean} [incomplete] - Whether the caller plans to customize the NPC more. Skips generating random traits and calling {@link ServerPrivateCharacterSync()}.
  * @returns {NPCCharacter} - The new private room character.
  */
 function PrivateAddCharacter(Template, Archetype, incomplete=false) {

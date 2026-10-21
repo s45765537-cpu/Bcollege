@@ -561,11 +561,11 @@ interface TaggedDictionaryEntry {
  * A dictionary entry used to reference a character. The character reference tag will be replaced with the provided
  * character's name or pronoun. The display format will depend on the tag chosen.
  * Example substitutions for each tag (assuming the character name is Ben987):
- * * SourceCharacter: "Ben987"
- * * DestinationCharacter: "Ben987's" (if character is not self), "her"/"him" (if character is self)
- * * DestinationCharacterName: "Ben987's"
- * * TargetCharacter: "Ben987" (if character is not self), "herself"/"himself" (if character is self)
- * * TargetCharacterName: "Ben987"
+ * - SourceCharacter: "Ben987"
+ * - DestinationCharacter: "Ben987's" (if character is not self), "her"/"him" (if character is self)
+ * - DestinationCharacterName: "Ben987's"
+ * - TargetCharacter: "Ben987" (if character is not self), "herself"/"himself" (if character is self)
+ * - TargetCharacterName: "Ben987"
  * @deprecated Use {@link SourceCharacterDictionaryEntry} and {@link TargetCharacterDictionaryEntry} instead.
  */
 interface CharacterReferenceDictionaryEntry extends TaggedDictionaryEntry {

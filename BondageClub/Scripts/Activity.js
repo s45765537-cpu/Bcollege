@@ -41,7 +41,7 @@ function ActivityAllowed() {
 
 /**
  * Loads the activity dictionary that will be used throughout the game to output messages. Loads from cache first if possible.
- * @return {TextCache} - The activity dictionary
+ * @returns {TextCache} - The activity dictionary
  */
 function ActivityDictionaryLoad() {
 	return TextPrefetchFile(ScreenFileGetPath("ActivityDictionary.csv", "Character", "Preference"));
@@ -255,6 +255,7 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
  * @param {ActivityNameItem} needsItem
  * @param {Activity} activity
  * @param {AssetGroup} targetGroup
+ * @param {boolean} useTargetItems
  */
 function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activity, targetGroup, useTargetItems = false) {
 	let items = CharacterItemsForActivity(useTargetItems ? acted : acting, needsItem);
@@ -297,7 +298,7 @@ function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activi
  * Builds the allowed activities on a group given the character's settings.
  * @param {Character} character - The character for which to build the activity dialog options
  * @param {AssetGroupItemName} groupname - The group to check
- * @return {ItemActivity[]} - The list of allowed activities
+ * @returns {ItemActivity[]} - The list of allowed activities
  */
 function ActivityAllowedForGroup(character, groupname) {
 	ActivityLog(`${Player.Name} on ${character.Name}: looking up allowed activities for group: ${groupname}`);
@@ -376,7 +377,7 @@ function ActivityAllowedForGroup(character, groupname) {
  * @param {Character} C - The character to evaluate
  * @param {ActivityName} Activity - The name of the activity
  * @param {AssetGroupItemName} Group - The name of the group
- * @return {boolean} - TRUE if the activity can be done
+ * @returns {boolean} - TRUE if the activity can be done
  */
 function ActivityCanBeDone(C, Activity, Group) {
 	let ActList = ActivityAllowedForGroup(C, Group);
@@ -392,12 +393,12 @@ function ActivityCanBeDone(C, Activity, Group) {
  * @param {Character} C - The character on which the activity is performed
  * @param {ActivityName | ItemActivity} A - The activity performed
  * @param {AssetGroupItemName} Z - The group/zone name where the activity was performed
- * @param {number} [Count=1] - If the activity is done repeatedly, this defines the number of times, the activity is done.
+ * @param {number} [Count] - If the activity is done repeatedly, this defines the number of times, the activity is done.
  * If you don't want an activity to modify arousal, set this parameter to '0'
  * @param {Asset | null} [Asset] - The asset used to perform the activity
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
-function ActivityEffect(S, C, A, Z, Count, Asset) {
+function ActivityEffect(S, C, A, Z, Count=1, Asset) {
 
 	// Converts from activity name to the activity object
 	/** @type {ItemActivity} */
@@ -436,12 +437,12 @@ function ActivityEffect(S, C, A, Z, Count, Asset) {
  * @param {Character} C - The character on which the activity is performed
  * @param {number} Amount - The base amount of arousal to add
  * @param {AssetGroupItemName} Z - The group/zone name where the activity was performed
- * @param {number} [Count=1] - If the activity is done repeatedly, this defines the number of times, the activity is done.
+ * @param {number} [Count] - If the activity is done repeatedly, this defines the number of times, the activity is done.
  * If you don't want an activity to modify arousal, set this parameter to '0'
  * @param {Asset} [Asset] - The asset used to perform the activity
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
-function ActivityEffectFlat(S, C, Amount, Z, Count, Asset) {
+function ActivityEffectFlat(S, C, Amount, Z, Count=1, Asset) {
 
 	// Converts from activity name to the activity object
 	if ((Amount == null) || (typeof Amount != "number")) return;
@@ -459,7 +460,7 @@ function ActivityEffectFlat(S, C, Amount, Z, Count, Asset) {
 /**
  * Syncs the player arousal with everyone in chatroom
  * @param {Character} C - The character for which to sync the arousal data
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
 function ActivityChatRoomArousalSync(C) {
 	if (!C.IsPlayer() || !ServerPlayerIsInChatRoom()) return;
@@ -470,7 +471,7 @@ function ActivityChatRoomArousalSync(C) {
  * Sets the character arousal level and validates the value
  * @param {Character} C - The character for which to set the arousal progress of
  * @param {number} Progress - Progress to set for the character (Ranges from 0 to 100)
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
 function ActivitySetArousal(C, Progress) {
 	if ((C.ArousalSettings.Progress == null) || (typeof C.ArousalSettings.Progress !== "number") || isNaN(C.ArousalSettings.Progress)) C.ArousalSettings.Progress = 0;
@@ -491,7 +492,7 @@ function ActivitySetArousal(C, Progress) {
  * @param {AssetGroupItemName | "ActivityOnOther"} Zone - The target zone of the activity
  * @param {number} Progress - Progress to set
  * @param {Asset | null} [Asset] - The asset used to perform the activity
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
 function ActivitySetArousalTimer(C, Activity, Zone, Progress, Asset) {
 
@@ -530,7 +531,7 @@ function ActivitySetArousalTimer(C, Activity, Zone, Progress, Asset) {
  * Draws the arousal progress bar at the given coordinates for every orgasm timer.
  * @param {number} X - Position on the X axis
  * @param {number} Y - Position on the Y axis
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
 function ActivityOrgasmProgressBar(X, Y) {
 	var Pos = 0;
@@ -543,7 +544,7 @@ function ActivityOrgasmProgressBar(X, Y) {
 
 /**
  * Ends the orgasm early if progress is close or progress is sufficient
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
 function ActivityOrgasmControl() {
 	if ((ActivityOrgasmGameTimer != null) && (ActivityOrgasmGameTimer > 0) && (CurrentTime < Player.ArousalSettings.OrgasmTimer)) {
@@ -578,7 +579,7 @@ function ActivityOrgasmControl() {
 /**
  * Increases the player's willpower when resisting an orgasm.
  * @param {Character} C - The character currently resisting
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
 function ActivityOrgasmWillpowerProgress(C) {
 	if ((C.IsPlayer()) && (ActivityOrgasmGameProgress > 0)) {
@@ -682,10 +683,10 @@ function ActivityOrgasmGameGenerate(Progress) {
 /**
  * Triggers an orgasm for the player or an NPC which lasts from 5 to 15 seconds
  * @param {Character} C - Character for which an orgasm was triggered
- * @param {boolean} [Bypass=false] - If true, this will do a ruined orgasm rather than a real one
+ * @param {boolean} [Bypass] - If true, this will do a ruined orgasm rather than a real one
  * @returns {void} - Nothing
  */
-function ActivityOrgasmPrepare(C, Bypass) {
+function ActivityOrgasmPrepare(C, Bypass=false) {
 	if (C.IsPlayer())
 		ActivityOrgasmRuined = false;
 
@@ -863,13 +864,14 @@ function ActivityRunSelf(Source, Target, Activity, Group, Asset) {
  * @param {Character} character
  * @param {AssetGroup} group
  * @param {Activity} activity
+ * @param {boolean} isLabel
  */
-function ActivityBuildChatTag(character, group, activity, is_label = false) {
+function ActivityBuildChatTag(character, group, activity, isLabel = false) {
 	/** @type {Partial<Record<AssetGroupName, string>>} */
 	const groupMap = { "ItemVulva": "ItemPenis", "ItemVulvaPiercings": "ItemGlans" };
 	const realGroup = character.HasPenis() && groupMap[group.Name] ? groupMap[group.Name] : group.Name;
 
-	return `${is_label ? "Label-" : ""}${(character.IsPlayer() ? "ChatSelf" : "ChatOther")}-${realGroup}-${activity.Name}`;
+	return `${isLabel ? "Label-" : ""}${(character.IsPlayer() ? "ChatSelf" : "ChatOther")}-${realGroup}-${activity.Name}`;
 }
 
 /**
@@ -954,7 +956,7 @@ function ActivityRunLogic(actor, acted, targetGroup, ItemActivity) {
  * @param {Character} Source - The character who used the item
  * @param {Character} Target - The character on which the item was used
  * @param {Asset} Asset - Asset used
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
 function ActivityArousalItem(Source, Target, Asset) {
 	const AssetActivity = Asset.DynamicActivity(Source);
@@ -970,7 +972,7 @@ function ActivityArousalItem(Source, Target, Asset) {
  * Checks if the character is wearing an item tagged with the fetish type name and returns the love factor for it
  * @param {Character} C - The character to validate
  * @param {FetishName} Type - The fetish type name
- * @return {number} - From -2 (hate it) to 2 (adore it) based on the player preferences
+ * @returns {number} - From -2 (hate it) to 2 (adore it) based on the player preferences
  */
 function ActivityFetishItemFactor(C, Type) {
 	const Factor = (PreferenceGetFetishFactor(C, Type) - 2);
@@ -993,7 +995,7 @@ function ActivityFetishItemFactor(C, Type) {
 /**
  * Loops in all fetishes for a character and calculates the total fetish factor
  * @param {Character} C - The character to validate
- * @return {number} - The negative/positive number will have negative/positive impact on arousal
+ * @returns {number} - The negative/positive number will have negative/positive impact on arousal
  */
 function ActivityFetishFactor(C) {
 	var Factor = 0;

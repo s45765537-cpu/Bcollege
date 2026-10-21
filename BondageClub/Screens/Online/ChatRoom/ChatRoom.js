@@ -121,7 +121,7 @@ var ChatRoomGetUpTimer = 0;
 /**
  * The complete data to update a recreated room with once the creation is successful
  * @type {ChatRoomSettings}
- * */
+ */
 var ChatRoomNewRoomToUpdate = null;
 var ChatRoomNewRoomToUpdateTimer = 0;
 /**
@@ -280,7 +280,7 @@ var ChatRoomHideIconState = ChatRoomHideIconStateType.SHOW_ALL;
 /**
  * The list of buttons in the top-right
  * @type {ChatRoomMenuButton[]}
- * */
+ */
 var ChatRoomMenuButtons = [];
 /**
  * A stringified, `\0`-joined list of menu button names. Used for determining whether the top menubar needs to be refreshed.
@@ -1502,7 +1502,7 @@ async function ChatRoomLoad() {
 
 /**
  * Removes all elements that can be open in the chat room
-*/
+ */
 function ChatRoomClearAllElements() {
 	// Dialog
 	DialogLeave({ reload: false });
@@ -2006,6 +2006,8 @@ function ChatRoomUnload() {
  * @param {number} h - Height of filter
  * @param {number} Width - Width of filter
  * @param {number} ArousalOverride - Override to the existing arousal value
+ * @param {string} Color - XXX: that's a cursed color format; consider switching to {@link RGBColor}
+ * @param {number} AlphaBonus
  * @returns {void} - Nothing.
  */
 function ChatRoomDrawArousalScreenFilter(y1, h, Width, ArousalOverride, Color = '255, 100, 176', AlphaBonus = 0) {
@@ -2365,7 +2367,7 @@ function ChatRoomIsCustomized() {
 /**
  * Update the state of the room customization
  * @param {boolean | undefined} toggle
- * @returns
+ * @returns {void}
  */
 function ChatRoomUpdateCustomization(toggle = undefined) {
 	if (typeof toggle === "boolean") {
@@ -3393,7 +3395,7 @@ function ChatRoomSendChat() {
  * @param {"Chat"|"Whisper"|"Emote"} type
  * @param {string} msg
  * @param {string} [replyId]
- * @return {ServerChatRoomMessage}
+ * @returns {ServerChatRoomMessage}
  */
 function ChatRoomGenerateChatRoomChatMessage(type, msg, replyId) {
 	const Dictionary = new DictionaryBuilder()
@@ -3434,7 +3436,7 @@ function ChatRoomGenerateChatRoomChatMessage(type, msg, replyId) {
 /**
  * Send a specific chat message to the room
  * @param {string} msg
- * @returns
+ * @returns {boolean}
  */
 function ChatRoomSendChatMessage(msg) {
 	// Regular chat can be prevented with an owner presence rule, also validates for forbidden words
@@ -3720,7 +3722,7 @@ function ChatRoomMessageInvolvesPlayer(data) {
  * Checks whether the given character's interactions are impacted by the player's sensory-deprivation.
  *
  * @param {Character} character - The character to check.
- * @returns true if the player is sensory-deprived from character, false otherwise.
+ * @returns {boolean} true if the player is sensory-deprived from character, false otherwise.
  */
 function ChatRoomIsCharacterImpactedBySensoryDeprivation(character) {
 	return PreferenceIsPlayerInSensDep() && character.MemberNumber != Player.MemberNumber && (!ChatRoomSenseDepBypass || ChatRoomImpactedBySenseDep.includes(character));
@@ -3734,7 +3736,7 @@ var ChatRoomMessageExtractors = [
 /**
  * Global list of handlers for incoming messages.
  * @type {ChatRoomMessageHandler[]}
- * */
+ */
 var ChatRoomMessageHandlers = [
 	{
 		Description: "Reset minigame on room updates",
@@ -4490,7 +4492,7 @@ function ChatRoomMessageRunExtractors(data, sender) {
  * @returns {boolean | string}
  */
 function ChatRoomMessageRunHandlers(type, data, sender, msg, metadata) {
-	if (!['pre', 'post'].includes(type) || !data || !sender) return;
+	if (!['pre', 'post'].includes(type) || !data || !sender) return false;
 
 	// Gather the handlers for the requested processing and sort by priority
 	const handlers = ChatRoomMessageHandlers.filter(proc => (type === "pre" && proc.Priority < 0 || type === "post" && proc.Priority >= 0));
@@ -4635,7 +4637,7 @@ function ChatRoomMessageGetById(id) {
  */
 function ChatRoomMessageGetReplyId() {
 	const chatInput = /** @type {null | HTMLTextAreaElement} */(document.getElementById("InputChat"));
-	if (!chatInput) return;
+	if (!chatInput) return null;
 	return chatInput.getAttribute("reply-id");
 }
 
@@ -4790,12 +4792,12 @@ function ChatRoomScrollToReplyID(msg) {
  * @param {string} msg
  * @param {Character} SenderCharacter
  * @param {IChatRoomMessageMetadata} metadata
- * @returns {HTMLDivElement}
+ * @returns {HTMLDivElement | undefined}
  */
 function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	// Censored words are filtered out, ¶¶¶ indicates that we must not display anything on screen
 	const displayMessage = CommonCensor(msg);
-	if (displayMessage == "¶¶¶") return;
+	if (displayMessage == "¶¶¶") return undefined;
 
 	// Prepares the HTML tags
 	/** @type {(string | Node)[]} */
@@ -5588,7 +5590,6 @@ function ChatRoomStruggleAssist() {
 }
 
 /**
-
  * Triggered when the player assists another player to by giving lockpicks
  * @returns {void} - Nothing.
  */
@@ -5751,10 +5752,10 @@ function ChatRoomOnlineStruggleInterrupt() {
 /**
  * Sends an administrative command to the server for the chat room from the character dialog.
  * @param {"Move"|"Kick"|"Ban"} ActionType - Type of action performed.
- * @param {boolean | string} [Publish=true] - Whether or not the action should be published.
+ * @param {boolean | string} [Publish] - Whether or not the action should be published.
  * @returns {void} - Nothing
  */
-function ChatRoomAdminAction(ActionType, Publish) {
+function ChatRoomAdminAction(ActionType, Publish=true) {
 	if ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && ChatRoomPlayerIsAdmin()) {
 		if (ActionType == "Move") {
 			ChatRoomCharacterViewMoveTarget = CurrentCharacter.MemberNumber;
@@ -5847,7 +5848,10 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 	];
 	/** @type {Parameters<typeof TextSubstitute>[2]} this is ass x2 */
 	const textSubstituteOptions = { textCache: TextPrefetch("Online", "ChatRoom") };
-	/** Temporary helper to get the corresponding Online/ChatRoom text for the given key @param {string} key */
+	/**
+	 * Temporary helper to get the corresponding Online/ChatRoom text for the given key
+	 * @param {string} key
+	 */
 	const GetChatRoomText = (key) => TextGetInScope(textSubstituteOptions.textCache.path, key);
 	if (Player.FriendList.includes(SenderCharacter.MemberNumber)) {
 		ChatRoomSendLocal(CommonStringSubstitute(GetChatRoomText("FriendAcceptMessage"), substitutions));
@@ -5923,7 +5927,7 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
  * @param {boolean} adding - If TRUE adding to the list, if FALSE removing from the list
  * @param {number} memberNumber - The member number to add/remove
  * @param {"FriendRequest"} [notification] - used to send notifications
- * @param {boolean} [sync = true] - if true, will sync the list to the server
+ * @param {boolean} [sync] - if true, will sync the list to the server
  * @returns {void} - Nothing
  */
 function ChatRoomListUpdate(list, adding, memberNumber, notification, sync = true) {
@@ -5973,7 +5977,7 @@ function ChatRoomListUpdate(list, adding, memberNumber, notification, sync = tru
 /**
  * Adds a list of character(s) into the Focus List
  * @param {Character[]} characters - Characters to add
- * @param {boolean} [enableMessage=true] - If enabled, will tell (warn) the user when the focus feature becomes enabled (empty -> non-empty)
+ * @param {boolean} [enableMessage] - If enabled, will tell (warn) the user when the focus feature becomes enabled (empty -> non-empty)
  * @returns {Character[]} - Characters that were actually added (not already in the list)
  */
 function ChatRoomDrawFocusListAdd(characters, enableMessage=true) {
@@ -6215,7 +6219,7 @@ async function ChatRoomMaidSentOutForDrinks() {
 
 /**
  * Gets a rule from the current character
- * @param {LogNameType["OwnerRule" | "LoverRule"]} RuleType - The name of the rule to retrieve.
+ * @param {LogNameType[("OwnerRule" | "LoverRule")]} RuleType - The name of the rule to retrieve.
  * @param {"Owner" | "Lover"} Sender - Type of the sender
  * @returns {boolean} - The owner or lover rule corresponding to the requested rule name
  */
@@ -6480,7 +6484,7 @@ function ChatRoomOnlineBountyHandleData(data, sender) {
 /**
  *
  * @param {unknown} packet
- * @return {packet is ServerChatRoomGameResponseBase<unknown>}
+ * @returns {packet is ServerChatRoomGameResponseBase<unknown>}
  */
 function ServerPacketIsChatRoomGameResponse(packet) {
 	const obj = /** @type {ServerChatRoomGameResponseBase<unknown>} */ (packet);
@@ -7027,7 +7031,7 @@ function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
 /**
  * Gets only the settings/configurable properties of a chat room.
  * @param {ChatRoomData} room
- * @return {ChatRoomSettings}
+ * @returns {ChatRoomSettings}
  */
 function ChatRoomGetSettings(room) {
 	/** @type {(keyof ChatRoomSettings)[]} */
@@ -7038,7 +7042,7 @@ function ChatRoomGetSettings(room) {
 /**
  * Gets a character by MemberNumber or name or nickname
  * @param {string|number} spec
- * @return {OnlineCharacter|null}
+ * @returns {OnlineCharacter|null}
  */
 function ChatRoomGetCharacter(spec) {
 	/** @type {number} */

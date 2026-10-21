@@ -5,8 +5,10 @@ var CharacterNextId = 0;
 
 /** @type {Map<BlindEffectName, number>} */
 const CharacterBlindLevels = new Map([
-	/** Reserve `BlindTotal` for situations where the blindness level should never
-	 *  be lowered by crafted properties (e.g. while in VR) */
+	/**
+	 * Reserve `BlindTotal` for situations where the blindness level should never
+	 * be lowered by crafted properties (e.g. while in VR)
+	 */
 	["BlindTotal", 99],
 	["BlindHeavy", 3],
 	["BlindNormal", 2],
@@ -265,7 +267,10 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			);
 		},
 		_BlindLevel: undefined,
-		/** Look for blindness effects and return the worst (limited by settings), Light: 1, Normal: 2, Heavy: 3 */
+		/**
+		 * Look for blindness effects and return the worst (limited by settings), Light: 1, Normal: 2, Heavy: 3
+		 * @param {boolean} eyesOnly
+		 */
 		GetBlindLevel: function (eyesOnly = false) {
 			let blindLevel = this._BlindLevel;
 			if (!eyesOnly && blindLevel != null) {
@@ -1503,8 +1508,8 @@ function CharacterLoadAttributes(C) {
 /**
  * Returns a list of effects for a character from some or all groups
  * @param {Character} C - The character to check
- * @param {readonly AssetGroupName[] | undefined} [Groups=null] - Optional: The list of groups to consider. If none defined, check all groups
- * @param {boolean} [AllowDuplicates=false] - Optional: If true, keep duplicates of the same effect provided they're taken from different groups
+ * @param {readonly AssetGroupName[]} [Groups] - Optional: The list of groups to consider. If none defined, check all groups
+ * @param {boolean} [AllowDuplicates] - Optional: If true, keep duplicates of the same effect provided they're taken from different groups
  * @returns {EffectName[]} - A list of effects
  */
 function CharacterGetEffects(C, Groups = undefined, AllowDuplicates = false) {
@@ -1707,10 +1712,10 @@ function CharacterChangeMoney(C, Value) {
 /**
  * Refreshes the character parameters (Effects, poses, canvas, settings, etc.)
  * @param {Character} C - Character to refresh
- * @param {boolean} [Push=true] - Pushes the data to the server database if true or null.
+ * @param {boolean} [Push] - Pushes the data to the server database if true or null.
  * Note that this will *not* push appearance changes to the rest of the chatroom,
  * which requires either {@link ChatRoomCharacterItemUpdate} or {@link ChatRoomCharacterUpdate}.
- * @param {boolean} [RefreshDialog=true] - Refreshes the character dialog
+ * @param {boolean} [RefreshDialog] - Refreshes the character dialog
  * @returns {void} - Nothing
  */
 function CharacterRefresh(C, Push = true, RefreshDialog = true) {
@@ -1976,7 +1981,7 @@ function CharacterDress(C, Appearance) {
 /**
  * Removes all binding items from a given character
  * @param {Character} C - Character to release
- * @param {boolean} [refresh=true] - do not call CharacterRefresh if false
+ * @param {boolean} [refresh] - do not call CharacterRefresh if false
  * @returns {void} - Nothing
  */
 function CharacterRelease(C, refresh=true) {
@@ -2338,8 +2343,8 @@ function CharacterHasBlockedItem(C, BlockList) {
 /**
  * Retrieves the member numbers of the given character
  * @param {Character} C - The character to retrieve the lovers numbers from
- * @param {Boolean} [MembersOnly] - Whether to omit NPC lovers - defaults to false (NPCs will be included by default)
- * @returns {Array<String | Number>} - A list of member numbers or NPC account names representing the lovers of the
+ * @param {boolean} [MembersOnly] - Whether to omit NPC lovers - defaults to false (NPCs will be included by default)
+ * @returns {(string | number)[]} - A list of member numbers or NPC account names representing the lovers of the
  * given character
  */
 function CharacterGetLoversNumbers(C, MembersOnly) {
@@ -2358,7 +2363,7 @@ function CharacterAppearsInverted(C) {
 /**
  * Checks whether the given character can kneel. {@link minimumStatus} determines to what extent the character must be able to kneel for this to pass.
  * @param {Character} C - The character to check
- * @param {PoseChangeStatus} [minimumStatus=PoseChangeStatus.ALWAYS] - The threshold pose change status required for this check to succeed.
+ * @param {PoseChangeStatus} [minimumStatus] - The threshold pose change status required for this check to succeed.
  * By default, the player must be able to kneel unaided, but this can be set lower (to allow struggling to kneel, aid, etc.).
  * @returns {boolean} - Returns true if the character's ability to kneel meets the specified threshold, false otherwise
  */
@@ -2369,7 +2374,7 @@ function CharacterCanKneel(C, minimumStatus = PoseChangeStatus.ALWAYS) {
 /**
  * Determines how much the character's view should be darkened based on their blind level. 1 is fully visible, 0 is pitch black.
  * @param {Character} C - The character to check
- * @param {boolean} [eyesOnly=false] - If TRUE only check whether the character has eyes closed, and ignore item effects
+ * @param {boolean} [eyesOnly] - If TRUE only check whether the character has eyes closed, and ignore item effects
  * @returns {number} - The number between 0 (dark) and 1 (bright) that determines screen darkness
  */
 function CharacterGetDarkFactor(C, eyesOnly = false) {
@@ -2638,7 +2643,8 @@ function CharacterCanChangeNickname(C) {
  *
  * @param {Character} C - The character to change the nickname of.
  * @param {null | string} Nick - The name to use as the new nickname. An empty string uses the character's real name.
- * @return {null | NicknameStatus} null if the nickname was valid, or an explanation for why the nickname was rejected.
+ * @param {boolean} [fromOwner] - Whether the nickname change comes from the owner rule.
+ * @returns {null | NicknameStatus} null if the nickname was valid, or an explanation for why the nickname was rejected.
  */
 function CharacterSetNickname(C, Nick, fromOwner = false) {
 	if (!C.IsPlayer()) return null;
@@ -2684,7 +2690,8 @@ function CharacterSetNickname(C, Nick, fromOwner = false) {
  *
  * @param {Character} C - The character to change the nickname of.
  * @param {string} Nick - The name to use as the new nickname.
- * @return {null | NicknameStatus} null if the nickname was valid, or an explanation for why the nickname was rejected.
+ * @param {boolean} [fromOwner] - Whether the nickname change comes from the owner
+ * @returns {null | NicknameStatus} null if the nickname was valid, or an explanation for why the nickname was rejected.
  */
 function CharacterValidateNickname(C, Nick, fromOwner = false) {
 	if (!(CharacterCanChangeNickname(C) && !fromOwner)) {
@@ -2801,7 +2808,7 @@ function CharacterScriptRemove(C) {
  * Sets a new pose for the character
  * @param {Character} C - Character for which to set the pose
  * @param {null | AssetPoseName} poseName - Name of the pose to set as active or `null` to return to the default pose
- * @param {boolean} [forceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
+ * @param {boolean} [forceChange] - TRUE if the set pose(s) should overwrite current active pose(s)
  * @returns {void} - Nothing
  * @deprecated - Deprecated alias for {@link PoseSetActive}
  */

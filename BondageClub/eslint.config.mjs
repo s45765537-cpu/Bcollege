@@ -5,6 +5,7 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import globals from "globals";
 import sortKeysCustom from "eslint-plugin-sort-keys-custom";
 import nounsanitized from "eslint-plugin-no-unsanitized";
+import jsdoc from 'eslint-plugin-jsdoc';
 import js from "@eslint/js";
 
 import { FlatCompat } from "@eslint/eslintrc";
@@ -101,6 +102,21 @@ const customRules = {
 
 	"nounsanitized/property": "error",
 	"nounsanitized/method": "error",
+
+	// eslint-plugin-jsdoc rules
+	"jsdoc/require-jsdoc": "off",
+	"jsdoc/require-returns": "off",
+	"jsdoc/require-returns-description": "off",
+	"jsdoc/require-param-description": "off",
+	"jsdoc/tag-lines": "off",
+	"jsdoc/require-yields": "off",
+	"jsdoc/reject-any-type": "off",
+	"jsdoc/ts-no-empty-object-type": "off",
+	// This one would be nice but it doesn't like @extends
+	"jsdoc/check-tag-names": ["off", {
+			"definedTags": ["warning", "note", "extends"]
+		}
+	],
 };
 
 /** Rules that need `parserOptions.projectService` — only use on `typedFiles`. */
@@ -116,6 +132,7 @@ const typedOnlyRules = {
 
 export default defineConfig([
 	js.configs.recommended,
+	jsdoc.configs["flat/recommended-typescript-flavor"],
 	globalIgnores([
 		"eslint.config.mjs",
 		"Scripts/lib/**/*.js",
@@ -171,6 +188,9 @@ export default defineConfig([
 			"@typescript-eslint/no-require-imports": "off",
 			...typedOnlyRules,
 			"strict": ["error", "never"],
+			"jsdoc/require-param-type": "off",
+			"jsdoc/require-param": "off",
+			"jsdoc/require-returns-type": "off",
 		},
 	},
 	{

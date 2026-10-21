@@ -5338,7 +5338,8 @@ function PlatformDialogRun() {
  * @param {number} CurrentValue - The current value
  * @param {number} Change - The modifier to apply
  * @param {boolean} Bonus - If there's a bonus to apply or not
- * @returns {Number} - The new stat after changes
+ * @param {number} Level
+ * @returns {number} - The new stat after changes
  */
 function PlatformDialogChangeValue(CurrentValue, Change, Bonus, Level) {
 	if ((CurrentValue == null) || (Change == null)) return CurrentValue;
@@ -5359,27 +5360,35 @@ function PlatformDialogChangeValue(CurrentValue, Change, Bonus, Level) {
  * @param {Platform.DialogCharacter} Character - The character to evaluate
  * @param {number} Love - The love value that changed
  * @param {number} Domination - The domination value that changed
- * @returns {Object} - A unused object
+ * @returns {void}
  */
 function PlatformDialogSetIdlePose(Character, Love, Domination) {
 	if (Character == null) return;
-	for (let C of PlatformDialogCharacterDisplay)
-		if (C.Name == Character.Name) {
-			if ((C.Pose == null) || (C.Pose.substr(0, 4) != "Idle")) return;
-			for (let T of PlatformDialogCharacterTemplate)
-				if (T.Name == Character.Name)
-					if ((T.IdlePose == null) || (T.IdlePose.indexOf(C.Status) < 0))
-						return;
-			if (Love == null) Love = 0;
-			if (Domination == null) Domination = 0;
-			if ((Love >= 2) && (Math.abs(Love) >= Math.abs(Domination))) return C.Pose = "IdleCheer";
-			if ((Love == 1) && (Math.abs(Love) >= Math.abs(Domination))) return C.Pose = "IdleHappy";
-			if ((Love == -1) && (Math.abs(Love) >= Math.abs(Domination))) return C.Pose = "IdleSad";
-			if ((Love <= -2) && (Math.abs(Love) >= Math.abs(Domination))) return C.Pose = "IdleAngry";
-			if (Domination > 0) return C.Pose = "IdleSubmissive";
-			if (Domination < 0) return C.Pose = "IdleDominant";
-			return C.Pose = "Idle";
-		}
+	const C = PlatformDialogCharacterDisplay.find(char => char.Name === Character.Name);
+	if (!C) return;
+	if ((C.Pose == null) || (C.Pose.substr(0, 4) != "Idle")) return;
+	const T = PlatformDialogCharacterTemplate.find(char => char.Name === Character.Name);
+	if (!T) return;
+	if ((T.IdlePose == null) || (T.IdlePose.indexOf(C.Status) < 0))
+		return;
+
+	Love ??= 0;
+	Domination ??= 0;
+	if (Love >= 2 && Math.abs(Love) >= Math.abs(Domination)) {
+		C.Pose = "IdleCheer";
+	} else if (Love == 1 && Math.abs(Love) >= Math.abs(Domination)) {
+		C.Pose = "IdleHappy";
+	} else if (Love == -1 && Math.abs(Love) >= Math.abs(Domination)) {
+		C.Pose = "IdleSad";
+	} else if (Love <= -2 && Math.abs(Love) >= Math.abs(Domination)) {
+		C.Pose = "IdleAngry";
+	} else if (Domination > 0) {
+		C.Pose = "IdleSubmissive";
+	} else if (Domination < 0) {
+		C.Pose = "IdleDominant";
+	} else {
+		C.Pose = "Idle";
+	}
 }
 
 /**
@@ -5414,7 +5423,7 @@ function PlatformDialogPickAnswer(Position) {
  * Alters a property (love or domination) for a specific character
  * @param {string} CharacterName - The name of the character to alter
  * @param {"Love" | "Domination"} Property - The name of the property to alter
- * @param {Number} Value - The value to change
+ * @param {number} Value - The value to change
  * @returns {void} - Nothing
  */
 function PlatformDialogAlterProperty(CharacterName, Property, Value) {

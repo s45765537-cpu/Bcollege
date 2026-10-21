@@ -2558,7 +2558,7 @@ function PlatformDamage(Source, Target, Damage, Time, Type, AttackName = "") {
 function PlatformHitBoxClash(Source, Target, HitBox) {
 
 	// Exits right away if data is invalid
-	if ((Source == null) || (Target == null) || (HitBox == null)) return;
+	if ((Source == null) || (Target == null) || (HitBox == null)) return false;
 
 	// Finds the X and Y of the source hitbox
 	let SX1 = Source.X - (Source.Width / 2) + (HitBox[0] * Source.Width);
@@ -3644,7 +3644,7 @@ function PlatformController(buttons) {
 	if (PlatformDialogControllerHandle) {
 		PlatformButtons = buttons;
 		PlatformDialogControllerHandle = false;
-		return;
+		return false;
 	}
 
 	// Stops any binding if buttons have changed

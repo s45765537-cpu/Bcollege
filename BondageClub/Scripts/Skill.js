@@ -26,10 +26,10 @@ function SkillGet(C, skillType) {
  * @param {SkillType} SkillType - Name of the skill to set the value for
  * @param {number} SkillLevel - Level to set for the given skill
  * @param {number} Progress - Progress to set for the given skill
- * @param {boolean} [Push=true] - Pushes the skills to the server if TRUE
+ * @param {boolean} [Push] - Pushes the skills to the server if TRUE
  * @returns {void} - Nothing
  */
-function SkillChange(C, SkillType, SkillLevel, Progress, Push) {
+function SkillChange(C, SkillType, SkillLevel, Progress, Push=true) {
 
 	if (!SkillValidSkills.includes(SkillType)) {
 		console.error(`Invalid skill type "${SkillType}"`);
@@ -70,7 +70,7 @@ function SkillChange(C, SkillType, SkillLevel, Progress, Push) {
 
 /**
  * Loads the skill data from the server on login
- * @param {readonly Skill[] | undefined} NewSkill - The player skills array sent by the server
+ * @param {readonly Skill[]} [NewSkill] - The player skills array sent by the server
  * @returns {void} - Nothing
  */
 function SkillLoad(NewSkill) {
@@ -116,7 +116,7 @@ function SkillGetModifier(C, SkillType) {
  *
  * @param {Character} C - The character to get skills from
  * @param {SkillType} SkillType
- * @returns At which (absolute) time will the modifier expire
+ * @returns {number} At which (absolute) time will the modifier expire
  */
 function SkillGetModifierDuration(C, SkillType) {
 	const skill = SkillGet(C, SkillType);
@@ -131,7 +131,7 @@ function SkillGetModifierDuration(C, SkillType) {
  * @param {SkillType} SkillType - The skill the modifier applies to
  * @param {number} Value - The new value of the modifier
  * @param {number} Duration - The length of the modifier effect, in ms
- * @param {boolean} [Push=true] - Pushes the skills to the server if TRUE
+ * @param {boolean} [Push] - Pushes the skills to the server if TRUE
  * @returns {boolean} true if the new value was valid, false if it got capped.
  */
 function SkillSetModifier(C, SkillType, Value, Duration, Push=true) {
@@ -219,7 +219,7 @@ function SkillProgress(C, SkillType, Progress) {
  * @param {Character} C - The character to get the skill from
  * @param {SkillType} SkillType - Name of the skill to get the value of
  * @param {number} Ratio - The ratio to set for a given skill (0 to 1)
- * @param {boolean} [Push=true] - Pushes the skills to the server if TRUE
+ * @param {boolean} [Push] - Pushes the skills to the server if TRUE
  */
 function SkillSetRatio(C, SkillType, Ratio, Push) {
 	const skill = SkillGet(C, SkillType);

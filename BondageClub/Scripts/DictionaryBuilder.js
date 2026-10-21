@@ -220,7 +220,7 @@ class DictionaryBuilder {
 	 * @param {AssetGroup} group - The group the activity is being performed on
 	 * @param {Item} [item] - The item used to perform the activity
 	 * @param {number} [count] - The number of times the activity is done
-	 * @returns
+	 * @returns {this}
 	 */
 	performActivity(name, group, item, count = 1) {
 		this._addEntry({ ActivityName: name });
@@ -236,7 +236,7 @@ class DictionaryBuilder {
 	/**
 	 * Adds a teleport dictionary entry
 	 * @param {ChatRoomMapPos} position - The position to teleport to
-	 * @returns
+	 * @returns {this}
 	 */
 	mapViewTeleport(position) {
 		this._addEntry({ Tag: "MapViewTeleport", Position: position });
@@ -247,7 +247,7 @@ class DictionaryBuilder {
 	 * Adds a changeKey dictionary entry
 	 * @param {("gold" | "silver" | "bronze")[]} keys
 	 * @param {boolean} giveKey
-	 * @returns
+	 * @returns {this}
 	 */
 	mapViewChangeKey(keys, giveKey) {
 		for (const key of keys) {
@@ -259,7 +259,7 @@ class DictionaryBuilder {
 	/**
 	 * Adds a changeKey dictionary entry
 	 * @param {GGTSDictionaryEntry["Action"]} action
-	 * @returns
+	 * @returns {this}
 	 */
 	addGGTSData(action) {
 		this._addEntry({ Tag: "GGTSData", Action: action });
@@ -346,9 +346,9 @@ function IsTaggedDictionaryEntry(entry) {
 }
 
 /**
- * @param {ChatMessageDictionaryEntry | TaggedDictionaryEntry} entry
  * @template {string} T
  * @param {T} tag
+ * @param {ChatMessageDictionaryEntry | TaggedDictionaryEntry} entry
  * @returns {entry is StringListDictionaryEntry<T>}
  */
 function IsStringListDictionaryEntry(tag, entry) {

@@ -634,7 +634,7 @@ function KidnapClick() {
 /**
  * Returns the experience gained from having successfully fought an opponent
  * @param {Character} opponent
- * @returns
+ * @returns {number}
  */
 function KidnapSuccessWillpowerProgress(opponent) {
 	return ((Player.KidnapMaxWillpower ?? 0) - (Player.KidnapWillpower ?? 0) + (opponent.KidnapMaxWillpower ?? 0) - (opponent.KidnapWillpower ?? 0)) * 2;

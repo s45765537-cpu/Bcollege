@@ -37,7 +37,7 @@ function OnlineGameDictionaryText(KeyWord) {
 /**
  * Catches the character click from chat rooms and make sure the online game doesn't need to handle them
  * @param {Character} C - Character that has been clicked on
- * @return {boolean} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
+ * @returns {boolean} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
  */
 function OnlineGameClickCharacter(C) {
 	if ((ChatRoomGetGame() === "LARP") && (GameLARPGetStatus() != "")) return GameLARPCharacterClick(C);
@@ -47,7 +47,7 @@ function OnlineGameClickCharacter(C) {
 
 /**
  * Catches the chat room clicks and make sure the online game doesn't need to handle them
- * @return {boolean} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
+ * @returns {boolean} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
  */
 function OnlineGameClick() {
 	if ((ChatRoomGetGame() === "LARP") && (GameLARPGetStatus() != "")) return GameLARPClickProcess();

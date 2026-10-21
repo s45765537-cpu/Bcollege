@@ -186,7 +186,7 @@ async function fetchMergeRequests(page) {
 		console.log(`Fetching page ${page} of merge requests` + (i > 0 ? `(attempt ${i + 1})` : ''));
 		try {
 			const response = await fetch(`https://gitgud.io/api/v4/projects/${GIT_GUD_PROJECT_ID}/merge_requests?page=${page}`);
-			return /** @type {any} */ (await response.json());
+			return await /** @type {Promise<{ iid: number, title: string, author: { name: string } }[]>} */ (response.json());
 		} catch {
 			console.error(`Fetch of merge request page ${page} failed. Retrying...`);
 			await new Promise((resolve) => setTimeout(resolve, 1000));

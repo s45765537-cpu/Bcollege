@@ -6,10 +6,10 @@ var CraftingBackground = "CraftingWorkshop";
 
 /**
  * The active subscreen within the crafting screen:
- * * `"Slot"`: The main crafting screens wherein the {@link CraftingItem} is selected, created or destroyed.
- * * `"Name"`: The main menu wherein the crafted item is customized, allowing for the specification of names, descriptions, colors, extended item types, _etc._
- * * `"Color"`: A dedicated coloring screen for the crafted item.
- * * `"Extended"`: The extended item menu.
+ * - `"Slot"`: The main crafting screens wherein the {@link CraftingItem} is selected, created or destroyed.
+ * - `"Name"`: The main menu wherein the crafted item is customized, allowing for the specification of names, descriptions, colors, extended item types, _etc._
+ * - `"Color"`: A dedicated coloring screen for the crafted item.
+ * - `"Extended"`: The extended item menu.
  * @type {CraftingMode}
  */
 let CraftingMode = "Slot";
@@ -248,10 +248,11 @@ function CraftingPropertyUpdateButtons(craft) {
 }
 /**
  * An enum with status codes for crafting validation.
- * @property OK - The validation proceeded without errors
- * @property ERROR - The validation produced one or more errors that were successfully resolved
- * @property CRITICAL_ERROR - The validation produced an unrecoverable error
- * @type {{OK: 2, ERROR: 1, CRITICAL_ERROR: 0}}
+ * @property {2} OK - The validation proceeded without errors
+ * @property {1} ERROR - The validation produced one or more errors that were successfully resolved
+ * @property {0} CRITICAL_ERROR - The validation produced an unrecoverable error
+ * @type {{ OK: 2, ERROR: 1, CRITICAL_ERROR: 0 }}
+ * @satisfies {Record<string, CraftingStatusType>}
  */
 const CraftingStatusType = {
 	OK: 2,
@@ -483,7 +484,7 @@ function CraftingAssetsPopulate() {
  * Returns TRUE if a crafting item has an effect from a list or allows that effect
  * @param {Asset} Item - The item asset to validate
  * @param {EffectName[]} Effect - The list of effects to validate
- * @returns {Boolean} - TRUE if the item has that effect
+ * @returns {boolean} - TRUE if the item has that effect
  */
 function CraftingItemHasEffect(Item, Effect) {
 	if (Item?.Effect != null)
@@ -1209,7 +1210,6 @@ var CraftingElements = {
 	 * @param {null | Partial<Record<string, string | number | boolean>>} attributes
 	 * @param {null | string} label
 	 * @param {null | readonly (string | Node)[]} children
-	 * @param {null | Asset} asset
 	 * @param {boolean} first
 	 * @returns {HTMLButtonElement}
 	 */
@@ -2099,9 +2099,8 @@ function CraftingLoadServer(Packet) {
 		if (Player.Crafting.length >= 200) break;
 	}
 
-	/**
-	 * One or more validation errors were encountered that were successfully resolved;
-	 * push the fixed items back to the server */
+	// One or more validation errors were encountered that were successfully resolved;
+	// push the fixed items back to the server
 	if (Refresh) {
 		const nCritical = Object.keys(CriticalErrors).length;
 		if (nCritical > 0) {
@@ -2151,7 +2150,7 @@ function CraftingClick(event) {
  * Refreshes the preview model with a slight delay so the item color process is done
  * @deprecated
  * @returns {void} - Nothing
- * */
+ */
 function CraftingRefreshPreview() {
 	if (!CraftingPreview || !CraftingSelectedItem?.Asset) {
 		return;
@@ -2166,8 +2165,8 @@ function CraftingRefreshPreview() {
 /**
  * Converts the currently selected item into a crafting item.
  * @param {CraftingItemSelected} item
- * @return {CraftingItem}
- * */
+ * @returns {CraftingItem}
+ */
 function CraftingConvertSelectedToItem(item) {
 	for (const [k, v] of CommonEntries(item.Effects)) {
 		if (!v) {
@@ -2788,23 +2787,25 @@ var CraftingValidationRecord = {
  * @param {boolean | undefined} Warn
  * @param {boolean | undefined} checkPlayerInventory
  * @param {true} partial
- * @return {CraftingStatusType}
- *//**
+ * @returns {CraftingStatusType}
+ */
+/**
  * @overload
  * @param {CraftingItem} Craft
  * @param {Asset | null} [asset]
  * @param {boolean} [Warn]
  * @param {boolean} [checkPlayerInventory]
  * @param {boolean} [partial]
- * @return {CraftingStatusType}
- *//**
+ * @returns {CraftingStatusType}
+ */
+/**
  * Validate and sanitize crafting properties of the passed item inplace.
  * @param {CraftingItem} Craft - The crafted item properties or `null`
  * @param {Asset | null} [asset] - The matching Asset. Will be extracted from the player inventory if `null`
  * @param {boolean} [Warn] - Whether a warning should logged whenever the crafting validation fails
  * @param {boolean} [checkPlayerInventory] - Whether or not the player must own the crafted item's underlying asset
  * @param {boolean} [partial] - Whether only a subset of the craft's properties, corresponding to {@link CraftingPartialItem}, should be validated
- * @return {CraftingStatusType} - One of the {@link CraftingStatusType} status codes; 0 denoting an unrecoverable validation error
+ * @returns {CraftingStatusType} - One of the {@link CraftingStatusType} status codes; 0 denoting an unrecoverable validation error
  */
 function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=false, partial=false) {
 	if (!CommonIsObject(Craft)) {

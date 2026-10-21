@@ -3,10 +3,10 @@
 /**
  * @template {string} T
  * @typedef DirectedGraphVertex
- * @property {T} vertex
- * @property {number} [index]
- * @property {number} [lowLink]
- * @property {boolean} [onStack]
+ * @property {T} vertex The vertex
+ * @property {number} [index] The index
+ * @property {number} [lowLink] The link
+ * @property {boolean} [onStack] The stack
  */
 
 /**

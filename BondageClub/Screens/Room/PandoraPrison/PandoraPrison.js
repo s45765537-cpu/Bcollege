@@ -162,6 +162,7 @@ function PandoraPrisonPlayerUngag() {
 
 /**
  * When the player gets restrained by an NPC, the arms bondage get tighter with difficulty and if a fight occured
+ * @param {"FEW" | "LOT" | "ALL"} [Level]
  * @returns {void} - Nothing
  */
 function PandoraPrisonPlayerRestrain(Level) {
@@ -178,6 +179,7 @@ function PandoraPrisonPlayerRestrain(Level) {
 
 /**
  * When the player gets stripped and restrained by an NPC, call the regular restrain function
+ * @param {"FEW" | "LOT" | "ALL"} [Level]
  * @returns {void} - Nothing
  */
 function PandoraPrisonPlayerStrip(Level) {
@@ -187,6 +189,7 @@ function PandoraPrisonPlayerStrip(Level) {
 
 /**
  * When the player gets locked in a chastity device by the guard
+ * @param {AssetLockType} LockType
  * @returns {void} - Nothing
  */
 function PandoraPrisonPlayerChastity(LockType) {
@@ -329,6 +332,8 @@ function PandoraPrisonPickWeapon() {
 
 /**
  * When the guard beats up the player, she loses some strength for fights
+ * @param {number} Damage
+ * @param {ExpressionNameMap["Blush"]} Blush
  * @returns {void} - Nothing
  */
 function PandoraPrisonPlayerBeat(Damage, Blush) {
@@ -449,6 +454,7 @@ function PandoraPrisonQuikieProcess(Factor) {
 
 /**
  * Ends the quickie scenario
+ * @param {string} [Message]
  * @returns {void} - Nothing
  */
 function PandoraPrisonQuickieEnd(Message) {

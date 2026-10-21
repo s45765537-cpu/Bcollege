@@ -1,3 +1,4 @@
+
 "use strict";
 
 /**
@@ -1119,7 +1120,7 @@ function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
  * @param {string} label
  * @param {HTMLElement | string} forId
  * @param {object} [options]
- * @param {'left' | 'top'} [options.position='top']
+ * @param {'left' | 'top'} [options.position]
  */
 function ElementCreateSettingsLabel(label, forId, options) {
 	return ElementCreate({
@@ -1135,8 +1136,8 @@ function ElementCreateSettingsLabel(label, forId, options) {
 /**
  * Create a group of radio buttons
  * @param {string} id
- * @param {string} defaultValue
  * @param {(this: HTMLButtonElement, ev: PointerEvent) => void} onclick
+ * @param {string} defaultValue
  * @param {{
  * htmlOptions?: Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>,
  * options?: ElementButton.Options,
@@ -1207,7 +1208,7 @@ var ElementCheckboxDropdown = {
 	 * @param {string | null} id - The ID of the element
 	 * @param {readonly string[]} checkboxList - The checkbox labels
 	 * @param {(this: HTMLInputElement, event: Event) => void} eventListener - The event listener to-be attached to all checkboxes
-	 * @param {Object} [options]
+	 * @param {object} [options]
 	 * @param {HTMLElement} [options.parent] - The parent element of the dropdown menu; defaults to {@link document.body}
 	 * @param {boolean} [options.checked] - Whether all checkboxes should be initially checked
 	 * @returns {HTMLDivElement} - The created dropdown menu
@@ -1228,7 +1229,7 @@ var ElementCheckboxDropdown = {
 	 * @param {string | null} id - The ID of the element
 	 * @param {Record<string, readonly string[]>} checkboxRecord - The checkbox labels
 	 * @param {(this: HTMLInputElement, event: Event) => void} eventListener - The event listener to-be attached to all checkboxes
-	 * @param {Object} [options]
+	 * @param {object} [options]
 	 * @param {HTMLElement} [options.parent] - The parent element of the dropdown menu; defaults to {@link document.body}
 	 * @param {boolean} [options.checked] - Whether all checkboxes should be initially checked
 	 * @returns {HTMLDivElement} - The created dropdown menu
@@ -1273,7 +1274,7 @@ var ElementCheckboxDropdown = {
  * </input>
  * @param {string | null} id - The ID of the to-be created search input; `${id}-datalist` will be assigned the search input's datalist
  * @param {(searchInput: HTMLInputElement) => Iterable<string>} dataCallback - A callback returning all values that will be converted into a datalist `<option>`
- * @param {Object} [options]
+ * @param {object} [options]
  * @param {string} [options.value] - Value of the search input
  * @param {Node} [options.parent] - The parent element of the search input; defaults to {@link document.body}
  * @param {number} [options.maxLength] - Maximum input length of the search input
@@ -2361,7 +2362,7 @@ var ElementMenu = {
 	/**
 	 * @private
 	 * @satisfies {MutationCallback}
-	 * @param {readonly { addedNodes: readonly Node[] | NodeList, target: Node }[]} mutationList
+	 * @param {readonly { addedNodes: (readonly Node[]) | NodeList, target: Node }[]} mutationList
 	 */
 	_osbserverCallback: function _osbserverCallback(mutationList) {
 		const roles = [
@@ -2546,7 +2547,7 @@ var ElementMenu = {
 	 * @param {readonly (string | Node | HTMLOptionsUnion)[]} menuItems - The menu's content.
 	 * Any `<button>` element without a role (regardless of nesting) will be assigned the `menuitem` role and thus be elligble for menu-style navigation.
 	 * Buttons that open a sub-menu _must_ have the `aria-haspopup: "menu"` attribute set and must be able to do so via a click action.
-	 * @param {Object} [options]
+	 * @param {object} [options]
 	 * @param {"ltr" | "rtl"} [options.direction] - The direction of the menu. Should match the value of the CSS `direction` property if provided
 	 * @param {"menubar" | "menu"} [options.role] - The role of the menu/menubar
 	 * @param {null | Partial<Record<"menu", Omit<HTMLOptions<any>, "tag">>>} [htmlOptions] - Additional {@link ElementCreate} options to-be applied to the respective (child) element
@@ -2745,7 +2746,7 @@ var ElementText = {
 	 * Creates a paragraph node, optionally describing another element
 	 * @param {string} contents
 	 * @param {{ describes?: string | HTMLElement } | undefined} opts
-	 * @returns
+	 * @returns {HTMLParagraphElement}
 	 */
 	CreateNote: function CreateNote(contents, opts = undefined) {
 		let id;
@@ -3051,9 +3052,9 @@ var ElementDOMScreen = {
 	 * Construct and return a template for a basic DOM screen.
 	 *
 	 * Important points:
-	 * * Screen dimensions of `[x, 0, y, 1000]` are generally recommended
-	 * * The standard child elements of the to-be returned screen _may_ freely be moved around in the DOM tree as one sees fit
-	 * * The standard child elements of the to-be returned screen _should_ not be removed; do so at your own risk. They _may_ remain unused however.
+	 * - Screen dimensions of `[x, 0, y, 1000]` are generally recommended
+	 * - The standard child elements of the to-be returned screen _may_ freely be moved around in the DOM tree as one sees fit
+	 * - The standard child elements of the to-be returned screen _should_ not be removed; do so at your own risk. They _may_ remain unused however.
 	 * @example
 	 * <div id="my-fancy-id" class="screen">
 	 *     <!--
@@ -3336,7 +3337,7 @@ var ElementSearchQuery = {
 	/**
 	 * Highlight search query matches within the passed elements using `<em class="highlight">`, returning a list of all highlighted elements
 	 * @template {Element} T
-	 * @param {readonly T[] | NodeListOf<T>} elements The list of to-be elements whose textContent is to be matched
+	 * @param {(readonly T[]) | NodeListOf<T>} elements The list of to-be elements whose textContent is to be matched
 	 * @param {string} query The search query
 	 * @param {null | ElementSearchQuery.Options} [options] Further options
 	 * @returns {T[]} The matched elements
@@ -3360,7 +3361,7 @@ var ElementSearchQuery = {
 	/**
 	 * Clear all query matches from the passed elements. Equivalent to passing an empty string query to {@link highlight}.
 	 * @template {Element} T The list of to-be elements whose textContent is to be matched
-	 * @param {readonly T[] | NodeListOf<T>} elements
+	 * @param {(readonly T[]) | NodeListOf<T>} elements
 	 * @returns {T[]} The matched elements
 	 */
 	clear: function clear(elements) {

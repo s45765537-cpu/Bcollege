@@ -472,7 +472,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
  * @param {number} Y - Position of the character on the Y axis
  * @param {number} HeightRatio - The displayed height ratio of the character
  * @param {string} Color - Color of the zone outline
- * @param {number} [Thickness=3] - Thickness of the outline
+ * @param {number} [Thickness] - Thickness of the outline
  * @param {string} [FillColor] - If non-empty, the color to fill the rectangle with
  * @returns {void} - Nothing
  */
@@ -665,7 +665,7 @@ function DrawApplyTextureAlphaMask(destCanvas, X, Y, TextureAlphaMasks) {
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
- * @param {DrawOptions} [Options = {}] - any extra options
+ * @param {DrawOptions} [Options] - any extra options
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImageEx(
@@ -673,7 +673,7 @@ function DrawImageEx(
 	Canvas,
 	X,
 	Y,
-	Options
+	Options = {}
 ) {
 	let { Zoom, HexColor, FullAlpha, AlphaMasks, Alpha, Invert, Mirror, BlendingMode, Width, Height, SourcePos, TextureAlphaMask: TexureMasks, Rotation } = Options || {};
 
@@ -1125,6 +1125,7 @@ function DrawButton(Left, Top, Width, Height, Label, Color, Image=null, Hovering
  * @param {boolean} IsChecked - Whether or not the checkbox is checked
  * @param {boolean} [Disabled] - Disables the hovering options if set to true
  * @param {string} [TextColor] - Color of the text
+ * @param {string} [CheckImage] - The checkbox icon to use
  * @returns {void} - Nothing
  */
 function DrawCheckbox(Left, Top, Width, Height, Text, IsChecked, Disabled = false, TextColor = "Black", CheckImage = "Icons/Checked.png") {
@@ -1263,7 +1264,7 @@ function DrawButtonHover(Left, Top, Width, Height, HoveringText) {
  * @param {number} Width - Width of the rectangle
  * @param {number} Height - Height of the rectangle
  * @param {string} Color - Color of the rectangle outline
- * @param {number} [Thickness=3] - Thickness of the rectangle line
+ * @param {number} [Thickness] - Thickness of the rectangle line
  * @returns {void} - Nothing
  */
 function DrawEmptyRect(Left, Top, Width, Height, Color, Thickness = 3) {
@@ -1321,8 +1322,8 @@ function DrawCircle(CenterX, CenterY, Radius, LineWidth, LineColor, FillColor, C
  * @param {number} w - Width of the bar
  * @param {number} h - Height of the bar
  * @param {number} value - Current progress to display on the bar
- * @param {string} [foreground="#66FF66"] - Color of the first part of the bar
- * @param {string} [background="red"] - Color of the bar background
+ * @param {string} [foreground] - Color of the first part of the bar
+ * @param {string} [background] - Color of the bar background
  * @returns {void} - Nothing
  */
 function DrawProgressBar(x, y, w, h, value, foreground = "#66FF66", background = "red") {
@@ -1371,9 +1372,9 @@ function DrawGetCustomBackground(C) {
  * @param {string} URL The background image to use
  * @param {Rect} bounds The location to draw the background in
  * @param {object} [opts] The background drawing options
- * @param {boolean} [opts.inverted=false] Whether the background should be flipped upside-down
- * @param {number} [opts.blur=1.0] How blurry the background is
- * @param {number} [opts.darken=0.0] How darkened the background is (1 is bright, 0 is pitch black)
+ * @param {boolean} [opts.inverted] Whether the background should be flipped upside-down
+ * @param {number} [opts.blur] How blurry the background is
+ * @param {number} [opts.darken] How darkened the background is (1 is bright, 0 is pitch black)
  * @param {readonly RGBAColor[]} [opts.tints] Tints to apply to the background
  * @param {DrawingResizeMode} [opts.sizeMode] The method of resizing the background
  */
@@ -1525,13 +1526,13 @@ var DrawSkipVFX = {
 	 * The list of registered callbacks; see {@link DrawSkipVFX.evaluate}.
 	 * @readonly
 	 * @private
-	 * @type {((module: ModuleType, screen: ScreenName) => boolean)[]}
+	 * @type {ScreenCheckCallback[]}
 	 */
 	_list: [],
 
 	/**
 	 * Register either a function or a module and/or screen name for which VFX drawing must be skipped
-	 * @param  {...(PartialScreenSpecifier | ((module: ModuleType, screen: ScreenName) => boolean))} args The to-be registered functions/screen-/module names
+	 * @param {(PartialScreenSpecifier | ScreenCheckCallback)[]} args The to-be registered functions/screen-/module names
 	 */
 	register: function register(...args) {
 		for (const arg of args) {
@@ -1944,7 +1945,7 @@ function RectGetFrame(rect) {
 /**
  * Get the rect's origin point
  * @param {Rect | RectTuple} rect
- * @return {[x: number, y: number]}
+ * @returns {[x: number, y: number]}
  */
 function RectGetOrigin(rect) {
 	return Array.isArray(rect) ? [rect[0], rect[1]] : [rect.x, rect.y];

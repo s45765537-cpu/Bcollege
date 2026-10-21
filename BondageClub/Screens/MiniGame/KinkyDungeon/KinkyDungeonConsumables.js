@@ -101,7 +101,7 @@ function KinkyDungeonGetShopItem(Level, Rarity, Shop) {
  *
  * @param {consumable} consumable
  * @param {number} Quantity
- * @return {boolean}
+ * @returns {boolean}
  */
 function KinkyDungeonChangeConsumable(consumable, Quantity) {
 	let item = KinkyDungeonInventoryGetConsumable(consumable.name);
