@@ -51,10 +51,12 @@ async function ChatAdminLoad() {
 
 	if (adminData.Language == null || !ServerChatRoomSupportedLanguages.includes(adminData.Language)) adminData.Language = ServerChatRoomSupportedLanguages[0];
 
+	ChatAdminMessage = "";
 	const canCommit = ChatAdminCanCommit();
 
 	ElementDOMScreen.getTemplate(ChatAdminID.screen,
 		{
+			header: ChatAdminTitle(),
 			hgroupInHeader: true,
 			menubarButtons: [
 				ElementButton.Create(
@@ -67,7 +69,7 @@ async function ChatAdminLoad() {
 				),
 				ElementButton.Create(
 					ChatAdminID.accept,
-					() => { if (canCommit) ChatAdminCommit(); },
+					() => { if (ChatAdminCanCommit()) ChatAdminCommit(); },
 					{
 						image: "Icons/Accept.png",
 						disabled: !canCommit,
@@ -156,7 +158,7 @@ function ChatAdminUnload() {
 }
 
 function ChatAdminImport() {
-	if (!ChatAdminCanEdit()) return;
+	if (!ChatAdminCanCommit()) return;
 
 	CommonClipboardRead((res) => {
 		try {
@@ -170,12 +172,36 @@ function ChatAdminImport() {
 			}
 
 			ChatEditorAdminSettingsImport(data);
+			ChatAdminSetMessage("");
 			ToastManager.success(TextGet("UploadSuccess"));
 		} catch (error) {
 			console.error(error);
 			ToastManager.error(TextGet("UploadInvalidCode"));
 		}
 	});
+}
+
+/**
+ * Title shown in the screen heading when no status message is set.
+ * @returns {string}
+ */
+function ChatAdminTitle() {
+	return TextGet(ChatAdminMode === "create" ? "TitleCreate" : "TitleEdit");
+}
+
+/**
+ * Store a status message and show it in the screen heading when the editor is open.
+ * @param {string} message
+ */
+function ChatAdminSetMessage(message) {
+	ChatAdminMessage = message;
+	if (CurrentScreen !== "ChatAdmin") return;
+
+	ElementDOMScreen.setHeading(ChatAdminID.screen, message ? TextGet(message) : ChatAdminTitle());
+	const disabled = !ChatAdminCanCommit();
+	for (const id of [ChatAdminID.accept, ChatAdminID.roomImport]) {
+		ElementWrap(id)?.setAttribute("aria-disabled", String(disabled));
+	}
 }
 
 function ChatAdminExport() {
@@ -287,7 +313,7 @@ function ChatAdminCanEdit() {
  * Handles accepting the room editor
  */
 function ChatAdminCommit() {
-	if (!ChatAdminCanEdit()) return;
+	if (!ChatAdminCanCommit()) return;
 	if (ChatAdminMode === "update") {
 		ChatEditorUpdateRoom();
 	} else {
@@ -404,7 +430,7 @@ function ChatEditorUpdateRoom() {
 			UpdatedRoom.MapData = CommonAssign(ChatRoomMapViewInitialize(UpdatedRoom.MapData.Type), UpdatedRoom.MapData);
 	}
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
-	ChatAdminMessage = "UpdatingRoom";
+	ChatAdminSetMessage("UpdatingRoom");
 }
 
 /**
@@ -414,12 +440,12 @@ function ChatEditorUpdateRoom() {
  */
 function ChatAdminResponse(data) {
 	if (typeof data !== "string") {
-		ChatAdminMessage = "ResponseInvalidData";
+		ChatAdminSetMessage("ResponseInvalidData");
 		return;
 	}
 
 	if (data !== "Updated") {
-		ChatAdminMessage = "Response" + data;
+		ChatAdminSetMessage("Response" + data);
 		return;
 	}
 
@@ -466,7 +492,7 @@ function ChatEditorCreateRoom() {
 			NewRoom.MapData = ChatRoomMapViewInitialize(ChatAdminData.MapData.Type);
 	}
 	ServerSend("ChatRoomCreate", NewRoom);
-	ChatAdminMessage = "CreatingRoom";
+	ChatAdminSetMessage("CreatingRoom");
 	// ChatRoomSync is in charge of switching the screen to ChatRoom
 }
 
@@ -477,9 +503,9 @@ function ChatEditorCreateRoom() {
  */
 function ChatCreateResponse(data) {
 	if (typeof data !== "string") {
-		ChatAdminMessage = "ResponseInvalidData";
+		ChatAdminSetMessage("ResponseInvalidData");
 		return;
 	}
 
-	ChatAdminMessage = "Response" + data;
+	ChatAdminSetMessage("Response" + data);
 }

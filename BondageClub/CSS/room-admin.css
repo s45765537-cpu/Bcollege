@@ -61,3 +61,11 @@
 	height: calc(1.15em + var(--border-width));
 	margin-left: 0.2em;
 }
+
+#chat-admin-screen-hgroup {
+	color: black;
+	direction: ltr;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

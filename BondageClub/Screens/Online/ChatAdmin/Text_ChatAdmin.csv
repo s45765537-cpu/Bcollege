@@ -39,6 +39,8 @@ DownloadFailed,Failed to copy room code to clipboard
 DownloadSuccess,Room code copied to clipboard
 Create,Create
 Save,Save
+TitleCreate,Create Room
+TitleEdit,Room Settings
 Exit,Exit
 Cancel,Cancel
 CreatingRoom,Creating the chat room…
