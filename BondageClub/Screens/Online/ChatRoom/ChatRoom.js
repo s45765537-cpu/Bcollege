@@ -3813,8 +3813,8 @@ var ChatRoomMessageHandlers = [
 				}
 			}
 
-			// Chat parsing - Garble the sender name and adds more garble when deaf
-			if (data.Type == "Chat") {
+			// Chat parsing - Garble the sender name and adds more garble when deaf.
+			if (data.Type == "Chat" || data.Type == "Whisper") {
 				if (ChatRoomIsCharacterImpactedBySensoryDeprivation(sender)) {
 					if (Player.GetDeafLevel() >= 4)
 						metadata.senderName = InterfaceTextGet("Someone");
@@ -3823,7 +3823,8 @@ var ChatRoomMessageHandlers = [
 						metadata.senderName = s.text;
 					}
 				}
-				if (Player.GetDeafLevel() > 0) {
+				const hearingWhisper = data.Type == "Whisper" && (data.Target == Player.MemberNumber || data.Sender != Player.MemberNumber);
+				if (Player.GetDeafLevel() > 0 && (data.Type == "Chat" || hearingWhisper)) {
 					const s = SpeechTransformProcess(sender, msg, SpeechTransformReceiverEffects);
 					msg = s.text;
 				}
