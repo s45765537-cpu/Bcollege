@@ -206,8 +206,7 @@ type ServerChatRoomLanguage = "EN" | "DE" | "FR" | "ES" | "CN" | "RU" | "UA";
 type ServerChatRoomRole = "All" | "Admin" | "Whitelist";
 type ServerChatRoomGame = "" | "ClubCard" | "LARP" | "MagicBattle" | "GGTS" | "Prison";
 type ServerChatRoomBlockCategory =
-	/** Those are known as AssetCategory to the client */
-	"Medical" | "Extreme" | "Pony" | "SciFi" | "ABDL" | "Fantasy" | "Smoking" |
+	AssetCategory |
 	/** Those are room features */
 	"Leashing" | "Photos" | "Arousal" | "Location";
 
@@ -469,7 +468,7 @@ interface ServerChatRoomSearchData {
     MemberCount: number;
     MemberLimit: number;
     Description: string;
-    BlockCategory: AssetCategory[];
+    BlockCategory: ServerChatRoomBlockCategory[];
     Game: ServerChatRoomGame;
     Friends: ServerFriendInfo[];
     Space: ServerChatRoomSpace;
