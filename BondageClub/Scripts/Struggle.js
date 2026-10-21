@@ -1709,14 +1709,14 @@ function StruggleLockPickSetup(C, Item) {
 
 		if (Item.Property.LockPickSeed == null || typeof Item.Property.LockPickSeed !== "string") {
 			// Old seed is invalid, use the one we just built
-			Item.Property.LockPickSeed = CommonConvertArrayToString(StruggleLockPickOrder);
+			Item.Property.LockPickSeed = StruggleLockPickOrder.join(",");
 			StruggleLockPickTotalTries = 0;
 			ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
 		} else {
 			// Load the seed and type-check it. If anything is wrong, use the one we built
 			let conv = CommonConvertStringToArray(Item.Property.LockPickSeed);
 			if (!conv.every(num => typeof num === "number")) {
-				Item.Property.LockPickSeed = CommonConvertArrayToString(StruggleLockPickOrder);
+				Item.Property.LockPickSeed = StruggleLockPickOrder.join(",");
 				ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
 				conv = StruggleLockPickOrder;
 			}

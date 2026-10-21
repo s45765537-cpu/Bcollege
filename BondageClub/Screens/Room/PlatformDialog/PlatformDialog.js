@@ -5538,9 +5538,9 @@ function PlatformDialogController(buttons) {
 function PlatformDialogLeaderHasPerk(PerkName) {
 	if ((PlatformParty == null) || (PlatformParty.length <= 0)) return false;
 	if ((PlatformParty[0].Perk == null) || (PlatformParty[0].Perk.length < 10)) return false;
-	if ((PerkName == "Seduction") && (PlatformParty[0].Perk.substr(7, 1) == "1")) return true;
-	if ((PerkName == "Persuasion") && (PlatformParty[0].Perk.substr(8, 1) == "1")) return true;
-	if ((PerkName == "Manipulation") && (PlatformParty[0].Perk.substr(9, 1) == "1")) return true;
+	if ((PerkName == "Seduction") && (PlatformParty[0].Perk.substring(7, 8) == "1")) return true;
+	if ((PerkName == "Persuasion") && (PlatformParty[0].Perk.substring(8, 9) == "1")) return true;
+	if ((PerkName == "Manipulation") && (PlatformParty[0].Perk.substring(9, 10) == "1")) return true;
 	return false;
 }
 

@@ -271,7 +271,6 @@ function ServerDisconnect(data, close = false) {
 function ServerHandleRelog(C) {
 	if (!RelogData) return false;
 	Player.CharacterID = C.ID.toString();
-	Player.OnlineID = C.ID.toString();
 	CurrentCharacter = RelogData.Character;
 
 	// In relog mode, we jump back to the previous screen, keeping the current game flow
@@ -1361,7 +1360,7 @@ function ServerChatRoomGetAllowItem(Source, Target) {
 	if ((Target.AllowedInteractions == AllowedInteractions.EveryoneExceptBlacklist) && !Target.HasOnBlacklist(Source)) return true;
 
 	// At two, we allow if the source is Dominant compared to the Target (25 points allowed) or on whitelist or a lover
-	if ((Target.AllowedInteractions == AllowedInteractions.OwnerLoversWhitelistAndDomsOnly) && (!Target.HasOnBlacklist(Source) && ((ReputationCharacterGet(Source, "Dominant") + 25 >= ReputationCharacterGet(Target, "Dominant")) || Target.HasOnWhitelist(Source) || Source.IsLoverOfCharacter(Target)))) return true;
+	if ((Target.AllowedInteractions == AllowedInteractions.OwnerLoversWhitelistAndDomsOnly) && (!Target.HasOnBlacklist(Source) && ((ReputationGet(Source, "Dominant") + 25 >= ReputationGet(Target, "Dominant")) || Target.HasOnWhitelist(Source) || Source.IsLoverOfCharacter(Target)))) return true;
 
 	// At three, we allow if the source is on the whitelist of the Target or a lover
 	if ((Target.AllowedInteractions == AllowedInteractions.OwnerLoversWhitelistOnly) && (Target.HasOnWhitelist(Source) || Source.IsLoverOfCharacter(Target))) return true;
@@ -1433,8 +1432,8 @@ var ServerValidation = {
 	isString(maxLength, defaultValue) {
 		return (arg) => {
 			if (typeof arg !== "string") return defaultValue;
-			arg = arg.trim();
-			return arg.length <= maxLength ? arg : defaultValue;
+			const str = arg.trim();
+			return str.length <= maxLength ? str : defaultValue;
 		};
 	},
 

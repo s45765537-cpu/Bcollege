@@ -93,7 +93,7 @@ async function BackgroundSelectionLoad() {
 		{ onInput: BackgroundSelectionInputChanged },
 	);
 
-	const tagFilter = ElementCreateDropdown(Background.elementID.tagFilter, BackgroundSelectionTagList, BackgroundSelectionTagChanged);
+	const tagFilter = ElementDropdown.Create(Background.elementID.tagFilter, BackgroundSelectionTagList, BackgroundSelectionTagChanged);
 	if (BackgroundSelectionTagList.length < 2) {
 		tagFilter.toggleAttribute("hidden", true);
 	}

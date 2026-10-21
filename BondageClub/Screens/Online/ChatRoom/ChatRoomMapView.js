@@ -2024,7 +2024,7 @@ function ChatRoomMapViewMove(D, Force = false) {
 function ChatRoomMapViewUndo() {
 	if (!ChatRoomData?.MapData) return;
 	MapManager.Map.undo();
-	ChatRoomMapViewCalculatePerceptionMasks();
+	MapManager.Map.updatePlayerPerception();
 }
 
 /**

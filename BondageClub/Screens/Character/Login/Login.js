@@ -10,67 +10,67 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-"_20_05", 
-"AlexG", 
-"Alpha", 
-"Amazing", 
-"asd1520456080", 
-"Asriel", 
-"Aybes", 
-"Brad", 
-"bryce", 
-"Canti", 
-"Cerberus", 
-"Christian", 
-"Cm382714", 
-"Cool", 
-"Desch", 
-"Dragokahn", 
-"dynilath", 
-"Exe", 
-"Exusiai", 
-"fumoffu", 
-"George", 
-"Greendragon", 
-"holonoringo", 
-"I.F.S.", 
-"ItsTheHutch", 
-"jamal", 
-"jazzybanana", 
-"Jerry", 
-"John", 
-"Jonas", 
-"Kim", 
-"koka", 
-"land", 
-"Laurie", 
-"Megumin", 
-"Michel", 
-"micr0", 
-"Mindtie", 
-"Misa", 
-"MrUniver", 
-"NeReFox", 
-"NEWTYPUFF", 
-"SaiZaro", 
-"Salix", 
-"Schrödingers", 
-"Signal_Flare", 
-"Soulcollar", 
-"Sticks", 
-"Tam", 
-"Taraly", 
-"Tarram1010", 
-"Teli", 
-"Thkdt", 
-"Toddles", 
-"Troubadix", 
-"UltimateDespair", 
-"Verena", 
-"walnus", 
-"WhiteSniper", 
-"XDWolfie", 
-"Xepherio", 
+"_20_05",
+"AlexG",
+"Alpha",
+"Amazing",
+"asd1520456080",
+"Asriel",
+"Aybes",
+"Brad",
+"bryce",
+"Canti",
+"Cerberus",
+"Christian",
+"Cm382714",
+"Cool",
+"Desch",
+"Dragokahn",
+"dynilath",
+"Exe",
+"Exusiai",
+"fumoffu",
+"George",
+"Greendragon",
+"holonoringo",
+"I.F.S.",
+"ItsTheHutch",
+"jamal",
+"jazzybanana",
+"Jerry",
+"John",
+"Jonas",
+"Kim",
+"koka",
+"land",
+"Laurie",
+"Megumin",
+"Michel",
+"micr0",
+"Mindtie",
+"Misa",
+"MrUniver",
+"NeReFox",
+"NEWTYPUFF",
+"SaiZaro",
+"Salix",
+"Schrödingers",
+"Signal_Flare",
+"Soulcollar",
+"Sticks",
+"Tam",
+"Taraly",
+"Tarram1010",
+"Teli",
+"Thkdt",
+"Toddles",
+"Troubadix",
+"UltimateDespair",
+"Verena",
+"walnus",
+"WhiteSniper",
+"XDWolfie",
+"Xepherio",
 ];
 
 /* eslint-enable */
@@ -158,7 +158,7 @@ function LoginDrawCredits() {
 				LoginCreditsPosition = 0;
 				return;
 			} else {
-				if (Cred.substr(0, 10) == "CreditType") DrawText(TextGet(Cred), 320, Y, "white");
+				if (Cred.startsWith("CreditType")) DrawText(TextGet(Cred), 320, Y, "white");
 				else {
 					if (Cred.indexOf("|") == -1) DrawText(Cred, 320, Y, "white");
 					else {
@@ -364,7 +364,7 @@ async function LoginLoad() {
 			},
 		};
 	});
-	const languageDropdown = ElementCreateDropdown(LoginIDs.language, languages, function(event) {
+	const languageDropdown = ElementDropdown.Create(LoginIDs.language, languages, function(event) {
 		TranslationSwitchLanguage(/** @type {"" | "TW" | ServerChatRoomLanguage} */(this.value) || "EN");
 		TextLoad();
 		ActivityDictionaryLoad();
@@ -1012,7 +1012,6 @@ function LoginSetupPlayer(C) {
 	Player.WardrobeCharacterNames = ServerAccountDataSyncedValidate.WardrobeCharacterNames(C.WardrobeCharacterNames, Player);
 	WardrobeFixLength();
 	Player.CharacterID = C.ID.toString();
-	Player.OnlineID = C.ID.toString();
 	Player.MemberNumber = C.MemberNumber;
 	Player.Difficulty = ServerAccountDataSyncedValidate.Difficulty(C.Difficulty, Player);
 	const { permissions, shouldSync } = ServerUnPackItemPermissions(C, Player.Difficulty.Level >= 3);

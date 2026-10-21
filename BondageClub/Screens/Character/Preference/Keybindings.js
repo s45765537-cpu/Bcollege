@@ -297,7 +297,7 @@ var KeyGUI = {
 		return searchInputContainer;
 	},
 	buildSearchModeDropdown() {
-		const searchModeDropdown = ElementCreateDropdown(KeyGUI.selec.searchModeDropdown,
+		const searchModeDropdown = ElementDropdown.Create(KeyGUI.selec.searchModeDropdown,
 			Array.from(this.searchingModes.values()).map(mode => ({ attributes: { value: mode, label: TextGet(`KeybindSearchMode.${mode}`), selected: mode === this.currentSearchingMode } })),
 			function () {
 				const input = /** @type {HTMLInputElement} */ (ElementWrap(KeyGUI.selec.searchInput));

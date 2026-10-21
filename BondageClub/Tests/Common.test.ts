@@ -178,17 +178,6 @@ describe("CommonConvertStringToArray", () => {
 	});
 });
 
-describe("CommonConvertArrayToString", () => {
-	// literally testing .join(",")
-	it("joins array of numbers with commas", () => {
-		expect(Game.CommonConvertArrayToString([13, 15])).toBe("13,15");
-	});
-
-	it("coerces mixed types to strings", () => {
-		expect(Game.CommonConvertArrayToString([null, undefined, () => {}, true, false])).toBe(",,() => {},true,false");
-	});
-});
-
 describe("CommonArraysEqual", () => {
 	it("returns true for equal arrays", () => {
 		expect(Game.CommonArraysEqual([13, 15], [13, 15])).toBe(true);

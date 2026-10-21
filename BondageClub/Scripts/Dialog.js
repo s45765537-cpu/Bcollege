@@ -540,7 +540,6 @@ function DialogIsHeadMaid() {
  * @deprecated
  */
 function DialogGGTSInteraction(Interaction) {
-	AsylumGGTSDialogInteraction(Interaction);
 }
 
 /**
