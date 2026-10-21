@@ -32,6 +32,11 @@ const ChatAdminID = Object.freeze({
 	whitelistInput: "chat-admin-input-whitelist",
 	banListInput: "chat-admin-input-ban-list",
 	language: "chat-admin-language",
+	backgroundPreview: "chat-admin-background-preview",
+	backgroundView: "chat-admin-background-view",
+	backgroundPrev: "chat-admin-background-prev",
+	backgroundNext: "chat-admin-background-next",
+	backgroundSelect: "chat-admin-background-select",
 	blockCategory: "chat-admin-block-category",
 	game: "chat-admin-game",
 	customization: "chat-admin-customization",
@@ -283,6 +288,43 @@ async function ChatAdminLoad() {
 		},
 	);
 
+	const backgroundButton = ElementButton.Create(ChatAdminID.backgroundSelect, () => {
+		if (!ChatAdminCanEdit() || !ChatAdminData) return;
+		BackgroundSelectionMake(ChatSearchBackgroundTagList, ChatAdminData.Background, (name, setBackground) => {
+			if (setBackground && ChatAdminData) ChatAdminData.Background = name;
+			CommonSetScreen("Online", "ChatAdmin");
+		});
+	}, {
+		image: "Icons/Preference.png",
+		tooltip: TextGet("Background"),
+		tooltipPosition: "left",
+		disabled: !canEdit,
+	}, { button: { classList: ["chat-admin-icon-button", "chat-admin-background-picker"] } });
+
+	const backgroundPreview = ElementCreate({
+		tag: "div",
+		classList: ["chat-admin-background-preview"],
+		children: [
+			ElementButton.Create(ChatAdminID.backgroundPreview, () => {
+				if (!ChatAdminData) return;
+				if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+				ChatAdminSetBackgroundPreview(true);
+			}, { noStyling: true }, {
+				button: {
+					classList: ["chat-admin-background-preview-open"],
+					children: [{
+						tag: "img",
+						attributes: {
+							src: `Backgrounds/${adminData.Background}.jpg`,
+							alt: BackgroundsTextGet(adminData.Background),
+							draggable: "false",
+						},
+					}],
+				},
+			}),
+			backgroundButton,
+		],
+	});
 	const blockButton = ElementButton.Create(
 		ChatAdminID.blockCategory,
 		() => {
@@ -415,6 +457,7 @@ async function ChatAdminLoad() {
 	}
 
 	ElementWrap(`${ChatAdminID.screen}-aside-r`)?.append(
+		backgroundPreview,
 		customizationButton,
 		blockButton,
 		ElementCreate({
@@ -457,6 +500,52 @@ async function ChatAdminLoad() {
 		}),
 	);
 
+	/**
+	 *
+	 * @param {string} id
+	 * @param {number} delta
+	 * @param {string} image
+	 * @param {string} tooltip
+	 * @param {ElementButton.Options["tooltipPosition"]} tooltipPosition
+	 * @param {string} sideClass
+	 * @returns {HTMLButtonElement}
+	 */
+	const backgroundNav = (id, delta, image, tooltip, tooltipPosition, sideClass) => ElementButton.Create(id, () => {
+		ChatAdminShiftBackground(delta);
+	}, {
+		image,
+		tooltip,
+		tooltipPosition,
+		noStyling: true,
+	}, {
+		button: {
+			classList: ["chat-admin-background-nav", sideClass],
+			attributes: { "aria-disabled": canEdit ? null : "true" },
+		},
+	});
+
+	ElementCreate({
+		tag: "div",
+		attributes: { id: ChatAdminID.backgroundView, hidden: true },
+		classList: ["screen", "HideOnPopup", "chat-admin-background-view"],
+		parent: document.body,
+		eventListeners: {
+			click(event) {
+				if (event.target instanceof Element && event.target.closest("button")) return;
+				ChatAdminSetBackgroundPreview(false);
+			},
+		},
+		children: [
+			backgroundNav(ChatAdminID.backgroundPrev, -1, "Icons/Prev.png", TextGet("BackgroundPrevious"), "right", "chat-admin-background-prev"),
+			backgroundNav(ChatAdminID.backgroundNext, 1, "Icons/Next.png", TextGet("BackgroundNext"), "left", "chat-admin-background-next"),
+			{
+				tag: "p",
+				classList: ["chat-admin-background-exit"],
+				children: [TextGet("ReturnMenu")],
+			},
+		],
+	});
+
 	if (!canEdit) ChatAdminSetMessage("AdminOnly");
 	else if (ChatAdminMode === "create") ElementFocus(nameInput);
 	TextPrefetch("Online", "ChatBlockItem");
@@ -476,6 +565,10 @@ function ChatAdminClick() {}
  */
 function ChatAdminKeyDown(event) {
 	if (event.repeat) return false;
+	if (ChatAdminBackgroundPreviewOpen()) {
+		if (event.target instanceof HTMLButtonElement) return false;
+		return CommonKey.IsPressed(event, "Enter");
+	}
 	const target = event.target;
 	if (target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || target instanceof HTMLButtonElement) return false;
 
@@ -488,6 +581,7 @@ function ChatAdminKeyDown(event) {
 
 function ChatAdminResize() {
 	ElementPositionFixed(ChatAdminID.screen, 50, 50, 1900, 900);
+	ElementPositionFixed(ChatAdminID.backgroundView, 0, 0, 2000, 1000);
 }
 
 /**
@@ -495,6 +589,10 @@ function ChatAdminResize() {
  * @type {ScreenExitHandler}
  */
 function ChatAdminExit() {
+	if (ChatAdminBackgroundPreviewOpen()) {
+		ChatAdminSetBackgroundPreview(false);
+		return;
+	}
 	AsylumGGTSReset();
 	ChatAdminData = null;
 
@@ -510,6 +608,7 @@ function ChatAdminExit() {
  * @type {ScreenUnloadHandler}
  */
 function ChatAdminUnload() {
+	ElementRemove(ChatAdminID.backgroundView);
 	ElementRemove(ChatAdminID.screen);
 }
 
@@ -535,6 +634,55 @@ function ChatAdminImport() {
 			ToastManager.error(TextGet("UploadInvalidCode"));
 		}
 	});
+}
+
+/**
+ * Point the editor, thumbnail, and preview at a background.
+ * @param {string} name
+ */
+function ChatAdminApplyBackground(name) {
+	if (!ChatAdminData || !ChatAdminBackgroundList?.includes(name)) return;
+	ChatAdminData.Background = name;
+
+	const img = ElementWrap(ChatAdminID.backgroundPreview)?.querySelector("img");
+	if (img instanceof HTMLImageElement) {
+		img.src = `Backgrounds/${name}.jpg`;
+		img.alt = BackgroundsTextGet(name);
+	}
+
+	const view = ElementWrap(ChatAdminID.backgroundView);
+	if (view instanceof HTMLElement) view.style.backgroundImage = `url("Backgrounds/${encodeURI(name)}.jpg")`;
+}
+
+/**
+ * Step through backgrounds in the same order as the background dropdown.
+ * @param {number} delta
+ */
+function ChatAdminShiftBackground(delta) {
+	if (!ChatAdminCanEdit() || !ChatAdminData || !ChatAdminBackgroundList?.length) return;
+	const names = ChatAdminBackgroundList.slice().sort((a, b) => BackgroundsTextGet(a).localeCompare(BackgroundsTextGet(b)));
+	const index = Math.max(0, names.indexOf(ChatAdminData.Background));
+	ChatAdminApplyBackground(names[(index + delta + names.length) % names.length]);
+}
+
+/**
+ * Whether the full-screen background preview is open.
+ * @returns {boolean}
+ */
+function ChatAdminBackgroundPreviewOpen() {
+	return ElementWrap(ChatAdminID.backgroundView)?.hidden === false;
+}
+
+/**
+ * Show or hide the full-screen background preview.
+ * @param {boolean} open
+ */
+function ChatAdminSetBackgroundPreview(open) {
+	const screen = ElementWrap(ChatAdminID.screen);
+	ElementWrap(ChatAdminID.backgroundView)?.toggleAttribute("hidden", !open);
+	screen?.querySelector(":scope > .screen-header")?.toggleAttribute("inert", open);
+	screen?.querySelector(":scope > .screen-main-container")?.toggleAttribute("inert", open);
+	if (open && ChatAdminData) ChatAdminApplyBackground(ChatAdminData.Background);
 }
 
 /**
@@ -755,7 +903,6 @@ function ChatEditorAdminSettingsImport(settings) {
 	ElementValue(ChatAdminID.banListInput, settings.Ban.join(","));
 
 	ChatAdminData.Language = settings.Language;
-	ChatAdminData.Background = settings.Background;
 	ChatAdminData.Limit = settings.Limit;
 	ChatAdminData.BlockCategory = settings.BlockCategory;
 	ChatAdminData.Game = settings.Game;
@@ -764,6 +911,7 @@ function ChatEditorAdminSettingsImport(settings) {
 	ChatAdminData.Visibility = settings.Visibility;
 	ChatAdminData.Access = settings.Access;
 	ElementValue(ChatAdminID.language, settings.Language);
+	ChatAdminApplyBackground(settings.Background);
 	ElementValue(ChatAdminID.game, settings.Game);
 	ElementValue(ChatAdminID.map, settings.MapData.Type);
 	ElementValue(ChatAdminID.visibility, ChatAdminModeKey(ChatRoomVisibilityMode, settings.Visibility));

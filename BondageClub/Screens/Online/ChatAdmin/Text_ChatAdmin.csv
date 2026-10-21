@@ -52,7 +52,9 @@ ResponseInvalidRoomData,Invalid chat room data detected
 ResponseChatRoomCreated,"Room created, joining it..."
 BlockCategory,Block Categories
 RoomCustomization,Customization
-ReturnMenu,(Click anywhere to return)
+ReturnMenu,Click anywhere to exit
+BackgroundPrevious,Previous background
+BackgroundNext,Next background
 MapModeHeader,Map
 MapNever,Don't use maps
 MapNeverTooltip,Never use the map exploration
