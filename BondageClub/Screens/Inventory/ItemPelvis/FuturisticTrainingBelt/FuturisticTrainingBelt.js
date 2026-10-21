@@ -527,7 +527,7 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptUpdatePlayer(data, drawData
  * Handles the vibrator state machine for the belt
  * @param {VibratingItemData} data
  * @param {DynamicScriptCallbackData<FuturisticTrainingBeltPersistentData>} drawData
- * @returns
+ * @returns {void}
  */
 function AssetsItemPelvisFuturisticTrainingBeltScriptStateMachine(data, drawData) {
 

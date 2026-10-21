@@ -847,8 +847,8 @@ function StruggleLoosenDraw(C) {
 
 /**
  * Loosen minigame main setup.
-* @returns {void} - Nothing
-*/
+ * @returns {void} - Nothing
+ */
 function StruggleLoosenSetup() {
 	StruggleProgressCurrentMinigame = "Loosen";
 	StruggleLoosenAngle = 0; // Starting angle for the circle

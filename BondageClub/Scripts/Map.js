@@ -214,7 +214,7 @@ var MapManager = (function () {
 		/**
 		 *
 		 * @param {ServerChatRoomMapData} data
-		 * @return {MapData | undefined}
+		 * @returns {MapData | undefined}
 		 */
 		static load(data) {
 			const length = ChatRoomMapViewWidth * ChatRoomMapViewHeight;
@@ -652,7 +652,7 @@ var MapManager = (function () {
 				let readLen = 0;
 
 				/**
-				 * @type ChatRoomMapEffect[][]
+				 * @type {ChatRoomMapEffect[][]}
 				 */
 				let res = [];
 				/**
@@ -984,7 +984,7 @@ var MapManager = (function () {
 		/**
 		 * @param {number} n
 		 * @param {number} flag
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		hasFlag(n, flag) {
 			return (n & flag) === flag;
@@ -993,7 +993,7 @@ var MapManager = (function () {
 		/**
 		 * @param {number} n
 		 * @param {number} flag
-		 * @return {number}
+		 * @returns {number}
 		 */
 		setFlag(n, flag) {
 			return n | flag;
@@ -1002,7 +1002,7 @@ var MapManager = (function () {
 		/**
 		 * @param {number} n
 		 * @param {number} flag
-		 * @return {number}
+		 * @returns {number}
 		 */
 		clearFlag(n, flag) {
 			return n & ~flag;
@@ -1010,7 +1010,7 @@ var MapManager = (function () {
 
 		/**
 		 * Returns a number with all valid dirty flags enabled.
-		 * @return {number}
+		 * @returns {number}
 		 */
 		all() {
 			return DirtyFlags.EFFECTS | DirtyFlags.OBJECTS | DirtyFlags.TILES | DirtyFlags.OBJECT_CONFIGS;
@@ -1037,14 +1037,6 @@ var MapManager = (function () {
 		}
 
 		/**
-		 * Internal type to carry around the tile X,Y into index unpacking
-		 * @template {readonly [number, ...unknown[]]} T
-		 * @typedef {T extends readonly [number, infer Y, ...infer Rest]
-		 *   ? Y extends number ? [number, ...Rest] : T
-		 *   : T} UnpackedIndex
-		 */
-
-		/**
 		 * Turns either `(index, ...args)` or `(x, y, ...args)` forms into `[index, ...args]`.
 		 * The second value is Y when it is a number; otherwise the first value is already an index.
 		 * @template {readonly [number, ...unknown[]]} T
@@ -1065,17 +1057,17 @@ var MapManager = (function () {
 		 * Get the tile ID at the given coordinates
 		 * @overload
 		 * @param {number} index
-		 * @return {number | null}
+		 * @returns {number | null}
 		 */
 		/**
 		 * @overload
 		 * @param {number} x
 		 * @param {number} y
-		 * @return {number | null}
+		 * @returns {number | null}
 		 */
 		/**
 		 * @param {[x: number, y: number] | [index: number]} args
-		 * @return {number | null}
+		 * @returns {number | null}
 		 */
 		getTileId(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -1088,17 +1080,17 @@ var MapManager = (function () {
 		 * Get the tile at the given coordinates
 		 * @overload
 		 * @param {number} index
-		 * @return {ChatRoomMapTile | null}
+		 * @returns {ChatRoomMapTile | null}
 		 */
 		/**
 		 * @overload
 		 * @param {number} x
 		 * @param {number} y
-		 * @return {ChatRoomMapTile | null}
+		 * @returns {ChatRoomMapTile | null}
 		 */
 		/**
 		 * @param {[x: number, y: number] | [index: number]} args
-		 * @return {ChatRoomMapTile | null}
+		 * @returns {ChatRoomMapTile | null}
 		 */
 		getTile(...args) {
 			const [index] = this.unpackIndex(...args);
@@ -1112,7 +1104,7 @@ var MapManager = (function () {
 		 * @param {number} index
 		 * @param {ChatRoomMapTile | null} tile
 		 * @param {number} [range=0]
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		/**
 		 * @overload
@@ -1120,12 +1112,12 @@ var MapManager = (function () {
 		 * @param {number} y
 		 * @param {ChatRoomMapTile | null} tile
 		 * @param {number} [range=0]
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		/**
 		 * @template {[index: number, tile: ChatRoomMapTile | null, range?: number] | [x: number, y: number, tile: ChatRoomMapTile | null, range?: number]} T
 		 * @param {T} args
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		setTile(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -1169,19 +1161,19 @@ var MapManager = (function () {
 		 * @overload
 		 * @param {number} index
 		 * @param {ChatRoomMapTile | null} tile
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		/**
 		 * @overload
 		 * @param {number} x
 		 * @param {number} y
 		 * @param {ChatRoomMapTile | null} tile
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		/**
 		 * @template {[index: number, tile: ChatRoomMapTile | null, range?: number] | [x: number, y: number, tile: ChatRoomMapTile | null]} T
 		 * @param {T} args
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		canSetTile(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -1199,7 +1191,7 @@ var MapManager = (function () {
 		/**
 		 * @param {ChatRoomMapTile} tile
 		 * @param {MapManager.UndoGroup} [undo]
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		#clearUniqueTile(tile, undo) {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -1235,17 +1227,17 @@ var MapManager = (function () {
 		 * Get the object ID at the given coordinates
 		 * @overload
 		 * @param {number} index
-		 * @return {number | null}
+		 * @returns {number | null}
 		 */
 		/**
 		 * @overload
 		 * @param {number} x
 		 * @param {number} y
-		 * @return {number | null}
+		 * @returns {number | null}
 		 */
 		/**
 		 * @param {[x: number, y: number] | [index: number]} args
-		 * @return {number | null}
+		 * @returns {number | null}
 		 */
 		getObjectId(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -1258,17 +1250,17 @@ var MapManager = (function () {
 		 * Get the object at the given coordinates
 		 * @overload
 		 * @param {number} index
-		 * @return {ChatRoomMapObject | null}
+		 * @returns {ChatRoomMapObject | null}
 		 */
 		/**
 		 * @overload
 		 * @param {number} x
 		 * @param {number} y
-		 * @return {ChatRoomMapObject | null}
+		 * @returns {ChatRoomMapObject | null}
 		 */
 		/**
 		 * @param {[x: number, y: number] | [index: number]} args
-		 * @return {ChatRoomMapObject | null}
+		 * @returns {ChatRoomMapObject | null}
 		 */
 		getObject(...args) {
 			const [index] = this.unpackIndex(...args);
@@ -1282,7 +1274,7 @@ var MapManager = (function () {
 		 * @param {number} index
 		 * @param {ChatRoomMapObject | null} object
 		 * @param {number} [range]
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		/**
 		 * @overload
@@ -1290,12 +1282,12 @@ var MapManager = (function () {
 		 * @param {number} y
 		 * @param {ChatRoomMapObject | null} object
 		 * @param {number} [range]
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		/**
 		 * @template {[index: number, tile: ChatRoomMapObject | null, range?: number] | [x: number, y: number, tile: ChatRoomMapObject | null, range?: number]} T
 		 * @param {T} args
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		setObject(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -1376,19 +1368,19 @@ var MapManager = (function () {
 		 * @overload
 		 * @param {number} index
 		 * @param {ChatRoomMapObject | null} object
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		/**
 		 * @overload
 		 * @param {number} x
 		 * @param {number} y
 		 * @param {ChatRoomMapObject | null} object
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		/**
 		 * @template {[index: number, tile: ChatRoomMapObject | null, range?: number] | [x: number, y: number, tile: ChatRoomMapObject | null]} T
 		 * @param {T} args
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		canSetObject(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -1513,7 +1505,7 @@ var MapManager = (function () {
 		 *
 		 * @param {ChatRoomMapObject} object
 		 * @param {MapManager.UndoGroup} [undo]
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		#clearUniqueObject(object, undo) {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -1546,17 +1538,17 @@ var MapManager = (function () {
 		 * Gets the config for an object at the given coordinates.
 		 * @overload
 		 * @param {number} index
-		 * @return {ChatRoomMapObjectConfig | null}
+		 * @returns {ChatRoomMapObjectConfig | null}
 		 */
 		/**
 		 * @overload
 		 * @param {number} x
 		 * @param {number} y
-		 * @return {ChatRoomMapObjectConfig | null}
+		 * @returns {ChatRoomMapObjectConfig | null}
 		 */
 		/**
 		 * @param {[x: number, y: number] | [index: number]} args
-		 * @return {ChatRoomMapObjectConfig | null}
+		 * @returns {ChatRoomMapObjectConfig | null}
 		 */
 		getObjectConfig(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -1614,17 +1606,17 @@ var MapManager = (function () {
 		 * Get the current active effects array at a given coordinates.
 		 * @overload
 		 * @param {number} index
-		 * @return {ChatRoomMapEffect[]}
+		 * @returns {ChatRoomMapEffect[]}
 		 */
 		/**
 		 * @overload
 		 * @param {number} x
 		 * @param {number} y
-		 * @return {ChatRoomMapEffect[]}
+		 * @returns {ChatRoomMapEffect[]}
 		 */
 		/**
 		 * @param {[x: number, y: number] | [index: number]} args
-		 * @return {ChatRoomMapEffect[]}
+		 * @returns {ChatRoomMapEffect[]}
 		 */
 		getEffects(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -1660,7 +1652,7 @@ var MapManager = (function () {
 		 * @param {number} index
 		 * @param {ChatRoomMapEffect} effect
 		 * @param {number} [range]
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		/**
 		 * @overload
@@ -1668,12 +1660,12 @@ var MapManager = (function () {
 		 * @param {number} y
 		 * @param {ChatRoomMapEffect} effect
 		 * @param {number} [range]
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		/**
 		 * @template {[index: number, effect: ChatRoomMapEffect, range?: number] | [x: number, y: number, effect: ChatRoomMapEffect, range?: number]} T
 		 * @param {T} args
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		addEffect(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -1693,7 +1685,7 @@ var MapManager = (function () {
 		 * @param {number} index
 		 * @param {ChatRoomMapEffect[]} effects
 		 * @param {number} [range]
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		/**
 		 * @overload
@@ -1701,12 +1693,12 @@ var MapManager = (function () {
 		 * @param {number} y
 		 * @param {ChatRoomMapEffect[]} effects
 		 * @param {number} [range]
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		/**
 		 * @template {[index: number, effects: ChatRoomMapEffect[], range?: number] | [x: number, y: number, effects: ChatRoomMapEffect[], range?: number]} T
 		 * @param {T} args
-		 * @return {boolean}
+		 * @returns {boolean}
 		 */
 		setEffects(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -1782,7 +1774,7 @@ var MapManager = (function () {
 		 * Returns the effects list for each tile in the map, one array element per tile.
 		 * Currently for efficiency does not copy the underlying array.
 		 * The users must not modify the returned array directly.
-		 * @return {ChatRoomMapEffect[][]}
+		 * @returns {ChatRoomMapEffect[][]}
 		 */
 		getAllEffects() {
 			if (!this.#_mapData) throw Error("No map loaded");
@@ -2180,7 +2172,7 @@ var MapManager = (function () {
 		 *
 		 * This function is not supposed to fail; if it indicates an error by returning `false`,
 		 * this means we have a bug in our code.
-		 * @return {boolean} `true` if we successfully encoded the map data; `false` if
+		 * @returns {boolean} `true` if we successfully encoded the map data; `false` if
 		 * there was an error and the global state remains unchanged.
 		 */
 		updateGlobalMapData() {
@@ -2197,7 +2189,7 @@ var MapManager = (function () {
 		 * Loads the data from {@link ChatRoomData.MapData} and replaces the current map data with the one
 		 * stored in it.
 		 * @param {ServerChatRoomMapData | undefined} data
-		 * @return {boolean} `true` if the global map data was parsed successfully.
+		 * @returns {boolean} `true` if the global map data was parsed successfully.
 		 * `false` if the global map data is invalid; no data is changed in this case.
 		 */
 		loadGlobalMapData(data) {
@@ -2216,7 +2208,7 @@ var MapManager = (function () {
 
 		/**
 		 * @param {() => void} cb
-		 * @return {MapManager.UndoGroup}
+		 * @returns {MapManager.UndoGroup}
 		 */
 		#registerUndo(cb) {
 			const group = {
@@ -2379,7 +2371,7 @@ function MapGetAssetUrl(doodadType, type, style) {
 /**
  * Get the asset URL for a given doodad.
  * @param {ChatRoomMapDoodad} doodad
- * @return {string | undefined}
+ * @returns {string | undefined}
  */
 function MapGetDoodadAssetUrl(doodad) {
 	/** @type {MapDataDoodadType} */
@@ -2483,7 +2475,7 @@ function MapForEachIndexInRange(index, range, cb) {
  * @template {MapDataDoodadType} T
  * @param {T} type
  * @param {number} id
- * @return {MapDataLookupTable[T] | null}
+ * @returns {MapDataLookupTable[T] | null}
  */
 function MapGetDoodad(type, id) {
 	switch (type) {

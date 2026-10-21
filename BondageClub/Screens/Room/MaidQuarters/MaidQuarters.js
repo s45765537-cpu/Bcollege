@@ -267,7 +267,7 @@ async function MaidQuartersLoad() {
 /**
  * Create the greeting Maid.
  *
- * @param {boolean} [newMaid=false] Swap in a new maid
+ * @param {boolean} [newMaid] Swap in a new maid
  */
 function MaidQuartersGetMaid(newMaid = false) {
 	let state;

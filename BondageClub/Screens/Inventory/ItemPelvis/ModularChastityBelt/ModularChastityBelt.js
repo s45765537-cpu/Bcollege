@@ -153,7 +153,7 @@ function InventoryItemPelvisModularChastityBeltExitHook(data, originalFunction) 
 
 /**
  * @type {ExtendedItemScriptHookCallbacks.Click<ModularItemData>}
-*/
+ */
 function InventoryItemPelvisModularChastityBeltClickHook(data, OriginalFunction) {
 	const C = CharacterGetCurrent();
 	const item = DialogFocusItem;
@@ -219,7 +219,7 @@ function InventoryItemPelvisModularChastityBeltClickVoiceControl(C, item, _offse
 /**
  * @param {Character} C
  * @param {Item} item
- * @returns
+ * @returns {void}
  */
 function InventoryItemPelvisModularChastityBeltVoicePrevious(C, item) {
 	InventoryItemVulvaFuturisticVibratorSetAccessMode(C, item, InventoryItemVulvaFuturisticVibratorPreviousAccessMode(item.Property?.AccessMode ?? ""));
@@ -228,7 +228,7 @@ function InventoryItemPelvisModularChastityBeltVoicePrevious(C, item) {
 /**
  * @param {Character} C
  * @param {Item} item
- * @returns
+ * @returns {void}
  */
 function InventoryItemPelvisModularChastityBeltVoiceNext(C, item) {
 	InventoryItemVulvaFuturisticVibratorSetAccessMode(C, item, InventoryItemVulvaFuturisticVibratorNextAccessMode(item.Property?.AccessMode ?? ""));

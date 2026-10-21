@@ -138,7 +138,7 @@ const VibratorModesAdvanced = VibratorModeOptions[VibratorModeSet.ADVANCED].map(
 
 /**
  * A lookup for the vibrator configurations for each registered vibrator item
- * @const
+ * @constant
  * @type {Record<string, VibratingItemData>}
  */
 const VibratorModeDataLookup = {};
@@ -238,7 +238,7 @@ function VibratorModeSetAdvancedProperties(item, mode, options=null) {
  * @param {readonly VibratorModeSet[]} modeSet - The vibrator mode sets for the item
  * @param {ExtendedItemConfigDrawData<{ drawImage?: false }> | undefined} drawData - The to-be parsed draw data
  * @param {number} y - The y-coordinate at which to start drawing the controls
- * @return {ExtendedItemDrawData<ElementMetaData.Vibrating>} - The parsed draw data
+ * @returns {ExtendedItemDrawData<ElementMetaData.Vibrating>} - The parsed draw data
  */
 function VibratorModeGetDrawData(modeSet, drawData, y=450) {
 	/** @type {ElementData<ElementMetaData.Vibrating>[]} */
@@ -789,8 +789,8 @@ function VibratorModePublish(data, C, item, oldIntensity, newIntensity) {
 /**
  * Initialize the vibrating item properties
  * @param {VibratingItemData} data
- * @param {Item} item - The item in question
  * @param {Character} C - The character that has the item equiped
+ * @param {Item} item - The item in question
  * @param {boolean} push - Whether to push to changes to the server
  * @param {boolean} refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {boolean} Whether properties were initialized or not

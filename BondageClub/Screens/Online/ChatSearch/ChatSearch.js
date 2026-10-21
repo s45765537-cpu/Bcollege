@@ -986,7 +986,7 @@ function ChatSearchKeyDownListener(event) {
 /**
  * Handles exiting from the chat search screen, removes the input.
  * @type {ScreenExitHandler & { closeSubElements?: boolean }}
- * @param {boolean} [exitScreen=false] - Whether to exit the screen or just menus within
+ * @param {boolean} [exitScreen] - Whether to exit the screen or just menus within
  */
 function ChatSearchExit(exitScreen = false) {
 	const interupt = ChatSearchBack();
@@ -1180,7 +1180,7 @@ function ChatSearchGridUpdate(rooms) {
 /**
  * Handle clicks on room buttons
  * @param {ChatRoomSearchResult} room
- * @returns
+ * @returns {boolean}
  */
 function ChatSearchClickRoom(room) {
 	if (ChatSearchMode == "Filter") {
@@ -1192,12 +1192,18 @@ function ChatSearchClickRoom(room) {
 		if (roomIdx >= 0) ChatSearchResult.splice(roomIdx, 1);
 		const roomElem = document.getElementById(`chat-search-room-join-button-${room.Order}`);
 		roomElem?.setAttribute("data-temporary-hidden", "true");
-		if (ChatSearchGhostPlayerOnClickActive) return ChatRoomListUpdate(Player.GhostList, true, room.CreatorMemberNumber);
+		if (ChatSearchGhostPlayerOnClickActive) {
+			ChatRoomListUpdate(Player.GhostList, true, room.CreatorMemberNumber);
+			return true;
+		}
 
 		ChatSearchTempHiddenRooms.push(room.CreatorMemberNumber);
+		return true;
 	} else if (ChatSearchMode === "") {
 		ChatSearchJoin(room.Name);
+		return true;
 	}
+	return false;
 }
 
 /**
@@ -1680,6 +1686,7 @@ function ChatSearchToggleHiddenMode() {
  *
  * @param {ChatRoomSearchResult | number} C - Index of the room within ChatSearchHiddenResult
  * @param {boolean} Confirmed - False when clicking on room list, true when clicking Confirm button
+ * @returns {boolean}
  */
 function ChatSearchClickUnhideRoom(C, Confirmed) {
 	/** @type {ChatRoomSearchResult} */
@@ -1710,7 +1717,7 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 	if (!Confirmed) {
 		const MemberLabel = ChatSearchMuffle(Room.Creator) + " (" + Room.CreatorMemberNumber + ")";
 		ChatSearchCreateFilterUnhideConfirm(ChatSearchMuffle(Room.DisplayName) + " - " + MemberLabel, MemberLabel, RemoveTerms.join(','), Room);
-		return;
+		return true;
 	}
 
 	if (ReasonsHasWord) {
@@ -1735,6 +1742,7 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 	ChatSearchHiddenResult.splice(roomIdx, 1);
 	const roomElem = document.getElementById(`chat-search-room-join-button-${Room.Order}`);
 	roomElem?.setAttribute("data-temporary-hidden", "false");
+	return true;
 }
 
 /**

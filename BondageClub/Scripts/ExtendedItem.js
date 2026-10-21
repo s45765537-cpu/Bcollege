@@ -116,13 +116,14 @@ const ExtendedXYClothesWithoutImages = [
 	[[1140, 400], [1385, 400], [1630, 400], [1140, 525], [1385, 525], [1630, 525]], //6 options per page
 ];
 
+// eslint-disable-next-line jsdoc/require-param
 /** Memoization of the requirements check */
 const ExtendedItemRequirementCheckMessageMemo = CommonMemoize(ExtendedItemRequirementCheckMessage, [
 	(data) => data ? data.Archetype : "",
 	(character) => character.ID.toString(),
 	(item) => `${item.Asset.Group.Name}${item.Asset.Name}`,
 	(option) => option.Name,
-	(option) => option.Name,
+	(currentOption) => currentOption.Name,
 ]);
 
 /**
@@ -139,9 +140,10 @@ var ExtendedItemPermissionMode = false;
 var ExtendedItemSubscreen = null;
 
 /**
- * @template {any[]} T
+ * @template {object[]} T
  * @template RT
- * @param {ExtendedItemData<any>} data
+ * @template {ExtendedItemOption} Option
+ * @param {ExtendedItemData<Option>} data
  * @param {string} name
  * @param {null | ExtendedItemCallback<T, RT>} originalFunction
  */
@@ -149,7 +151,7 @@ function ExtendedItemCreateCallback(data, name, originalFunction) {
 	const suffix = CommonCapitalize(name);
 	const prefix = ["afterDraw", "beforeDraw", "scriptDraw"].includes(name) ? data.dynamicAssetsFunctionPrefix : data.functionPrefix;
 	const funcName = `${prefix}${suffix}`;
-	const scriptHook = /** @type {ExtendedItemScriptHookCallback<any, T, RT>} */(data.scriptHooks[name]);
+	const scriptHook = /** @type {ExtendedItemScriptHookCallback<ExtendedItemData<Option>, T, RT>} */(data.scriptHooks[name]);
 	if (scriptHook != null) {
 		/** @type {ExtendedItemCallback<T, RT>} */
 		globalThis[funcName] = (...args) => scriptHook(data, originalFunction, ...args);
@@ -185,7 +187,7 @@ function ExtendedItemCreateCallbacks(data, defaults) {
 		console.error(`Found ${extraKeys.length} non-existent script hooks in the passed ${data.asset.Name} extended item data`);
 	}
 
-	ExtendedItemCreate.forEach(k => ExtendedItemCreateCallback(data, k, /** @type {ExtendedItemCallback<any[], any>} */(defaults[k])));
+	ExtendedItemCreate.forEach(k => ExtendedItemCreateCallback(data, k, /** @type {ExtendedItemCallback<T[], never>} */(defaults[k])));
 	for (const name of dynamicDrawNames) {
 		if (data.scriptHooks[name] || defaults[name]) {
 			const asset = /** @type {Mutable<Asset>} */(data.asset);
@@ -196,8 +198,8 @@ function ExtendedItemCreateCallbacks(data, defaults) {
 
 /**
  * Convert that passed extended item config script hooks into their item data counterpart.
- * @template {ExtendedItemData<any>} DataType
  * @template {ExtendedItemOption} OptionType
+ * @template {ExtendedItemData<OptionType>} DataType
  * @param {ExtendedItemCapsScriptHooksStruct<DataType, OptionType>} scriptHooks - The extended item config script hooks
  * @returns {ExtendedItemScriptHookStruct<DataType, OptionType>} - The extended item data script hooks
  */
@@ -219,8 +221,8 @@ function ExtendedItemParseScriptHooks(scriptHooks) {
 
 /**
  * Initialize the extended item properties
- * @param {Item} Item - The item in question
  * @param {Character} C - The character that has the item equiped
+ * @param {Item} Item - The item in question
  * @param {boolean} Push - Whether to push to changes to the server
  * @param {boolean} Refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {boolean} Whether properties were updated or not
@@ -261,8 +263,8 @@ function ExtendedItemInitSubscreen(option, item, C, push=false, refresh=false) {
 /**
  * Helper init function for extended items without an archetype.
  * Note that on the long term this function should ideally be removed in favor of adding appropriate archetypes.
- * @param {Item} Item - The item in question
  * @param {Character} C - The character that has the item equiped
+ * @param {Item} Item - The item in question
  * @param {ItemProperties} Properties - A record that maps property keys to their default value.
  *        The type of each value is used for basic validation.
  * @param {boolean} Push - Whether to push to changes to the server
@@ -294,7 +296,8 @@ function ExtendedItemInitNoArch(C, Item, Properties, Push=true, Refresh=true) {
 
 /**
  * Loads the item's extended item menu
- * @param {ExtendedItemData<any>} data
+ * @template {ExtendedItemOption} Option
+ * @param {ExtendedItemData<Option>} data
  * @returns {void} Nothing
  */
 function ExtendedItemLoad(data) {
@@ -318,9 +321,9 @@ function ExtendedItemLoad(data) {
  * Draw a single button in the extended item type selection screen.
  * @param {ExtendedItemOption | ModularItemModule} Option - The new extended item option
  * @param {ExtendedItemOption} CurrentOption - The current extended item option
- * @param {ElementData<ElementMetaData>} buttonData - The X coordinate of the button
  * @param {string} DialogPrefix - The prefix to the dialog keys for the display strings describing each extended type.
  *     The full dialog key will be <Prefix><Option.Name>
+ * @param {ElementData<ElementMetaData>} buttonData - The X coordinate of the button
  * @param {Item} Item - The item in question; defaults to {@link DialogFocusItem}
  * @param {boolean | null} IsSelected - Whether the button is already selected or not. If `null` compute this value by checking if the item's current type matches `Option`.
  * @see {@link TypedItemDraw}
@@ -400,7 +403,8 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 
 /**
  * Determine the background color for the item option's button
- * @param {ExtendedItemData<any>} data - The extended item data
+ * @template {ExtendedItemOption} Option
+ * @param {ExtendedItemData<Option>} data - The extended item data
  * @param {Character} C - The character wearing the item
  * @param {ExtendedItemOption | ModularItemModule} Option - A type for the extended item
  * @param {ExtendedItemOption} CurrentOption - The currently selected option for the item
@@ -818,7 +822,7 @@ function ExtendedItemCustomDraw(Name, X, Y, imagePath=null, IsSelected=false, Ch
  * @param {number} x - The X coordinate of the checkbox
  * @param {number} y - The Y coordinate of the checkbox
  * @param {boolean} isChecked - Whether the checkbox is checked or not
- * @param {Object} options
+ * @param {object} options
  * @param {string} [options.text] - Label associated with the checkbox
  * @param {number} [options.width] - Width of the checkbox
  * @param {number} [options.height] - Height of the checkbox
@@ -856,6 +860,7 @@ function ExtendedItemDrawCheckbox(name, x, y, isChecked, options=null) {
  * @param {string} Name - The name of the button and its pseudo-type
  * @param {() => void} Callback - A callback to be executed whenever the button is clicked and all requirements are met
  * @param {boolean} Worn - `true` if the player is changing permissions for an item they're wearing
+ * @param {boolean} ChangeWhenLocked - `true` if the item can be modified while locked
  * @returns {boolean} `false` if the item's requirement check failed and `true` otherwise
  */
 function ExtendedItemCustomClick(Name, Callback, Worn=false, ChangeWhenLocked=true) {
@@ -1221,7 +1226,7 @@ function ExtendedItemManualRegister() {
  * @template {ElementMetaData} MetaData
  * @param {ExtendedItemConfigDrawData<Partial<MetaData>> | undefined} drawData - The to-be parsed draw data
  * @param {Pick<ExtendedItemDrawData<MetaData>, "elementData" | "itemsPerPage">} defaults - The default draw data
- * @return {ExtendedItemDrawData<MetaData>} - The parsed draw data
+ * @returns {ExtendedItemDrawData<MetaData>} - The parsed draw data
  */
 function ExtendedItemGetDrawData(drawData, defaults) {
 	if (!drawData) {
@@ -1408,7 +1413,7 @@ function ExtendedItemParseOptions(option, asset) {
  * @param {Character} C - The character in question
  * @param {AssetGroupName | Item} itemOrGroupName - The item or the item's group
  * @param {null | TypeRecord} typeRecord - The archetypical items type record. If `null` only apply `options.properties`
- * @param {Object} options
+ * @param {object} options
  * @param {boolean} [options.push] - Whether to push the item changes to the server
  * @param {Character} [options.C_Source] - The character updating the item (if any)
  * @param {boolean} [options.refresh] - Whether to refresh the character after setting the item properties
@@ -1570,7 +1575,8 @@ function ExtendedItemGetDrawingOptions(item) {
 const ExtendedItemTighten = {
 	/**
 	 * Draw function for tightening/loosening.
-	 * @param {ExtendedItemData<any>} data The extended item data
+	 * @template {ExtendedItemOption} Option
+	 * @param {ExtendedItemData<Option>} data The extended item data
 	 * @param {Item} item The item in question
 	 * @param {RectTuple} buttonCoords A 4-tuple with the buttons coordinates
 	 */

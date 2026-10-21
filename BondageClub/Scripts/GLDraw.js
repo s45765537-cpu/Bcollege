@@ -464,7 +464,7 @@ function GLDrawCreateProgram(gl, vertexShader, fragmentShader) {
  * @param {number} dstX - Position of the image on the X axis
  * @param {number} dstY - Position of the image on the Y axis
  * @param {DrawOptions} [options] - Drawing options
- * @param {number} [offsetX=0] - Additional offset to add to the X axis (for blinking)
+ * @param {number} [offsetX] - Additional offset to add to the X axis (for blinking)
  * @returns {void} - Nothing
  */
 function GLDrawImage(source, gl, dstX, dstY, options, offsetX = 0) {
@@ -720,7 +720,7 @@ function GLDrawLoadTransient(gl, source) {
  * @param {number} offsetX - The X offset at which the texture is to be drawn on the target canvas
  * @param {number} offsetY - The Y offset at which the texture is to be drawn on the target canvas
  * @param {readonly RectTuple[]} [alphaMasks] - A list of alpha masks to apply to the asset
- * @return {WebGLTexture} - The WebGL texture corresponding to the mask
+ * @returns {WebGLTexture} - The WebGL texture corresponding to the mask
  */
 function GLDrawLoadMask(gl, texWidth, texHeight, offsetX, offsetY, alphaMasks) {
 	alphaMasks = alphaMasks || [];
@@ -864,7 +864,7 @@ function GLDrawClearRect(gl, x, y, width, height, blinkOffset) {
  * Converts a hex color to a RGBA color
  * @param {string | null | undefined} color - Hex color code to convert to RGBA
  * @param {number} alpha - The alpha value to use for the resulting RGBA
- * @return {number[]} - Converted color code
+ * @returns {number[]} - Converted color code
  */
 function GLDrawHexToRGBA(color, alpha = 1) {
 	const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;

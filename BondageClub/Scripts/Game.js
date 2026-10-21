@@ -105,9 +105,9 @@ const GameReadyState = {
 		CommonPromiseCatch(GameStart().then(resolve));
 	})),
 	/**
-	 * @private
 	 * Promise that resolves upon succesfully logging in.
 	 * Should not be called directly; use {@link ServerIsLoggedInAsync} instead.
+	 * @private
 	 * @type {undefined | Promise<void>}
 	 */
 	login: undefined,
@@ -332,6 +332,7 @@ function GameMouseWheel(event) {
 /**
  * If the user moves the mouse mouse, we keep the mouse position for other scripts and fire the mousemove event for other screens
  * @param {PointerEvent} event
+ * @param {boolean} forwardToScreens
  */
 function GamePointerMove(event, forwardToScreens = true) {
 	MouseX = Math.round((event.clientX - MainCanvas.canvas.offsetLeft) * 2000 / MainCanvas.canvas.clientWidth);

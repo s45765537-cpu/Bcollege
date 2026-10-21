@@ -1000,7 +1000,7 @@ function KDGroupBlocked(Group, External) {
 /**
  * @param {string} Group
  * @param {boolean} External
- * @return {item[]}
+ * @returns {item[]}
  * Gets a list of restraints blocking this group */
 function KDGetBlockingRestraints(Group, External) {
 	// Create the storage system
@@ -1050,7 +1050,7 @@ function KDGetBlockingRestraints(Group, External) {
 /**
  * @param {string} Group
  * @param {boolean} External
- * @return {item[]}
+ * @returns {item[]}
  * Gets a list of restraints with Security that block this */
 function KDGetBlockingSecurity(Group, External) {
 	let items = KDGetBlockingRestraints(Group, External);
@@ -1094,7 +1094,7 @@ function KinkyDungeonIsHandsBound(ApplyGhost, Other, Threshold = 0.99) {
 /**
  * Returns the total level of hands bondage, 1.0 or higher meaning unable to use hands
  * @param {boolean} Other - on other or self
- * @return  {number} - The bindhands level, sum of all bindhands properties of worn restraints
+ * @returns {number} - The bindhands level, sum of all bindhands properties of worn restraints
  */
 function KDHandBondageTotal(Other = false) {
 	let total = 0;

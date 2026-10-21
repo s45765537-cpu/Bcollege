@@ -320,7 +320,7 @@ function PreferenceKeyUp(event) {
 
 /**
  * @param {PreferenceSubscreenName} subscreenName
- * @returns
+ * @returns {HTMLDivElement}
  */
 function PreferenceSubscreenCreateSubscreen(subscreenName) {
 	const subscreenTitle = subscreenName === "Main" ? "Preferences" : `${subscreenName}Preferences`;

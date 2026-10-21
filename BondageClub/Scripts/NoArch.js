@@ -2,7 +2,7 @@
 
 /**
  * A lookup for the text item configurations for each registered text item
- * @const
+ * @constant
  * @type {Record<string, NoArchItemData>}
  * @see {@link NoArchItemData}
  */
@@ -41,7 +41,7 @@ function NoArchItemRegister(asset, config, parentOption=null) {
 /**
  * Parse the passed text item draw data as passed via the extended item config
  * @param {NoArchConfigDrawData | undefined} drawData - The to-be parsed draw data
- * @return {ExtendedItemDrawData<ElementMetaData.NoArch>} - The parsed draw data
+ * @returns {ExtendedItemDrawData<ElementMetaData.NoArch>} - The parsed draw data
  */
 function NoArchGetDrawData(drawData) {
 	if (drawData == null) {

@@ -610,7 +610,7 @@ function GamblingFoxController(FoxState) {
  * Roll a dice for Street To Roissy and add it to the given dice stack.
  * Replace the last dice on the stack if it was not progressing to Roissy.
  * @param {number[]} Stack - the array to add the new dice on
- * @return {number} - The value of the dice thrown
+ * @returns {number} - The value of the dice thrown
  */
 function GamblingStreetRoissyRollDice(Stack) {
 	let NewDice = Math.floor(Math.random() * 6) + 1;

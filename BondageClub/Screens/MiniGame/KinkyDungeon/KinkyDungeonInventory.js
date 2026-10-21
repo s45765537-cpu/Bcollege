@@ -160,7 +160,7 @@ function KinkyDungeonInventoryAddOutfit(Name) {
 /**
  *
  * @param item {item}
- * @return {string}
+ * @returns {string}
  */
 function KDInventoryType(item) {return item.type;}
 
@@ -209,7 +209,7 @@ function KinkyDungeonInventoryRemove(item) {
 /**
  *
  * @param Name
- * @return {null|item}
+ * @returns {null|item}
  */
 function KinkyDungeonInventoryGet(Name) {
 	for (let m of KinkyDungeonInventory.values()) {
@@ -221,7 +221,7 @@ function KinkyDungeonInventoryGet(Name) {
 /**
  *
  * @param Name
- * @return {null|item}
+ * @returns {null|item}
  */
 function KinkyDungeonInventoryGetLoose(Name) {
 	return KinkyDungeonInventory.get(LooseRestraint).get(Name);
@@ -230,7 +230,7 @@ function KinkyDungeonInventoryGetLoose(Name) {
 /**
  *
  * @param Name
- * @return {null|item}
+ * @returns {null|item}
  */
 function KinkyDungeonInventoryGetConsumable(Name) {
 	return KinkyDungeonInventory.get(Consumable).get(Name);
@@ -239,7 +239,7 @@ function KinkyDungeonInventoryGetConsumable(Name) {
 /**
  *
  * @param Name
- * @return {null|item}
+ * @returns {null|item}
  */
 function KinkyDungeonInventoryGetWeapon(Name) {
 	return KinkyDungeonInventory.get(Weapon).get(Name);
@@ -248,7 +248,7 @@ function KinkyDungeonInventoryGetWeapon(Name) {
 /**
  *
  * @param Name
- * @return {null|item}
+ * @returns {null|item}
  */
 function KinkyDungeonInventoryGetOutfit(Name) {
 	return KinkyDungeonInventory.get(Outfit).get(Name);
@@ -256,7 +256,7 @@ function KinkyDungeonInventoryGetOutfit(Name) {
 
 /**
  * Returns list
- * @return {item[]}
+ * @returns {item[]}
  */
 function KinkyDungeonAllRestraint() {
 	return KinkyDungeonInventory.get(Restraint) ? Array.from(KinkyDungeonInventory.get(Restraint).values()) : [];
@@ -265,7 +265,7 @@ function KinkyDungeonAllRestraint() {
 
 /**
  * Returns list of tuples of restraints, including dynamics and their hosts
- * @return {{item: item, host: item}[]}
+ * @returns {{item: item, host: item}[]}
  */
 function KinkyDungeonAllRestraintDynamic() {
 	let ret = [];
@@ -285,28 +285,28 @@ function KinkyDungeonAllRestraintDynamic() {
 
 /**
  * Returns list
- * @return {item[]}
+ * @returns {item[]}
  */
 function KinkyDungeonAllLooseRestraint() {
 	return KinkyDungeonInventory.get(LooseRestraint) ? Array.from(KinkyDungeonInventory.get(LooseRestraint).values()) : [];
 }
 /**
  * Returns list
- * @return {item[]}
+ * @returns {item[]}
  */
 function KinkyDungeonAllConsumable() {
 	return KinkyDungeonInventory.get(Consumable) ? Array.from(KinkyDungeonInventory.get(Consumable).values()) : [];
 }
 /**
  * Returns list
- * @return {item[]}
+ * @returns {item[]}
  */
 function KinkyDungeonAllOutfit() {
 	return KinkyDungeonInventory.get(Outfit) ? Array.from(KinkyDungeonInventory.get(Outfit).values()) : [];
 }
 /**
  * Returns list
- * @return {item[]}
+ * @returns {item[]}
  */
 function KinkyDungeonAllWeapon() {
 	return KinkyDungeonInventory.get(Weapon) ? Array.from(KinkyDungeonInventory.get(Weapon).values()) : [];

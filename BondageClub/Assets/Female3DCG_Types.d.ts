@@ -191,8 +191,8 @@ interface AssetCommonPropertiesGroupAssetLayer {
 	ParentGroup?: ParentGroup.Definition | "";
 
 	/**
-     * A record mapping pose names to the actually to-be drawn poses.
-     * Special values can be specified, via use of {@link PoseType}, for either hiding the asset or using pose-agnostic assets.
+	 * A record mapping pose names to the actually to-be drawn poses.
+	 * Special values can be specified, via use of {@link PoseType}, for either hiding the asset or using pose-agnostic assets.
 	 *
 	 * Poses that are absent from the mapping (or whose value is set to {@link PoseType.DEFAULT}) will use the default pose-agnostic path.
 	 */
@@ -324,7 +324,8 @@ interface AssetGroupDefinitionBase extends AssetCommonPropertiesGroupAsset, Asse
 	 */
 	MaxOpacity?: number;
 
-	/** Whether the group is considered underwear
+	/**
+	 * Whether the group is considered underwear
 	 *
 	 * This is used when stripping a character.
 	 *
@@ -696,8 +697,8 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	 * Whether an item can be tightened or not.
 	 *
 	 * Defaults to `false` unless one of the following two conditions are met:
-	 * * The item is considered a restraint (see {@link AssetDefinition.IsRestraint})
-	 * * The items difficulty is larger than zero (see {@link AssetDefinition.Difficulty})
+	 * - The item is considered a restraint (see {@link AssetDefinition.IsRestraint})
+	 * - The items difficulty is larger than zero (see {@link AssetDefinition.Difficulty})
 	 */
 	AllowTighten?: boolean;
 	DefaultColor?: ItemColor;
@@ -888,10 +889,12 @@ interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, Ass
 	/** Whether the layer uses an image. Defaults to true. */
 	HasImage?: boolean;
 
-	/** Set canvas globalCompositeOperation for current layer.
-	 *  Use "destination-in" if you want to use layer as an alpha mask.
-	 *  Note that game uses WebGL when available, so you might need to implement
-	 *  similar blending mode if it's not done already (currently in GLDrawImage() in GLDraw.js).
+	/**
+	 * Set canvas globalCompositeOperation for current layer.
+	 * Use "destination-in" if you want to use layer as an alpha mask.
+	 *
+	 * Note that game uses WebGL when available, so you might need to implement
+	 * similar blending mode if it's not done already (currently in GLDrawImage() in GLDraw.js).
 	 */
 	BlendingMode?: GlobalCompositeOperation;
 
@@ -1261,12 +1264,14 @@ type ModularItemChatSetting = "default" | "perModule";
 
 /** A (partially parsed) object describing a single module for a modular item. */
 interface ModularItemModuleConfig {
-	/** The name of this module - this is usually a human-readable string describing what the
+	/**
+	 * The name of this module - this is usually a human-readable string describing what the
 	 * module represents (e.g. Straps). It is used for display text keys, and should be unique across all of the modules
 	 * for the item.
 	 */
 	Name: string;
-	/** The unique key for this module - this is used as a prefix to designate option names. Each
+	/**
+	 * The unique key for this module - this is used as a prefix to designate option names. Each
 	 * options in the module will be named with the module's key, followed by the index of the option within the module's
 	 * Options array. Keys should be alphabetical only (a-z, A-Z)
 	 */

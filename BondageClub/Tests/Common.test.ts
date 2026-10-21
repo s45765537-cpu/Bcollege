@@ -640,7 +640,7 @@ fdescribe("CommonCycle", () => {
 		value = Game.CommonCycle(value, cycle, -1);
 		expect(value).toBe("A");
 	});
-})
+});
 
 describe("CommonObjectEqual", () => {
 	it("returns true for equal objects", () => {

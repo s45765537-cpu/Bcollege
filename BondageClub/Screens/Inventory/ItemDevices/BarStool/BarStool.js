@@ -1,6 +1,6 @@
 "use strict";
 
-/** @type {readonly AssetName[] | null} */
+/** @type {(readonly AssetName[]) | null} */
 let InventoryItemDevicesBarStoolDecalNames = null;
 
 /**

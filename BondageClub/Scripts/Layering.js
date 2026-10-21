@@ -104,7 +104,7 @@ var Layering = {
 
 	/**
 	 * Get or set whether the layering screen is readonly
-	 * @type {Boolean}
+	 * @type {boolean}
 	 */
 	get Readonly() {
 		return this._Readonly;
@@ -138,7 +138,7 @@ var Layering = {
 	 * Whether the layering screen is readonly or not
 	 * @private
 	 * @see {@link Layering.Readonly}
-	 * @type {Boolean}
+	 * @type {boolean}
 	 */
 	_Readonly: false,
 
@@ -217,8 +217,8 @@ var Layering = {
 	_ExitCallbacks: [],
 
 	/**
-	 * @private
 	 * Initialize the object-based variant of {@link AssetLayerOverridePriority}
+	 * @private
 	 */
 	_InitOverridePriorityObject() {
 		this.OverridePriority = {};
@@ -485,7 +485,7 @@ var Layering = {
 	 * @param {number} step
 	 * @param {number} defaultValue
 	 * @param {boolean} isShowingHiddenLayers
-	 * @param {Record<string, [min: number, max: number]>} [constraints={}]
+	 * @param {Record<string, [min: number, max: number]>} [constraints]
 	 * @returns {Element[]}
 	 */
 	_CreateTabContent(propType, properties, min, max, step, defaultValue, isShowingHiddenLayers, constraints = {}) {
@@ -558,7 +558,7 @@ var Layering = {
 			},
 			{ tag: /** @type {const} */("h2"), children: [InterfaceTextGet(`LayeringLayer${propType}`)] },
 			...this.Asset.Layer.map(layer => this._CreateLayerFieldset(layer, propType, properties, min, max, step, defaultValue, isShowingHiddenLayers, constraints))
-		].map(/** @type {any} */(ElementCreate));
+		].map(/** @type {never} */(ElementCreate));
 	},
 
 	/**
@@ -885,6 +885,7 @@ var Layering = {
 	 * @param {null | Partial<LayeringDisplay>} display - The shape of the layering subscreen
 	 * @param {boolean} reload - Whether we're loading or reloading the screen.
 	 * A reload pushes any current changes towards the server and reinitializes all DOM elements.
+	 * @param {boolean} readonly - Mark the subscreen as readonly.
 	 * @returns {Promise<HTMLDivElement>} The div containing the layering subscreen
 	 */
 	async Init(item, character, display=null, reload=false, readonly=false) {

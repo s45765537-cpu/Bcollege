@@ -336,12 +336,12 @@ function ManagementCannotBeClubSlaveLoverLock() { return InventoryCharacterHasLo
 function ManagementCannotBeClubSlaveFamilyLock() { return InventoryCharacterHasFamilyOnlyRestraint(Player); }
 /**
  * Checks if the player can complete her contract and is not kneeling
- * @returns  {boolean} - TRUE if both the Player can complete her contract but is not kneeling
+ * @returns {boolean} - TRUE if both the Player can complete her contract but is not kneeling
  */
 function ManagementCompleteContract() { return (!LogQuery("ClubSlave", "Management") && !Player.IsKneeling()); }
 /**
  * Checks if the player can complete her contract and is kneeling
- * @returns  {boolean} - TRUE if both the Player can complete her contract and is kneeling
+ * @returns {boolean} - TRUE if both the Player can complete her contract and is kneeling
  */
 function ManagementKneelingCompleteContract() { return (!LogQuery("ClubSlave", "Management") && Player.IsKneeling()); }
 /**

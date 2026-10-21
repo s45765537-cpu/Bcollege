@@ -171,7 +171,7 @@ var _ItemPropertiesR134Compression = false;
 /**
  * Copy and extract all {@link ItemBundle.Property} keys from the passed item, returning them in addition to all extended item options associated with the item's current state
  * @param {Item} item The item whose properties are to be extracted
- * @param {Object} [options]
+ * @param {object} [options]
  * @param {Iterable<keyof ItemProperties>} [options.omit] Properties that should always be omitted
  * @param {boolean} [options.allowLocks] Whether to return lock-specific options and properties if present
  * @returns {{ properties: Set<keyof ItemProperties>, extendedOptions: ExtendedItemOptionUnion[] }} The filtered item property names and the matching extended item options
@@ -238,7 +238,7 @@ function ItemPropertiesGetBundleProperties(item, options=undefined) {
 /**
  * Compress the passed item's properties in preparation for {@link ItemBundle} creation.
  * @param {Item} item The item whose properties are to be minimized
- * @param {Object} [options]
+ * @param {object} [options]
  * @param {Iterable<keyof ItemProperties>} [options.omit] Properties that should always be omitted
  * @param {boolean} [options.allowLocks] Whether to return lock-specific options and properties if present
  * @returns {ItemPropertiesMinimized | undefined} The minimized item properties
@@ -338,7 +338,7 @@ function ItemPropertiesDifference(propertyList, asset, output=undefined) {
 /**
  * @param {ItemProperties} properties
  * @param {Asset} asset The asset
- * @param {Object} [options]
+ * @param {object} [options]
  * @param {Character} [options.C] The character wearing/intended to wear the item
  * @returns {ItemProperty.ValidationMultiOutput}
  */
@@ -396,7 +396,7 @@ function ItemPropertiesValidate(properties, asset, options=undefined) {
  * @param {ItemProperties} properties1 The first property set
  * @param {ItemProperties} properties2 The second property set
  * @param {Asset} asset The asset
- * @param {Object} [options]
+ * @param {object} [options]
  * @param {boolean} [options.gatherNonEquivalancies] Whether to gather and return the names of all non-equivalent properties.
  * The returned set will always be empty otherwise. Defaults to `false`.
  * @param {boolean} [options.eqOrSubset] Whether to check whether the properties are either equivalent or form a (deep)
@@ -436,7 +436,7 @@ function ItemPropertiesCompare(properties1, properties2, asset, options=undefine
  * @param {ItemProperties} subProperties The (potential) property subset
  * @param {ItemProperties} superProperties The (potential) property superset
  * @param {Asset} asset The asset
- * @param {Object} [options]
+ * @param {object} [options]
  * @param {boolean} [options.gatherNonEquivalancies] Whether to gather and return the names of all non-equivalent properties.
  * The returned set will always be empty otherwise. Defaults to `false`.
  * @returns {{ result: boolean, nonEquivalencies: Set<keyof ItemProperties> }}
@@ -450,7 +450,7 @@ function ItemPropertiesIsSubset(subProperties, superProperties, asset, options=u
  * Copy and decompress the passed item budle properties in preparation for {@link Item} creation.
  * @param {Item} item The final item in which the properties will end up
  * @param {undefined | Readonly<ItemPropertiesMinimized>} properties The minimized item properties
- * @param {Object} [options]
+ * @param {object} [options]
  * @param {boolean} [options.initExtendedItem] Whether to re-initialize any extended item options (including locks)
  * @returns {ItemProperties} The maximized item properties
  */

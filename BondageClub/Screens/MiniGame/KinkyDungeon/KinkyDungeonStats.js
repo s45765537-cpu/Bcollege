@@ -1228,7 +1228,7 @@ function KinkyDungeonCalculateSlowLevel(delta) {
 /**
  * Returns the total level of gagging, 1.0 or higher meaning "fully gagged" and 0.0 being able to speak.
  * @param   {boolean} [AllowFlags] - Whether or not flags such as allowPotions and blockPotions should override the final result
- * @return  {number} - The gag level, sum of all gag properties of worn restraints
+ * @returns {number} - The gag level, sum of all gag properties of worn restraints
  */
 function KinkyDungeonGagTotal(AllowFlags) {
 	let total = 0;

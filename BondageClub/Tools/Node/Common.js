@@ -229,7 +229,7 @@ export function zip(lst1, lst2) {
 
 /**
  * Validate the passed command line arguments
- * @template {Record<string, any>} T
+ * @template {Record<string, unknown>} T
  * @param {import("minimist").ParsedArgs} argv The unparsed command line arguments
  * @param {Readonly<T>} template A record containing *all* allowed keys and their default values
  * @returns {T}

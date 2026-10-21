@@ -76,7 +76,7 @@ function PropertyOpacityInit({ asset }, originalFunction, C, item, push=true, re
  * @param {() => void} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
  * @param {ThumbIcon} thumbIcon The icon to use for the range input's "thumb" (handle).
  * @returns {HTMLInputElement} - The new or pre-existing range input element of the opacity slider
- * @satisfies {ExtendedItemScriptHookCallbacks.Load<any>}
+ * @satisfies {ExtendedItemScriptHookCallbacks.Load<ExtendedItemData<any>>}
  */
 function PropertyOpacityLoad({ asset, dialogPrefix }, OriginalFunction, thumbIcon="blindfold") {
 	OriginalFunction();
@@ -120,7 +120,7 @@ function PropertyOpacityLoad({ asset, dialogPrefix }, OriginalFunction, thumbIco
  * @param {number} YOffset - An offset for all text and slider Y coordinates
  * @param {TextKeysInterface} LabelKeyword - The keyword of the opacity label
  * @returns {void} Nothing
- * @satisfies {ExtendedItemScriptHookCallbacks.Draw<any>}
+ * @satisfies {ExtendedItemScriptHookCallbacks.Draw<ExtendedItemData<any>>}
  */
 function PropertyOpacityDraw(Data, OriginalFunction, XOffset=0, YOffset=0, LabelKeyword="OpacityLabel") {
 	OriginalFunction();
@@ -151,7 +151,7 @@ function PropertyOpacityDraw(Data, OriginalFunction, XOffset=0, YOffset=0, Label
  * @param {null | (() => void)} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
  * @param {boolean} Refresh - Whether character parameters and the respective item should be refreshed or not
  * @returns {boolean} Whether the opacity was updated or not
- * @satisfies {ExtendedItemScriptHookCallbacks.Exit<any>}
+ * @satisfies {ExtendedItemScriptHookCallbacks.Exit<ExtendedItemData<any>>}
  */
 function PropertyOpacityExit({ asset }, OriginalFunction, Refresh=true) {
 	if (OriginalFunction != null) {
@@ -573,7 +573,7 @@ class PropertyDataEntry {
 	 * @private
 	 * @type {Map<keyof ItemProperties, PropertyDataEntry<any>>}
 	 */
-	static _entries = new Map;
+	static _entries = new Map();
 
 	/**
 	 * @readonly
@@ -821,10 +821,10 @@ class PropertyDataEntry {
 	 * with the character code of each substring mapping to their layer-specific numeric entry per `charCodeCallback`.
 	 *
 	 * The utilized UTF16 character code ranges (_i.e._ `uint16`) are as following:
-	 * * `[0, 31]` reserved; ASCII control character range. The `0` code is used for padding
-	 * * `[32, 2**15 - 1]` positive number range
-	 * * `[2**15, 2**15 + 31]` reserved; mirroring the (offsetted) ASCII control character range
-	 * * `[2**15 + 32, 2**16 - 1]` negative number range; offset and represented by their absolute value
+	 * - `[0, 31]` reserved; ASCII control character range. The `0` code is used for padding
+	 * - `[32, 2**15 - 1]` positive number range
+	 * - `[2**15, 2**15 + 31]` reserved; mirroring the (offsetted) ASCII control character range
+	 * - `[2**15 + 32, 2**16 - 1]` negative number range; offset and represented by their absolute value
 	 *
 	 * Floating point values (defined per {@link PropertyDataEntry.metaData.stepSize}) are represented with a decimal resolution of 0.01,
 	 * _i.e._ multiplied by 100 and rounded to the nearest integer.
@@ -914,7 +914,7 @@ class PropertyDataEntry {
 
 	/**
 	 * Comparison function for set-like arrays
-	 * @satisfies {ItemProperty.Compare<any>}
+	 * @satisfies {ItemProperty.Compare<keyof ItemProperties>}
 	 * @template {string | boolean | number} T
 	 * @param {readonly T[]} value1
 	 * @param {readonly NoInfer<T>[]} value2
@@ -926,7 +926,7 @@ class PropertyDataEntry {
 
 	/**
 	 * Comparison function for simple objects with scalar values (numbers, strings, etc.)
-	 * @satisfies {ItemProperty.Union<any>}
+	 * @satisfies {ItemProperty.Union<keyof ItemProperties>}
 	 * @template {string | boolean | number} T
 	 * @param {readonly (readonly T[])[]} values
 	 * @returns {T[]}
@@ -936,7 +936,7 @@ class PropertyDataEntry {
 	}
 	/**
 	 * Comparison function for simple objects with scalar values (numbers, strings, etc.)
-	 * @satisfies {ItemProperty.Compare<any>}
+	 * @satisfies {ItemProperty.Compare<keyof ItemProperties>}
 	 * @template {Readonly<Record<string, undefined | null | string | boolean | number>>} T
 	 * @param {T} value1
 	 * @param {Readonly<Record<string, undefined | null | string | boolean | number>>} value2
@@ -948,7 +948,7 @@ class PropertyDataEntry {
 
 	/**
 	 * Comparison function for simple objects with scalar values (numbers, strings, etc.)
-	 * @satisfies {ItemProperty.Union<any>}
+	 * @satisfies {ItemProperty.Union<keyof ItemProperties>}
 	 * @template {Record<string, undefined | null | string | boolean | number>} T
 	 * @param {readonly Readonly<T>[]} values
 	 * @returns {T}

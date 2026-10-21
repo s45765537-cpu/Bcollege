@@ -22,7 +22,7 @@ function PrivateBedActive() {
 
 /**
  * Returns the number of girls in the private bedroom.
- * @returns {Number} - The number of girls.
+ * @returns {number} - The number of girls.
  */
 function PrivateBedCount() {
 	let Count = 1;

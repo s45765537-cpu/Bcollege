@@ -11,22 +11,22 @@
  * All dialogue for typed items should be added to `Dialog_Player.csv`. To implement a typed item, you need the
  * following dialogue entries (these dialogue keys can also be configured through the item's configuration if custom
  * dialogue keys are needed):
- *  * "<GroupName><AssetName>Select" - This is the text that will be displayed at the top of the extended item screen
+ *  - "<GroupName><AssetName>Select" - This is the text that will be displayed at the top of the extended item screen
  *    (usually a prompt for the player to select a type)
- *  * For each type:
- *    * "<GroupName><AssetName><TypeName>" - This is the display name for the given type
- *  * If the item's chat setting is configured to `TO_ONLY`, you will need a chatroom message for each type, which will
+ *  - For each type:
+ *    - "<GroupName><AssetName><TypeName>" - This is the display name for the given type
+ *  - If the item's chat setting is configured to `TO_ONLY`, you will need a chatroom message for each type, which will
  *    be sent when that type is selected. It should have the format "<GroupName><AssetName>Set<TypeName>" (e.g.
  *    "ItemArmsLatexBoxtieLeotardSetPolished" - "SourceCharacter polishes the latex of DestinationCharacter leotard
  *    until it's shiny")
- *  * If the item's chat setting is configured to `FROM_TO`, you will need a chatroom message for each possible type
+ *  - If the item's chat setting is configured to `FROM_TO`, you will need a chatroom message for each possible type
  *    pairing, which will be sent when the item's type changes from the first type to the second type. It should have
  *    the format "<GroupName><AssetName>Set<Type1>To<Type2>".
  */
 
 /**
  * A lookup for the typed item configurations for each registered typed item
- * @const
+ * @constant
  * @type {Record<string, TypedItemData>}
  * @see {@link TypedItemData}
  */
@@ -81,8 +81,8 @@ function TypedItemRegister(asset, config) {
 
 /**
  * Parse and pre-process the passed item options.
- * @param {Asset} asset - The item options asset
  * @param {readonly TypedItemOptionConfig[]} protoOptions - The unparsed extended item options
+ * @param {Asset} asset - The item options asset
  * @param {undefined | boolean} changeWhenLocked - See {@link TypedItemConfig.ChangeWhenLocked}
  * @param {string} screenName
  * @returns {TypedItemOption[]} The newly generated extended item options
@@ -116,7 +116,7 @@ function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked, screenName
  * @param {ExtendedItemConfigDrawData<Partial<ElementMetaData.Typed>> | undefined} drawData - The to-be parsed draw data
  * @param {readonly { Name: string }[]} options - The list of extended item options
  * @param {Partial<ElementMetaData.Typed>} overrideMetaData
- * @return {ExtendedItemDrawData<ElementMetaData.Typed>} - The parsed draw data
+ * @returns {ExtendedItemDrawData<ElementMetaData.Typed>} - The parsed draw data
  */
 function TypedItemGetDrawData(asset, drawData, options, overrideMetaData={}) {
 	let drawImage = true;
@@ -456,7 +456,7 @@ function TypedItemValidateOption(data, C, item, option, previousOption, permitEx
  * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
  * player) - defaults to false.
  * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
- * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
+ * @param {boolean} [refresh] Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
  * informing the player of the requirements that are not met.
  */
@@ -557,8 +557,8 @@ function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=nul
 /**
  * Initialize the typed item properties
  * @param {TypedItemData | VibratingItemData} Data - The item's extended item data
- * @param {Item} Item - The item in question
  * @param {Character} C - The character that has the item equiped
+ * @param {Item} Item - The item in question
  * @param {boolean} Push - Whether to push to changes to the server
  * @param {boolean} Refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @param {"Type" | "Mode"} field

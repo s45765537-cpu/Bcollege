@@ -844,7 +844,7 @@ function CommonDrawColorValid(Color, AssetGroup) {
  * Finds the correct pose to draw for drawable layer for the provided character from the provided list of allowed poses
  * @param {Character} C - The character to check for poses against
  * @param {Partial<Record<AssetPoseCategory, readonly AssetPoseName[]>>} AllowedPoses - The list of permitted poses for the current layer
- * @return {AssetPoseName | NullPoseType} - The name of the pose to draw for the layer, or an empty string if no pose should be drawn
+ * @returns {AssetPoseName | NullPoseType} - The name of the pose to draw for the layer, or an empty string if no pose should be drawn
  */
 function CommonDrawFindPose(C, AllowedPoses) {
 	for (const [category, poses] of CommonEntries(AllowedPoses)) {

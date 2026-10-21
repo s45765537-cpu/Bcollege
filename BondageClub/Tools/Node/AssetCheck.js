@@ -88,7 +88,7 @@ function testExtendedItemDialog(dataSuperRecord, dialogArray) {
 					missingDialog = testModularItemDialog(groupName, assetName, data, dialogSet);
 					break;
 				default:
-					throw new Error(`Unknown archetype "${/** @type {any} */(data).archetype}"`);
+					throw new Error(`Unknown archetype "${/** @type {{ archetype: string }} */(data).archetype}"`);
 			}
 
 			if (missingDialog.size !== 0) {
@@ -716,10 +716,10 @@ function setHas(set, value) {
  * A helper for {@link testAssetAndExtendedPropertyIsDisjoint} that performs a stricter check for `Effect` disjointment.
  * More specifically, this checks whether only a single effect (at most) of each of the following effect categories is present:
  *
- * * Gag level
- * * Blindness level
- * * Deafness level
- * * Blur level
+ * - Gag level
+ * - Blindness level
+ * - Deafness level
+ * - Blur level
  * @param {readonly ExtendedItemOption[]} options
  * @param {Asset} asset
  */
@@ -1190,7 +1190,7 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 			}
 
 			for (const iter of [colors, expressions, layerTypes]) {
-				if (Array.from(/** @type {Iterable<any>} */(iter)).length === 0) {
+				if (Array.from(/** @type {Iterable<unknown>} */(iter)).length === 0) {
 					error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Internal error; zero-length list encountered!`);
 				}
 			}
@@ -1338,9 +1338,9 @@ function testConsoleLog(logOutput) {
 
 /**
  * Test that appropriate callbacks exist for:
- * * {@link Asset.DynamicAfterDraw}
- * * {@link Asset.DynamicBeforeDraw}
- * * {@link Asset.DynamicScriptDraw}
+ * - {@link Asset.DynamicAfterDraw}
+ * - {@link Asset.DynamicBeforeDraw}
+ * - {@link Asset.DynamicScriptDraw}
  * @param {readonly Asset[]} assets
  * @param {Record<string, unknown>} window
  */
@@ -1391,17 +1391,18 @@ function testSelfBlock(assets, extendedDataRecords) {
 /**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
- * @param {any} input The to-be sanitized input
- * @returns {any} The sanitized output
+ * @template {object} T
+ * @param {T} input The to-be sanitized input
+ * @returns {T} The sanitized output
  */
 function sanitizeVMOutput(input) {
-	return JSON.parse(
+	return /** @type {T} */ (JSON.parse(
 		JSON.stringify(
 			input,
 			(key, value) => typeof value === "function" ? "__FUNCTION__" : value,
 		),
 		(key, value) => value === "__FUNCTION__" ? () => { return; } : value,
-	);
+	));
 }
 
 (function () {

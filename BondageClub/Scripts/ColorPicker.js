@@ -42,7 +42,7 @@ function ColorPickerGetCoordinates(Event) {
 
 /**
  * Hide the color picker from the canvas.
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
 function ColorPickerHide() {
 	ColorPickerUnload();
@@ -1379,7 +1379,7 @@ function ColorPickerUnload() {
 }
 
 /**
- * @param {boolean} [forceExit=false]
+ * @param {boolean} [forceExit]
  * @satisfies {ScreenExitHandler}
  */
 function ColorPickerExit(forceExit=false) {

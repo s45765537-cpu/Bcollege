@@ -795,7 +795,7 @@ function KDCreateEffectTileTile(x, y, tileGenerator, data) {
  * @param {number} h - Tile size
  * @param {Record<string, KDMapTile>} tilesFilled
  * @param {Record<string, boolean>} globalTags
- * @return {Record<string, boolean>}
+ * @returns {Record<string, boolean>}
  */
 function KDAggregateTileTags(x, y, w, h, tilesFilled, globalTags) {
 	/**

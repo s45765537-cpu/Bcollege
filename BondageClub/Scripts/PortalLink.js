@@ -37,7 +37,7 @@
  * Enabled when the `PortalLinkChastity${string}` attribute exists the reciever, and
  * allows the reciever's chastity state to be cycled;
  *
- * @note Right now only modular items are supported, and `${string}` in the attribute
+ * Right now only modular items are supported, and `${string}` in the attribute
  * is used to look up the module name ({@link ModularItemModuleConfig.Name}) to cycle
  * on the reciever.
  *
@@ -325,7 +325,7 @@ function PortalLinkSyncCodeInputDraw(reciever) {
  *
  * @param {Item} item
  * @param {boolean} receiver
- * @returns
+ * @returns {void}
  */
 function PortalLinkSyncCodeInputClick(item, receiver) {
 	if (receiver) {

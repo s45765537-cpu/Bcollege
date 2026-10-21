@@ -729,7 +729,7 @@ function WardrobeReorderModeSet(newMode = null) {
  * Set a wardrobe character name, sync it with server
  * @param {number} W - The number of the wardrobe slot to save
  * @param {string} Name - The name of the wardrobe slot
- * @param {boolean} [Push=false] -If set to true, the changes are pushed to the server
+ * @param {boolean} [Push] -If set to true, the changes are pushed to the server
  */
 function WardrobeSetCharacterName(W, Name, Push = false) {
 	Player.WardrobeCharacterNames[W] = Name;
@@ -760,7 +760,7 @@ function WardrobeAssetBundle(A) {
  * Load character appearance from wardrobe, only load clothes on others
  * @param {Character} C - The character the appearance should be loaded for
  * @param {number} W - The spot in the wardrobe the appearance should be loaded to
- * @param {boolean} [Update=false] - If set to true, the appearance will be updated to the server
+ * @param {boolean} [Update] - If set to true, the appearance will be updated to the server
  * @param {WardrobeFastLoadOptions} [Options]
  * @returns {void} - Nothing
  */
@@ -895,7 +895,7 @@ function WardrobeRefreshSlotCharacter(slot, source) {
  * Saves character appearance in player's wardrobe, use player's body as base for others
  * @param {Character} C - The character, whose appearance should be saved
  * @param {number} W - The spot in the wardrobe the current outfit should be saved to
- * @param {boolean} [Push=false] - If set to true, the wardrobe is saved on the server
+ * @param {boolean} [Push] - If set to true, the wardrobe is saved on the server
  * @returns {void} - Nothing
  */
 function WardrobeFastSave(C, W, Push = false) {
@@ -1024,7 +1024,7 @@ function WardrobeGetCanvasCacheEntry(canvasId) {
  * Draw a character onto a wardrobe DOM canvas, skipping the blit when nothing changed.
  * @param {string} canvasId
  * @param {Character} character
- * @param {number} [zoom=1]
+ * @param {number} [zoom]
  * @returns {void} - Nothing
  */
 function WardrobeDrawToCanvas(canvasId, character, zoom = 1) {
@@ -1609,6 +1609,7 @@ function WardrobeDeleteSelectedOutfit() {
 }
 
 /**
+ * @param {boolean} [push]
  * @returns {boolean}
  */
 function WardrobeRenameSelectedOutfit(push = false) {

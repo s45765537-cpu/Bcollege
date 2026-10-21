@@ -53,7 +53,7 @@ function AsylumGGTSCanQuit() {
 
 /**
  * Check that GGTS is enabled in the current room.
- * @returns true if GGTS is running, false otherwise.
+ * @returns {boolean} true if GGTS is running, false otherwise.
  */
 function AsylumGGTSIsEnabled() {
 	return ServerPlayerIsInChatRoom() && ChatSearchGetSpace() === "Asylum" && ChatRoomGetGame() === "GGTS";
@@ -91,6 +91,7 @@ function AsylumGGTSGetLevelTime(C) {
  * Returns the character's current level timer
  * @param {Character} C
  * @param {number} time
+ * @param {boolean} [push]
  */
 function AsylumGGTSSetLevelTime(C, time, push=true) {
 	if (!C || !C.IsPlayer() || !C.Game?.GGTS) return;
@@ -362,7 +363,7 @@ function AsylumGGTSSetTimer() {
  * Makes it easier to respond to GGTS queries on lower levels.
  * @param {number} Level - GGTS level
  * @param {string} Text - the text to sanitize
- * @return {string} - sanitized text
+ * @returns {string} - sanitized text
  */
 function AsylumGGTSSanitizeText(Level, Text) {
 	Text = Text.replace(/’/g, "'");
@@ -1049,7 +1050,7 @@ function AsylumGGTSNewTask() {
 
 /**
  * Saves the game progress after a task ended
- * @param {boolean} [Fail=false] - If the task was failed, we don't add bonus time
+ * @param {boolean} [Fail] - If the task was failed, we don't add bonus time
  * @returns {void} - Nothing
  */
 function AsylumGGTSEndTaskSave(Fail) {
@@ -1250,8 +1251,8 @@ function AsylumGGTSProcess() {
  * @param {Character} C - The character on which the activity is performed
  * @param {string} A - The name of the activity performed
  * @param {string} Z - The group/zone name where the activity was performed
- * @param {number} [Count=1] - If the activity is done repeatedly, this defines the number of times, the activity is done.
- * @return {void} - Nothing
+ * @param {number} [Count] - If the activity is done repeatedly, this defines the number of times, the activity is done.
+ * @returns {void} - Nothing
  */
 function AsylumGGTSActivity(S, C, A, Z, Count) {
 	if ((AsylumGGTSTask == null) || !AsylumGGTSTask.startsWith("Activity")) return;
@@ -1411,7 +1412,7 @@ function AsylumGGTSUngag() {
 /**
  * When an orgasm starts, we check if it breaks any GGTS rule
  * @param {Character} C - The character getting the orgasm
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
 function AsylumGGTSTOrgasm(C) {
 	if (!C || ChatSearchGetSpace() !== "Asylum" || ChatRoomGetGame() !== "GGTS") return;
@@ -1429,7 +1430,7 @@ function AsylumGGTSTOrgasm(C) {
  * Set the probability based on Willpower and ActivityOrgasmGameResistCount,
  * where higher Willpower decreases the probability and higher ActivityOrgasmGameResistCount increases it.
  * max chance = 0.9
- * @return {void} - TRUE if the character can change
+ * @returns {void} - TRUE if the character can change
  */
 function AsylumGGTSOrgasmResist() {
 	if (ChatSearchGetSpace() !== "Asylum" || ChatRoomGetGame() !== "GGTS") return;
@@ -1468,7 +1469,7 @@ async function AsylumGGTSLock(LockTime, Msg) {
 /**
  * Fully dress the character in a drone futuristic gear setup
  * @param {Character} [C] - The character to dress, if omitted, we use the player
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
 function AsylumGGTSDroneDress(C=Player) {
 	CharacterRelease(C, false);
@@ -1491,7 +1492,7 @@ function AsylumGGTSDroneDress(C=Player) {
 /**
  * GGTS will not allow the character to change if she's being punished or she reached level 6
  * @param {Character} C - The character to evaluate
- * @return {boolean} - TRUE if the character can change
+ * @returns {boolean} - TRUE if the character can change
  */
 function AsylumGGTSAllowChange(C) {
 	if (AsylumIsIsolated()) return false;
@@ -1535,7 +1536,7 @@ function AsylumGGTSDialogAction(Action, Minute) {
 
 /**
  * Called from Dialog.js, as nurse, trigger a specific interaction for the current character
- * @param {String} Interaction - The interaction to perform
+ * @param {string} Interaction - The interaction to perform
  * @returns {void} - Nothing
  * @deprecated Use {@link AsylumGGTSDialogNewTask}, {@link AsylumGGTSDialogSpeed}, {@link AsylumGGTSDialogPause}
  */

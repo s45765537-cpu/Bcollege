@@ -18,12 +18,12 @@ var ClubCardGameEnded = false;
 /**
  *  The variable allows to capture the mouse hovering over the card from the handler inside the ClubCardRenderCard function.
  * @type {null | ClubCard}
- * */
+ */
 var ClubCardHover = null;
 /**
  * Variable through which the current card selected by the player is rendered as a large card.
  * @type {null | ClubCard}
- * */
+ */
 var ClubCardFocus = null;
 
 /** @type {null | ClubCard} */
@@ -4507,8 +4507,8 @@ function ClubCardSendRequestResetGame() {
  * Adds a message to the storage for processing later.
  * Sends messages immediately if their type matches the ClubCardImmediateMessageTypes array.
  *
- * @param {string} TextGetKey - Localization key
  * @param {ClubCardMessageType} MessageType - Message type (constant)
+ * @param {string} TextGetKey - Localization key
  * @param {Record<string, any>} placeholders - Dynamic data for text replacement
  * @param {ClubCardPlayer|null} TargetPlayer - The source player
  */
@@ -4777,11 +4777,11 @@ function ClubCardMessageGetHTML(message) {
 }
 
 /**
-   * Updated the text by mask, for InnerHTML
-   * The function finds the necessary words from the arrays and adds color labels to them.
-   * @param {String} text -Normal Card Text
-   * @returns {String} -  Updated for InnerHTML Card Text
-   */
+ * Updated the text by mask, for InnerHTML
+ * The function finds the necessary words from the arrays and adds color labels to them.
+ * @param {string} text -Normal Card Text
+ * @returns {string} -  Updated for InnerHTML Card Text
+ */
 function ClubCardGetFormatTextForInnerHTML(text) {
 	const ClubcardLanguageFame = ["fame","Славы","声望"];
 	const ClubcardLanguageMoney = ["money", "Денег", "金钱"];
@@ -4853,7 +4853,7 @@ function ClubCardGenerateUniqueID(cardID) {
  * @param {string|undefined} [options.Button2] - The label of the second button
  * @param {string|undefined} [options.Function1] - The function of the first button
  * @param {string|undefined} [options.Function2] - The function of the second button
- * @param {ClubCard[] | undefined} [options.CardsPool=undefined]
+ * @param {ClubCard[] | undefined} [options.CardsPool]
  * @returns {void} - Nothing
  */
 function ClubCardCreatePopup(Mode, options) {
@@ -4903,7 +4903,7 @@ function ClubCardGetOpponent(CCPlayer = null) {
 /**
  * Gets the opponent of the parameter player or the player that's not on it's turn if null
  * @param {ClubCardPlayer} CCPlayer - The club card player or null
- * @param {Number} turnCounter
+ * @param {number} turnCounter
  * @returns {ClubCard[]} - The opponent
  */
 function ClubCardGetCardsPlayedOnTurn(CCPlayer, turnCounter) {
@@ -4915,7 +4915,7 @@ function ClubCardGetCardsPlayedOnTurn(CCPlayer, turnCounter) {
 /**
  * Adds money to the club card player stats
  * @param {ClubCardPlayer} CCPlayer - The club card player
- * @param {Number} Amount - The amount to add
+ * @param {number} Amount - The amount to add
  * @param {null | string} CardName - The card name used for the chat message if needed
  * @returns {void} - Nothing
  */
@@ -4929,7 +4929,7 @@ function ClubCardPlayerAddMoney(CCPlayer, Amount, CardName = null) {
 /**
  * Adds fame to the club card player stats, can trigger a victory
  * @param {ClubCardPlayer} CCPlayer - The club card player
- * @param {Number} Amount - The amount to add
+ * @param {number} Amount - The amount to add
  * @param {null | string} CardName - The card name used for the chat message if needed
  * @returns {void} - Nothing
  */
@@ -4943,8 +4943,8 @@ function ClubCardPlayerAddFame(CCPlayer, Amount, CardName = null) {
 /**
  * Add fame from a player and remove from the other player
  * @param {ClubCardPlayer} CCPlayer - The club card player
- * @param {Number} moneyAmount - The money amount to steal
- * @param {Number} fameAmount - The fame amount to steal
+ * @param {number} moneyAmount - The money amount to steal
+ * @param {number} fameAmount - The fame amount to steal
  * @param {boolean} isStickyFingers - Whether Sticky Fingers effect should be ignored.
  * @returns {{ stolenMoney: number, stolenFame: number }} - The amounts of money and fame stolen.
  */
@@ -5191,7 +5191,7 @@ function ClubCardGroupInDiscardPileCount(CCPlayer, GroupName) {
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {ClubCard} Card - The card object to remove
  * @param {boolean} [DontDiscard] - If the card dont need to go to the discard pile
- * @param {ClubCardMessageType} [MessageType=ClubCardMessageType.PLAYERCARDSLEFT]
+ * @param {ClubCardMessageType} [MessageType]
  * @returns {void} - Nothing
  */
 function ClubCardRemoveFromBoard(CCPlayer, Card, DontDiscard = false, MessageType = ClubCardMessageType.CARDEFFECT) {
@@ -5305,7 +5305,7 @@ function ClubCardAddToHand(CCPlayer, Card) {
  * Removes several cards from player time events
  * @deprecated
  * @param {ClubCardPlayer} CCPlayer - The club card player
- * @param {readonly String[]} ListOfCardNames - The names of the cards to remove
+ * @param {readonly string[]} ListOfCardNames - The names of the cards to remove
  */
 function ClubCardRemoveCardsFromEventByName(CCPlayer, ListOfCardNames) {
 	ListOfCardNames.forEach(cardName => ClubCardRemoveFromEventByName(CCPlayer, cardName));
@@ -5683,7 +5683,7 @@ function ClubCardAlvinCondition(CCPlayer) {
 /**
  * Handles Tifas effect selection
  * @param {ClubCardPlayer} CCPlayer
- * @param {String} Selection
+ * @param {string} Selection
  * @returns {void} - Nothing
  */
 function ClubCardTifaSelection(CCPlayer, Selection) {
@@ -5944,7 +5944,7 @@ function ClubCardGetReward() {
  * @param {ClubCardPlayer} Opponent - The other player
  * @param {boolean} Before - true to run BeforeTurnEnd handlers, false to run AfterEndTurn handlers
  * @returns {void}
-  */
+ */
 function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
 	// Runs handlers on player's board
 	if (CCPlayer.Board != null) {
@@ -6205,7 +6205,7 @@ function ClubCardDefocusCardIfRemoved() {
 
 /**
  * @param {ClubCardPlayer} CCPlayer
- * @returns
+ * @returns {boolean}
  */
 function ClubCardCheckVictory(CCPlayer) {
 	if (CCPlayer.Fame >= ClubCardFameGoal) {
@@ -6252,7 +6252,7 @@ function ClubCardEndGameSyncAndMessage(CCPlayer) {
 /**
  * Returns the number of cards that can be played in one turn by a player
  * @param {ClubCardPlayer} CCPlayer - The club card player
- * @returns {Number} - The number of cards
+ * @returns {number} - The number of cards
  */
 function ClubCardTurnPlayableCardCount(CCPlayer) {
 	if ((CCPlayer == null) || (CCPlayer.Board == null)) return 1;
@@ -6273,7 +6273,7 @@ function ClubCardTurnPlayableCardCount(CCPlayer) {
 /**
  * Returns the extra time in turns for event over time
  * @param {ClubCardPlayer} CCPlayer - The club card player
- * @returns {Number} - The extra time
+ * @returns {number} - The extra time
  */
 function ClubCardExtraTime(CCPlayer) {
 	if ((CCPlayer == null) || (CCPlayer.Board == null)) return 0;
@@ -6748,7 +6748,7 @@ function ClubCardEndGame(Victory) {
 
 /**
  * @param {string} Text
- * @returns
+ * @returns {string}
  */
 function ClubCardTextGet(Text) {
 	const str = TextGetInScope(ScreenFileGetTranslation("MiniGame", "ClubCard", "ClubCard"), Text);
@@ -6845,7 +6845,7 @@ async function ClubCardLoad() {
  * @param {number} Y - The Y on screen position
  * @param {number} W - The width of the card
  * @param {string} Image - The buble
- * @returns {Number} - The next bubble Y position
+ * @returns {number} - The next bubble Y position
  */
 function ClubCardRenderBubble(Value, X, Y, W, Image) {
 	DrawImageResize("Screens/MiniGame/ClubCard/Bubble/" + Image + ".png", X, Y - W / 20, W, W);
@@ -6970,7 +6970,7 @@ function ClubCardUpdateCardAnimations(Timestamp) {
  * @param {boolean} keepOriginalHidden - If true, the original card stays hidden after animation.
  * @param {(() => void) | null} [onStart] - Function called before the animation starts.
  * @param {((card: ClubCard) => void)|null} [onComplete] - Function called after the animation completes.
- * @param {number} [duration=200] - Animation duration in milliseconds.
+ * @param {number} [duration] - Animation duration in milliseconds.
  */
 function ClubCardMoveCard(card, priority, startPosition, endPosition, hideOriginal = false, keepOriginalHidden = false, onStart = null, onComplete = null, duration = 150) {
 	if (ClubCardIsAnimationOn == false) return;
@@ -7014,9 +7014,9 @@ function ClubCardMoveCard(card, priority, startPosition, endPosition, hideOrigin
 /**
  * Moves a card to the preview position (original card stays hidden after).
  * @param {ClubCard} card
- * @param {(() => void) | null} [onStart=null]
- * @param {((card: ClubCard) => void) | null} [onComplete=null]
- * @param {number} [duration=150]
+ * @param {(() => void) | null} [onStart]
+ * @param {((card: ClubCard) => void) | null} [onComplete]
+ * @param {number} [duration]
  */
 function ClubCardMoveCardToPreview(card, onStart = null, onComplete = null, duration = 150) {
 	if (card.CurrentX === undefined || card.CurrentY === undefined || card.CurrentW === undefined) return;
@@ -7034,9 +7034,9 @@ function ClubCardMoveCardToPreview(card, onStart = null, onComplete = null, dura
 /**
  * Returns a card from preview back to its original position.
  * @param {ClubCard} card
- * @param {(() => void) | null} [onStart=null]
- * @param {((card: ClubCard) => void) | null} [onComplete=null]
- * @param {number} [duration=150]
+ * @param {(() => void) | null} [onStart]
+ * @param {((card: ClubCard) => void) | null} [onComplete]
+ * @param {number} [duration]
  */
 function ClubCardReturnCardFromPreview(card, onStart = null, onComplete = null, duration = 150) {
 	const originalCard = ClubCardGetOriginalCardByUniqueID(card.UniqueID ?? "");
@@ -7062,9 +7062,9 @@ function ClubCardReturnCardFromPreview(card, onStart = null, onComplete = null, 
 /**
  * Returns a card from pending state back to its original position.
  * @param {ClubCard} card
- * @param {(() => void) | null} [onStart=null]
- * @param {((card: ClubCard) => void) | null} [onComplete=null]
- * @param {number} [duration=150]
+ * @param {(() => void) | null} [onStart]
+ * @param {((card: ClubCard) => void) | null} [onComplete]
+ * @param {number} [duration]
  */
 function ClubCardReturnCardFromPending(card, onStart = null, onComplete = null, duration = 150) {
 	const originalCard = ClubCardGetOriginalCardByUniqueID(card.UniqueID ?? "");
@@ -7086,7 +7086,7 @@ function ClubCardReturnCardFromPending(card, onStart = null, onComplete = null, 
  * @param {ClubCard} card - The card to be moved.
  * @param {(() => void)|null} [onStart] - A function called before the animation starts.
  * @param {((card: ClubCard) => void)|null} [onComplete] - A function called after the animation completes.
- * @param {number} [duration=150] - The animation duration in milliseconds.
+ * @param {number} [duration] - The animation duration in milliseconds.
  */
 function ClubCardMoveCardToPending(card, onStart = null, onComplete = null, duration = 150) {
 	ClubCardMoveCard(card,
@@ -7110,6 +7110,7 @@ function ClubCardMoveCardToPending(card, onStart = null, onComplete = null, dura
  * @param {number} W - The width of the card
  * @param {number|null} Sleeve - The sleeve image to draw instead of the card
  * @param {string|null} Source - The source from where it's called
+ * @param {boolean} [isIgnoreIsVisibility]
  * @returns {void} - Nothing
  */
 function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnoreIsVisibility = false) {
@@ -8192,7 +8193,7 @@ function ClubCardClickPlayCard(isPending) {
 }
 /**
  * Sets the focus card if nothing else was clicked
- * @returns
+ * @returns {void}
  */
 function ClubCardClickSetFocusCard() {
 	if (!ClubCardHover) return;

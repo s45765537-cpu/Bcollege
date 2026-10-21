@@ -31,7 +31,7 @@ function CommandsTranslate() {
 
 /**
  * Gets all available commands
- * @returns [ICommand[]]
+ * @returns {ICommand[]}
  */
 function GetCommands() {
 	return Commands;
@@ -253,7 +253,7 @@ function CommandHandleMultipleCandidates(candidates, key) {
  * @param {string[]} parts
  * @param {string} low
  * @param {string} msg
- * @returns
+ * @returns {void}
  */
 function CommandHandleSingleCandidate(initialCmd, forward, parts, low, msg) {
 	if (!initialCmd) return;
@@ -262,7 +262,8 @@ function CommandHandleSingleCandidate(initialCmd, forward, parts, low, msg) {
 	let complete = false;
 
 	if (parts[0] !== (CommandsKey + initialCmd.Tag).toLowerCase()) {
-		return CommandChangeChatInputContent(CommandsKey + initialCmd.Tag + ' ');
+		CommandChangeChatInputContent(CommandsKey + initialCmd.Tag + ' ');
+		return;
 	}
 
 	const sub = CommonUnwrapThunk(CommandResolveProperty(initialCmd, "Subcommands"))?.find(s => s.Tag === forward[depth]);
@@ -277,7 +278,8 @@ function CommandHandleSingleCandidate(initialCmd, forward, parts, low, msg) {
 	const args = CommandResolveProperty(current, "Arguments");
 
 	if (subcommands && args && remaining.length === 0) {
-		return CommandsHelp.ShowFor([current], helpOptions);
+		CommandsHelp.ShowFor([current], helpOptions);
+		return;
 	}
 
 	if (subcommands && remaining.length <= 1) {
@@ -302,10 +304,12 @@ function CommandHandleSingleCandidate(initialCmd, forward, parts, low, msg) {
 	}
 
 	if (complete) {
-		return CommandsHelp.Complete();
+		CommandsHelp.Complete();
+		return;
 	}
 
-	return CommandsHelp.ShowFor([initialCmd], helpOptions);
+	CommandsHelp.ShowFor([initialCmd], helpOptions);
+	return;
 }
 
 /**
@@ -585,7 +589,7 @@ var CommandsHelp = {
 	 *
 	 * @param {string} id
 	 * @param {boolean} expanded
-	 * @returns
+	 * @returns {HTMLButtonElement}
 	 */
 	_BuildToggle: function _BuildToggle(id, expanded) {
 		return ElementButton.Create(
@@ -688,12 +692,12 @@ var CommandsHelp = {
 	},
 
 	/**
-	* @param {ICommand} command
-	* @param {string} setCommand
-	* @param {boolean} singleCommand
-	* @param {Pick<CommandHelpOptions, "remaining" | "command" | "subcommand">} [options]
-	* @returns {HTMLOptionsUnion}
-	*/
+	 * @param {ICommand} command
+	 * @param {string} setCommand
+	 * @param {boolean} singleCommand
+	 * @param {Pick<CommandHelpOptions, "remaining" | "command" | "subcommand">} [options]
+	 * @returns {HTMLOptionsUnion}
+	 */
 	_BuildCommand(command, setCommand, singleCommand, options = {}) {
 		const translationTag = setCommand.replace(/ /g, "-");
 		const description = this._GetDescription(command, translationTag);
@@ -703,7 +707,10 @@ var CommandsHelp = {
 		const hasArguments = Array.isArray(commandArguments) && commandArguments.length > 0;
 		const expandDisabled = !hasSubcommands && !hasArguments;
 
-		/** @param {ArgumentDef} argDef @param {number} argIndex */
+		/**
+		 * @param {ArgumentDef} argDef
+		 * @param {number} argIndex
+		 */
 		const args = (argDef, argIndex) => {
 			if (!hasArguments || !argDef.suggestions) return [];
 
@@ -846,7 +853,7 @@ var CommandsHelp = {
 	/**
 	 * @param {ICommand[]} commands
 	 * @param {CommandHelpOptions} [options]
-	 * @returns
+	 * @returns {HTMLDivElement}
 	 */
 	_BuildHelp(commands, { setCommand, remaining, command, subcommand } = {}) {
 		const existingHelp = ElementWrap("commands-help");
@@ -1210,11 +1217,11 @@ var CommandsChangelog = {
 	 * Construct a changelog from the passed stringified HTML (constructed via _e.g._ the [marked](https://www.npmjs.com/package/marked) package).
 	 *
 	 * The stringified HTML is expected to have the following structure:
-	 * * A single `<h1>` element _may_ be present in order to represent a general changelog title
-	 * * Version-specific sections of the changelog _must_ be represented by `<h2>` elements and _may_ contain an arbitrary number of sub-headers
-	 * * Headers and their sections _must not_ be grouped together inside an element; an overal flat structure is expected
+	 * - A single `<h1>` element _may_ be present in order to represent a general changelog title
+	 * - Version-specific sections of the changelog _must_ be represented by `<h2>` elements and _may_ contain an arbitrary number of sub-headers
+	 * - Headers and their sections _must not_ be grouped together inside an element; an overal flat structure is expected
 	 * @param {string} innerHTML - The inner html representing containing a superset of the changelog's final content
-	 * @param {Object} [options]
+	 * @param {object} [options]
 	 * @param {null | string} [options.id] - The (root) ID of the to-be created changelog; defaults to `chat-room-changelog`
 	 * @param {null | string} [options.href] - The URL leading to the (external) changelog; defaults to `./changelog.html`
 	 * @param {null | string} [options.startID] - The header ID of the first to-be included segment within the changelog; defaults to the latest BC version (`r[0-9]{3}`)
@@ -1262,7 +1269,7 @@ var CommandsChangelog = {
 	 * Construct a changelog from the passed stringified HTML and publish it to the chat room chatlog.
 	 *
 	 * @param {string} innerHTML - The inner html representing containing a superset of the changelog's final content
-	 * @param {Object} [options]
+	 * @param {object} [options]
 	 * @param {null | string} [options.id] - The (root) ID of the to-be created changelog; defaults to `chat-room-changelog`
 	 * @param {null | string} [options.href] - The URL leading to the (external) changelog; defaults to `./changelog.html`
 	 * @param {null | string} [options.startID] - The header ID of the first to-be included segment within the changelog; defaults to the latest BC version (`r[0-9]{3}`)
@@ -1295,10 +1302,16 @@ var CommandsChangelog = {
  */
 var CommandsModsList = {
 
-	/** @private @readonly */
+	/**
+	 * @readonly
+	 * @private
+	 */
 	_RemoteTimeoutMs: 5000,
 
-	/** @private @type { null | CommandsModListRequest } */
+	/**
+	 * @type {null | CommandsModListRequest}
+	 * @private
+	 */
 	_ActiveRemoteRequest: null,
 
 	ShowLocal() {
@@ -1461,7 +1474,10 @@ var CommandsModsList = {
 		return bcModSdk.getModsInfo().slice().sort((a, b) => a.name.localeCompare(b.name));
 	},
 
-	/** @param {ModSDKModInfo[]} mods @param {Character} char */
+	/**
+	 * @param {ModSDKModInfo[]} mods
+	 * @param {Character} char
+	 */
 	_FormatModListForCopy(mods, char) {
 		const lines = [
 			`${TextGet("CommandModsListTitle")} — ${CharacterNickname(char)} (${char.MemberNumber})`,

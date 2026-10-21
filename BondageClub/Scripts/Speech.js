@@ -43,7 +43,7 @@ function SpeechFullEmote(D) {
 /**
  * Returns the gag level corresponding to the given effect array, or 0 if the effect array contains no gag effects
  * @param {readonly EffectName[]} Effect - The effect to lookup the gag level for
- * @return {number} - The gag level corresponding to the given effects
+ * @returns {number} - The gag level corresponding to the given effects
  */
 function SpeechGetEffectGagLevel(Effect) {
 	/** @type {Partial<Record<EffectName, number>>} */
@@ -71,6 +71,7 @@ function SpeechGetGagLevel(C, AssetGroups) {
  * @param {Character} C
  * @param {string} text
  * @param {SpeechTransformName[]} effects
+ * @param {boolean} ignoreOOC
  */
 function SpeechTransformProcess(C, text, effects, ignoreOOC = false) {
 	/** @type {SpeechTransformName[]} */
@@ -182,7 +183,7 @@ function isChineseCharacter(character) {
  * @param {string} character - The character needs to be garbled.
  * @param {number} gagLevel - Gag level.
  *
- * @return {string} - The character that being garbled.
+ * @returns {string} - The character that being garbled.
  */
 function doChineseGarbling(character, gagLevel) {
 	let garbleRandomChance;
@@ -243,7 +244,7 @@ function isPunctuationOrSpace(character) {
 /**
  * Helper method to strip diacritics from characters.
  * @param {string} character - character that needs to be stripped.
- * @param {Number} gagEffect - The current gag effect level.
+ * @param {number} gagEffect - The current gag effect level.
  * @param {boolean} capitalize - Whether to returned character should be capitalized or not
  * @returns {string} - character that being stripped after garbling.
  */
@@ -789,7 +790,7 @@ function SpeechAnonymize(msg, characters) {
  * Gets the cumulative gag level of a character
  * @deprecated - superseded by {@link SpeechTransformGagGarbleIntensity}
  * @param {Character} C - The character, whose assets are used for the check
- * @param {boolean} [NoDeaf=false] - Whether or not deafness affects the dialogue
+ * @param {boolean} [NoDeaf] - Whether or not deafness affects the dialogue
  * @returns {number} - Returns the total gag effect of the character's assets
  */
 function SpeechGetTotalGagLevel(C, NoDeaf=false) {
@@ -805,7 +806,7 @@ function SpeechGetTotalGagLevel(C, NoDeaf=false) {
  * @deprecated - superseded by {@link SpeechTransformProcess}
  * @param {Character} C - The character, whose dialog might need to be altered
  * @param {string} CD - The character's dialog to alter
- * @param {boolean} [NoDeaf=false] - Whether or not deafness affects the dialogue
+ * @param {boolean} [NoDeaf] - Whether or not deafness affects the dialogue
  * @returns {string} - Returns the dialog after speech effects were processed (Garbling, Stuttering, Baby talk)
  */
 function SpeechGarble(C, CD, NoDeaf=false) {
@@ -842,7 +843,7 @@ function SpeechBabyTalk(C, CD) {
  * @param {number} GagEffect - The gag level of the speech
  * @param {string} CD - The character's dialog to alter
  * @param {boolean} IgnoreOOC
- * @return {string} - Garbled text
+ * @returns {string} - Garbled text
  */
 function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 	return SpeechTransformGagGarble(CD, GagEffect, IgnoreOOC);

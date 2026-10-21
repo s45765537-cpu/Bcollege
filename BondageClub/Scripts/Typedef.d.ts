@@ -41,7 +41,7 @@ type SafePromise<T> = Promise<T>;
  * Something GLDrawImage/DrawImage can draw: either the URL of an image that goes
  * through the ImageCache, or an already available image source that gets
  * uploaded on the spot.
-*/
+ */
 type DrawSource = string | HTMLImageElement | HTMLCanvasElement | ImageBitmap;
 
 interface GLDrawImageData {
@@ -195,9 +195,9 @@ declare namespace ElementButton {
 		tooltipPosition?: "left" | "right" | "top" | "bottom";
 		/**
 		 * The aria accessibility role of the the tooltip; defaults to `description` if a {@link ElementButton.Options.label} is present and `label` otherwise:
-		 * * `label` ([`aria-labelledby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby)): A compact, 1-line summary of the button
-		 * * `description` ([`aria-describedby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby)): A longer, potentially multi-line, button description
-		 * * `none`: Nothing
+		 * - `label` ([`aria-labelledby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby)): A compact, 1-line summary of the button
+		 * - `description` ([`aria-describedby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby)): A longer, potentially multi-line, button description
+		 * - `none`: Nothing
 		 */
 		tooltipRole?: "label" | "description" | "none";
 		/** A button label */
@@ -475,9 +475,9 @@ declare namespace DialogMenu {
 	interface MenuButtonValidateData {
 		/**
 		 * The button's validation state:
-		 * * `null`: Validation successful
-		 * * `"hide"`: Validation failure; hide the button
-		 * * `"disabled"`: Validation failure; disable the button but do not hide it
+		 * - `null`: Validation successful
+		 * - `"hide"`: Validation failure; hide the button
+		 * - `"disabled"`: Validation failure; disable the button but do not hide it
 		 */
 		state: null | "hidden" | "disabled";
 		/**
@@ -713,6 +713,54 @@ type AssetPrerequisite =
 	"NoItemFeet" | "NoItemHands" | "NoItemLegs" | "NoMaidTray" | "NoOuterClothes" | "NotChained" | "NotChaste" | "NotKneeling" |
 	"NotLifted" | "NotMasked" | "NotMounted" | "NotProtrudingFromMouth" | "NotSuspended" | "OnBed" |
 	"RemotesAllowed" | "VulvaEmpty"
+;
+
+type AssetPrerequisiteCheck =
+	| ""
+	| `Cannot${AssetPoseName}`
+	| "MustFreeArmsFirst"
+	| "MustFreeFeetFirst"
+	| "MustFreeHandsFirst"
+	| "MustFreeLegsFirst"
+	| "MustStandUpFirst"
+	| "CannotBeUsedWhenMounted"
+	| "RemoveSuspensionForItem"
+	| "RemoveChastityFirst"
+	| "RemoveChainForItem"
+	| "MustCollaredFirst"
+	| "CannotBeSuited"
+	| "CannotHaveWand"
+	| "MustBeOnBed"
+	| "MustBeArmCuffedFirst"
+	| "MustBeFeetCuffedFirst"
+	| "RemoveClothesForItem"
+	| "CannotBeUsedWhileServingDrinks"
+	| "AddItemsToUse"
+	| "MustHaveBreasts"
+	| "MustHaveFlatChest"
+	| "MustHaveVagina"
+	| "MustHavePenis"
+	| "CantHaveErection"
+	| "CantBeLimp"
+	| "MustRemoveChastityCage"
+	| "MustNotHaveForcedErection"
+	| "MustHaveFullPenisAccess"
+	| "UnZipSuitForItem"
+	| "CantCloseOnShaft"
+	| "CannotBeUsedOverGag"
+	| "CannotBeUsedOverMask"
+	| "CannotBeUsedOverHood"
+	| "MustBeUsedOverGag"
+	| "MustFreeVulvaFirst"
+	| "MustFreeClitFirst"
+	| "MustFreeButtFirst"
+	| "RemoveRestraintsFirst"
+	| "RemoveFaceMaskFirst"
+	| "OwnerBlockedRemotes"
+	| "NeedsNippleRings"
+	| "CantAttachMittens"
+	| "NeedsChestHarness"
+	| "NeedsHipHarness"
 ;
 
 type CraftingStatusType = 0 | 1 | 2;
@@ -979,10 +1027,10 @@ interface IChatRoomMessageMetadata {
  *
  * @param data - The chat message to extract from.
  * @param sender - The character that sent the message.
- * @return An object with the following keys:
+ * @returns An object with the following keys:
  *  - `metadata`: an object for the extracted metadata (key/value)
  *  - `substitutions`: an array of [tag, substitutions] to perform on the message.
- * @return null if the extraction has nothing to report.
+ * @returns null if the extraction has nothing to report.
  */
 type ChatRoomMessageExtractor =
 	(data: ServerChatRoomMessage, sender: Character) => { metadata: IChatRoomMessageMetadata, substitutions: CommonSubtituteSubstitution[] } | null;
@@ -1014,7 +1062,7 @@ type ChatRoomMessageExtractor =
  * the message's contents inflight and/or a `skip` property if you'd like
  * to cause a subsequent handler to not be called.
  *
- * @warning Note that the in-flight message is only escaped when it gets
+ * Note that the in-flight message is only escaped when it gets
  * sent to the chat log via ChatRoomMessageDisplay. If you're manipulating
  * that by any other means, make sure to call ChatRoomEscapeEntities on its
  * content to close any injection attacks.
@@ -1215,8 +1263,7 @@ interface AssetLayer {
 	readonly ParentGroup: ParentGroup.Data;
 	/** An array of objects mapping poses to other poses to determine their draw folder */
 	readonly PoseMapping: Readonly<AssetPoseMapping>;
-	/** The drawing priority of this layer. Inherited from the parent asset/group if not specified in the layer
-	definition. */
+	/** The drawing priority of this layer. Inherited from the parent asset/group if not specified in the layer definition. */
 	readonly Priority: number;
 	readonly InheritColor: AssetGroupName | null;
 	readonly Alpha: readonly Alpha.Data[];
@@ -1238,8 +1285,10 @@ interface AssetLayer {
 	readonly MirrorExpression?: AssetGroupName;
 	/** The coloring index for this layer */
 	readonly ColorIndex: number;
-	/** Any group-specific alpha masks that should be applied when drawing the layer. Only available on layers that have
-	been created prior to drawing */
+	/**
+	 * Any group-specific alpha masks that should be applied when drawing the layer.
+	 * Only available on layers that have been created prior to drawing
+	 */
 	readonly GroupAlpha?: readonly Alpha.Data[];
 	/**
 	 * A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files.
@@ -1716,7 +1765,7 @@ interface ScreenFunctions {
 	 * @param {PointerEvent} event - The event that triggered this
 	 */
 	MouseDown?: MouseEventListener;
-		/**
+	/**
 	 * Called if the user releases the mouse button or the touchscreen on the canvas
 	 * @param {PointerEvent} event - The event that triggered this
 	 */
@@ -2021,7 +2070,8 @@ interface Character {
 	/**
 	 * Check whether a character can change its own outfit.
 	 *
-	 * @warning Only usable on Player
+	 * Only usable on Player
+	 *
 	 * @returns {boolean} - TRUE if changing is possible, FALSE otherwise.
 	 */
 	CanChangeOwnClothes: () => boolean;
@@ -2087,8 +2137,8 @@ interface Character {
 	HasHiddenItems: boolean;
 	SavedColors: HSVColor[];
 	/**
-	 * @private
 	 * The cached blind level; use {@link Character.GetBlindLevel} instead.
+	 * @private
 	 */
 	_BlindLevel?: number;
 	GetBlindLevel: (eyesOnly?: boolean) => number;
@@ -3706,7 +3756,7 @@ type PropertiesArray = PropertiesArray.Item & PropertiesArray.Asset & Properties
 
 /**
  * All item/asset/group properties with record-based values.
- * @note This includes a number of somewhat unexpected values as arrays are treated as a record subtype.
+ * This includes a number of somewhat unexpected values as arrays are treated as a record subtype.
  */
 declare namespace PropertiesRecord {
 	/** All {@link ItemProperties} properties with record-based values. */
@@ -3721,7 +3771,8 @@ type PropertiesRecord = PropertiesRecord.Item & PropertiesRecord.Asset & Propert
 
 //#endregion
 
-/** An object containing modular item configuration for an asset. Contains all of the necessary information for the
+/**
+ * An object containing modular item configuration for an asset. Contains all of the necessary information for the
  * item's load, draw & click handlers.
  */
 interface ModularItemData extends ExtendedItemData<ModularItemOption> {
@@ -3765,7 +3816,8 @@ interface ModularItemData extends ExtendedItemData<ModularItemOption> {
 	parentOption: null;
 }
 
-/** A 3-tuple containing data for drawing a button in a modular item screen. A button definition takes the
+/**
+ * A 3-tuple containing data for drawing a button in a modular item screen. A button definition takes the
  * format:
  * ```
  * [moduleOrOption, currentOption, prefix]
@@ -4187,10 +4239,10 @@ interface GameMagicSchoolFindsAroundParameters {
 /**
  * Online game status values.
  *
- * @property "" - The game is in the setup phase.
- * @property "Running" - The game is currently running.
+ * @member "" - The game is in the setup phase.
+ * @member "Running" - The game is currently running.
  *
- * @fix FIXME: "" should really be renamed Setup
+ * @todo FIXME: "" should really be renamed Setup
  */
 type OnlineGameStatus = "" | "Running";
 
@@ -4851,8 +4903,8 @@ interface CraftingItem extends CraftingPartialItem {
 	OverridePriority?: null | number;
 	/**
 	 * A record with a select few (optional) extra item properties:
-	 * * {@link ItemProperties.OverridePriority} in either its record or number form.
-	 * * Properties as specified in {@link ExtendedItemData.baselineProperty}
+	 * - {@link ItemProperties.OverridePriority} in either its record or number form.
+	 * - Properties as specified in {@link ExtendedItemData.baselineProperty}
 	 */
 	ItemProperty: ItemProperties | null;
 	/**
@@ -4913,8 +4965,8 @@ interface CraftingItemSelected {
 	TypeRecord: null | TypeRecord;
 	/**
 	 * A record with a select few (optional) extra item properties:
-	 * * {@link ItemProperties.OverridePriority} in either its record or number form.
-	 * * Properties as specified in {@link ExtendedItemData.baselineProperty}
+	 * - {@link ItemProperties.OverridePriority} in either its record or number form.
+	 * - Properties as specified in {@link ExtendedItemData.baselineProperty}
 	 */
 	ItemProperty: ItemProperties;
 	/** Get or set the `OverridePriority` property of {@link CraftingItemSelected.ItemProperty} */
@@ -5067,8 +5119,8 @@ type HexColor = `#${string}`;
 /**
  * A hexadecimal color code or one of BC's more specialized color literals (which an item may or may not support).
  *
- * * `Default`: Use the default color of the .png without modification
- * * `White`/`Black`/`Asian`: Use skin color specific .png files (used by the body)
+ * - `Default`: Use the default color of the .png without modification
+ * - `White`/`Black`/`Asian`: Use skin color specific .png files (used by the body)
  */
 type BCColor = (
 	"Default"
@@ -5580,3 +5632,5 @@ declare namespace BrowserCache {
 		onUpdate?(response: Response): void;
 	}
 }
+
+type ScreenCheckCallback = (module: ModuleType, screen: ScreenName) => boolean;

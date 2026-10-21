@@ -1356,7 +1356,7 @@ function MovieStudioAlterParameter(Name, Param, Value) {
  * @param {"Domination" | "Affection"} Param - The parameter to get
  * @param {number} FromValue - From that value
  * @param {number} ToValue - To that value
- * @returns {Boolean} - TRUE if between
+ * @returns {boolean} - TRUE if between
  */
 function MovieStudioParameterValueBetween(Name, Param, FromValue, ToValue) {
 	let Actor = null;

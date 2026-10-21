@@ -8,7 +8,7 @@ import { parseCSV, BASE_PATH, NEEDED_FILES } from "./Common.js";
  *
  * @param {string} funcName
  * @param {string} prefix
- * @returns
+ * @returns {string}
  */
 function sanitizePrereqString(funcName, prefix) {
 	if (funcName.indexOf("Player.") == 0) {
