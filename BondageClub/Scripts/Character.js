@@ -2327,7 +2327,7 @@ function CharacterIsEdged(C) {
 /**
  * Checks if the character is wearing an item flagged as a category in a blocked list
  * @param {Character} C - The character to validate
- * @param {readonly AssetCategory[]} BlockList - An array of strings to validate
+ * @param {readonly ServerChatRoomBlockCategory[]} BlockList - An array of strings to validate
  * @returns {boolean} - TRUE if the character is wearing a blocked item, FALSE otherwise
  */
 function CharacterHasBlockedItem(C, BlockList) {

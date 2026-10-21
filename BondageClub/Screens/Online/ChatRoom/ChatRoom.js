@@ -5058,6 +5058,8 @@ async function ChatRoomSync(data) {
 	const senderNumber = data.SourceMemberNumber;
 	delete data.SourceMemberNumber;
 
+	ServerChatRoomDataValidate(data);
+
 	// Validate the actual chatroom properties
 	if (!ChatRoomValidateProperties(data)) {
 		// Instantly leave the chat room again
@@ -5239,8 +5241,10 @@ function ChatRoomSyncRoomProperties(data) {
 	// Split out the sender from the rest of the chatroom data
 	delete data.SourceMemberNumber;
 
-	if(ChatRoomValidateProperties(data) == false) // If the room data we received is invalid...
-	{
+	const roomData = ServerChatRoomDataValidate(data);
+
+	if (ChatRoomValidateProperties(roomData) == false) {
+		// If the room data we received is invalid...
 		ChatRoomLeave();
 		ChatSearchSendToast("InvalidRoomData");
 		CommonSetScreen("Online", "ChatSearch");
@@ -5250,14 +5254,14 @@ function ChatRoomSyncRoomProperties(data) {
 	// Copy the received properties to chat room data
 	// We keep the packed character data around
 	ChatRoomData = {
-		...data,
+		...roomData,
 		Character: ChatRoomData.Character,
 	};
 
 	ChatRoomMapViewInitializeCharacter(Player);
 
 	if (ChatRoomSep.ActiveElem) {
-		ChatRoomSep.SetRoomData(ChatRoomSep.ActiveElem, data);
+		ChatRoomSep.SetRoomData(ChatRoomSep.ActiveElem, roomData);
 	}
 
 	if (ChatRoomData.Game != null) {
