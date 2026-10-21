@@ -1402,7 +1402,7 @@ var ServerValidation = {
 	 * Private helper to quickly check numbers
 	 * @template {number} T
 	 * @param {T} defaultValue
-	 * @returns {(arg: T) => T}
+	 * @returns {(arg: T | undefined) => T}
 	 */
 	isNumber(defaultValue) {
 		return (arg) => {
@@ -1416,7 +1416,7 @@ var ServerValidation = {
 	 * @param {number} min
 	 * @param {number} max
 	 * @param {T} defaultValue
-	 * @returns {(arg: T) => T}
+	 * @returns {(arg: T | undefined) => T}
 	 */
 	isInt(min, max, defaultValue) {
 		return (arg) => {
@@ -1433,8 +1433,8 @@ var ServerValidation = {
 	isString(maxLength, defaultValue) {
 		return (arg) => {
 			if (typeof arg !== "string") return defaultValue;
-			arg = arg.trim();
-			return arg.length <= maxLength ? arg : defaultValue;
+			const str = arg.trim();
+			return str.length <= maxLength ? str : defaultValue;
 		};
 	},
 
@@ -1444,7 +1444,7 @@ var ServerValidation = {
 	 * @param {string | undefined} defaultValue
 	 * @returns {(arg: unknown) => string | undefined}
 	 */
-	isStringOrUndefined(maxLength, defaultValue) {
+	isStringOrUndefined(maxLength, defaultValue = "") {
 		return (arg) => {
 			return this.isString(maxLength, defaultValue)(arg) || typeof arg === "undefined" ? /** @type {string | undefined } */ (arg) : defaultValue;
 		};
@@ -1464,27 +1464,28 @@ var ServerValidation = {
 
 	/**
 	 * Private helper to validate array of integers
-	 * @template T
-	 * @param {T[]} defaultValue - Default value if the array fails validation
+	 * @template {unknown[]} T
+	 * @param {T} defaultValue - Default value if the array fails validation
 	 * @param {object} [options] - Options to use for validation
 	 * @param {number} [options.minInteger] - Minimum bound, inclusive, for the integers
 	 * @param {number} [options.maxInteger] - Maximum bound, inclusive, for the integers
 	 * @param {boolean} [options.strict] - Whether a number not in [minInteger, maxInteger] should fail validation;
 	 *   otherwise the integer will just be removed.
 	 * @param {boolean} [options.unique] - Ensure the array contains unique values
-	 * @returns {(array: T[]) => T[]}
+	 * @returns {(array: unknown) => T}
 	 */
 	isArrayOfIntegers(defaultValue, options = {}) {
 		const { minInteger = -Infinity, maxInteger = Infinity, strict = false, unique = false } = options;
 		return (array) => {
 			if (!Array.isArray(array)) return defaultValue;
+			let ary = array;
 			if (unique) {
-				array = [...new Set(array).values()];
+				ary = [...new Set(ary).values()];
 			}
-			if (strict && !array.every((i) => CommonIsInteger(i, minInteger, maxInteger))) {
+			if (strict && !ary.every((i) => CommonIsInteger(i, minInteger, maxInteger))) {
 				return defaultValue;
 			}
-			return array.filter((i) => CommonIsInteger(i, minInteger, maxInteger));
+			return /** @type {T} */ (ary.filter((i) => CommonIsInteger(i, minInteger, maxInteger)));
 		};
 	},
 
@@ -1507,6 +1508,7 @@ var ServerValidation = {
 	 * Private helper to quickly check color codes
 	 * @param {boolean} allowAlpha
 	 * @param {HexColor | undefined} defaultValue
+	 * @return {(arg: any) => HexColor | undefined}
 	 */
 	isColorCode(allowAlpha = false, defaultValue) {
 		return (arg) => {
@@ -1517,13 +1519,13 @@ var ServerValidation = {
 	/**
 	 * Private helper to quick check notification settings
 	 * @param {NotificationSetting} defaultNotif
-	 * @returns {(arg: Partial<NotificationSetting>) => NotificationSetting}
+	 * @returns {(arg: undefined | Partial<NotificationSetting>) => NotificationSetting}
 	 */
 	isValidNotification(defaultNotif) {
 		return (arg) => {
 			return {
-				Audio: /** @type {NotificationAudioType} */ (ServerValidation.isInt(0, 2, defaultNotif.Audio)(arg?.Audio)),
-				AlertType: /** @type {NotificationAlertType} */  (ServerValidation.isInt(0, 3, defaultNotif.AlertType)(arg?.AlertType)),
+				Audio: /** @type {NotificationAudioType} */ (ServerValidation.isInt(0, 2, defaultNotif.Audio)(arg?.Audio ?? defaultNotif.Audio)),
+				AlertType: /** @type {NotificationAlertType} */  (ServerValidation.isInt(0, 3, defaultNotif.AlertType)(arg?.AlertType ?? defaultNotif.AlertType)),
 			};
 		};
 	},
@@ -1602,7 +1604,7 @@ var ServerAccountDataSyncedValidate = {
 		return CommonIsColor(arg) ? arg : "#ffffff";
 	},
 	Creation: (arg, C) => {
-		return (CommonIsFinite(arg, 0, CurrentTime)) ? arg : undefined;
+		return (CommonIsFinite(arg, 0, CurrentTime)) ? arg : 0;
 	},
 	Description: (arg, C) => {
 		let desc = "";
@@ -1633,11 +1635,11 @@ var ServerAccountDataSyncedValidate = {
 			&& (Stage === 0 || Stage === 1)
 			&& CommonIsInteger(Start, 0, CommonTime())
 		) {
-			let dNotes = LZString.decompressFromUTF16(Notes) ?? undefined;
+			let dNotes = Notes ? LZString.decompressFromUTF16(Notes) : undefined;
 			if (dNotes) {
 				dNotes = dNotes.substring(0, OnlineProfileTextOwnersNotesMaxLen);
 			}
-			return { Name, MemberNumber, Notes: dNotes, Stage, Start };
+			return { Name, MemberNumber, Notes: dNotes ?? undefined, Stage, Start };
 		} else {
 			return null;
 		}
@@ -1706,7 +1708,7 @@ var ServerAccountDataSyncedValidate = {
 	 * Note that because the position needs the actual room data (for the entry flag position),
 	 * you might get slightly incorrect results from this if run from outside a chat room.
 	 *
-	 * @type {((arg: ChatRoomMapData | undefined, C: Character) => ChatRoomMapData) & { [k in keyof ChatRoomMapData]: (arg: Partial<ChatRoomMapData[k]>, C: Character) => ChatRoomMapData[k] }}
+	 * @type {((arg: Partial<ChatRoomMapData> | undefined, C: Character) => ChatRoomMapData) & { [k in keyof ChatRoomMapData]: (arg: Partial<ChatRoomMapData[k]> | undefined, C: Character) => ChatRoomMapData[k] }}
 	 */
 	MapData: Object.assign(
 		/** @type {(arg: Partial<ChatRoomMapData> | undefined, C: Character) => ChatRoomMapData} */
@@ -1718,32 +1720,34 @@ var ServerAccountDataSyncedValidate = {
 				PrivateState: ServerAccountDataSyncedValidate.MapData.PrivateState(arg?.PrivateState, C),
 			};
 			return data;
-		}, {
+		},
+		{
 			/**
 			 * Validate a ChatRoomMapPos object
 			 *
 			 * Note that because the position needs the actual room data (for the entry flag position),
 			 * you might get slightly incorrect results from this if run from outside a chat room.
 			 *
-			 * @type {(arg: ChatRoomMapData["Pos"], C: Character) => ChatRoomMapData["Pos"]}
+			 * @type {(arg: Partial<ChatRoomMapData["Pos"]> | undefined, C: Character) => ChatRoomMapData["Pos"]}
 			 */
 			Pos: (arg, C) => {
-				const defaultPos = ChatRoomMapViewGetEntryFlagPosition() ?? { X: ChatRoomMapViewWidth / 2, Y: ChatRoomMapViewHeight / 2 };
 				/** @type {ChatRoomMapPos} */
+				const defaultPos = ChatRoomMapViewGetEntryFlagPosition() ?? { X: ChatRoomMapViewWidth / 2, Y: ChatRoomMapViewHeight / 2 };
 				if (!CommonIsObject(arg)
 					|| !CommonIsInteger(arg.X, 0, ChatRoomMapViewWidth)
 					|| !CommonIsInteger(arg.Y, 0, ChatRoomMapViewHeight)) {
 					return defaultPos;
 				}
-				return arg;
+				return /** @type {ChatRoomMapPos} */ (arg);
 			},
-			/** @type {(arg: ChatRoomMapData["PrivateState"], C: Character) => ChatRoomMapData["PrivateState"]} */
+			/** @type {(arg: ChatRoomMapData["PrivateState"] | undefined, C: Character) => ChatRoomMapData["PrivateState"]} */
 			PrivateState: (arg, C) => {
 				return CommonIsObject(arg) ? arg : {};
 			}
-		}),
+		}
+	),
 	/**
-	 * @param {ServerAccountDataSynced["ChatSearchSettings"]} arg
+	 * @param {Partial<ChatRoomSearchSettings> | undefined} arg
 	 * @param {Character} C
 	 * @returns {ChatRoomSearchSettings}
 	 */
@@ -1761,15 +1765,18 @@ var ServerAccountDataSyncedValidate = {
 		return names;
 	},
 	/**
-	 * @param {ServerAccountDataSynced["RecentlyUsedMapElements"]} arg
+	 * @param {unknown} arg
 	 * @param {Character} C
 	 * @returns {ChatRoomMapDoodad[]}
 	 */
 	RecentlyUsedMapElements: (arg, C) => {
-		if (arg?.length > 16) {
-			return arg.slice(-16);
+		if (!CommonIsArray(arg)) {
+			return [];
 		}
-		return CommonIsArray(arg) ? arg : [];
+		if (arg?.length > 16) {
+			arg = arg.slice(-16);
+		}
+		return /** @type {ChatRoomMapDoodad[]} */ (arg);
 	}
 };
 
@@ -1788,7 +1795,7 @@ function ServerIsMapData(arg) {
 
 /**
  * Namespace with default values for {@link ChatRoomSearchSettings} properties.
- * @type {{ [k in keyof Required<ChatRoomSearchSettings>]: (arg: ChatRoomSearchSettings[k], obj: never) => ChatRoomSearchSettings[k] }}
+ * @type {{ [k in keyof Required<ChatRoomSearchSettings>]: (arg: ChatRoomSearchSettings[k], obj?: undefined) => ChatRoomSearchSettings[k] }}
  * @namespace
  */
 const ServerChatRoomSearchSettingsValidate = {
@@ -1799,8 +1806,8 @@ const ServerChatRoomSearchSettingsValidate = {
 	ShowLocked: ServerValidation.isBool(true),
 	SearchDescriptions: ServerValidation.isBool(false),
 	MapTypes: (arg) => CommonIncludes(/** @type {const} */(["Never", "Hybrid", "Always"]), arg) ? arg : "",
-	RoomMinSize: ServerValidation.isInt(2, 20, 2),
-	RoomMaxSize: ServerValidation.isInt(2, 20, 20),
+	RoomMinSize: ServerValidation.isInt(2, 20, /** @type {number} */ (2)),
+	RoomMaxSize: ServerValidation.isInt(2, 20, /** @type {number} */ (20)),
 	FilterTerms: ServerValidation.isString(200, ""),
 };
 
@@ -1808,8 +1815,20 @@ const ServerChatRoomSearchSettingsValidate = {
 const ServerChatRoomRoleList = ["All", "Admin", "Whitelist"];
 
 /**
+ * Whole-record validator for {@link ServerChatRoomCustomData}, with a one-argument validator for each field.
+ * @typedef {(
+ *   ((arg: ServerChatRoomCustomData | undefined, obj?: undefined) => ServerChatRoomCustomData | undefined)
+ *   & { [k in keyof Required<ServerChatRoomCustomData>]: (arg: ServerChatRoomCustomData[k] | undefined, obj?: undefined) => ServerChatRoomCustomData[k] | undefined }
+ * )} ServerChatRoomCustomDataValidation
+ */
+
+/**
  * Per-field validators for {@link ServerChatRoomData} (for {@link ValidationApplyRecord}).
- * @satisfies {{ [k in keyof ServerChatRoomData]?: (arg: unknown, C: Character) => ServerChatRoomData[k] }}
+ * The second argument is unused here; call a validator with the field value alone.
+ * @type {(
+ *   { [k in keyof ServerChatRoomData]: (arg: ServerChatRoomData[k], obj?: undefined) => ServerChatRoomData[k] }
+ *   & { Custom: ServerChatRoomCustomDataValidation }
+ * )}
  */
 var ServerChatRoomDataValidationRecord = {
 	Name: ServerValidation.stringMatchesRegex(ServerChatRoomNameRegex, ""),
@@ -1841,9 +1860,9 @@ var ServerChatRoomDataValidationRecord = {
 	Limit(arg) {
 		return CommonIsInteger(arg, 2, 20) ? /** @type {number} */ (arg) : 10;
 	},
-	Admin: ServerValidation.isArrayOfIntegers([], { minInteger: 1 }),
-	Ban: ServerValidation.isArrayOfIntegers([], { minInteger: 1 }),
-	Whitelist: ServerValidation.isArrayOfIntegers([], { minInteger: 1 }),
+	Admin: ServerValidation.isArrayOfIntegers(/** @type {number[]} */ ([]), { minInteger: 0 }),
+	Ban: ServerValidation.isArrayOfIntegers(/** @type {number[]} */ ([]), { minInteger: 0 }),
+	Whitelist: ServerValidation.isArrayOfIntegers(/** @type {number[]} */ ([]), { minInteger: 0 }),
 	Visibility: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
 	Access: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
 	/**
@@ -1854,17 +1873,13 @@ var ServerChatRoomDataValidationRecord = {
 		if (!Array.isArray(arg)) return [];
 		return /** @type {ServerChatRoomBlockCategory[]} */ (arg.filter((c) => typeof c === "string" && (typeof ChatBlockItemList === "undefined" || ChatBlockItemList.includes(c))));
 	},
-	/** @type {((arg: Partial<ServerChatRoomCustomData>) => ServerChatRoomCustomData) & { [k in keyof (Required<ServerChatRoomCustomData>)]: (arg: ServerChatRoomCustomData[k]) => ServerChatRoomCustomData[k] }} */
+	/** @type {ServerChatRoomCustomDataValidation} */
 	Custom: Object.assign(
+		/** @type {(arg: ServerChatRoomCustomData | undefined, obj?: undefined) => ServerChatRoomCustomData | undefined} */
 		(arg) => {
 			/** @type {ServerChatRoomCustomData} */
 			const custom = {
 				...arg,
-				/**
-				 *
-				 * @param {string} img
-				 * @returns
-				 */
 				ImageURL: ServerChatRoomDataValidationRecord.Custom.ImageURL(arg?.ImageURL),
 				SizeMode: ServerChatRoomDataValidationRecord.Custom.SizeMode(arg?.SizeMode),
 				ImageFilter: ServerChatRoomDataValidationRecord.Custom.ImageFilter(arg?.ImageFilter),
@@ -1876,6 +1891,9 @@ var ServerChatRoomDataValidationRecord = {
 			return Object.values(custom).some(Boolean) ? custom : undefined;
 		},
 		{
+			/**
+			 * @param {string | undefined} imgURL
+			 */
 			ImageURL(imgURL) {
 				if (!ServerValidation.isStringOrUndefined(250, undefined)(imgURL))
 					return undefined;
@@ -1890,6 +1908,9 @@ var ServerChatRoomDataValidationRecord = {
 			},
 			SizeMode: ServerValidation.isInt(DrawingResizeMode.Fill, DrawingResizeMode.ShowFullOriginalRatio, DrawingResizeMode.Fill),
 			ImageFilter: ServerValidation.isColorCode(true, undefined),
+			/**
+			 * @param {string | undefined} musicURL
+			 */
 			MusicURL(musicURL) {
 				if (!ServerValidation.isStringOrUndefined(250, undefined)(musicURL))
 					return undefined;
@@ -1902,9 +1923,13 @@ var ServerChatRoomDataValidationRecord = {
 					return undefined;
 				return musicURL;
 			},
-			MusicStart: ServerValidation.isNumber(undefined),
+			/** @param {number | undefined} arg */
+			MusicStart(arg) {
+				return CommonIsNumeric(arg) ? arg : undefined;
+			},
 		}
 	),
+	Character(arg) { return arg; },
 };
 
 /**
@@ -1917,41 +1942,18 @@ function ServerChatRoomDataValidate(data) {
 
 /**
  * Per-field validators for {@link ServerChatRoomSearchData} (for {@link ValidationApplyRecord}).
- * @satisfies {{ [k in keyof ServerChatRoomSearchData]?: (arg: unknown, C: Character) => ServerChatRoomSearchData[k] }}
+ * The second argument is unused here; call a validator with the field value alone.
+ * @type {{ [k in keyof ServerChatRoomSearchData]: (arg: ServerChatRoomSearchData[k], obj?: undefined) => ServerChatRoomSearchData[k] }}
  */
 var ServerChatRoomSearchDataValidationRecord = {
 	Name: ServerValidation.stringMatchesRegex(ServerChatRoomNameRegex, ""),
 	Description: ServerValidation.isString(ServerChatRoomDescriptionMaxLength, ""),
 	Creator: ServerValidation.isString(20, ""),
 	Language: ServerValidation.isItem([...ServerChatRoomSupportedLanguages], "EN"),
-	/**
-	 * @param {unknown} arg
-	 * @returns {number}
-	 */
-	CreatorMemberNumber(arg) {
-		return CommonIsInteger(arg, 1) ? /** @type {number} */ (arg) : 0;
-	},
-	/**
-	 * @param {unknown} arg
-	 * @returns {number}
-	 */
-	Creation(arg) {
-		return CommonIsNumeric(arg) ? /** @type {number} */ (arg) : 0;
-	},
-	/**
-	 * @param {unknown} arg
-	 * @returns {number}
-	 */
-	MemberCount(arg) {
-		return CommonIsInteger(arg, 0, 20) ? /** @type {number} */ (arg) : 0;
-	},
-	/**
-	 * @param {unknown} arg
-	 * @returns {number}
-	 */
-	MemberLimit(arg) {
-		return CommonIsInteger(arg, 2, 20) ? /** @type {number} */ (arg) : 10;
-	},
+	CreatorMemberNumber: ServerValidation.isInt(0, Infinity, /** @type {number} */ (0)),
+	Creation: ServerValidation.isNumber(/** @type {number} */ (0)),
+	MemberCount: ServerValidation.isInt(0, 20, /** @type {number} */ (0)),
+	MemberLimit: ServerValidation.isInt(2, 20, /** @type {number} */ (10)),
 	BlockCategory: ServerChatRoomDataValidationRecord.BlockCategory,
 	Game: ServerChatRoomDataValidationRecord.Game,
 	Space: ServerChatRoomDataValidationRecord.Space,
@@ -1959,10 +1961,6 @@ var ServerChatRoomSearchDataValidationRecord = {
 	Access: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
 	MapType: ServerValidation.isString(20, "Never"),
 	CanJoin: ServerValidation.isBool(false),
-	/**
-	 * @param {unknown} arg
-	 * @returns {ServerFriendInfo[]}
-	 */
 	Friends(arg) {
 		if (!Array.isArray(arg)) return [];
 		/** @type {ServerFriendInfo[]} */
