@@ -1,4 +1,5 @@
 RoomName,Room Name
+RoomNamePlaceholder,The name of the chat room
 RoomLanguage,Language
 RoomDescription,Description
 InputDescriptionPlaceholder,Description of the room
@@ -52,12 +53,14 @@ ResponseChatRoomCreated,"Room created, joining it..."
 BlockCategory,Block Categories
 RoomCustomization,Customization
 ReturnMenu,(Click anywhere to return)
+MapModeHeader,Map
 MapNever,Don't use maps
 MapNeverTooltip,Never use the map exploration
 MapHybrid,Allow on and off
 MapHybridTooltip,"Hybrid map, can go on and off"
 MapAlways,Only use maps
 MapAlwaysTooltip,"Only use the map, no regular chat"
+GameModeHeader,Game
 Game,No Game
 GameClubCard,Club Card
 GameLARP,LARP

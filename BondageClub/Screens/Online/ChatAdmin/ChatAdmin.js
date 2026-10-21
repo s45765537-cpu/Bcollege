@@ -31,6 +31,13 @@ const ChatAdminID = Object.freeze({
 	adminListInput: "chat-admin-input-admin-list",
 	whitelistInput: "chat-admin-input-whitelist",
 	banListInput: "chat-admin-input-ban-list",
+	language: "chat-admin-language",
+	blockCategory: "chat-admin-block-category",
+	game: "chat-admin-game",
+	customization: "chat-admin-customization",
+	map: "chat-admin-map",
+	visibility: "chat-admin-visibility",
+	access: "chat-admin-access",
 });
 
 /**
@@ -51,7 +58,13 @@ async function ChatAdminLoad() {
 
 	if (adminData.Language == null || !ServerChatRoomSupportedLanguages.includes(adminData.Language)) adminData.Language = ServerChatRoomSupportedLanguages[0];
 
+	const visibilityKey = /** @type {ChatRoomVisibilityModeLabel} */ (ChatAdminModeKey(ChatRoomVisibilityMode, adminData.Visibility));
+	const accessKey = /** @type {ChatRoomAccessModeLabel} */ (ChatAdminModeKey(ChatRoomAccessMode, adminData.Access));
+	adminData.Visibility = ChatRoomVisibilityMode[visibilityKey];
+	adminData.Access = ChatRoomAccessMode[accessKey];
+
 	ChatAdminMessage = "";
+	const canEdit = ChatAdminCanEdit();
 	const canCommit = ChatAdminCanCommit();
 
 	ElementDOMScreen.getTemplate(ChatAdminID.screen,
@@ -99,22 +112,363 @@ async function ChatAdminLoad() {
 	);
 	ElementWrap(`${ChatAdminID.screen}-aside-r`)?.classList.add("scroll-box");
 
+	const nameInput = ElementInput.Create(ChatAdminID.nameInput, { type: "text" }, {
+		attributes: {
+			type: "text",
+			value: canEdit ? adminData.Name : ChatSearchMuffle(adminData.Name),
+			maxLength: 20,
+			autocomplete: "off",
+			pattern: "^[\x20-\x7E]+$",
+			disabled: !canEdit,
+			placeholder: TextGet("RoomNamePlaceholder"),
+		},
+		eventListeners: {
+			input: function () {
+				if (ChatAdminData && ChatAdminCanEdit()) ChatAdminData.Name = this.value;
+			},
+		},
+	});
 
+	const sizeInput = ElementInput.Create(ChatAdminID.sizeInput, { type: "number" }, {
+		attributes: {
+			value: adminData.Limit.toString(),
+			min: "2",
+			max: "20",
+			autocomplete: "off",
+			disabled: !canEdit,
+		},
+		eventListeners: {
+			input: function () {
+				if (!ChatAdminData || !ChatAdminCanEdit()) return;
+				const limit = CommonParseInt(this.value);
+				if (CommonIsInteger(limit)) ChatAdminData.Limit = limit;
+			},
+		},
+	});
+
+	const descInput = ElementInput.Create(ChatAdminID.descriptionInput, { type: "textarea" }, {
+		attributes: {
+			maxLength: ServerChatRoomDescriptionMaxLength,
+			autocomplete: "off",
+			placeholder: TextGet("InputDescriptionPlaceholder"),
+			disabled: !canEdit,
+		},
+		children: [canEdit ? adminData.Description : ChatSearchMuffle(adminData.Description)],
+		eventListeners: {
+			input: function () {
+				if (ChatAdminData && ChatAdminCanEdit()) ChatAdminData.Description = this.value;
+			},
+		},
+	});
+
+	/**
+	 * @param {string} id
+	 * @param {readonly number[]} list
+	 * @param {(value: number[]) => void} commit
+	 */
+	const memberList = (id, list, commit) => {
+		const input = ElementInput.Create(id, { type: "textarea" }, {
+			attributes: {
+				maxLength: 2000,
+				autocomplete: "off",
+				placeholder: TextGet("MemberNumbersFormatPlaceholder"),
+				disabled: !canEdit,
+			},
+			children: [list.join(",")],
+			eventListeners: {
+				input: function () {
+					if (ChatAdminCanEdit()) commit(CommonConvertStringToArray(this.value.trim()));
+				},
+			},
+		});
+		return input;
+	};
+	const adminListInput = memberList(ChatAdminID.adminListInput, adminData.Admin, (value) => {
+		if (ChatAdminData) ChatAdminData.Admin = value;
+	});
+	const whitelistInput = memberList(ChatAdminID.whitelistInput, adminData.Whitelist, (value) => {
+		if (ChatAdminData) ChatAdminData.Whitelist = value;
+	});
+	const banListInput = memberList(ChatAdminID.banListInput, adminData.Ban, (value) => {
+		if (ChatAdminData) ChatAdminData.Ban = value;
+	});
+
+	/**
+	 * @param {HTMLTextAreaElement} input
+	 * @param {(current: number[]) => number[]} build
+	 */
+	const quickadd = (input, build) => () => {
+		if (!ChatAdminCanEdit()) return;
+		ElementValue(input, build(CommonConvertStringToArray(ElementValue(input))).join(","));
+	};
+	/**
+	 * @param {string} text
+	 * @param {() => void} onclick
+	 * @param {boolean} [wide]
+	 */
+	const quickButton = (text, onclick, wide) => ElementButton.Create(null, onclick, {
+		label: text,
+		disabled: !canEdit,
+	}, {
+		button: { classList: ["chat-admin-text-button", wide ? "chat-admin-quickadd-wide" : null] },
+	});
+
+	/**
+	 * @param {string} id
+	 * @param {readonly { value: string, label: string }[]} options
+	 * @param {string} selected
+	 * @param {(this: HTMLSelectElement, ev: Event) => void} onChange
+	 */
+	const dropdown = (id, options, selected, onChange) => ElementDropdown.Create(
+		id,
+		options.map((option) => ({
+			children: [option.label],
+			attributes: { value: option.value, selected: option.value === selected },
+		})),
+		onChange,
+		{ disabled: !canEdit },
+	);
+
+	const languageSelect = dropdown(
+		ChatAdminID.language,
+		ServerChatRoomSupportedLanguages.map((lang) => ({
+			value: lang,
+			label: TranslationGetLanguageName(lang, true) || TextGet("Language" + lang),
+		})),
+		adminData.Language,
+		function () {
+			if (!ChatAdminData) return;
+			ChatAdminData.Language = /** @type {ServerChatRoomLanguage} */ (this.value);
+		},
+	);
+
+	const gameSelect = dropdown(
+		ChatAdminID.game,
+		ChatAdminGameList.map((game) => ({ value: game, label: TextGet("Game" + game) })),
+		adminData.Game,
+		function () {
+			if (!ChatAdminData) return;
+			ChatAdminData.Game = /** @type {ServerChatRoomGame} */ (this.value);
+		},
+	);
+
+	const mapSelect = dropdown(
+		ChatAdminID.map,
+		ChatRoomMapViewTypeList.map((type) => ({ value: type, label: TextGet("Map" + type) })),
+		adminData.MapData.Type,
+		function () {
+			if (!ChatAdminData) return;
+			ChatAdminData.MapData.Type = /** @type {ChatRoomMapType} */ (this.value);
+			this.title = TextGet(`Map${this.value}Tooltip`);
+		},
+	);
+
+	const visibilitySelect = dropdown(
+		ChatAdminID.visibility,
+		CommonKeys(ChatRoomVisibilityMode).map((key) => ({ value: key, label: TextGet(`VisibilityMode${key}`) })),
+		visibilityKey,
+		function () {
+			if (!ChatAdminData) return;
+			ChatAdminData.Visibility = ChatRoomVisibilityMode[/** @type {ChatRoomVisibilityModeLabel} */ (this.value)];
+		},
+	);
+
+	const accessSelect = dropdown(
+		ChatAdminID.access,
+		CommonKeys(ChatRoomAccessMode).map((key) => ({ value: key, label: TextGet(`AccessMode${key}`) })),
+		accessKey,
+		function () {
+			if (!ChatAdminData) return;
+			ChatAdminData.Access = ChatRoomAccessMode[/** @type {ChatRoomAccessModeLabel} */ (this.value)];
+		},
+	);
+
+	const blockButton = ElementButton.Create(
+		ChatAdminID.blockCategory,
+		() => {
+			if (!ChatAdminData) return;
+			ChatBlockItemEditable = ChatAdminCanEdit();
+			ChatBlockItemReturnScreen = CommonGetScreen();
+			ChatBlockItemCategory = ChatAdminData.BlockCategory;
+			CommonSetScreen("Online", "ChatBlockItem");
+		},
+		{
+			label: TextGet("BlockCategory"),
+		},
+		{
+			button: {
+				classList: ["chat-admin-text-button"]
+			}
+		}
+	);
+
+	const customizationButton = ElementButton.Create(
+		ChatAdminID.customization,
+		() => {
+			CommonSetScreen("Online", "ChatAdminRoomCustomization");
+		},
+		{
+			label: TextGet("RoomCustomization"),
+		},
+		{
+			button: {
+				classList: [
+					"chat-admin-text-button",
+					adminData.Custom == null ? null : "chat-admin-has-custom"
+				]
+			}
+		}
+	);
+
+	const descLabel = ElementCreateSettingsLabel(TextGet("RoomDescription"), descInput);
+	descLabel.classList.add("chat-admin-description-label");
+
+	const main = ElementWrap(`${ChatAdminID.screen}-main`);
+	main?.append(
+		ElementCreate({
+			tag: "div",
+			classList: ["chat-admin-identity"],
+			children: [
+				{
+					tag: "div",
+					classList: ["chat-admin-name-row"],
+					children: [
+						ElementCreateSettingsLabel(TextGet("RoomName"), nameInput, { position: "left" }),
+						nameInput,
+					],
+				},
+				{
+					tag: "div",
+					classList: ["chat-admin-meta-row"],
+					children: [
+						ElementCreateSettingsLabel(TextGet("RoomLanguage"), languageSelect, { position: "left" }),
+						languageSelect,
+						ElementCreateSettingsLabel(TextGet("RoomSize"), sizeInput, { position: "left" }),
+						sizeInput,
+					],
+				},
+			],
+		}),
+		descLabel,
+		descInput,
+		ElementCreate({
+			tag: "div",
+			classList: ["chat-admin-lists"],
+			children: [
+				{
+					tag: "div",
+					classList: ["chat-admin-list"],
+					children: [
+						ElementCreateSettingsLabel(TextGet("RoomAdminList"), adminListInput),
+						adminListInput,
+						{
+							tag: "div",
+							classList: ["chat-admin-quickadd"],
+							children: [
+								quickButton(TextGet("QuickaddAdminOwner"), quickadd(adminListInput, (current) => ChatRoomConcatenateWhitelist(["Owner"], current)), true),
+								quickButton(TextGet("QuickaddAdminLovers"), quickadd(adminListInput, (current) => ChatRoomConcatenateWhitelist(["Lovers"], current)), true),
+							],
+						},
+					],
+				},
+				{
+					tag: "div",
+					classList: ["chat-admin-list"],
+					children: [
+						ElementCreateSettingsLabel(TextGet("RoomWhitelist"), whitelistInput),
+						whitelistInput,
+						{
+							tag: "div",
+							classList: ["chat-admin-quickadd"],
+							children: [
+								quickButton(TextGet("QuickaddWhitelistOwner"), quickadd(whitelistInput, (current) => ChatRoomConcatenateWhitelist(["Owner"], current))),
+								quickButton(TextGet("QuickaddWhitelistLovers"), quickadd(whitelistInput, (current) => ChatRoomConcatenateWhitelist(["Lovers"], current))),
+								quickButton(TextGet("QuickaddWhitelistFriends"), quickadd(whitelistInput, (current) => ChatRoomConcatenateWhitelist(["Friends"], current))),
+								quickButton(TextGet("QuickaddWhitelistWhitelist"), quickadd(whitelistInput, (current) => ChatRoomConcatenateWhitelist(["Whitelist"], current))),
+							],
+						},
+					],
+				},
+				{
+					tag: "div",
+					classList: ["chat-admin-list"],
+					children: [
+						ElementCreateSettingsLabel(TextGet("RoomBanList"), banListInput),
+						banListInput,
+						{
+							tag: "div",
+							classList: ["chat-admin-quickadd"],
+							children: [
+								quickButton(TextGet("QuickaddBanBlacklist"), quickadd(banListInput, (current) => ChatRoomConcatenateBanList(["BlackList"], current)), true),
+								quickButton(TextGet("QuickaddBanGhostlist"), quickadd(banListInput, (current) => ChatRoomConcatenateBanList(["GhostList"], current)), true),
+							],
+						},
+					],
+				},
+			],
+		}),
+	);
+	if (canEdit) {
+		const note = ElementText.CreateNote(TextGet("QuickaddExplanation"));
+		note.classList.add("chat-admin-note");
+		main?.append(note);
+	}
+
+	ElementWrap(`${ChatAdminID.screen}-aside-r`)?.append(
+		customizationButton,
+		blockButton,
+		ElementCreate({
+			tag: "div",
+			classList: ["chat-admin-modes"],
+			children: [
+				{
+					tag: "div",
+					classList: ["chat-admin-mode"],
+					children: [
+						ElementCreateSettingsLabel(TextGet("GameModeHeader"), gameSelect, { position: "left" }),
+						gameSelect,
+					],
+				},
+				{
+					tag: "div",
+					classList: ["chat-admin-mode"],
+					children: [
+						ElementCreateSettingsLabel(TextGet("MapModeHeader"), mapSelect, { position: "left" }),
+						mapSelect,
+					],
+				},
+				{
+					tag: "div",
+					classList: ["chat-admin-mode"],
+					children: [
+						ElementCreateSettingsLabel(TextGet("VisibilityModeHeader"), visibilitySelect, { position: "left" }),
+						visibilitySelect,
+					],
+				},
+				{
+					tag: "div",
+					classList: ["chat-admin-mode"],
+					children: [
+						ElementCreateSettingsLabel(TextGet("AccessModeHeader"), accessSelect, { position: "left" }),
+						accessSelect,
+					],
+				},
+			],
+		}),
+	);
+
+	if (!canEdit) ChatAdminSetMessage("AdminOnly");
+	else if (ChatAdminMode === "create") ElementFocus(nameInput);
 	TextPrefetch("Online", "ChatBlockItem");
 }
 
-/**
- * Handles drawing the editor screen
- */
-function ChatAdminRun() {
-}
+function ChatAdminRun() {}
 
 /**
- * Handles the click events on the editor screen. Is called from CommonClick()
+ * Handles clicks that reach the canvas. Is called from CommonClick()
  * @returns {void} - Nothing
  */
-function ChatAdminClick() {
-}
+function ChatAdminClick() {}
 
 /**
  * Handles the key presses while in the creation screen. When the user presses enter, we create the room.
@@ -122,6 +476,8 @@ function ChatAdminClick() {
  */
 function ChatAdminKeyDown(event) {
 	if (event.repeat) return false;
+	const target = event.target;
+	if (target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || target instanceof HTMLButtonElement) return false;
 
 	if (CommonKey.IsPressed(event, "Enter") && ChatAdminCanCommit()) {
 		ChatAdminCommit();
@@ -179,6 +535,20 @@ function ChatAdminImport() {
 			ToastManager.error(TextGet("UploadInvalidCode"));
 		}
 	});
+}
+
+/**
+ * Match a visibility or access value to its mode label.
+ * @param {Readonly<Record<string, readonly ServerChatRoomRole[]>>} modes
+ * @param {readonly ServerChatRoomRole[]} roles
+ * @returns {string}
+ */
+function ChatAdminModeKey(modes, roles) {
+	const key = CommonKeys(modes).find((name) => {
+		const allowed = modes[name];
+		return allowed.length === roles.length && allowed.every((role) => roles.includes(role));
+	});
+	return key ?? CommonKeys(modes)[0];
 }
 
 /**
@@ -377,12 +747,12 @@ function ChatEditorValidateAdminSettings(settings) {
 function ChatEditorAdminSettingsImport(settings) {
 	if (!ChatAdminData) return;
 
-	ElementValue("InputName", settings.Name);
-	ElementValue("InputDescription", settings.Description);
-	ElementValue("InputSize", settings.Limit.toString());
-	ElementValue("InputAdminList", settings.Admin.join(","));
-	ElementValue("InputWhitelist", settings.Whitelist.join(","));
-	ElementValue("InputBanList", settings.Ban.join(","));
+	ElementValue(ChatAdminID.nameInput, settings.Name);
+	ElementValue(ChatAdminID.descriptionInput, settings.Description);
+	ElementValue(ChatAdminID.sizeInput, settings.Limit.toString());
+	ElementValue(ChatAdminID.adminListInput, settings.Admin.join(","));
+	ElementValue(ChatAdminID.whitelistInput, settings.Whitelist.join(","));
+	ElementValue(ChatAdminID.banListInput, settings.Ban.join(","));
 
 	ChatAdminData.Language = settings.Language;
 	ChatAdminData.Background = settings.Background;
@@ -391,6 +761,14 @@ function ChatEditorAdminSettingsImport(settings) {
 	ChatAdminData.Game = settings.Game;
 	ChatAdminData.MapData = settings.MapData;
 	ChatAdminData.Custom = settings.Custom;
+	ChatAdminData.Visibility = settings.Visibility;
+	ChatAdminData.Access = settings.Access;
+	ElementValue(ChatAdminID.language, settings.Language);
+	ElementValue(ChatAdminID.game, settings.Game);
+	ElementValue(ChatAdminID.map, settings.MapData.Type);
+	ElementValue(ChatAdminID.visibility, ChatAdminModeKey(ChatRoomVisibilityMode, settings.Visibility));
+	ElementValue(ChatAdminID.access, ChatAdminModeKey(ChatRoomAccessMode, settings.Access));
+	ElementWrap(ChatAdminID.customization)?.classList.toggle("chat-admin-has-custom", settings.Custom != null);
 }
 
 /**
@@ -401,14 +779,14 @@ function ChatEditorGetAdminSettings() {
 	if (!ChatAdminData) return;
 
 	return {
-		Name: ElementValue("InputName").trim() || "Penis",
+		Name: ElementValue(ChatAdminID.nameInput).trim(),
 		Language: ChatAdminData.Language,
-		Description: ElementValue("InputDescription").trim(),
+		Description: ElementValue(ChatAdminID.descriptionInput).trim(),
 		Background: ChatAdminData.Background,
-		Limit: parseInt(ElementValue("InputSize"), 10) || 10,
-		Admin: CommonConvertStringToArray(ElementValue("InputAdminList").trim()),
-		Whitelist: CommonConvertStringToArray(ElementValue("InputWhitelist").trim()),
-		Ban: CommonConvertStringToArray(ElementValue("InputBanList").trim()),
+		Limit: parseInt(ElementValue(ChatAdminID.sizeInput), 10) || 10,
+		Admin: CommonConvertStringToArray(ElementValue(ChatAdminID.adminListInput).trim()),
+		Whitelist: CommonConvertStringToArray(ElementValue(ChatAdminID.whitelistInput).trim()),
+		Ban: CommonConvertStringToArray(ElementValue(ChatAdminID.banListInput).trim()),
 		BlockCategory: ChatAdminData.BlockCategory,
 		Game: ChatAdminData.Game,
 		Visibility: ChatAdminData.Visibility,
@@ -470,18 +848,18 @@ function ChatEditorCreateRoom() {
 	ChatAdminDefaultLanguage = ChatAdminData.Language;
 	/** @type {ChatRoomSettings} */
 	const NewRoom = {
-		Name: ElementValue("InputName").trim(),
+		Name: ElementValue(ChatAdminID.nameInput).trim(),
 		Language: ChatAdminData.Language,
-		Description: ElementValue("InputDescription").trim(),
+		Description: ElementValue(ChatAdminID.descriptionInput).trim(),
 		Background: ChatAdminData.Background,
 		Visibility: ChatAdminData.Visibility,
 		Access: ChatAdminData.Access,
 		Space: ChatAdminData.Space,
 		Game: ChatAdminData.Game,
-		Admin: CommonConvertStringToArray(ElementValue("InputAdminList").trim()),
-		Whitelist: CommonConvertStringToArray(ElementValue("InputWhitelist").trim()),
-		Ban: CommonConvertStringToArray(ElementValue("InputBanList").trim()),
-		Limit: parseInt(ElementValue("InputSize"), 10),
+		Admin: CommonConvertStringToArray(ElementValue(ChatAdminID.adminListInput).trim()),
+		Whitelist: CommonConvertStringToArray(ElementValue(ChatAdminID.whitelistInput).trim()),
+		Ban: CommonConvertStringToArray(ElementValue(ChatAdminID.banListInput).trim()),
+		Limit: parseInt(ElementValue(ChatAdminID.sizeInput), 10),
 		BlockCategory: ChatAdminData.BlockCategory,
 		Custom: ChatAdminData.Custom
 	};
