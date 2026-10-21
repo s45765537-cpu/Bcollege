@@ -1944,12 +1944,6 @@ interface Character {
 	 * The character's loaded dialog info
 	 */
 	DialogInfo?: DialogInfo<any>;
-	/**
-	 * A deprecated identifier for online characters
-	 * Only exists on the player, has the same value as their character ID.
-	 * @deprecated
-	 */
-	OnlineID?: string;
 	/** The asset family used by the character */
 	AssetFamily: IAssetFamily;
 	Name: string;

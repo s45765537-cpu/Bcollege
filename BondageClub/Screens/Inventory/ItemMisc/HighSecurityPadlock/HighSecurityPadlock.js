@@ -138,7 +138,7 @@ function InventoryItemMiscHighSecurityPadlockClickHook(data, originalFunction) {
 
 			// Convert to array and back; can only save strings on server
 			item.Property ??= {};
-			item.Property.MemberNumberListKeys = CommonConvertArrayToString([...list.values()]);
+			item.Property.MemberNumberListKeys = [...list.values()].join(",");
 			ElementValue("MemberNumberList", item.Property.MemberNumberListKeys);
 
 			if (ServerPlayerIsInChatRoom()) {

@@ -756,7 +756,7 @@ function AudioVibratorSounds(data, metadata) {
 	/** @type {AudioEffectName | undefined} */
 	let Sound;
 
-	var Level = parseInt(data.Content.substr(data.Content.length - 1));
+	var Level = parseInt(data.Content.substring(data.Content.length - 1));
 	if (isNaN(Level)) Level = 0;
 
 	// FIXME: what is going on in here? Assets not an array, and AssetName being an Asset and not a string?

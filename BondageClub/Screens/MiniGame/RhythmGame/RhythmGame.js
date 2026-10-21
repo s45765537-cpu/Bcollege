@@ -15,8 +15,9 @@ let RhythmGamePreloadCompleted = false;
 let RhythmGameInit = {
 	RhythmGamePreload : function(){
 		RhythmGameBackground = 'RhythmGameLoading';
-		RhythmGameBeatmap = MiniGameDifficultyMode.substring(0, MiniGameDifficultyMode.lastIndexOf(' '));
-		RhythmGameDifficulty = MiniGameDifficultyMode.substr(MiniGameDifficultyMode.lastIndexOf(' ')+1, 2);
+		const start = MiniGameDifficultyMode.lastIndexOf(' ');
+		RhythmGameBeatmap = MiniGameDifficultyMode.substring(0, start);
+		RhythmGameDifficulty = MiniGameDifficultyMode.substring(start + 1, start + 3);
 		RhythmGameStarted = false;
 		RhythmGameEnded = false;
 		RhythmGamePassed = true;

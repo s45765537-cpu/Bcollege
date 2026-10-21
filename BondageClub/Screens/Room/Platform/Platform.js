@@ -3716,8 +3716,9 @@ function PlatformTouch() {
  */
 function PlatformHasPerk(C, Perk) {
 	if ((C.Perk == null) || (C.PerkName == null)) return false;
-	if (C.PerkName.indexOf(Perk) < 0) return false;
-	return (C.Perk.substr(C.PerkName.indexOf(Perk), 1) == "1");
+	const perkIndex = C.PerkName.indexOf(Perk);
+	if (perkIndex < 0) return false;
+	return (C.Perk.substring(perkIndex, perkIndex + 1) == "1");
 }
 
 /**

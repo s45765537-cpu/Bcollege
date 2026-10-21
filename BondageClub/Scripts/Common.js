@@ -66,7 +66,7 @@ const TimeUnits = /** @type {const} */({
 
 /** @type {(this: string, index: number, character: string) => string} */
 String.prototype.replaceAt=function(index, character) {
-	return this.substr(0, index) + character + this.substr(index+character.length);
+	return this.substring(0, index) + character + this.substring(index + character.length);
 };
 
 /**
@@ -489,7 +489,7 @@ function CommonTouchActive(X, Y, W, H, TL=null) {
 function CommonDynamicFunction(FunctionName) {
 	/** @type {Record<string, any>} */
 	const namespace = globalThis;
-	const func = namespace[FunctionName.substr(0, FunctionName.indexOf("("))];
+	const func = namespace[FunctionName.substring(0, FunctionName.indexOf("("))];
 	if (typeof func === "function")
 		func();
 	else
@@ -887,15 +887,6 @@ function CommonStringShuffle(string) {
  */
 function CommonGenerateUniqueID() {
 	return Math.random().toString(36).substring(2);
-}
-/**
- * Converts an array to a string separated by commas (equivalent of .join(","))
- * @param {readonly any[]} Arr - Array to convert to a joined string
- * @returns {string} - String of all the array items joined together
- * @deprecated - use .join(",");
- */
-function CommonConvertArrayToString(Arr) {
-	return Arr.join(",");
 }
 
 /**

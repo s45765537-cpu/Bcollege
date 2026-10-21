@@ -105,7 +105,7 @@ function InventoryItemVulvaFuturisticVibratorClickSet() {
 
 	ItemVulvaFuturisticVibratorTriggerValues = ItemVulvaFuturisticVibratorTriggerValuesTemp;
 
-	const temp = CommonConvertArrayToString(ItemVulvaFuturisticVibratorTriggerValues);
+	const temp = ItemVulvaFuturisticVibratorTriggerValues.join(",");
 	if (temp === "") return;
 	item.Property.TriggerValues = temp;
 

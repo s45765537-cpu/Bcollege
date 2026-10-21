@@ -56,7 +56,7 @@ async function InformationSheetLoad() {
 				children: [TextGet("AllowedInteractions")],
 				style: { "user-select": "none" }
 			},
-			ElementCreateDropdown("AllowedInteractions-dropdown", dropdownOptions, function (ev) {
+			ElementDropdown.Create("AllowedInteractions-dropdown", dropdownOptions, function (ev) {
 				ev.preventDefault();
 				if (this.value in Object.values(AllowedInteractions) === false) return;
 				Player.AllowedInteractions = /** @type {AllowedInteractions} */ (CommonParseInt(this.value));

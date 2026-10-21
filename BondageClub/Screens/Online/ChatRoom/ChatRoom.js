@@ -56,18 +56,6 @@ var ChatRoomLovershipOption = null;
 var ChatRoomMoneyForOwner = 0;
 /** @type {number[]} */
 var ChatRoomQuestGiven = [];
-/**
- * @deprecated Use {@link ChatSearchGetSpace()}
- * @todo Remove after R121
- * @type {ServerChatRoomSpace}
- */
-var ChatRoomSpace = ChatRoomSpaceType.MIXED;
-/**
- * @deprecated Use {@link ChatRoomGetGame()}
- * @todo Remove after R121
- * @type {ServerChatRoomGame}
- */
-var ChatRoomGame;
 var ChatRoomHelpSeen = false;
 var ChatRoomAllowCharacterUpdate = true;
 var ChatRoomStruggleAssistBonus = 0;
@@ -503,7 +491,7 @@ function ChatRoomIsLoverOfPlayer() { return ((CurrentCharacter != null) && Curre
  * Checks if the current character can serve drinks.
  * @returns {boolean} - TRUE if the character is a maid and is free.
  */
-function ChatRoomCanServeDrink() { return ((CurrentCharacter != null) && CurrentCharacter.CanWalk() && (ReputationCharacterGet(CurrentCharacter, "Maid") > 0) && CurrentCharacter.CanTalk()); }
+function ChatRoomCanServeDrink() { return ((CurrentCharacter != null) && CurrentCharacter.CanWalk() && (ReputationGet(CurrentCharacter, "Maid") > 0) && CurrentCharacter.CanTalk()); }
 /**
  * Checks if the player can give a money envelope to her owner
  * @returns {boolean} - TRUE if the current character is the owner of the player, and the player has the envelope
@@ -747,7 +735,7 @@ function ChatRoomGiveHighSecurityKeysAll() {
 						if (list.indexOf(CurrentCharacter.MemberNumber) < 0)
 							list.push(CurrentCharacter.MemberNumber);
 						C.Appearance[A].Property.MemberNumberListKeys = "" +
-							CommonConvertArrayToString(list); // Convert to array and back; can only save strings on server
+							list.join(",");
 					}
 				}
 				C.Appearance[A].Property.LockMemberNumber = CurrentCharacter.MemberNumber;
@@ -2409,7 +2397,6 @@ function ChatRoomRun(time) {
 	AsylumGGTSProcess();
 	PandoraPenitentiaryRun();
 	ChatRoomUpdateOnlineBounty();
-	ChatRoomCustomizationRun();
 	ChatRoomMenuBuild();
 
 	// Draws the chat room controls
@@ -3219,7 +3206,6 @@ function ChatRoomProcessSlowLeave() {
 function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomCustomizationClear();
 	OnlineGameReset();
-	ChatRoomGame = "";
 	ChatRoomSlowtimer = 0;
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;
@@ -4157,7 +4143,7 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		}
 	}
 	else if (data.Content.startsWith("MaidDrinkPick")) {
-		let A = parseInt(data.Content.substr("MaidDrinkPick".length));
+		let A = parseInt(data.Content.substring("MaidDrinkPick".length));
 		if ((A == 0) || (A == 5) || (A == 10)) MaidQuartersOnlineDrinkPick(data.Sender, A);
 	}
 	else if (data.Content.startsWith("PayQuest")) {
@@ -5114,7 +5100,6 @@ async function ChatRoomSync(data) {
 
 	// If there's a game running in that chatroom, save it and perform a reset
 	if (ChatRoomData.Game != null) {
-		ChatRoomGame = ChatRoomData.Game;
 		OnlineGameReset();
 	}
 
@@ -5265,10 +5250,6 @@ function ChatRoomSyncRoomProperties(data) {
 
 	if (ChatRoomSep.ActiveElem) {
 		ChatRoomSep.SetRoomData(ChatRoomSep.ActiveElem, roomData);
-	}
-
-	if (ChatRoomData.Game != null) {
-		ChatRoomGame = ChatRoomData.Game;
 	}
 
 	ChatRoomUpdateCustomization();
@@ -5786,7 +5767,7 @@ function ChatRoomAdminChatAction(ActionType, Argument) {
  */
 function ChatRoomCurrentTime() {
 	var D = new Date();
-	return ("0" + D.getHours()).substr(-2) + ":" + ("0" + D.getMinutes()).substr(-2);
+	return `${D.getHours().toString().padStart(2, "0")}:${D.getMinutes().toString().padStart(2, "0")}`;
 }
 
 /**
