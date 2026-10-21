@@ -9014,6 +9014,8 @@ ItemHandheldPlushieOptionVelvetBunnyCabaret15,Clara
 ItemHandheldPlushieSetVelvetBunnyCabaret15,SourceCharacter places a cute Clara plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVelvetBunnyCabaret16,Evelia
 ItemHandheldPlushieSetVelvetBunnyCabaret16,SourceCharacter places a cute Evelia plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVelvetBunnyCabaret17,Carina
+ItemHandheldPlushieSetVelvetBunnyCabaret17,SourceCharacter places a cute Carina plushie in DestinationCharacter hands.
 ItemHandheldPlushieModuleSubbycatsPlace,Subbycat's Place
 ItemHandheldPlushieSelectSubbycatsPlace,Subbycat's Place
 ItemHandheldPlushieSubbycatsPlaceSelect,Choose the plushie:

@@ -24712,6 +24712,7 @@ var AssetFemale3DCGExtended = {
 						{}, // Yu Fantôme
 						{}, // Clara
 						{}, // Evelia
+						{}, // Carina
 					],
 					DrawData: {
 						elementData: [
@@ -24767,6 +24768,9 @@ var AssetFemale3DCGExtended = {
 							},
 							{
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Evelia.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Carina.png",
 							},
 						],
 					},
