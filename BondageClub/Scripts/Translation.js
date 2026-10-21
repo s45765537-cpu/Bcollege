@@ -836,6 +836,7 @@ var TranslationDictionary = /** @type {const} */([
 			"Screens/Room/Shop/Dialog_NPC_Shop_Customer_TW.txt",
 			"Screens/Room/Shop/Dialog_NPC_Shop_Vendor_TW.txt",
 			"Screens/Room/Shop/Text_Shop_TW.txt",
+			"Screens/Room/Shop2/Text_Shop2_TW.txt",
 			// "Screens/MiniGame/KinkyDungeon/Text_KinkyDungeon_TW.txt",
 			// "Screens/Room/Poker/Text_Poker_TW.txt",
 			"Screens/Room/Stable/Dialog_NPC_Stable_Pony_TW.txt",
