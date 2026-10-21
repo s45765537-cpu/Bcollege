@@ -1308,11 +1308,12 @@ function ValidationHasSomeScriptPermission(character, property, permissionLevels
 }
 
 /**
+ * Validators may be called on their own with just the field value. Records that need extra context
+ * take it as a second argument; this function forwards `object` to those and one-argument validators ignore it.
  * @template O
- * @template Arg
- * @template {{ [key: string]: (arg: Arg, C: O) => Arg }} T
+ * @template {{ [key: string]: ((value: any) => any) | ((value: any, object: O) => any) }} T
  * @param {unknown} arg The to-be validated record
- * @param {O} object An extra object to validate with. Passed to the validator as a 2nd argument
+ * @param {O} object An extra object to validate with. Passed to validators that accept a 2nd argument
  * @param {T} validators A record of validation functions; one for each property in `arg`
  * @param {boolean} allowExtraKeys whether to allow extra key/value pairs in `arg` (absent from the `validators` record) to-be returned
  * @returns {{ [k in keyof T]: ReturnType<T[k]> }} The validated `arg`
@@ -1320,7 +1321,7 @@ function ValidationHasSomeScriptPermission(character, property, permissionLevels
 function ValidationApplyRecord(arg, object, validators, allowExtraKeys=false) {
 	const properties = /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */ (CommonIsObject(arg) ? arg : {});
 
-	const validated = /** @type {[string, Arg][]} */ (CommonEntries(validators).map(([name, validate]) => {
+	const validated = /** @type {[string, any][]} */ (CommonEntries(validators).map(([name, validate]) => {
 		const value = validate(properties[name], object);
 		return [name, value];
 	}));
