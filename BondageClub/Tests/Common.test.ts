@@ -680,3 +680,17 @@ describe("CommonUncamelize", () => {
 		expect(Game.CommonUncamelize("bee SAY Bzzz!")).toEqual(["bee", "say", "bzzz!"]);
 	});
 });
+
+describe("CommonRange", () => {
+	it("returns a range including its end", () => {
+		expect(Game.CommonRange(1, 5)).toEqual([1, 2, 3, 4, 5]);
+	});
+
+	it("returns a range with a given step", () => {
+		expect(Game.CommonRange(1, 5, 2)).toEqual([1, 3, 5]);
+	});
+
+	it("starts at 0 when only the end is given", () => {
+		expect(Game.CommonRange(3)).toEqual([0, 1, 2, 3]);
+	});
+});
