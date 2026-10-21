@@ -134,7 +134,7 @@ function ChatAdminRoomCustomizationCommand(args) {
 					customData.ImageURL = undefined;
 					break;
 				}
-				const safeArg = ServerChatRoomDataValidate.Custom.ImageURL(arg);
+				const safeArg = ServerChatRoomDataValidationRecord.Custom.ImageURL(arg);
 				if (!safeArg) {
 					ChatRoomSendLocal(`Invalid value "${arg}" for "${param}" parameter. It needs an URL or a BC resource path.`);
 					return;
@@ -161,7 +161,7 @@ function ChatAdminRoomCustomizationCommand(args) {
 					customData.ImageFilter = undefined;
 					break;
 				}
-				const safeArg = ServerChatRoomDataValidate.Custom.ImageFilter(arg);
+				const safeArg = ServerChatRoomDataValidationRecord.Custom.ImageFilter(arg);
 				if (!safeArg) {
 					ChatRoomSendLocal(`Invalid value "${arg}" for "${param}" parameter. It needs an HexColor.`);
 					return;
@@ -188,7 +188,7 @@ function ChatAdminRoomCustomizationCommand(args) {
 					customData.MusicURL = undefined;
 					break;
 				}
-				const safeArg = ServerChatRoomDataValidate.Custom.MusicURL(arg);
+				const safeArg = ServerChatRoomDataValidationRecord.Custom.MusicURL(arg);
 				if (!safeArg) {
 					ChatRoomSendLocal(`Invalid value "${arg}" "${param}" for parameter. It needs an URL.`);
 					return;
@@ -241,7 +241,7 @@ function ChatAdminRoomCustomizationCommand(args) {
 
 	// Update the room's custom data
 	const UpdatedRoom = ChatRoomGetSettings(ChatRoomData);
-	UpdatedRoom.Custom = ServerChatRoomDataValidate.Custom(customData);
+	UpdatedRoom.Custom = ServerChatRoomDataValidationRecord.Custom(customData);
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 }
 
@@ -311,7 +311,7 @@ async function ChatAdminRoomCustomizationLoad() {
 				data.MusicStart ?? CurrentTime
 				: CurrentTime
 			: undefined;
-		adminData.Custom = ServerChatRoomDataValidate.Custom({
+		adminData.Custom = ServerChatRoomDataValidationRecord.Custom({
 			...adminData.Custom ?? {},
 			ImageURL: ElementValue("InputImageURL").trim(),
 			SizeMode: CommonParseInt(ElementValue("SelectImageFillMode")) ?? DrawingResizeMode.Fill,
@@ -465,7 +465,7 @@ function ChatAdminRoomCustomizationRun() {
 		DrawRect(0, 0, 2000, 1000, "White");
 
 		const rect = { x: 500, y: 1000 * (1 - ChatRoomCharacterViewZoom) / 2, w: 1000, h: 1000 * ChatRoomCharacterViewZoom };
-		const { ImageURL, ImageFilter, SizeMode } = ServerChatRoomDataValidate.Custom(ChatAdminRoomCustomizationCurrent) ?? {};
+		const { ImageURL, ImageFilter, SizeMode } = ServerChatRoomDataValidationRecord.Custom(ChatAdminRoomCustomizationCurrent) ?? {};
 
 		if (ImageURL) {
 			DrawRect(0, 0, 2000, 1000, "White");

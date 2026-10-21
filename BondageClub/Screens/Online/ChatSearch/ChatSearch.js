@@ -1267,7 +1267,7 @@ function ChatSearchCreateGridRoom(room, index) {
 				{
 					tag: "span",
 					classList: ["chat-search-room-creator"],
-					children: [`${room.Creator}`]
+					children: [room.Creator]
 				},
 				{
 					tag: "span",
