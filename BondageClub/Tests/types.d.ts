@@ -27,7 +27,10 @@ class BrowserCache {
 	private new (cache: Cache, name: string);
 	static async open(): Promise<BrowserCache>;
 	key(url: string): string;
-	async fetch(url: string, options: BrowserCache.FetchOptions = {}): Promise<Response>
+	async match(url: string): Promise<Response | undefined>;
+	revalidate(url: string, cached: Response): Promise<Response | null>;
+	async put(url: string, response: Response): Promise<void>;
+	async delete(url: string): Promise<boolean>;
 	async clear(): Promise<boolean>;
 }
 

@@ -5691,14 +5691,4 @@ interface LoadedCachedImage<T extends { width: number, height: number }> extends
 	data: T;
 }
 
-declare namespace BrowserCache {
-	interface FetchOptions {
-		/**
-		 * Called if a background revalidation finds a newer version of the resource.
-		 * The response is fresh and unconsumed.
-		 */
-		onUpdate?(response: Response): void;
-	}
-}
-
 type ScreenCheckCallback = (module: ModuleType, screen: ScreenName) => boolean;
