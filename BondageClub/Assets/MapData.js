@@ -520,11 +520,32 @@ const AssetsMapDataTiles = [
 
 /** @type {ChatRoomMapObject[]} */
 const AssetsMapDataObjects = [
-	{ ID: 100, Type: "LivingRoom", Style: "Blank" },
-	{ ID: 3499, Type: "Functional", Style: "Blank" },
+	{ ID: 100, Type: "EmptySpace", Style: "Passable", CanPlaceOnFloors: true, CanPlaceOnWalls: true, CanPlaceInWalls: true },
+	{ ID: 101, Type: "EmptySpace", Style: "Impassable", CanEnter: function() { return false; }, CanPlaceOnFloors: true, CanPlaceOnWalls: true, CanPlaceInWalls: true },
+	{ ID: 200, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 211, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 249, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 342, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 400, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 500, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 600, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 700, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 800, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 1000, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 1100, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 1200, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 1300, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 1399, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 2000, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 3000, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 3281, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 3499, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 4000, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 }, // The OG accidentally impassable blank
+	{ ID: 4500, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+	{ ID: 5000, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
+
 	{ ID: 110, Type: "Functional", Style: "EntryFlag", Top: -0.125, Exit: true, Unique: true },
 	{ ID: 115, Type: "Functional", Style: "ExitFlag", Top: -0.125, Exit: true },
-	{ ID: 400, Type: "Bedroom", Style: "Blank" },
 	{ ID: 120, Type: "Bedroom", Style: "BedTeal", Top: -0.25, AssetName: "Bed", AssetGroup: "ItemDevices"},
 	{ ID: 130, Type: "LivingRoom", Style: "PillowPink" },
 	{ ID: 140, Type: "LivingRoom", Style: "TableBrown" },
@@ -555,7 +576,6 @@ const AssetsMapDataObjects = [
 	{ ID: 188, Type: "LivingRoom", Style: "NordicSideboardSingle", Top: -0.3, Height: 1.3, BuildImageName: ChatRoomMapViewCreateRowImage("NordicSideboard") },
 	{ ID: 189, Type: "LivingRoom", Style: "NordicCabinet", Top: -1.2, Height: 2.2 },
 	{ ID: 221, Type: "LivingRoom", Style: "ModernWardrobe", Top: -1.2, Height: 2.2 },
-	{ ID: 200, Type: "FloorDecorationThemed", Style: "Blank" },
 	{
 		ID: 196,
 		Type: "FloorDecorationThemed",
@@ -573,7 +593,6 @@ const AssetsMapDataObjects = [
 	{ ID: 182, Type: "FloorDecorationThemed", Style: "StageWood", Top: -0.25, Height: 1.25 },
 	{ ID: 183, Type: "FloorDecorationThemed", Style: "StageStairsLeftWood", Top: -0.25, Height: 1.25 },
 	{ ID: 184, Type: "FloorDecorationThemed", Style: "StageStairsRightWood", Top: -0.25, Height: 1.25 },
-	{ ID: 211, Type: "School", Style: "Blank" },
 	{ ID: 401, Type: "Bedroom", Style: "TeddyBear" },
 	{ ID: 402, Type: "Bedroom", Style: "PinkTeddyBear" },
 	{ ID: 403, Type: "Bedroom", Style: "Nightstand" },
@@ -593,9 +612,7 @@ const AssetsMapDataObjects = [
 	{ ID: 212, Type: "School", Style: "Globe", Top: -0.25, Left: 0.16, Height: 1.1, Width: 0.69 },
 	{ ID: 213, Type: "School", Style: "Lectern", Top: -0.4, Height: 1.25 },
 	{ ID: 220, Type: "School", Style: "StudentDesk", Top: -0.1 },
-	{ ID: 249, Type: "Kitchen", Style: "Blank" },
 	{ ID: 250, Type: "Kitchen", Style: "SinkDishes", Top: -0.35 },
-	{ ID: 3281, Type: "Bathroom", Style: "Blank" },
 	{ ID: 260, Type: "Bathroom", Style: "LaundryMachine", Top: -0.55, Height: 1.25 },
 	{ ID: 270, Type: "Bathroom", Style: "IroningBoard", Top: -0.35 },
 	{ ID: 300, Type: "FloorDecorationThemed", Style: "ShibariFrame", Top: -1, Height: 2 },
@@ -607,7 +624,6 @@ const AssetsMapDataObjects = [
 	{ ID: 333, Type: "Kitchen", Style: "KitchenCounterStoveGasSingle", Top: -0.3, Height: 1.3, BuildImageName: ChatRoomMapViewCreateKitchenCounterImage("KitchenCounterStoveGas") },
 	{ ID: 334, Type: "Kitchen", Style: "KitchenTallCabinetSingle", Top: -1.2, Height: 2.2 },
 	{ ID: 335, Type: "Kitchen", Style: "KitchenWallCabinetSingle", CanPlaceOnWalls: true, CanPlaceOnFloors: false, Top: 0.05, Height: 0.75, BuildImageName: ChatRoomMapViewCreateRowImage("KitchenWallCabinet") },
-	{ ID: 342, Type: "Office", Style: "Blank" },
 	{ ID: 336, Type: "Office", Style: "OfficeStandingTable", Top: -0.5, Height: 1.5 },
 	{ ID: 337, Type: "Office", Style: "OfficeDeskComputer", Top: -0.35, Height: 1.35 },
 	{ ID: 338, Type: "Office", Style: "OfficeChair", Top: -0.5, Height: 1.5 },
@@ -642,7 +658,6 @@ const AssetsMapDataObjects = [
 	{ ID: 395, Type: "FloorDecorationThemed", Style: "Pillory", Top: 0.04, Height: 0.81 },
 	{ ID: 396, Type: "FloorDecorationThemed", Style: "Cage", Top: -0.65, Height: 1.5 },
 
-	{ ID: 500, Type: "FloorDecorationParty", Style: "Blank" },
 	{ ID: 510, Type: "FloorDecorationParty", Style: "BalloonFiveColor", Top: -0.6, Height: 1.5 },
 	{ ID: 511, Type: "FloorDecorationParty", Style: "BalloonTwoHeart", Top: -0.15 },
 	{ ID: 520, Type: "FloorDecorationParty", Style: "WeddingCake", Top: -1, Height: 2 },
@@ -657,7 +672,6 @@ const AssetsMapDataObjects = [
 	{ ID: 598, Type: "FloorDecorationParty", Style: "ChampagneTower", Top: -0.45, Height: 1.3 },
 	{ ID: 599, Type: "FloorDecorationParty", Style: "DJBooth", Name: "DJ Booth", Top: 0.38, Height: 0.47 },
 
-	{ ID: 600, Type: "FloorDecorationCamping", Style: "Blank" },
 	{ ID: 610, Type: "FloorDecorationCamping", Style: "LogFire", Top: -0.35 },
 	{
 		ID: 611,
@@ -682,7 +696,6 @@ const AssetsMapDataObjects = [
 	{ ID: 691, Type: "FloorDecorationCamping", Style: "Backpack", Top: -0.15, Left: 0.03, Height: 1, Width: 0.94 },
 	{ ID: 692, Type: "FloorDecorationCamping", Style: "Cooler", Top: 0.13, Height: 0.72 },
 
-	{ ID: 700, Type: "FloorDecorationExpanding", Style: "Blank" },
 	{
 		ID: 710,
 		Type: "FloorDecorationExpanding",
@@ -773,7 +786,6 @@ const AssetsMapDataObjects = [
 		},
 		Top: 0,
 	},
-	{ ID: 800, Type: "FloorDecorationAnimal", Style: "Blank" },
 	{ ID: 801, Type: "FloorDecorationAnimal", Style: "PetBed", Top: 0.19, Height: 0.66 },
 	{ ID: 802, Type: "FloorDecorationAnimal", Style: "PetBowls", Top: 0.55, Height: 0.3 },
 	{
@@ -964,7 +976,6 @@ const AssetsMapDataObjects = [
 		}
 	},
 
-	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
 	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
 	{ ID: 1020, Type: "FloorItem", Style: "X-Cross", Top: -1, Height: 2, AssetName: "X-Cross", AssetGroup: "ItemDevices" },
 	{ ID: 1030, Type: "FloorItem", Style: "BondageBench", Top: -1, Height: 2, AssetName: "BondageBench", AssetGroup: "ItemDevices" },
@@ -976,12 +987,10 @@ const AssetsMapDataObjects = [
 	{ ID: 1090, Type: "FloorItem", Style: "Pole", Top: -0.85, Height: 1.8, AssetName: "Pole", AssetGroup: "ItemDevices" },
 	{ ID: 1095, Type: "FloorItem", Style: "MedicalBed", Top: -0.82, Left: 0.05, Height: 1.8, Width: 0.90, AssetName: "MedicalBed", AssetGroup: "ItemDevices" },
 	{ ID: 1096, Type: "FloorItem", Style: "FuturisticCrate", Top: -0.95, Height: 2, AssetName: "FuturisticCrate", AssetGroup: "ItemDevices" },
-	{ ID: 1399, Type: "ABDL", Style: "Blank"},
 	{ ID: 1097, Type: "ABDL", Style: "HighChair", Top: -0.95, Height: 2, AssetName: "Highchair", AssetGroup: "ItemDevices" },
 	{ ID: 1098, Type: "ABDL", Style: "Crib", Top: -0.95, Height: 2, AssetName: "Crib", AssetGroup: "ItemDevices" },
 	{ ID: 1099, Type: "ABDL", Style: "PinkCrib", Top: -0.95, Height: 2, AssetName: "Crib", AssetGroup: "ItemDevices" },
 
-	{ ID: 1100, Type: "FloorNumber", Style: "Blank" },
 	{ ID: 1110, Type: "FloorNumber", Style: "Number0" },
 	{ ID: 1111, Type: "FloorNumber", Style: "Number1" },
 	{ ID: 1112, Type: "FloorNumber", Style: "Number2" },
@@ -993,7 +1002,6 @@ const AssetsMapDataObjects = [
 	{ ID: 1118, Type: "FloorNumber", Style: "Number8" },
 	{ ID: 1119, Type: "FloorNumber", Style: "Number9" },
 
-	{ ID: 1200, Type: "FloorLetter", Style: "Blank" },
 	{ ID: 1201, Type: "FloorLetter", Style: "LetterA" },
 	{ ID: 1202, Type: "FloorLetter", Style: "LetterB" },
 	{ ID: 1203, Type: "FloorLetter", Style: "LetterC" },
@@ -1021,7 +1029,6 @@ const AssetsMapDataObjects = [
 	{ ID: 1225, Type: "FloorLetter", Style: "LetterY" },
 	{ ID: 1226, Type: "FloorLetter", Style: "LetterZ" },
 
-	{ ID: 1300, Type: "FloorIcon", Style: "Blank" },
 	{ ID: 1301, Type: "FloorIcon", Style: "IconCircle" },
 	{ ID: 1302, Type: "FloorIcon", Style: "IconSquare" },
 	{ ID: 1303, Type: "FloorIcon", Style: "IconTriangle" },
@@ -1037,7 +1044,6 @@ const AssetsMapDataObjects = [
 	{ ID: 1402, Type: "ABDL", Style: "ChangingTable", Top: -1, Height: 2, AssetName: "ChangingTable", AssetGroup: "ItemDevices" },
 	{ ID: 1403, Type: "ABDL", Style: "RockingHorse", Top: 0.07, Height: 0.78 },
 
-	{ ID: 2000, Type: "FloorObstacle", Style: "Blank" },
 	{ ID: 2004, Type: "FloorObstacle", Style: "Stalagmite", Top: -0.125, Height: 1, CanEnter: () => false, },
 	{ ID: 2005, Type: "FloorObstacle", Style: "Rocks", Top: -0.125, Height: 1.125, CanEnter: () => false, },
 	{ ID: 2006, Type: "FloorObstacle", Style: "GoldStones", Top: 0.10, Left: 0.25, Height: 0.5, Width: 0.5, CanEnter: () => false, },
@@ -1088,7 +1094,6 @@ const AssetsMapDataObjects = [
 	{ ID: 2093, Type: "FloorObstacle", Style: "WishingWell", Top: -0.47, Height: 1.32, CanEnter: () => false, },
 	{ ID: 2098, Type: "FloorObstacle", Style: "Pillar", Top: -1.25, Left: 0.16, Height: 2, Width: 0.70, CanEnter: () => false, },
 
-	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
 	{ ID: 3020, Type: "Bathroom", Style: "Mirror", CanPlaceOnWalls: true },
 	{ ID: 3021, Type: "Bathroom", Style: "BlueBathroomMat" },
@@ -1212,7 +1217,6 @@ const AssetsMapDataObjects = [
 		OnClick: ChatRoomMapViewCreateOnClickTeleportLogic(),
 	},
 
-	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
 	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
 	{ ID: 4011, Type: "WallPath", Style: "WoodClosed", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract(); } },
 	{ ID: 4012, Type: "WallPath", Style: "WoodLocked", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract() && ChatRoomPlayerIsAdmin(); } },
@@ -1240,7 +1244,6 @@ const AssetsMapDataObjects = [
 	{ ID: 4039, Type: "WallPath", Style: "SteelDoorAuto", OccupiedStyle: "SteelDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return true; } },
 	{ ID: 4040, Type: "WallPath", Style: "GrayDoorAuto", OccupiedStyle: "GrayDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return true; } },
 
-	{ ID: 4500,  Type: "FloorFoamTiles", Style: "Blank" },
 	{ ID: 4501,  Type: "FloorFoamTiles", Style: "PlayTileWhite", Top: -0.1, Left: -0.1, Height: 1.1, Width: 1.1 },
 	{ ID: 4502,  Type: "FloorFoamTiles", Style: "PlayTileGray", Top: -0.1, Left: -0.1, Height: 1.1, Width: 1.1 },
 	{ ID: 4503,  Type: "FloorFoamTiles", Style: "PlayTileBlack", Top: -0.1, Left: -0.1, Height: 1.1, Width: 1.1 },
@@ -1254,7 +1257,6 @@ const AssetsMapDataObjects = [
 	{ ID: 4511,  Type: "FloorFoamTiles", Style: "PlayTileBrown", Top: -0.1, Left: -0.1, Height: 1.1, Width: 1.1 },
 	{ ID: 4512,  Type: "FloorFoamTiles", Style: "PlayTileLightBlue", Top: -0.1, Left: -0.1, Height: 1.1, Width: 1.1 },
 
-	{ ID: 5000, Type: "Banners", Style: "Blank" },
 	{ ID: 5010, Type: "Banners", Style: "Red", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
 	{ ID: 5011, Type: "Banners", Style: "Blue", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
 	{ ID: 5012, Type: "Banners", Style: "Green", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },

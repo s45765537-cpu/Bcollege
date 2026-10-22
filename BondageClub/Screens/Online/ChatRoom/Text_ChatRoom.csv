@@ -142,6 +142,7 @@ TileTypeNameFloor,Floors
 TileTypeNameFloorExterior,Exterior Floors 
 TileTypeNameWater,Water
 
+ObjectTypeNameEmptySpace,Empty Space
 ObjectTypeNameLivingRoom,Living Room
 ObjectTypeNameBathroom,Bathroom
 ObjectTypeNameBedroom,Bedroom

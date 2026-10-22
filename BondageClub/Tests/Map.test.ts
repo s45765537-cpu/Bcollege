@@ -508,3 +508,32 @@ describe("with a test map", () => {
 		}
 	});
 });
+
+describe("deprecated objects", () => {
+	it("replaces a deprecated object with another on load", () => {
+		const passable = Game.MapDataGetObject(100);
+		expect(passable.Type).toBe("EmptySpace");
+		expect(passable.Style).toBe("Passable");
+
+		const impassable = Game.MapDataGetObject(101);
+		expect(impassable.ID).toBe(101);
+		expect(impassable.Type).toBe("EmptySpace");
+		expect(impassable.Style).toBe("Impassable");
+		expect(impassable.CanEnter?.("")).toBe(false);
+
+		for (const deprecatedId of [211, 249, 342, 400, 200, 500, 600, 700, 800, 1000, 1100, 1200, 1300, 1399, 2000, 3000, 3281, 3499, 4000, 4500, 5000]) {
+			expect(Game.MapDataGetObject(deprecatedId)).toBe(passable);
+		}
+
+		const length = Game.ChatRoomMapViewWidth * Game.ChatRoomMapViewHeight;
+		const objects = Array.from({ length }, () => String.fromCharCode(100));
+		objects[3] = String.fromCharCode(2000);
+		objects[4] = String.fromCharCode(101);
+		if (!Game.ChatRoomData?.MapData) throw new Error("No map");
+		Game.ChatRoomData.MapData.Objects = objects.join("");
+		expect(Game.MapManager.Map.loadGlobalMapData(Game.ChatRoomData.MapData)).toBe(true);
+		expect(Game.MapManager.Map.getObjectId(3)).toBe(100);
+		expect(Game.MapManager.Map.getObject(3)).toBe(passable);
+		expect(Game.MapManager.Map.getObjectId(4)).toBe(101);
+	});
+});

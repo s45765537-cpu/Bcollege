@@ -1861,7 +1861,7 @@ var ServerAccountDataSyncedValidate = {
 					}
 				}
 			}
-			if (!doodad || seen.has(doodad)) continue;
+			if (!doodad || seen.has(doodad) || MapDoodadIsDeprecated(doodad)) continue;
 			seen.add(doodad);
 			doodads.push(doodad);
 		}

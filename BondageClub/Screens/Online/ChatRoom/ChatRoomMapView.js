@@ -593,6 +593,7 @@ function ChatRoomMapViewGetItems(search) {
 
 		const searchTokens = search.toLowerCase().trim().split(/\s+/);
 		items = items.filter((item) => {
+			if (MapDoodadIsDeprecated(item)) return false;
 			if (!MapDoodadIsPhysicalElement(item) || !item.Style) return false;
 
 			const styleWords = CommonUncamelize(item.Style);
@@ -609,7 +610,7 @@ function ChatRoomMapViewGetItems(search) {
 			return [...items].map((item) => ChatRoomMapViewCreateMapElementItem(item));
 		}
 		case "Object": {
-			const items = [...MapDataObjects.values()].filter((object) => object.Type == ChatRoomMapViewEditSubMode);
+			const items = [...MapDataObjects.values()].filter((object) => object.Type == ChatRoomMapViewEditSubMode && object.DeprecatedID === undefined);
 			return [...items].map((item) => ChatRoomMapViewCreateMapElementItem(item));
 		}
 		case "Effect":
@@ -676,7 +677,7 @@ function ChatRoomMapViewCreateMapElementItem(item, updateRecent=true, readOnly=f
 	let rotation = 0;
 	if (MapDoodadIsObject(item)) {
 		type = "Object";
-		imageUrl = MapGetDoodadAssetUrl(item);
+		imageUrl = item.Type === "EmptySpace" ? null : MapGetDoodadAssetUrl(item);
 		if (item.Rotation != null) rotation = item.Rotation;
 		if ((item.AssetName != null) && (item.AssetGroup != null) && !InventoryAvailable(Player, item.AssetName, item.AssetGroup)) isOwned = false;
 	} else if (MapDoodadIsTile(item)) {
@@ -1381,7 +1382,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 			let Char = ChatRoomMapViewGetCharacterAtPos(X, Y);
 			let shouldRender = true;
 			if (Obj.Type == "WallDecoration") shouldRender = !ChatRoomMapViewTileIsHidden(X, Y + 1);
-			else if (Obj.Style == "Blank") shouldRender = false;
+			else if (Obj.Type === "EmptySpace") shouldRender = false;
 			else if (Obj.IsVisible && !ChatRoomMapViewHasSuperPowers() && !Obj.IsVisible()) shouldRender = false;
 			else if (Char && Obj?.AssetGroup && Obj?.AssetName && InventoryIsWorn(Char, Obj.AssetGroup, Obj.AssetName)) shouldRender = false;
 

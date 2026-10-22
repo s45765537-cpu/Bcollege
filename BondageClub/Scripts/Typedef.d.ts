@@ -5454,7 +5454,8 @@ type ChatRoomMapDirectionWithEmptySpace = "" | "West" | "East" | "North" | "Sout
 type ChatRoomMapDirection = "West" | "East" | "North" | "South";
 
 type ChatRoomMapObjectType = (
-	"FloorDecoration"
+	| "EmptySpace"
+	| "FloorDecoration"
 	| "FloorDecorationThemed"
 	| "FloorDecorationParty"
 	| "FloorDecorationCamping"
@@ -5490,6 +5491,8 @@ interface ChatRoomMapDoodad {
 	ID: number;
 	Unique?: boolean;
 	Name?: string;
+	/** On load, this doodad is replaced by another doodad with this id */
+	DeprecatedID?: number;
 }
 
 /** {@link MapDoodadIsPhysicalElement}  */
