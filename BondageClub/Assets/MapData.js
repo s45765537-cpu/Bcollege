@@ -281,8 +281,8 @@ function ChatRoomMapViewCreateOnClickSignLogic(name) {
 				children: [signText],
 				eventListeners: {
 					/**
-					* @this {HTMLTextAreaElement}
-					*/
+					 * @this {HTMLTextAreaElement}
+					 */
 					"change": function() {
 						const signData = signConfig() ?? { Type: "Sign", Text: "" };
 						signData.Text = MapSanitizeSignText(this.value);
@@ -311,7 +311,7 @@ const AssetsMapDataTeleportPadColors = ["#3C8CFF", "#FF4060", "#40D080", "#FFC83
 /**
  * A list of predefined lighting effects. May be replaced with a color picker in the future.
  * @type {ChatRoomMapEffect[]}
- * */
+ */
 const AssetsMapDataEffects = [
 	{ ID: 10, Type: "StaticLighting", TypeId: 1, Color: [0, 0, 0, 0.0] }, // Blank
 	{ ID: 11, Type: "StaticLighting", TypeId: 1, Color: [0, 0, 0, 0.2] }, // ShadowLight
