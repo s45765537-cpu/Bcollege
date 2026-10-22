@@ -675,6 +675,7 @@ var TranslationDictionary = /** @type {const} */([
 			"Assets/Female3DCG_TW.txt",
 			"Assets/LayerNames_TW.txt",
 			"Backgrounds/Backgrounds_TW.txt",
+			"Screens/Interface_TW.txt",
 			"Screens/Character/Appearance/Text_Appearance_TW.txt",
 			"Screens/Character/BackgroundSelection/Text_BackgroundSelection_TW.txt",
 			"Screens/Character/Cheat/Text_Cheat_TW.txt",
