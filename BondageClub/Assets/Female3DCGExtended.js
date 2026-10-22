@@ -24709,6 +24709,7 @@ var AssetFemale3DCGExtended = {
 						{}, // Clara
 						{}, // Evelia
 						{}, // Carina
+						{}, // Vamparina
 					],
 					DrawData: {
 						elementData: [
@@ -24767,6 +24768,10 @@ var AssetFemale3DCGExtended = {
 							},
 							{
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Carina.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Vamparina.png",
 							},
 						],
 					},
