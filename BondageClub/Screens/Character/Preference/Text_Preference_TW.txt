@@ -1,37 +1,41 @@
 Preferences
-- 設置 -
+- 設定 -
 GeneralPreferences
-- 通用設置 -
+- 通用設定 -
 DifficultyPreferences
-- 多人難度設置 -
+- 多人難度設定 -
 RestrictionPreferences
-- 束縛設置 -
+- 束縛設定 -
 ChatPreferences
-- 聊天設置 -
+- 聊天設定 -
 AudioPreferences
-- 音訊設置 -
+- 音訊設定 -
 ArousalPreferences
-- 性奮量表與交互動作設置 -
+- 性奮量表與交互動作設定 -
 SecurityPreferences
 - 安全設定 -
 VisibilityPreferences
-- 物品設置 -
+- 物品可見性 -
 GraphicsPreferences
-- 顯示設置 -
+- 顯示設定 -
 OnlinePreferences
-- 在線設置 -
+- 線上設定 -
 ImmersionPreferences
-- 沉浸設置 -
+- 沉浸設定 -
 ControllerPreferences
-- 手把設置 -
+- 手把設定 -
 NotificationsPreferences
 - 通知設定 -
 GenderPreferences
-- 性別設置 -
+- 性別設定 -
 ScriptsPreferences
 - 腳本權限設定 -
 ExtensionsPreferences
-- 擴充組件設定 - 
+- 擴充組件設定 -
+CensoredWordsPreferences
+- 屏蔽字詞設定 -
+KeybindingsPreferences
+- 鍵位設定 -
 HomepageGeneral
 通用
 HomepageDifficulty
@@ -51,7 +55,7 @@ HomepageSecurity
 HomepageVisibility
 物品可見性
 HomepageOnline
-在線上
+線上
 HomepageImmersion
 沉浸
 HomepageGraphics
@@ -64,6 +68,8 @@ HomepageGender
 性別
 HomepageScripts
 腳本
+HomepageKeybindings
+鍵位
 HomepageExtensions
 擴充組件
 DifficultyTitle
@@ -73,33 +79,33 @@ DifficultyLevel0
 DifficultyLevel0Title
 角色扮演 - 本模式下可以完全自訂你的體驗
 DifficultyLevel0Text
-你可以選擇不想要使用的束縛器具和機制
+你可以選擇不想要使用的束縛器具和機制。\n你可以隨時切換到本模式，但是7天內你將無法切換到硬核或極限難度。
 DifficultyLevel1
 通常
 DifficultyLevel1Title
 通常 - 本模式下需要遵守基礎的規則和限制.
 DifficultyLevel1Text
-你可以隨時切換到本模式，但是7天內
+這能同時對你進行限制並保證你的安全。\n本模式下可以修改大多數選項。\n你可以隨時切換到本模式，但是7天內你將無法切換到硬核或極限難度。
 DifficultyLevel2
 硬核
 DifficultyLevel2Title
 硬核 - 本模式面向想要體驗無助感的玩家
 DifficultyLevel2Text
-沒有救援女僕，沒有NPC會幫助你脫身
+沒有救援女僕，沒有NPC會幫助你脫身。\n沒有安全詞可用，你必須從其他玩家處獲得幫助。\n你至少需要註冊7天才能選擇本難度。\n如果你更改了難度模式，7天內你將無法選擇本模式。
 DifficultyLevel3
 極限
 DifficultyLevel3Title
 極限 - 本模式面向希望成為完全的奴隸的玩家
 DifficultyLevel3Text
-如果你更改了難度模式，7天內你將無法選擇本模式
+沒有救援女僕，沒有NPC會幫助你脫身。\n沒有安全詞可用，你必須從其他玩家處獲得幫助\n沒有安全詞可用，並且你無法擺脫主人。\n所有的沉浸設定都被強制固定為最大，同時你不可以屏蔽任何物品。\n如果你更改了難度模式，7天內你將無法選擇本模式。
 DifficultyLevel0Label
-簡單模式 - 束縛和遊戲機制
+簡單模式 - 束縛和遊戲機制可以透過開關無視。\n專為角色扮演玩家設計。
 DifficultyLevel1Label
-普通模式 - 需要遵守基礎的規則和限制，
+普通模式 - 需要遵守基礎的規則和限制，有很多自我保護選項。\n適合大多數玩家。
 DifficultyLevel2Label
-硬核模式 - 沒有救援女僕，沒有NPC幫助，
+硬核模式 - 沒有救援女僕，沒有NPC幫助，也沒有安全詞。\n專為尋求挑戰的玩家設計。
 DifficultyLevel3Label
-奴隸模式 - 沒有救援女僕，沒有NPC幫助，沒有安全詞，
+奴隸模式 - 沒有救援女僕，沒有NPC幫助，沒有安全詞，\n不能屏蔽物品，亦無法逃離主人。完全的無助。
 DifficultyAlreadyPlayingOn
 你已經在遊玩該難度模式了
 DifficultyWaitSevenDays
@@ -109,17 +115,21 @@ DifficultyIAccept
 DifficultyChangeMode
 Go~
 RestrictionAccess
-你可以設置多人遊玩時無視的限制內容
+你可以設定多人遊玩時無視的限制內容
 RestrictionNoAccess
-使用角色扮演難度的玩家可以設置多人遊玩時無視的限制內容
+使用角色扮演難度的玩家可以設定多人遊玩時無視的限制內容
 RestrictionBypassStruggle
 無視掙扎小遊戲
 RestrictionSlowImmunity
 離開房間時不會被減速
 RestrictionBypassNPCPunishments
 在聊天室中呼叫女僕時無視懲罰
+RestrictionNoSpeechGarble
+被堵嘴時不混淆線上聊天和悄悄話
 CharacterLabelColor
 角色標籤顏色:
+AllowedInteractions
+允許互動對象：
 AllowedInteraction0
 所有人
 AllowedInteraction1
@@ -132,6 +142,8 @@ AllowedInteraction4
 僅主人和戀人
 AllowedInteraction5
 僅主人
+ColorTheme
+主題：
 ErrorInvalidColor
 請輸入有效的十六位#RGB顏色
 Light
@@ -198,8 +210,22 @@ ShowChatRoomHelp
 第一次進入時顯示幫助
 ShowBeepChat
 在聊天中顯示好友私聊提示
+PreserveChat
+保留跨房間的聊天記錄
+DisableReplies
+停用回覆功能
+ShowFriendRequestMessages
+顯示好友請求訊息
+DefaultChatRoomBackground
+預設聊天室背景：
+ChatSettingsPage0
+第 1/2 頁
+ChatSettingsPage1
+第 2/2 頁
 Volume
 音量
+MusicVolume
+音樂音量
 AudioPlayBeeps
 播放好友私聊提示音
 AudioPlayItem
@@ -217,19 +243,39 @@ ReturnToChatRoomAdmin
 SenseDepMessages
 隱藏他人消息
 ImmersionLocked
-所有的限制設置在極限難度下被固定為最強
+所有限制的設定在極限難度下被固定為最強
 BlindAdjacent
 部分失明時隱藏不臨近的角色
 StimulationEvents
 被插入或被振動時的事件
 ChatRoomMuffle
 失明時隱藏聊天室名和描述
+RoomCustomizationLabel
+房間自訂：
 RoomCustomizationLevel0
 永不
+RoomCustomizationLevel1
+預設停用
+RoomCustomizationLevel2
+預設啟用
 RoomCustomizationLevel3
 總是
 SensDepSetting
-感覺剝奪設置
+感覺剝奪設定
+LockTimerLimitSetting
+解鎖計時器限制設定
+LockTimerLimitDefault
+預設
+LockTimerLimitDay
+天
+LockTimerLimitWeek
+週
+LockTimerLimitMonth
+月
+LockTimerLimitYear
+年
+LockTimerLimitUnlimited
+無限制
 SensDepLight
 明亮
 SensDepNames
@@ -246,6 +292,8 @@ CenterChatrooms
 居中聊天室內角色
 AllowPlayerLeashing
 被牽引時可以被帶入房間
+AllowRename
+你的主人可以更改或鎖定你的暱稱
 DisableAutoMaid
 被束縛時女僕會自動前來救援
 DisablePickingLocksOnSelf
@@ -260,6 +308,8 @@ ArousalDisableAdvancedVibes
 禁止高級振動模式(寸止、隨機等)
 GeneralHardcoreWarning
 安全詞和NPC幫助在硬核和極限難度不可用
+ToggleColorPicker
+切換色彩選擇器
 ItemsAffectExpressions
 物品可以影響你的臉部表情
 GeneralAnimationQuality0
@@ -294,6 +344,8 @@ ShowStatus
 顯示狀態泡泡
 SendStatus
 發送你的狀態
+RespondRemoteModListQueries
+回應來自他人的模組清單查詢
 UpdateEmailDescription
 連結信箱地址可以找回密碼
 UpdateEmail
@@ -365,7 +417,7 @@ ArousalVisibleAccess
 ArousalVisibleSelf
 僅對自己顯示
 ArousalFetish
-愛好設置:
+愛好設定:
 ArousalFetishBondage
 被束縛
 ArousalFetishGagged
@@ -395,7 +447,7 @@ ArousalFetishTape
 ArousalFetishNylon
 尼龍
 ArousalFetishLingerie
-亞麻
+內衣
 ArousalFetishPony
 馬駒遊戲
 ArousalFetishABDL
@@ -404,6 +456,8 @@ ArousalFetishPet
 寵物遊戲
 ArousalFetishForniphilia
 物品化（人形家具）
+ArousalFetishSpandex
+氨綸（緊身彈性）
 ArousalFetishLove0
 討厭
 ArousalFetishLove1
@@ -415,7 +469,7 @@ ArousalFetishLove3
 ArousalFetishLove4
 特別喜愛
 ArousalActivity
-行動設置:
+行動設定:
 ArousalActivityLoveSelf
 自己被做:
 ArousalActivityLoveOther
@@ -431,9 +485,9 @@ ArousalActivityLove3
 ArousalActivityLove4
 特別喜愛
 ArousalSelectErogenousZones
-點擊你自己來設置你的敏感帶
+點擊你自己來設定你的敏感帶
 ArousalConfigureErogenousZones
-設置該區域的敏感度
+設定該區域的敏感度
 ArousalZoneLove0
 禁止對該區域的一切行動
 ArousalZoneLove1
@@ -504,8 +558,14 @@ VisibilityWarning
 該圖示會出現在穿戴隱藏物品的角色身旁
 VisibilityReset
 重設全部
+VisibilityResetDescription
+重設所有物品偏好設定，使隱藏的物品重新顯示，然後退出並儲存？
 VisibilityLocked
 所有物品在極難難度下都強制可見
+VisibilitySearchPlaceholder
+搜尋...
+VisibilityNoResults
+沒有符合搜尋條件的物品
 LeaveSave
 接受改動
 LeaveNoSave
@@ -545,7 +605,7 @@ GraphicsAntialiasing
 GraphicsSupportHint
 若此瀏覽器支援
 GraphicsNoWebGL
-未在WebGL運行,無法修改渲染設置.
+未在WebGL運行,無法修改渲染設定.
 GraphicsPowerMode
 偏好效能模式
 PowerModelow-power
@@ -559,13 +619,25 @@ Sensitivity
 ControllerActive
 啟用手把
 MapButtons
-設置按鈕
+設定按鈕
 MapSticks
-設置搖杆
+設定搖桿
 MoveLeftStickUp
-上移左搖杆
+上移左搖桿
 MoveLeftStickRight
-右移左搖杆
+右移左搖桿
+MoveRightStickUp
+上移右搖桿
+MoveRightStickRight
+右移右搖桿
+PressA
+按下 A 按鈕
+PressB
+按下 B 按鈕
+PressX
+按下 X 按鈕
+PressY
+按下 Y 按鈕
 PressUpOnDpad
 按下上方向鍵
 PressDownOnDpad
@@ -642,6 +714,8 @@ GenderAutoJoinSearch
 自動加入此類型聊天室區域：
 GenderHideShopItems
 隱藏商店的此類專門物品：
+GenderHideTitles
+隱藏設定中的下列標題：
 CensorExit
 應用屏蔽
 CensorTitle
@@ -661,7 +735,7 @@ CensorAdd
 ScriptsWarningTitle
 警告！
 ScriptsWarning
-更改此頁面上的設置可以讓人們使用腳本以核心遊戲中無法做到的方式修改你的物品和外觀。如果您不想要這個，或者如果您不知道自己在做什麼，請不要修改這些設置！
+更改此頁面上的設定可以讓人們使用腳本以核心遊戲中無法做到的方式修改你的物品和外觀。如果您不想要這個，或者如果您不知道自己在做什麼，請不要修改這些設定！
 ScriptsWarningAccept
 我同意
 ScriptsExplanation
@@ -688,7 +762,63 @@ ScriptsPermissionPropertyHide
 隱藏
 ScriptsPermissionPropertyBlock
 屏蔽
+FPSFocusedLimit
+FPS限制
+FPSUnfocusedLimit
+未聚焦時的FPS限制
+ShowFPS
+顯示 FPS 計數器
+ShowFullscreenButton
+顯示全螢幕按鈕
+ShowFullscreenButtonHint
+顯示用於進入全螢幕模式的小按鈕。建議在行動裝置上使用；桌面瀏覽器通常已提供全螢幕快捷鍵。
 ShowFullscreenButtonon
 總是
 ShowFullscreenButtonoff
 永不
+ShowFullscreenButtonon_when_mobile
+僅在行動裝置上
+MaxFPS0
+無限制
+MaxFPS10
+10 FPS
+MaxFPS15
+15 FPS
+MaxFPS30
+30 FPS
+MaxFPS60
+60 FPS
+OOCAutoClose
+自動閉合OOC訊息的後括號
+ShowUngarbledMessages
+顯示訊息未混淆的原始内容（若可用）
+ExtensionsNotFound
+找不到擴充組件
+KeybindSearchMode
+搜尋模式
+KeybindSearchMode.action
+動作
+KeybindSearchMode.category
+分類
+KeybindSearchMode.keyCombo
+按鍵組合
+KeybindSearchPlaceholder
+輸入以搜尋...
+KeybindNotBound
+未綁定
+KeybindError
+錯誤
+KeybindConflictsOnly
+僅顯示衝突
+KeybindConflictsWith
+與以下衝突：\n$conflicts$
+KeybindContextsValid
+上下文：\n$contexts$
+KeybindReset
+重設組合
+KeybindUnbind
+取消綁定組合
+KeybindWaitingForInput
+正在等待 $action$ 的輸入...
+KeybindFiltering
+篩選

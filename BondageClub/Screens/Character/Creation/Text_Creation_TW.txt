@@ -1,7 +1,25 @@
 EnterAccountCharacterInfo
 輸入你的帳號&角色訊息
+CharacterName
+角色名稱
+AccountName
+帳號名稱
+Password
+密碼
+ConfirmPassword
+確認密碼
+CharacterNameDesc
+（僅限字母與空格）
+AccountNameDesc
+（僅限字母與數字）
+PasswordDesc
+（僅限字母與數字）
+ConfirmPasswordDesc
+（僅限字母與數字）
+Email
+Email地址
 EmailDesc
-信箱地址（可選，用於恢復密碼）
+（可選，用於恢復密碼）
 CreateAccount
 創建帳號
 AccountAlreadyExists
@@ -20,5 +38,23 @@ ImportBondageCollege
 導入緊縛學院數據
 InvalidServerAnswer
 伺服器返回錯誤,遊戲版本是否有誤？
+InfoTooLong
+你的角色名稱、帳號名稱和密碼長度不能超過 20 個字元。
+InvalidCharacters
+無效字元：$invalidCharacters
+InvalidFormat
+$inputName：格式無效（最多 $maxLength 個字元）。\n$invalidCharacters
+Required
+$inputName：此欄位為必填。
+TooLong
+$inputName：字數過長（最多 $maxLength 個字元）。
+MaxLength
+最多 $maxLength 個字元
+MaxLengthUndefined
+最大長度
+ContainsInvalidCharacters
+$inputName：包含無效字元。\n$invalidCharacters
 CharacterNamePermanent
 角色名稱是永久的，無法更改。之後你可以設定暱稱。
+InvalidEmail
+$inputName：無效的信箱地址。
