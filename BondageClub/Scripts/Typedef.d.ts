@@ -21,6 +21,9 @@ type MemoizedFunction<T extends AnyFunction> = T & {
 	clearCache(): void;
 };
 
+/** All (non-undefined) JS scalar-esque types */
+type ScalarType = null | string | boolean | number;
+
 /**
  * This is a typealias for Promise that indicates to eslint that that kind of promise
  * can skip needing a .catch/never throws or does so in so scuh extraordinary conditions

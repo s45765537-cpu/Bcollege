@@ -555,8 +555,8 @@ function DialogPrerequisite(dialog) {
 		const [, neg, target, method] = match;
 		const obj = target === "Player" ? Player : CurrentCharacter;
 		// eslint-disable-next-line jsdoc/valid-types
-		const booleanMethod = /** @type {keyof { [k in keyof Character as Character[k] extends () => unknown ? k : never]: Character[k] }} */(method);
-		const fn = obj?.[booleanMethod];
+		const scalarMethod = /** @type {keyof { [k in keyof Character as Character[k] extends () => ScalarType ? k : never]: Character[k] }} */(method);
+		const fn = obj?.[scalarMethod];
 
 		if (typeof fn !== "function") {
 			console.error(
