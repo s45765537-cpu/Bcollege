@@ -155,9 +155,68 @@ describe("brush", () => {
 		expect(Game.ChatRoomMapViewEditMode).toBe("Tile");
 		expect(Game.ChatRoomMapViewEditObject.ID).toBe(tile.ID);
 
+		resetEditor();
+	});
+});
+
+describe("eraser", () => {
+	it("erases to the default doodad for the current palette", () => {
+		const map = Game.MapManager.Map;
+		beginPaint();
+		Game.ChatRoomMapViewActiveTool = "Eraser";
+
+		map.setTile(1, 1, Game.MapDataGetTile(101), 0);
+		Game.ChatRoomMapViewEditMode = "Tile";
+		paintAt(1, 1, true);
+		expect(map.getTileId(1, 1)).toBe(100);
+
+		map.setObject(2, 2, Game.MapDataGetObject(2010), 0);
+		Game.ChatRoomMapViewEditMode = "Object";
+		paintAt(2, 2, false);
+		expect(map.getObjectId(2, 2)).toBe(100);
+		paintAt(2, 2, true);
+		expect(map.getObjectId(2, 2)).toBe(101);
+
+		map.addEffect(3, 3, Game.MapDataGetEffect(11), 0);
+		Game.ChatRoomMapViewEditMode = "Effect";
+		paintAt(3, 3, true);
+		expect(map.getEffects(3, 3)).toEqual([]);
+
+		map.setTile(4, 4, Game.MapDataGetTile(101), 0);
+		Game.ChatRoomMapViewEditMode = "TileType";
+		paintAt(4, 4, false);
+		expect(map.getTileId(4, 4)).toBe(100);
+		expect(Game.ChatRoomMapViewEditMode).toBe("TileType");
+
+		map.setObject(4, 0, Game.MapDataGetObject(2010), 0);
+		Game.ChatRoomMapViewEditMode = "ObjectType";
+		paintAt(4, 0, true);
+		expect(map.getObjectId(4, 0)).toBe(101);
+		expect(Game.ChatRoomMapViewEditMode).toBe("ObjectType");
+
+		resetEditor();
+	});
+
+	it("selects the brush for a doodad and clears a tool that can no longer paint", () => {
+		const tile = Game.MapDataGetTile(101);
+		Game.ChatRoomMapViewActiveTool = "Eraser";
+		Game.ChatRoomMapViewEditorSetSelection(tile, "Tile", false);
+		expect(Game.ChatRoomMapViewActiveTool).toBe("Brush");
+
 		Game.ChatRoomMapViewEditorSetMode("TileType", "");
 		expect(Game.ChatRoomMapViewActiveTool).toBe("");
 		expect(Game.ChatRoomMapViewEditObject).toBeNull();
+
+		Game.ChatRoomMapViewActiveTool = "Eraser";
+		Game.ChatRoomMapViewEditMode = "Object";
+		Game.ChatRoomMapViewEditSubMode = "Bedroom";
+		Game.ChatRoomMapViewEditObject = Game.MapDataGetObject(100);
+		Game.ChatRoomMapViewEditorSetMode("ObjectType", "");
+		expect(Game.ChatRoomMapViewActiveTool).toBe("Eraser");
+		expect(Game.ChatRoomMapViewEditObject).toBeNull();
+
+		Game.ChatRoomMapViewEditorSetMode("", "");
+		expect(Game.ChatRoomMapViewActiveTool).toBe("");
 
 		resetEditor();
 	});

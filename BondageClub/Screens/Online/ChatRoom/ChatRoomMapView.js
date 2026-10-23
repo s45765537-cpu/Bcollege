@@ -527,6 +527,30 @@ function ChatRoomMapViewGetButtons() {
 
 	];
 
+	const objectEditing = ChatRoomMapViewEditMode === "Object" || ChatRoomMapViewEditMode === "ObjectType";
+	const eraserButton = ElementWrap("chat-room-map-view-eraser") ?? ElementButton.Create("chat-room-map-view-eraser", function () {
+		if (this.getAttribute("aria-checked") === "true") {
+			ChatRoomMapViewSetActiveTool("Eraser");
+		} else if (ChatRoomMapViewTools.Brush.canPaint()) {
+			ChatRoomMapViewSetActiveTool("Brush");
+		} else {
+			ChatRoomMapViewSetActiveTool("");
+		}
+	}, {
+		image: "Icons/Eraser.svg",
+		tooltip: objectEditing ? TextGet("EditorButtonTextEraserAlt") : TextGet("EditorButtonTextEraser"),
+		tooltipPosition: "right",
+	}, {
+		button: {
+			classList: ["chat-room-map-view-category-button"],
+			attributes: {
+				role: "checkbox",
+				"aria-checked": ChatRoomMapViewActiveTool === "Eraser" ? "true" : "false",
+			},
+		},
+	});
+	const eraserButtons = ChatRoomMapViewTools.Eraser.canPaint() ? [eraserButton] : [];
+
 	switch (ChatRoomMapViewEditMode) {
 		case "":
 			return [
@@ -555,6 +579,7 @@ function ChatRoomMapViewGetButtons() {
 			return [
 				backButton,
 				editRangeButton,
+				...eraserButtons,
 				...[...MapDataObjectTypes].map((type) => {
 					return ChatMapRoomViewCreateCategoryButton(() => {
 						ChatRoomMapViewEditorSetMode("Object", type);
@@ -568,6 +593,7 @@ function ChatRoomMapViewGetButtons() {
 			return [
 				backButton,
 				editRangeButton,
+				...eraserButtons,
 				...[...MapDataTileTypes].map((type) => {
 					return ChatMapRoomViewCreateCategoryButton(() => {
 						ChatRoomMapViewEditorSetMode("Tile", type);
@@ -581,6 +607,7 @@ function ChatRoomMapViewGetButtons() {
 			return [
 				backButton,
 				editRangeButton,
+				...eraserButtons,
 				...buttons,
 			];
 		}
@@ -716,7 +743,9 @@ function ChatRoomMapViewCreateMapElementItem(item, updateRecent=true, readOnly=f
 	}
 	const classList = ["element-button-group-button", "chat-room-map-view-item-button"];
 	const selected = ChatRoomMapViewEditObject?.ID === item.ID && ChatRoomMapViewEditObject.Type === item.Type;
-	if (selected) classList.push("chat-room-map-view-item-selected");
+	if (selected) {
+		classList.push("chat-room-map-view-item-selected");
+	}
 	const element = ElementButton.Create(null, function () {
 		ChatRoomMapViewEditorSetSelection(item, type, updateRecent);
 	}, {
@@ -2305,6 +2334,13 @@ function ChatRoomMapViewMouseDown(event) {
 		ChatRoomMapViewMouseMove(event);
 		return;
 
+	// A tool that accepts this palette can paint here, including from a category screen
+	} else if (ChatRoomMapViewGetActiveTool()?.canPaint() && MouseIn(0, 0, 1000, 1000)) {
+		if (MouseIn(10, 10, 60, 60)) { return; }
+		if (MouseIn(10, 80, 60, 60)) { return; }
+		ChatRoomMapViewEditStarted = true;
+		ChatRoomMapViewMouseMove(event);
+		return;
 	}
 
 }
@@ -2376,11 +2412,12 @@ function ChatRoomMapViewGetActiveTool() {
 }
 
 /**
- * Selects the paint tool.
+ * Selects the paint tool and updates its button, if that button is on screen.
  * @param {ChatRoomMapViewToolName | ""} tool
  */
 function ChatRoomMapViewSetActiveTool(tool) {
 	ChatRoomMapViewActiveTool = tool;
+	document.getElementById("chat-room-map-view-eraser")?.setAttribute("aria-checked", tool === "Eraser" ? "true" : "false");
 }
 
 /**
@@ -2411,6 +2448,26 @@ const ChatRoomMapViewTools = {
 					}
 					break;
 				}
+			}
+		},
+	},
+	// Ignores the selected doodad. Alt while erasing objects paints EmptySpace/Impassable.
+	Eraser: {
+		selectionColor: "red",
+		canPaint: () => ChatRoomMapViewEditMode !== "",
+		paint: (x, y, range, event) => {
+			switch (ChatRoomMapViewEditMode) {
+				case "Tile":
+				case "TileType":
+					MapManager.Map.setTile(x, y, MapDataGetTile(ChatRoomMapViewObjectStartID), range);
+					break;
+				case "Object":
+				case "ObjectType":
+					MapManager.Map.setObject(x, y, MapDataGetObject(event.altKey ? 101 : ChatRoomMapViewObjectStartID), range);
+					break;
+				case "Effect":
+					MapManager.Map.setEffects(x, y, [], range);
+					break;
 			}
 		},
 	},

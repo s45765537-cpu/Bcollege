@@ -55,6 +55,11 @@
 	width: 1.6em;
 }
 
+.chat-room-map-view-category-button[aria-checked="true"] {
+	background-color: Cyan;
+	--inner-border-width: 0px;
+}
+
 .chat-room-map-view-item-button {
 	aspect-ratio: 1;
 	width: 1.2em;
