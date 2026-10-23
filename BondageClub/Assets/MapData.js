@@ -23,6 +23,56 @@ function ChatRoomMapViewCreateAnimation(baseName, frames, duration = 2000, rever
 	};
 }
 
+/** All kitchen counter variants join each other into runs and corners */
+const AssetsMapDataKitchenCounterIDs = [330, 331, 332, 333];
+
+/**
+ * Creates a function that picks the kitchen counter piece matching the neighboring kitchen counters
+ * @param {string} baseName - Image name prefix, the piece name is appended to it
+ * @returns {ChatRoomMapObject["BuildImageName"]}
+ */
+function ChatRoomMapViewCreateKitchenCounterImage(baseName) {
+	return function(X, Y) {
+		const directions = ChatRoomMapViewGetConnectivityDirections(X, Y, (tX, tY) => {
+			const id = MapManager.Map.getObjectId(tX, tY);
+			return id != null && AssetsMapDataKitchenCounterIDs.includes(id);
+		});
+		const { North, South, East, West } = directions;
+		if (East && West) return baseName + "Middle";
+		if (North && South) return baseName + "VerticalMiddle";
+		if (South && East) return baseName + "CornerSouthEast";
+		if (South && West) return baseName + "CornerSouthWest";
+		if (North && East) return baseName + "CornerNorthEast";
+		if (North && West) return baseName + "CornerNorthWest";
+		if (East) return baseName + "Left";
+		if (West) return baseName + "Right";
+		if (South) return baseName + "VerticalTop";
+		if (North) return baseName + "VerticalBottom";
+		return baseName + "Single";
+	};
+}
+
+/**
+ * Creates a function that picks the Left / Middle / Right / Single piece of an object joining the same object beside it
+ * @param {string} baseName - Image name prefix, the piece name is appended to it
+ * @returns {ChatRoomMapObject["BuildImageName"]}
+ */
+function ChatRoomMapViewCreateRowImage(baseName) {
+	/**
+	 * @this {ChatRoomMapObject}
+	 * @param {number} x
+	 * @param {number} y
+	 */
+	return function(x, y) {
+		const left = MapManager.Map.getObjectId(x - 1, y) === this.ID;
+		const right = MapManager.Map.getObjectId(x + 1, y) === this.ID;
+		if (left && right) return baseName + "Middle";
+		if (left) return baseName + "Right";
+		if (right) return baseName + "Left";
+		return baseName + "Single";
+	};
+}
+
 /**
  * To prevent repeating the same logic, we create a function that returns a function
  * @param {ChatRoomMapDirection} direction
@@ -471,8 +521,10 @@ const AssetsMapDataTiles = [
 /** @type {ChatRoomMapObject[]} */
 const AssetsMapDataObjects = [
 	{ ID: 100, Type: "LivingRoom", Style: "Blank" },
+	{ ID: 3499, Type: "Functional", Style: "Blank" },
 	{ ID: 110, Type: "Functional", Style: "EntryFlag", Top: -0.125, Exit: true, Unique: true },
 	{ ID: 115, Type: "Functional", Style: "ExitFlag", Top: -0.125, Exit: true },
+	{ ID: 400, Type: "Bedroom", Style: "Blank" },
 	{ ID: 120, Type: "Bedroom", Style: "BedTeal", Top: -0.25, AssetName: "Bed", AssetGroup: "ItemDevices"},
 	{ ID: 130, Type: "LivingRoom", Style: "PillowPink" },
 	{ ID: 140, Type: "LivingRoom", Style: "TableBrown" },
@@ -484,42 +536,93 @@ const AssetsMapDataObjects = [
 	{ ID: 165, Type: "LivingRoom", Style: "VikingChair" , Top: -0.5, Height: 2 },
 	{ ID: 166, Type: "Bedroom", Style: "Bed" , Top: -0.82, Left: 0.05, Height: 1.8, Width: 0.90, AssetName: "Bed", AssetGroup: "ItemDevices" },
 	{ ID: 170, Type: "LivingRoom", Style: "Stairs" , Top: 0, Left: 0 },
+	{ ID: 175, Type: "LivingRoom", Style: "ModernDiningChair", Top: -0.5, Height: 1.5 },
+	{ ID: 176, Type: "LivingRoom", Style: "ModernLampFloor", Top: -1.2, Height: 2.2 },
+	{ ID: 177, Type: "LivingRoom", Style: "ModernLampArc", Left: -0.25, Width: 1.5, Top: -1.2, Height: 2.2 },
+	{ ID: 178, Type: "LivingRoom", Style: "ModernLampTripod", Top: -1.1, Height: 2.1 },
 	{ ID: 180, Type: "LivingRoom", Style: "AirConditioner" , Top: 0, Left: 0 },
+	// Master LivingRoom set (keep published IDs)
 	{ ID: 190, Type: "LivingRoom", Style: "FloorLamp", Top: -1.15, Left: 0.13, Height: 2, Width: 0.74 },
 	{ ID: 191, Type: "LivingRoom", Style: "VelvetArmchair", Top: -0.26, Height: 1.11 },
 	{ ID: 192, Type: "LivingRoom", Style: "CoffeeTable", Top: 0.17, Height: 0.68 },
 	{ ID: 193, Type: "LivingRoom", Style: "Piano", Top: -0.08, Height: 0.93 },
 	{ ID: 194, Type: "LivingRoom", Style: "FaintingCouch", Top: 0.3, Height: 0.55 },
 	{ ID: 195, Type: "LivingRoom", Style: "FiddleLeafFig", Top: -0.95, Left: 0.02, Height: 1.8, Width: 0.97 },
+	// Our LivingRoom set remapped off 190-195
+	{ ID: 185, Type: "LivingRoom", Style: "ModernLowboardSingle", Top: 0, Height: 1, BuildImageName: ChatRoomMapViewCreateRowImage("ModernLowboard") },
+	{ ID: 186, Type: "LivingRoom", Style: "ModernHighboardSingle", Top: -0.8, Height: 1.8, BuildImageName: ChatRoomMapViewCreateRowImage("ModernHighboard") },
+	{ ID: 187, Type: "LivingRoom", Style: "ModernBookshelfSingle", Top: -1.3, Height: 2.3, BuildImageName: ChatRoomMapViewCreateRowImage("ModernBookshelf") },
+	{ ID: 188, Type: "LivingRoom", Style: "NordicSideboardSingle", Top: -0.3, Height: 1.3, BuildImageName: ChatRoomMapViewCreateRowImage("NordicSideboard") },
+	{ ID: 189, Type: "LivingRoom", Style: "NordicCabinet", Top: -1.2, Height: 2.2 },
+	{ ID: 221, Type: "LivingRoom", Style: "ModernWardrobe", Top: -1.2, Height: 2.2 },
+	{ ID: 200, Type: "FloorDecorationThemed", Style: "Blank" },
+	{
+		ID: 196,
+		Type: "FloorDecorationThemed",
+		Style: "ThroneCage",
+		Top: -0.25,
+		Height: 1.25,
+		Transparency: 1,
+		// Cutout 0: redraw full cage over the character so the roof stone stays solid
+		TransparencyCutoutHeight: 0,
+	},
+	{ ID: 197, Type: "FloorDecorationThemed", Style: "ThroneCageThrone", Top: -0.85, Height: 1.6 },
+	{ ID: 167, Type: "FloorDecorationThemed", Style: "ThroneCageStairsRight", Top: -0.25, Height: 1.25 },
+	{ ID: 198, Type: "FloorDecorationThemed", Style: "ThroneCageStairsLeft", Top: -0.25, Height: 1.25 },
+	{ ID: 181, Type: "FloorDecorationThemed", Style: "Stage", Top: -0.25, Height: 1.25 },
+	{ ID: 182, Type: "FloorDecorationThemed", Style: "StageWood", Top: -0.25, Height: 1.25 },
+	{ ID: 183, Type: "FloorDecorationThemed", Style: "StageStairsLeftWood", Top: -0.25, Height: 1.25 },
+	{ ID: 184, Type: "FloorDecorationThemed", Style: "StageStairsRightWood", Top: -0.25, Height: 1.25 },
 	{ ID: 211, Type: "School", Style: "Blank" },
-	{ ID: 400, Type: "Bedroom", Style: "Blank" },
 	{ ID: 401, Type: "Bedroom", Style: "TeddyBear" },
 	{ ID: 402, Type: "Bedroom", Style: "PinkTeddyBear" },
 	{ ID: 403, Type: "Bedroom", Style: "Nightstand" },
 	{ ID: 404, Type: "Bedroom", Style: "PinkNightstand" },
+	// Master Bedroom set (keep published IDs)
 	{ ID: 405, Type: "Bedroom", Style: "Vanity", Top: -0.44, Height: 1.29 },
 	{ ID: 406, Type: "Bedroom", Style: "Dresser", Top: -0.63, Height: 1.48 },
 	{ ID: 407, Type: "Bedroom", Style: "FoldingScreen", Top: -0.13, Height: 0.98 },
 	{ ID: 408, Type: "Bedroom", Style: "DressForm", Top: -0.95, Left: 0.16, Height: 1.8, Width: 0.69 },
+	// Our Bedroom set remapped off 405-408
+	{ ID: 409, Type: "Bedroom", Style: "SlidingDoorCabinet", Top: -1.2, Height: 2.2 },
+	{ ID: 410, Type: "Bedroom", Style: "MakeupTable", Top: -0.8, Height: 1.8 },
+	{ ID: 411, Type: "Bedroom", Style: "ModernNightstand", Top: -0.25, Height: 1.0 },
+	{ ID: 412, Type: "Bedroom", Style: "ModernNightstandLamp", Top: -0.55, Height: 1.3 },
 
-	{ ID: 200, Type: "FloorDecorationThemed", Style: "Blank" },
 	{ ID: 210, Type: "School", Style: "TeacherDesk", Top: -0.25 },
 	{ ID: 212, Type: "School", Style: "Globe", Top: -0.25, Left: 0.16, Height: 1.1, Width: 0.69 },
 	{ ID: 213, Type: "School", Style: "Lectern", Top: -0.4, Height: 1.25 },
 	{ ID: 220, Type: "School", Style: "StudentDesk", Top: -0.1 },
-	{ ID: 250, Type: "FloorDecorationThemed", Style: "SinkDishes", Top: -0.35 },
+	{ ID: 249, Type: "Kitchen", Style: "Blank" },
+	{ ID: 250, Type: "Kitchen", Style: "SinkDishes", Top: -0.35 },
+	{ ID: 3281, Type: "Bathroom", Style: "Blank" },
 	{ ID: 260, Type: "Bathroom", Style: "LaundryMachine", Top: -0.55, Height: 1.25 },
 	{ ID: 270, Type: "Bathroom", Style: "IroningBoard", Top: -0.35 },
 	{ ID: 300, Type: "FloorDecorationThemed", Style: "ShibariFrame", Top: -1, Height: 2 },
 	{ ID: 310, Type: "LivingRoom", Style: "JapaneseTable", Top: -0.1 },
 	{ ID: 320, Type: "FloorDecorationThemed", Style: "BanzaiTree", Top: -0.1 },
+	{ ID: 330, Type: "Kitchen", Style: "KitchenCounterSingle", Top: -0.3, Height: 1.3, BuildImageName: ChatRoomMapViewCreateKitchenCounterImage("KitchenCounter") },
+	{ ID: 331, Type: "Kitchen", Style: "KitchenCounterSinkSingle", Top: -0.3, Height: 1.3, BuildImageName: ChatRoomMapViewCreateKitchenCounterImage("KitchenCounterSink") },
+	{ ID: 332, Type: "Kitchen", Style: "KitchenCounterStoveElectricSingle", Top: -0.3, Height: 1.3, BuildImageName: ChatRoomMapViewCreateKitchenCounterImage("KitchenCounterStoveElectric") },
+	{ ID: 333, Type: "Kitchen", Style: "KitchenCounterStoveGasSingle", Top: -0.3, Height: 1.3, BuildImageName: ChatRoomMapViewCreateKitchenCounterImage("KitchenCounterStoveGas") },
+	{ ID: 334, Type: "Kitchen", Style: "KitchenTallCabinetSingle", Top: -1.2, Height: 2.2 },
+	{ ID: 335, Type: "Kitchen", Style: "KitchenWallCabinetSingle", CanPlaceOnWalls: true, CanPlaceOnFloors: false, Top: 0.05, Height: 0.75, BuildImageName: ChatRoomMapViewCreateRowImage("KitchenWallCabinet") },
+	{ ID: 342, Type: "Office", Style: "Blank" },
+	{ ID: 336, Type: "Office", Style: "OfficeStandingTable", Top: -0.5, Height: 1.5 },
+	{ ID: 337, Type: "Office", Style: "OfficeDeskComputer", Top: -0.35, Height: 1.35 },
+	{ ID: 338, Type: "Office", Style: "OfficeChair", Top: -0.5, Height: 1.5 },
+	{ ID: 339, Type: "Office", Style: "OfficeFilingCabinet", Top: -1.0, Height: 2.0 },
+	{ ID: 340, Type: "Office", Style: "OfficeFileDrawer", Top: -0.3, Height: 1.3 },
+	{ ID: 341, Type: "Office", Style: "OfficePrinter", Top: -0.5, Height: 1.5 },
 	{ ID: 350, Type: "FloorDecorationThemed", Style: "MedicalDesk", Top: -0.15 },
 	{ ID: 360, Type: "FloorDecorationThemed", Style: "anvil", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
 	{ ID: 361, Type: "FloorDecorationThemed", Style: "grindstone", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
 	{ ID: 362, Type: "FloorDecorationThemed", Style: "furnace", Top: -0.8, Left: 0.05, Height: 1.8, Width: 0.9 },
-	{ ID: 363, Type: "FloorDecorationThemed", Style: "microwave", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
-	{ ID: 364, Type: "FloorDecorationThemed", Style: "stove", Top: -0.29, Left: 0.05, Height: 1.22, Width: 0.9 },
-	{ ID: 365, Type: "FloorDecorationThemed", Style: "fridge", Top: -0.8, Left: 0.05, Height: 1.8, Width: 0.9 },
+	{ ID: 363, Type: "Kitchen", Style: "microwave", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
+	{ ID: 364, Type: "Kitchen", Style: "stove", Top: -0.29, Left: 0.05, Height: 1.22, Width: 0.9 },
+	{ ID: 365, Type: "Kitchen", Style: "fridge", Top: -0.8, Left: 0.05, Height: 1.8, Width: 0.9 },
+	{ ID: 366, Type: "Kitchen", Style: "KitchenWallKnifeMagnet", CanPlaceOnWalls: true, CanPlaceOnFloors: false, Top: 0.05, Height: 0.5 },
+	{ ID: 367, Type: "Kitchen", Style: "KitchenWallCoffeeArt", CanPlaceOnWalls: true, CanPlaceOnFloors: false, Top: 0.05, Height: 0.8 },
 	{ ID: 370, Type: "Bathroom", Style: "Toilet", Top: -0.65, Left: 0.05, Height: 1.5, Width: 0.9 },
 	{ ID: 380, Type: "FloorDecorationThemed", Style: "DeskBlue" },
 	{ ID: 381, Type: "FloorDecorationThemed", Style: "DeskPurple" },
@@ -567,6 +670,7 @@ const AssetsMapDataObjects = [
 			return "LogFireAnim" + Frame.toString();
 		}
 	},
+	{ ID: 612, Type: "FloorDecorationCamping", Style: "NordicFireBowl", Left: -0.5, Width: 2, Top: -1, Height: 2, CanEnter: () => false },
 	{ ID: 620, Type: "FloorDecorationCamping", Style: "LogSingle", Top: -0.2 },
 	{ ID: 630, Type: "FloorDecorationCamping", Style: "TentBlue", Top: -0.3 },
 	{ ID: 640, Type: "FloorDecorationCamping", Style: "SleepingBagBlue" },
@@ -849,6 +953,16 @@ const AssetsMapDataObjects = [
 			return "ChickenBrown" + Anim;
 		}
 	},
+	{
+		ID: 850,
+		Type: "FloorDecorationAnimal",
+		Style: "Fireflies0",
+		Top: -0.5,
+		BuildImageName: function(X, Y) {
+			let Frame = (Math.floor((CurrentTime + X * 337 + Y * 191) / 150) + X * 7 + Y * 11) % 16;
+			return "Fireflies" + Frame.toString();
+		}
+	},
 
 	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
 	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
@@ -862,6 +976,7 @@ const AssetsMapDataObjects = [
 	{ ID: 1090, Type: "FloorItem", Style: "Pole", Top: -0.85, Height: 1.8, AssetName: "Pole", AssetGroup: "ItemDevices" },
 	{ ID: 1095, Type: "FloorItem", Style: "MedicalBed", Top: -0.82, Left: 0.05, Height: 1.8, Width: 0.90, AssetName: "MedicalBed", AssetGroup: "ItemDevices" },
 	{ ID: 1096, Type: "FloorItem", Style: "FuturisticCrate", Top: -0.95, Height: 2, AssetName: "FuturisticCrate", AssetGroup: "ItemDevices" },
+	{ ID: 1399, Type: "ABDL", Style: "Blank"},
 	{ ID: 1097, Type: "ABDL", Style: "HighChair", Top: -0.95, Height: 2, AssetName: "Highchair", AssetGroup: "ItemDevices" },
 	{ ID: 1098, Type: "ABDL", Style: "Crib", Top: -0.95, Height: 2, AssetName: "Crib", AssetGroup: "ItemDevices" },
 	{ ID: 1099, Type: "ABDL", Style: "PinkCrib", Top: -0.95, Height: 2, AssetName: "Crib", AssetGroup: "ItemDevices" },
@@ -917,7 +1032,6 @@ const AssetsMapDataObjects = [
 	{ ID: 1308, Type: "FloorIcon", Style: "IconArrowLeft" },
 	{ ID: 1309, Type: "FloorIcon", Style: "IconArrowRight" },
 
-	{ ID: 1399, Type: "ABDL", Style: "Blank"},
 	{ ID: 1400, Type: "ABDL", Style: "PinkPotty", Top: 0, Height: 1, AssetName: "Potty", AssetGroup: "ItemDevices" },
 	{ ID: 1401, Type: "ABDL", Style: "BluePotty", Top: 0, Height: 1, AssetName: "Potty", AssetGroup: "ItemDevices" },
 	{ ID: 1402, Type: "ABDL", Style: "ChangingTable", Top: -1, Height: 2, AssetName: "ChangingTable", AssetGroup: "ItemDevices" },
@@ -934,6 +1048,9 @@ const AssetsMapDataObjects = [
 	{ ID: 2013, Type: "FloorObstacle", Style: "Totem", Top: -1, Height: 2, CanEnter: () => false, },
 	{ ID: 2014, Type: "FloorObstacle", Style: "EasterIsland", Top: -1, Height: 2, CanEnter: () => false, },
 	{ ID: 2015, Type: "FloorObstacle", Style: "OrderOfTheVoidTotem", Top: -1, Height: 2, CanEnter: () => false, },
+	{ ID: 2016, Type: "FloorObstacle", Style: "NordicPillar", Top: -1.35, Left: 0.15, Height: 2.3, Width: 0.7, CanEnter: () => false, },
+	{ ID: 2017, Type: "FloorObstacle", Style: "FreyaStatue", Top: -1.55, Height: 2.5, CanEnter: () => false, },
+	{ ID: 2018, Type: "FloorObstacle", Style: "NordicTreasureChest", Top: -0.2, Height: 1.2, CanEnter: () => false, },
 	{ ID: 2020, Type: "FloorObstacle", Style: "Barrel", Top: -0.5, Height: 1.5, CanEnter: () => false, },
 	{ ID: 2025, Type: "FloorObstacle", Style: "Chest", Top: 0, Height: 1, CanEnter: () => false, },
 	{ ID: 2030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2, CanEnter: () => false, },
@@ -1003,9 +1120,19 @@ const AssetsMapDataObjects = [
 	{ ID: 3120, Type: "WallDecoration", Style: "Window", Top: 0.2, Left: 0.1, Height: 0.80, Width: 0.80 },
 	{ ID: 3121, Type: "WallDecoration", Style: "WindowNight", Top: 0.22, Left: 0.1, Height: 0.80, Width: 0.80 },
 	{ ID: 3122, Type: "WallDecoration", Style: "StainedGlass", Top: 0.25, Left: 0.13, Height: 0.75, Width: 0.75 },
+	// Master wall set (keep published IDs)
 	{ ID: 3130, Type: "WallDecoration", Style: "WallShelf", Top: 0.1, Height: 0.76 },
 	{ ID: 3131, Type: "WallDecoration", Style: "WallSconce", Top: 0.1, Left: 0.11, Height: 0.8, Width: 0.78 },
 	{ ID: 3132, Type: "WallDecoration", Style: "CoatRack", Top: 0.1, Left: 0.1, Height: 0.8, Width: 0.79 },
+	// Our wall set remapped off 3130-3132
+	{ ID: 3133, Type: "WallDecoration", Style: "NordicAxesCrossed", Top: 0.1, Height: 0.85 },
+	{ ID: 3134, Type: "WallDecoration", Style: "NordicShieldRound", Top: 0.1, Height: 0.85 },
+	{ ID: 3135, Type: "WallDecoration", Style: "NordicShieldKnot", Top: 0.1, Height: 0.85 },
+	{ ID: 3136, Type: "WallDecoration", Style: "NordicShieldAxes", Top: 0, Height: 1 },
+	{ ID: 3137, Type: "WallDecoration", Style: "NordicDragonHeadLeft", Top: 0.1, Height: 0.85 },
+	{ ID: 3138, Type: "WallDecoration", Style: "NordicDragonHeadRight", Top: 0.1, Height: 0.85 },
+	{ ID: 3139, Type: "WallDecoration", Style: "ModernWallSconce", Top: 0.05, Height: 0.9 },
+	{ ID: 3140, Type: "WallDecoration", Style: "ModernWallSconceDouble", Top: 0.05, Height: 0.9 },
 	{ ID: 3200, Type: "School", Style: "SchoolBoard", CanPlaceOnWalls: true, CanPlaceOnFloors: false },
 	{ ID: 3201, Type: "School", Style: "Clock",Top: 0.25, Left: 0.13, CanPlaceOnWalls: true, CanPlaceOnFloors: false, Height: 0.75, Width: 0.75 },
 	{ ID: 3250, Type: "WallDecoration", Style: "FirstAidKit" },
@@ -1015,13 +1142,10 @@ const AssetsMapDataObjects = [
 	{ ID: 3270, Type: "LivingRoom", Style: "Bookshelf", CanPlaceOnWalls: true, CanPlaceOnFloors: false },
 	{ ID: 3275, Type: "WallDecoration", Style: "AirConditioner", Top: 0.27, Height: 0.8 },
 	{ ID: 3280, Type: "Bathroom", Style: "ShowerHead", CanPlaceOnWalls: true, CanPlaceOnFloors: false },
-	{ ID: 3281, Type: "Bathroom", Style: "Blank" },
 	{ ID: 3290, Type: "Bathroom", Style: "EnemaHead", CanPlaceOnWalls: true, CanPlaceOnFloors: false },
 	{ ID: 3301, Type: "WallDecoration", Style: "MonitorSmall" },
 	{ ID: 3302, Type: "WallDecoration", Style: "MonitorBigLeft" },
 	{ ID: 3303, Type: "WallDecoration", Style: "MonitorBigRight" },
-
-	{ ID: 3499, Type: "Functional", Style: "Blank" },
 
 	// <- right / west / 0
 	{ ID: 3500, Type: "Functional", Style: "ConveyorBelt1", Top: 0, Left: 0,
@@ -1130,6 +1254,7 @@ const AssetsMapDataObjects = [
 	{ ID: 4511,  Type: "FloorFoamTiles", Style: "PlayTileBrown", Top: -0.1, Left: -0.1, Height: 1.1, Width: 1.1 },
 	{ ID: 4512,  Type: "FloorFoamTiles", Style: "PlayTileLightBlue", Top: -0.1, Left: -0.1, Height: 1.1, Width: 1.1 },
 
+	{ ID: 5000, Type: "Banners", Style: "Blank" },
 	{ ID: 5010, Type: "Banners", Style: "Red", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
 	{ ID: 5011, Type: "Banners", Style: "Blue", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
 	{ ID: 5012, Type: "Banners", Style: "Green", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
