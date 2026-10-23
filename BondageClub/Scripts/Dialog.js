@@ -22,6 +22,13 @@ var DialogInventory = [];
 var DialogInventoryOffset = 0;
 
 /**
+ * The duration temporary status message show up for, in ms
+ * @type {HTMLInputElement | null}
+ */
+let DialogItemSearchBar = null;
+let DialogItemSearchBarAutoClose = false;
+
+/**
  * The grid configuration for most item views (items, permissions, activities)
  * @type {CommonGenerateGridParameters}
  */
@@ -1417,6 +1424,13 @@ function DialogMenuButtonBuild(C) {
 
 	DialogMenuButton = [];
 
+	if (!DialogAllowSearchMode()) {
+		DialogExitSearchMode(C);
+	} else if (DialogItemSearchBar) {
+		DialogMenuButton = ["Exit", "FilterItemsExit"];
+		return;
+	}
+
 	// Hide "Exit" button for the screens where
 	if (DialogMenuMode && !["colorExpression", "colorItem"].includes(DialogMenuMode))
 		DialogMenuButton = ["Exit"];
@@ -1467,7 +1481,7 @@ function DialogMenuButtonBuild(C) {
 	// Pushes all valid main buttons, based on if the player is restrained, has a blocked group, has the key, etc.
 	else {
 		if (DialogMenuMode === "permissions") {
-			DialogMenuButton.push("NormalMode");
+			DialogMenuButton = ["NormalMode", "FilterItems"];
 			return;
 		}
 
@@ -1546,6 +1560,7 @@ function DialogMenuButtonBuild(C) {
 		}
 
 		if (DialogActivity.length > 0) DialogMenuButton.push("Activity");
+		if (Player.CanInteract()) DialogMenuButton.push("FilterItems");
 
 		// Item permission enter/exit
 		if (C.IsPlayer()) {
@@ -1818,6 +1833,86 @@ function DialogBuildSavedExpressionsMenu() {
 }
 
 /**
+ * Whether we can enter search mode
+ * @returns {boolean}
+ */
+function DialogAllowSearchMode() {
+	return CurrentCharacter != null &&
+		(
+			Player.FocusGroup != null ||
+			(
+				CurrentCharacter != null &&
+				CurrentCharacter.FocusGroup != null &&
+				CurrentCharacter.AllowItem
+			)
+		) &&
+		DialogIntro(CurrentCharacter) !== "" &&
+		(DialogMenuMode === "items" || DialogMenuMode === "permissions");
+}
+
+/**
+ * Exit from the search mode
+ * @param {Character} C - Character
+ */
+function DialogExitSearchMode(C) {
+	if (DialogItemSearchBar) {
+		DialogItemSearchBar.remove();
+		DialogItemSearchBar = null;
+		DialogItemSearchBarAutoClose = false;
+		DialogMenuButtonBuild(C);
+
+		/**
+		 * The duration temporary status message show up for, in ms
+		 * @type {undefined | string}
+		 */
+		const gridID = DialogMenuMapping[DialogMenuMode]?.ids.grid;
+		if (gridID) {
+			document.querySelectorAll(`#${gridID} > .dialog-grid-button`).forEach(button => button.toggleAttribute("hidden", false));
+		}
+
+	}
+}
+
+/**
+ * Enter search mode
+ * @param {Character} C - The character we're searching items on
+ * @param {string | undefined} input - The search string we're looking for
+ */
+function DialogEnterItemsSearchMode(C, input = undefined) {
+	DialogItemSearchBar = ElementCreateInput("DialogItemSearch", "text", "", "40");
+	DialogItemSearchBar.oninput = () => {
+		if (DialogItemSearchBar) {
+			if (DialogItemSearchBarAutoClose && !DialogItemSearchBar.value) {
+				DialogExitSearchMode(C);
+				MainCanvas.canvas.focus();
+				return;
+			}
+
+			/**
+			 * The duration temporary status message show up for, in ms
+			 * @type {undefined | string}
+			 */
+			const gridID = DialogMenuMapping[DialogMenuMode]?.ids.grid;
+			if (gridID) {
+				const query = DialogItemSearchBar.value.toLocaleLowerCase().split(" ").map(i => i.trim());
+				document.querySelectorAll(`#${gridID} > .dialog-grid-button`).forEach(button => {
+					const name = button.getAttribute("name")?.toLocaleLowerCase() ?? "";
+					const description = button.querySelector(".button-label")?.textContent?.toLocaleLowerCase() ?? "";
+					const queryMatch = query.some(i => name.includes(i) || description.includes(i));
+					button.toggleAttribute("hidden", !queryMatch);
+				});
+			}
+		}
+	};
+	DialogItemSearchBar.focus();
+	DialogItemSearchBar.setAttribute("value", input ?? "");
+	const insPoint = input?.length ?? 0;
+	DialogItemSearchBar.setSelectionRange(insPoint, insPoint);
+	ElementPositionFix("DialogItemSearch", 40, 1005, 25, 625, 60);
+	DialogMenuButtonBuild(C);
+}
+
+/**
  * Handles the Click events in the Dialog Screen
  * @returns {boolean} - Whether a button was clicked
  */
@@ -1840,6 +1935,18 @@ function DialogMenuButtonClick() {
 			// Exit Icon - Go back one level in the menu
 			if (button === "Exit") {
 				DialogMenuBack();
+				return true;
+			}
+
+			// Search Icon - Pops the searchbar for the focused group of items
+			if (button === "FilterItems") {
+				DialogEnterItemsSearchMode(C);
+				return true;
+			}
+
+			// Exit Icon - hides the searchbar for the focused group of items
+			if (button === "FilterItemsExit") {
+				DialogExitSearchMode(C);
 				return true;
 			}
 
@@ -2054,6 +2161,9 @@ function DialogLockingClick(ClickedLock, C, CurrentItem=null) {
  * @param {null | Item} CurrentItem - The equipped item (if any)
  */
 function DialogItemClick(ClickItem, C, CurrentItem=null) {
+	// exit search mode when clicked on other item
+	DialogExitSearchMode(C);
+
 	// We're dealing with a previously equipped extended item; open the extended item menu
 	if (CurrentItem?.Asset.Extended && !DialogAllowItemClick(CurrentItem, ClickItem)) {
 		DialogExtendItem(CurrentItem);
@@ -2267,6 +2377,7 @@ function DialogChangeFocusToGroup(C, Group) {
 	// It's done without calling DialogLeaveFocusItem() so it
 	// acts as cancelling out of a in-progress edit.
 	DialogLeaveFocusItem(false);
+	DialogExitSearchMode(C);
 	if (DialogMenuMode === "colorExpression" || DialogMenuMode === "colorItem")
 		ItemColorCancelAndExit();
 	else if (DialogMenuMode === "colorDefault") {
@@ -2650,6 +2761,10 @@ function DialogGetMenuButtonImage(ButtonName, FocusItem) {
 		return "PickLock";
 	} else if (DialogIsMenuButtonDisabled(ButtonName)) {
 		return ButtonName.replace(DialogButtonDisabledTester, "");
+	} else if (ButtonName === "FilterItems") {
+		return "Search";
+	} else if (ButtonName === "FilterItemsExit") {
+		return "Remove";
 	} else {
 		return ButtonName;
 	}

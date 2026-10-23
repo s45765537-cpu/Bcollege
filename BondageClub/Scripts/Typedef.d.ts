@@ -391,7 +391,7 @@ type DialogMenuButtonType = "Activity" |
 	"Lock" | "LockDisabled" | "LockMenu" |
 	`PickLock${PickLockAvailability}` |
 	"Remote" | "RemoteDisabled" | `RemoteDisabledFor${Exclude<VibratorRemoteAvailability, "Available" | "InvalidItem">}` |
-	"Unlock" | "Use" | "UseDisabled" | "Struggle" | "TightenLoosen"
+	"Unlock" | "Use" | "UseDisabled" | "Struggle" | "TightenLoosen" | "FilterItems" | "FilterItemsExit"
 	;
 
 type AppearanceMenuButtonType = (
