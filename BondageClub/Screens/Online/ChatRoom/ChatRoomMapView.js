@@ -10,7 +10,10 @@ var ChatRoomMapViewEditPath = "";
 var ChatRoomMapViewLastSearch = "";
 /** @type {"" | ChatRoomMapTileType | ChatRoomMapObjectType} */
 var ChatRoomMapViewEditSubMode = "";
+/** Currently dragging the mouse with an active tool */
 var ChatRoomMapViewEditStarted = false;
+/** @type {ChatRoomMapViewToolName | ""} */
+var ChatRoomMapViewActiveTool = "";
 /** @type {null | ChatRoomMapDoodad} */
 var ChatRoomMapViewEditObject = null;
 /**
@@ -361,7 +364,10 @@ function ChatRoomMapViewShowEditor() {
 }
 
 /**
- * Switches the editor palette. Changing mode or submode clears the selected doodad.
+ * Switches the editor palette mode.
+ *
+ * Changing mode or submode clears the selected doodad.
+ * A tool that can no longer paint is cleared too.
  * @param {ChatRoomMapViewEditModeType} mode
  * @param {"" | ChatRoomMapTileType | ChatRoomMapObjectType} subMode
  */
@@ -370,6 +376,8 @@ function ChatRoomMapViewEditorSetMode(mode, subMode) {
 	ChatRoomMapViewEditMode = mode;
 	ChatRoomMapViewEditSubMode = subMode;
 	ChatRoomMapViewEditObject = null;
+	const activeTool = ChatRoomMapViewGetActiveTool();
+	if (activeTool && !activeTool.canPaint()) ChatRoomMapViewSetActiveTool("");
 }
 
 /**
@@ -397,6 +405,7 @@ function ChatRoomMapViewEditorSetSelection(item, type, updateRecent=true) {
 	}
 	ChatRoomMapViewEditorSetMode(type, subMode);
 	ChatRoomMapViewEditObject = CommonCloneDeep(item);
+	ChatRoomMapViewSetActiveTool("Brush");
 	if (MapDoodadIsObject(item)) {
 		if ((item.AssetName != null) && (item.AssetGroup != null) && !InventoryAvailable(Player, item.AssetName, item.AssetGroup)) return;
 	}
@@ -1343,6 +1352,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	let TileHeight = Height / ((ChatRoomMapViewPerceptionRange * 2) + 1);
 	let EditWidth = (ChatRoomMapViewEditRange - 1) * TileWidth;
 	let EditHeight = (ChatRoomMapViewEditRange - 1) * TileHeight;
+	const activeTool = ChatRoomMapViewGetActiveTool();
 	const MaxVisibleRange = ChatRoomMapViewGetSightRange();
 	let CharacterUnderCursor = null;
 	let FogActive = ChatRoomMapFogIsActive();
@@ -1474,7 +1484,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 			|| MouseIn(930, 930, 60, 60);
 
 		// Keeps the tile as selected if the mouse is within selection
-		const DrawSelectionRect = ((ChatRoomMapViewEditMode === "Tile" || ChatRoomMapViewEditMode === "Object" || ChatRoomMapViewEditMode === "Effect") && mouseInTile && !mouseOverButtons);
+		const DrawSelectionRect = (activeTool != null && activeTool.canPaint() && mouseInTile && !mouseOverButtons);
 
 		// For each characters in the chat room (don't draw when there's fog)
 		if (!Fog) {
@@ -1526,7 +1536,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 		// Draw the floor wall effect and rectancle if needed at the end
 		if (FloorWallEffect != -1) DrawImageResize(MapGetAssetUrl("Tile", "WallEffect", `${FloorWallEffect}`), Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
-		if (DrawSelectionRect) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
+		if (DrawSelectionRect && activeTool) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, activeTool.selectionColor, 3);
 		if (padMenuIndex === X + Y * ChatRoomMapViewWidth) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "white", 2);
 		if (padDestination?.X === X && padDestination?.Y === Y) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 5);
 		if (ChatRoomMapViewTeleportPadPicking && MouseIn(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight)) DrawRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "#00FFFF60");
@@ -1617,9 +1627,8 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 	// Name tags to pick each character sharing a tile, hidden while editing since clicks place doodads then
 	ChatRoomMapViewNameTags = [];
-	const editing = ["Tile", "Object", "Effect"].includes(ChatRoomMapViewEditMode);
 	MainCanvas.font = CommonGetFont(24);
-	if (!editing) {
+	if (!activeTool || !activeTool.canPaint()) {
 		/** @type {{ C: OnlineCharacter, name: string, rect: RectTuple, charX: number, charY: number }[]} */
 		const placed = [];
 		/** @type {(rect: RectTuple) => boolean} */
@@ -2346,21 +2355,9 @@ function ChatRoomMapViewMouseMove(event) {
 	const pos = ChatRoomMapViewPixelToTileCoordinates(MouseX, MouseY);
 	if (!pos) return;
 
-	const range = ChatRoomMapViewEditRange - 1;
-
-	if (ChatRoomMapViewEditMode == "Tile") {
-		MapManager.Map.setTile(pos.X, pos.Y, /** @type {ChatRoomMapTile} */ (ChatRoomMapViewEditObject), range);
-	} else if (ChatRoomMapViewEditMode === "Object") {
-		MapManager.Map.setObject(pos.X, pos.Y, /** @type {ChatRoomMapObject} */ (ChatRoomMapViewEditObject), range);
-	} else if (ChatRoomMapViewEditMode === "Effect") {
-		const effect = /** @type {ChatRoomMapEffect} */ (ChatRoomMapViewEditObject);
-		const isBlank = effect == null || effect.ID === ChatRoomMapViewEffectStartID;
-		if (isBlank) {
-			MapManager.Map.setEffects(pos.X, pos.Y, [], range);
-		} else {
-			MapManager.Map.addEffect(pos.X, pos.Y, effect, range);
-		}
-	}
+	const tool = ChatRoomMapViewGetActiveTool();
+	if (!tool || !tool.canPaint()) return;
+	tool.paint(pos.X, pos.Y, ChatRoomMapViewEditRange - 1, event);
 
 	// Encode the changed map and write it to the global ChatRoomData.MapData.
 	// This is somewhat inefficient since we don't have to actually encode the string
@@ -2368,6 +2365,56 @@ function ChatRoomMapViewMouseMove(event) {
 	// See ChatRoomMapManager.Map.updateGlobalMapData documentation for more details.
 	MapManager.Map.updateGlobalMapData();
 }
+
+/**
+ * The tool currently painting, if one is selected.
+ * @returns {ChatRoomMapViewTool | null}
+ */
+function ChatRoomMapViewGetActiveTool() {
+	if (ChatRoomMapViewActiveTool === "") return null;
+	return ChatRoomMapViewTools[ChatRoomMapViewActiveTool];
+}
+
+/**
+ * Selects the paint tool.
+ * @param {ChatRoomMapViewToolName | ""} tool
+ */
+function ChatRoomMapViewSetActiveTool(tool) {
+	ChatRoomMapViewActiveTool = tool;
+}
+
+/**
+ * The map editing tools.
+ * @satisfies {Record<string, ChatRoomMapViewTool>}
+ */
+const ChatRoomMapViewTools = {
+	Brush: {
+		selectionColor: "cyan",
+		canPaint: () => {
+			const mode = ChatRoomMapViewEditMode;
+			return (mode === "Tile" || mode === "Object" || mode === "Effect") && ChatRoomMapViewEditObject != null;
+		},
+		paint: (x, y, range, _event) => {
+			switch (ChatRoomMapViewEditMode) {
+				case "Tile":
+					MapManager.Map.setTile(x, y, /** @type {ChatRoomMapTile} */ (ChatRoomMapViewEditObject), range);
+					break;
+				case "Object":
+					MapManager.Map.setObject(x, y, /** @type {ChatRoomMapObject} */ (ChatRoomMapViewEditObject), range);
+					break;
+				case "Effect": {
+					const effect = /** @type {ChatRoomMapEffect} */ (ChatRoomMapViewEditObject);
+					if (effect == null || effect.ID === ChatRoomMapViewEffectStartID) {
+						MapManager.Map.setEffects(x, y, [], range);
+					} else {
+						MapManager.Map.addEffect(x, y, effect, range);
+					}
+					break;
+				}
+			}
+		},
+	},
+};
 
 /**
  * Mouse up event is used to stop drawing

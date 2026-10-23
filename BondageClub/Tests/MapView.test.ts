@@ -55,11 +55,27 @@ afterEach(() => {
 });
 
 function resetEditor() {
+	Game.ChatRoomMapViewActiveTool = "";
 	Game.ChatRoomMapViewEditStarted = false;
 	Game.ChatRoomMapViewEditMode = "";
 	Game.ChatRoomMapViewEditSubMode = "";
 	Game.ChatRoomMapViewEditObject = null;
 	Game.ChatRoomMapViewEditRange = 1;
+}
+
+function paintAt(x: number, y: number, altKey = false) {
+	const tileSize = 1000 / ((Game.ChatRoomMapViewPerceptionRange * 2) + 1);
+	Game.MouseX = (x + Game.ChatRoomMapViewPerceptionRange + 0.5) * tileSize;
+	Game.MouseY = (y + Game.ChatRoomMapViewPerceptionRange + 0.5) * tileSize;
+	Game.ChatRoomMapViewMouseMove({ altKey });
+}
+
+function beginPaint() {
+	Game.CurrentScreen = "ChatRoom";
+	Game.ChatRoomActiveView = Game.ChatRoomViews.Map;
+	Game.ChatRoomMapViewEditStarted = true;
+	Game.ChatRoomMapViewEditRange = 1;
+	Game.ChatRoomMapViewActiveTool = "Brush";
 }
 
 describe("editor palette", () => {
@@ -93,6 +109,68 @@ describe("editor palette", () => {
 		Game.ChatRoomMapViewEditorSetMode("TileType", "");
 		expect(Game.ChatRoomMapViewEditSubMode).toBe("");
 		expect(Game.ChatRoomMapViewEditObject).toBeNull();
+
+		resetEditor();
+	});
+});
+
+describe("brush", () => {
+	it("paints only while a doodad is selected in tile, object, or effect mode", () => {
+		const map = Game.MapManager.Map;
+		beginPaint();
+
+		Game.ChatRoomMapViewEditMode = "Object";
+		Game.ChatRoomMapViewEditSubMode = "Bedroom";
+		Game.ChatRoomMapViewEditObject = null;
+		map.setObject(1, 1, Game.MapDataGetObject(2010), 0);
+		paintAt(1, 1);
+		expect(map.getObjectId(1, 1)).toBe(2010);
+
+		const emptySpace = Game.MapDataGetObject(100);
+		Game.ChatRoomMapViewEditObject = emptySpace;
+		paintAt(1, 1);
+		expect(map.getObjectId(1, 1)).toBe(100);
+
+		map.setTile(2, 2, Game.MapDataGetTile(101), 0);
+		Game.ChatRoomMapViewEditMode = "TileType";
+		Game.ChatRoomMapViewEditObject = Game.MapDataGetTile(100);
+		paintAt(2, 2);
+		expect(map.getTileId(2, 2)).toBe(101);
+		expect(Game.ChatRoomMapViewEditMode).toBe("TileType");
+
+		map.setObject(3, 3, Game.MapDataGetObject(2010), 0);
+		Game.ChatRoomMapViewEditMode = "ObjectType";
+		Game.ChatRoomMapViewEditObject = emptySpace;
+		paintAt(3, 3);
+		expect(map.getObjectId(3, 3)).toBe(2010);
+		expect(Game.ChatRoomMapViewEditMode).toBe("ObjectType");
+
+		resetEditor();
+	});
+
+	it("selects the brush when a doodad is chosen", () => {
+		const tile = Game.MapDataGetTile(101);
+		Game.ChatRoomMapViewEditorSetSelection(tile, "Tile", false);
+		expect(Game.ChatRoomMapViewActiveTool).toBe("Brush");
+		expect(Game.ChatRoomMapViewEditMode).toBe("Tile");
+		expect(Game.ChatRoomMapViewEditObject.ID).toBe(tile.ID);
+
+		Game.ChatRoomMapViewEditorSetMode("TileType", "");
+		expect(Game.ChatRoomMapViewActiveTool).toBe("");
+		expect(Game.ChatRoomMapViewEditObject).toBeNull();
+
+		resetEditor();
+	});
+
+	it("does not paint without an active tool", () => {
+		const map = Game.MapManager.Map;
+		beginPaint();
+		Game.ChatRoomMapViewActiveTool = "";
+		Game.ChatRoomMapViewEditMode = "Tile";
+		Game.ChatRoomMapViewEditObject = Game.MapDataGetTile(100);
+		map.setTile(1, 1, Game.MapDataGetTile(101), 0);
+		paintAt(1, 1);
+		expect(map.getTileId(1, 1)).toBe(101);
 
 		resetEditor();
 	});
