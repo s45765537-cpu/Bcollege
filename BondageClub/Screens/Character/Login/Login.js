@@ -1146,7 +1146,7 @@ function LoginSetupPlayer(C) {
 		}
 	}
 	Player.SubmissivesList = submissivesList ?? new Set();
-	Player.Infiltration = C.Infiltration;
+	Player.Infiltration = ServerAccountDataSyncedValidate.Infiltration(C.Infiltration, Player);
 	LoginDifficulty(false);
 
 	// Loads the inventory data
@@ -1236,7 +1236,10 @@ function LoginDone() {
 		} else if (Player.Infiltration?.Punishment && (Player.Infiltration.Punishment.Timer ?? 0) > CurrentTime) {
 			// The player must log back in Pandora's Box prison
 			PandoraWillpower = 0;
-			InfiltrationDifficulty = Player.Infiltration.Punishment.Difficulty;
+			if (InfiltrationMissionState) {
+				// XXX: so we just restore half a mission? what is going on there?
+				InfiltrationMissionState.Difficulty = Player.Infiltration.Punishment.Difficulty;
+			}
 			CommonSetScreen("Room", "PandoraPrison");
 		} else if (AsylumIsIsolated() || AsylumIsCommitted() || AsylumGGTSGetLevel(Player) >= 6) {
 			// The player must log back in the asylum

@@ -240,15 +240,16 @@ const TextItem = {
 	Draw: function (data) {
 		const { asset, drawData, textNames } = data;
 
-		ExtendedItemDrawHeader();
+		const item = asset.IsLock ? DialogFocusSourceItem : DialogFocusItem;
+		if (!item) return;
+
+		ExtendedItemDrawHeader(item);
 		DrawText(DialogExtendedMessage, 1500, 375, "#fff", "808080");
 		if (drawData.paginate) {
 			DrawButton(1665, 240, 90, 90, "", "White", "Icons/Prev.png");
 			DrawButton(1775, 240, 90, 90, "", "White", "Icons/Next.png");
 		}
 
-		const item = (asset.IsLock) ? DialogFocusSourceItem : DialogFocusItem;
-		if (!item) return;
 		const offset = ExtendedItemGetOffset();
 		const elementData = drawData.elementData.slice(offset, offset + drawData.itemsPerPage);
 		elementData.forEach(({ position }, i) => {

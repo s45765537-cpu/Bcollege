@@ -156,13 +156,15 @@ const NoArch = {
 	 * @param {ExtendedItemData<any>} data
 	 */
 	Draw: function (data) {
+		const item = data.asset.IsLock ? DialogFocusSourceItem : DialogFocusItem;
+		if (!item) return;
 		// If an option's subscreen is open, it overrides the standard screen
 		if (ExtendedItemSubscreen && data.parentOption == null) {
 			CommonCallFunctionByNameWarn(`${data.functionPrefix}${ExtendedItemSubscreen}Draw`);
 			return;
 		}
 
-		ExtendedItemDrawHeader();
+		ExtendedItemDrawHeader(item);
 		DrawText(DialogExtendedMessage, 1500, 375, "#fff", "808080");
 
 		if (data.drawData.paginate) {
@@ -177,7 +179,6 @@ const NoArch = {
 			true,
 		);
 
-		const item = /** @type {Item} */ (data.asset.IsLock ? DialogFocusSourceItem : DialogFocusItem);
 		ExtendedItemTighten.Draw(data, item, [1050, 220, 300, 65]);
 	},
 	/**

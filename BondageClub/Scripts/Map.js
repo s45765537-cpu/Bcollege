@@ -276,7 +276,7 @@ var MapManager = (function () {
 				return effects;
 			} catch (e) {
 				console.error(
-					`MapManager._decodeEffects(): failed to decode map effects: decoding error: ${e}`,
+					`MapManager._decodeEffects(): failed to decode map effects: decoding error`, e,
 				);
 				return undefined;
 			}

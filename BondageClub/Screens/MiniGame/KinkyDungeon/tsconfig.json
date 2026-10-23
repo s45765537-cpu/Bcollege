@@ -1,0 +1,34 @@
+// strict stays off for KinkyDungeon. checkJs is off so the included Bondage Club
+// sources supply globals without being typechecked again; KD scripts opt in with @ts-check.
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es2022",
+		"lib": ["ES2022", "DOM"],
+		"allowJs": true,
+		"checkJs": false,
+		"noEmit": true,
+		"incremental": true,
+		"tsBuildInfoFile": "../../../.cache/tsc-kd.tsbuildinfo",
+		"types": [],
+		"strict": false,
+		"skipLibCheck": true
+	},
+	"include": [
+		"./**/*.js",
+		"./**/*.ts",
+		"../../../Scripts/**/*",
+		"../../../Screens/**/*",
+		"../../../Assets/**/*",
+		"../../../Backgrounds/**/*.js"
+	],
+	"exclude": [
+		"pixi.min.js",
+		"../../../Screens/MiniGame/KinkyDungeonPublic.d.ts",
+		"../../../Scripts/lib/**/*.js",
+		"../../../Scripts/MessagesPatch.d.ts",
+		"../../../Scripts/DeclarationsExpensive.d.ts",
+		"../../../node_modules/**/*",
+		"../../../Tools/Node/csvtypescript_tmp_output"
+	]
+}

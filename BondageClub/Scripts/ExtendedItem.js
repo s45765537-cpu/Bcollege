@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 /**
  * Utility file for handling extended items
@@ -144,19 +143,21 @@ var ExtendedItemSubscreen = null;
  * @template RT
  * @template {ExtendedItemOption} Option
  * @param {ExtendedItemData<Option>} data
- * @param {string} name
+ * @param {keyof ExtendedItemScriptHookStruct<any, any>} name
  * @param {null | ExtendedItemCallback<T, RT>} originalFunction
  */
 function ExtendedItemCreateCallback(data, name, originalFunction) {
 	const suffix = CommonCapitalize(name);
 	const prefix = ["afterDraw", "beforeDraw", "scriptDraw"].includes(name) ? data.dynamicAssetsFunctionPrefix : data.functionPrefix;
 	const funcName = `${prefix}${suffix}`;
-	const scriptHook = /** @type {ExtendedItemScriptHookCallback<ExtendedItemData<Option>, T, RT>} */(data.scriptHooks[name]);
+	/** @type {null | ((data: any, originalFunction: any, ...args: any[]) => any)} */
+	const scriptHook = data.scriptHooks[name];
+	const namespace = /** @type {Record<string, unknown>} */ (globalThis);
 	if (scriptHook != null) {
 		/** @type {ExtendedItemCallback<T, RT>} */
-		globalThis[funcName] = (...args) => scriptHook(data, originalFunction, ...args);
+		namespace[funcName] = (...args) => scriptHook(data, originalFunction, ...args);
 	} else if (originalFunction != null) {
-		globalThis[funcName] = originalFunction;
+		namespace[funcName] = originalFunction;
 	}
 }
 
@@ -278,10 +279,10 @@ function ExtendedItemInitNoArch(C, Item, Properties, Push=true, Refresh=true) {
 
 	let Update = false;
 	const PropertiesCopy = CommonCloneDeep(Properties);
-	for (const [name, value] of Object.entries(PropertiesCopy)) {
+	for (const [name, value] of CommonEntries(PropertiesCopy)) {
 		if (Item.Property[name] == null) {
 			Update = true;
-			Item.Property[name] = value;
+			PropertyAssign(Item.Property, name, value);
 		}
 	}
 
@@ -308,10 +309,11 @@ function ExtendedItemLoad(data) {
 	}
 
 	if (ExtendedItemOffsets[ExtendedItemOffsetKey()] == null) ExtendedItemSetOffset(0);
+	const focusedCharacter = CharacterGetCurrent();
 	if (typeof dialogPrefix.header === "string") {
 		DialogExtendedMessage = AssetTextGet(dialogPrefix.header);
-	} else if (typeof dialogPrefix.header === "function") {
-		DialogExtendedMessage = dialogPrefix.header(data, CharacterGetCurrent(), DialogFocusItem);
+	} else if (typeof dialogPrefix.header === "function" && focusedCharacter && DialogFocusItem) {
+		DialogExtendedMessage = dialogPrefix.header(data, focusedCharacter, DialogFocusItem);
 	} else {
 		DialogExtendedMessage = "";
 	}
@@ -328,15 +330,21 @@ function ExtendedItemLoad(data) {
  * @param {boolean | null} IsSelected - Whether the button is already selected or not. If `null` compute this value by checking if the item's current type matches `Option`.
  * @see {@link TypedItemDraw}
  */
-function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData, Item=DialogFocusItem, IsSelected=null) {
-	if (buttonData.hidden) {
+function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData, Item, IsSelected=null) {
+	if (!Item && DialogFocusItem) {
+		Item = DialogFocusItem;
+	}
+	if (buttonData.hidden || !Item) {
 		return;
 	}
 
-	/** @type {[null | string, string, boolean]} */
+	/** @type {[null | string, null | string, boolean]} */
 	let [Type, AssetSource, IsFavorite] = [null, null, false];
 	const Asset = Item.Asset;
 	const C = CharacterGetCurrent();
+	if (!C) {
+		return;
+	}
 	const [x, y, width, height] = buttonData.position;
 	const Hover = MouseIn(...buttonData.position) && !CommonIsMobile;
 	let Effect = null;
@@ -355,13 +363,15 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 			case "ModularItemOption":
 			case "VibratingItemOption":
 			case "TypedItemOption": {
-				const entries = Object.entries(Option.Property.TypeRecord);
+				const typeRecord = Option.Property?.TypeRecord ?? {};
+				const entries = Object.entries(typeRecord);
 				Type = entries.map(([k, v]) => `${k}${v}`).join("");
 				if (IsSelected == null) {
-					if (ExtendedItemPermissionMode && entries.every(([k, v]) => v === 0 && Item.Property.TypeRecord[k] === 0)) {
+					const itemTypeRecord = Item.Property?.TypeRecord;
+					if (ExtendedItemPermissionMode && entries.every(([k, v]) => v === 0 && itemTypeRecord?.[k] === 0)) {
 						IsSelected = true;
 					} else {
-						IsSelected = entries.every(([k, v]) => Item.Property.TypeRecord[k] === v);
+						IsSelected = entries.every(([k, v]) => itemTypeRecord?.[k] === v);
 					}
 				}
 				break;
@@ -376,16 +386,17 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 		}
 		Effect = Option.Property && Option.Property.Effect || null;
 		IsFavorite = InventoryIsFavorite(ExtendedItemPermissionMode ? Player : C, Asset.Name, Asset.Group.Name, Type);
-		AssetSource = buttonData.imagePath;
+		AssetSource = buttonData.imagePath ?? null;
 	}
 
+	if (IsSelected == null) IsSelected = false;
 	const ButtonColor = ExtendedItemGetButtonColor(CurrentOption.ParentData, C, Option, CurrentOption, Hover, IsSelected, Item);
 	DrawButton(...buttonData.position, "", ButtonColor, null, null, IsSelected);
 	if (buttonData.drawImage) {
 		let imageWidthHeight = Math.min(width - 4, height);
 		const imageX = x + (width - imageWidthHeight) / 2;
 		const imageY = y + (height - imageWidthHeight - 54) / 2;
-		DrawImageResize(AssetSource, imageX, imageY, imageWidthHeight, imageWidthHeight);
+		if (AssetSource) DrawImageResize(AssetSource, imageX, imageY, imageWidthHeight, imageWidthHeight);
 		if (Option.OptionType !== "ModularItemModule") {
 			DrawPreviewIcons(ExtendItemGetIcons(C, Asset, Type, Effect), x + 2, y);
 		}
@@ -403,8 +414,7 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 
 /**
  * Determine the background color for the item option's button
- * @template {ExtendedItemOption} Option
- * @param {ExtendedItemData<Option>} data - The extended item data
+ * @param {ExtendedItemData<ExtendedItemOption>} data - The extended item data
  * @param {Character} C - The character wearing the item
  * @param {ExtendedItemOption | ModularItemModule} Option - A type for the extended item
  * @param {ExtendedItemOption} CurrentOption - The currently selected option for the item
@@ -413,7 +423,13 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
  * @param {Item} Item - The item in question; defaults to {@link DialogFocusItem}
  * @returns {string} The name or hex code of the color
  */
-function ExtendedItemGetButtonColor(data, C, Option, CurrentOption, Hover, IsSelected, Item=DialogFocusItem) {
+function ExtendedItemGetButtonColor(data, C, Option, CurrentOption, Hover, IsSelected, Item) {
+	if (!Item && DialogFocusItem) {
+		Item = DialogFocusItem;
+	}
+	if (!Item) {
+		return "White";
+	}
 	/** @type {[null | string, boolean, boolean, boolean]} */
 	let [Type, IsFirst, HasSubscreen, FailSkillCheck] = [null, false, false, false];
 
@@ -424,9 +440,13 @@ function ExtendedItemGetButtonColor(data, C, Option, CurrentOption, Hover, IsSel
 		case "ModularItemOption":
 		case "VibratingItemOption":
 		case "TypedItemOption": {
-			const [key, value] = Object.entries(Option.Property.TypeRecord)[0];
-			Type = `${key}${value}`;
-			IsFirst = value === 0;
+			const typeRecord = Option.Property?.TypeRecord;
+			const entry = typeRecord && Object.entries(typeRecord)[0];
+			if (entry) {
+				const [key, value] = entry;
+				Type = `${key}${value}`;
+				IsFirst = value === 0;
+			}
 			break;
 		}
 		case "VariableHeightOption":
@@ -493,16 +513,18 @@ function ExtendedItemGetButtonColor(data, C, Option, CurrentOption, Hover, IsSel
  * @returns {void} - Nothing
  */
 function ExtendedItemExit() {
+	const item = DialogFocusItem;
+	if (!item) return;
 	// invalidate the cache
 	ExtendedItemRequirementCheckMessageMemo.clearCache();
 
 	if (ExtendedItemSubscreen) {
 		// Run the subscreen's Exit function if any
-		CommonCallFunctionByName(`${ExtendedItemFunctionPrefix()}${ExtendedItemSubscreen}Exit`);
+		CommonCallFunctionByName(`${ExtendedItemFunctionPrefix(item)}${ExtendedItemSubscreen}Exit`);
 		ExtendedItemSubscreen = null;
 		ExtendedItemPermissionMode = false;
 	} else if (DialogFocusItem) {
-		CommonCallFunctionByName(`${ExtendedItemFunctionPrefix()}Exit`);
+		CommonCallFunctionByName(`${ExtendedItemFunctionPrefix(item)}Exit`);
 		DialogFocusItem = null;
 		DialogFocusItemName = null;
 		DialogExtendedMessage = "";
@@ -595,7 +617,7 @@ function ExtendedItemCheckSkillRequirements(C, Item, Option) {
 	const SelfBondage = C.IsPlayer();
 	if (SelfBondage) {
 		let RequiredLevel = Option.SelfBondageLevel;
-		if (typeof RequiredLevel !== "number") RequiredLevel = Math.max(Item.Asset.SelfBondage, Option.BondageLevel);
+		if (typeof RequiredLevel !== "number") RequiredLevel = Math.max(Item.Asset.SelfBondage, Option.BondageLevel ?? 0);
 		if (SkillGetLevelReal(Player, "SelfBondage") < RequiredLevel) {
 			return InterfaceTextGet("RequireSelfBondage").replace("ReqLevel", RequiredLevel.toString());
 		}
@@ -655,12 +677,12 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
 		return InterfaceTextGet("CantChangeWhileLocked");
 	} else if (newOption.Prerequisite && !InventoryAllow(C, Item.Asset, newOption.Prerequisite, true, newOption.Property?.AllowActivePose)) {
 		// Otherwise use the standard prerequisite check
-		const statusID = DialogMenuMapping[DialogMenuMode]?.ids.status;
+		const statusID = DialogGetMenu(DialogMenuMode)?.ids.status;
 		if (statusID) {
 			// No idea what's going on there… Are we setting that at one point?
 			return (document.getElementById(statusID)?.textContent ?? "error");
 		}
-		return InventoryDisallow(C, Item.Asset, newOption.Prerequisite, newOption.Property.AllowActivePose);
+		return InventoryDisallow(C, Item.Asset, newOption.Prerequisite, newOption.Property?.AllowActivePose);
 	} else if (previousOption.AllowLock && !newOption.AllowLock && InventoryItemHasEffect(Item, "Lock", true)) {
 		// We're switching from a locked, lockable option to one that can't be locked. Prevent that.
 		return InterfaceTextGet("ExtendedItemUnlockBeforeChange");
@@ -679,7 +701,13 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
  * @param {Item} Item - The extended item in question; defaults to {@link DialogFocusItem}
  * @returns {`Inventory${AssetGroupName}${string}`} The extended item function prefix for the currently focused item
  */
-function ExtendedItemFunctionPrefix(Item=DialogFocusItem) {
+function ExtendedItemFunctionPrefix(Item) {
+	if (!Item && DialogFocusItem) {
+		Item = DialogFocusItem;
+	}
+	if (!Item) {
+		throw new Error("called without a focused extended item");
+	}
 	const Asset = Item.Asset;
 	return `Inventory${Asset.Group.Name}${Asset.Name}`;
 }
@@ -689,6 +717,9 @@ function ExtendedItemFunctionPrefix(Item=DialogFocusItem) {
  * @returns {string} The offset lookup key for the currently focused extended item
  */
 function ExtendedItemOffsetKey() {
+	if (!DialogFocusItem) {
+		throw new Error("called without a focused extended item");
+	}
 	var Asset = DialogFocusItem.Asset;
 	return Asset.Group.Name + "/" + Asset.Name;
 }
@@ -744,11 +775,11 @@ function ExtendedItemMapChatTagToDictionaryEntry(dictionary, C, { Asset, Craft }
  * Construct an array of inventory icons for a given asset and type
  * @param {Character} C - The target character
  * @param {Asset} Asset - The asset for the typed item
- * @param {string | null} Type - The type of the asse
- * @param {readonly EffectName[]} [Effects]
+ * @param {string | null} [Type] - The type of the asset
+ * @param {(readonly EffectName[]) | null} [Effects]
  * @returns {InventoryIcon[]} - The inventory icons
  */
-function ExtendItemGetIcons(C, Asset, Type=null, Effects=null) {
+function ExtendItemGetIcons(C, Asset, Type=undefined, Effects=undefined) {
 	const IsBlocked = InventoryIsPermissionBlocked(C, Asset.Name, Asset.Group.Name, Type);
 	const IsLimited = InventoryIsPermissionLimited(C, Asset.Name, Asset.Group.Name, Type);
 
@@ -771,20 +802,24 @@ function ExtendItemGetIcons(C, Asset, Type=null, Effects=null) {
 
 /**
  * Creates an asset's extended item NPC dialog function
+ * @template {ExtendedItemOption} [OptionType=ExtendedItemOption]
  * @param {Asset} Asset - The asset for the typed item
  * @param {string} FunctionPrefix - The prefix of the new `NpcDialog` function
- * @param {string | ExtendedItemNPCCallback<ExtendedItemOption>} NpcPrefix - A dialog prefix or a function for creating one
+ * @param {string | ExtendedItemNPCCallback<OptionType>} NpcPrefix - A dialog prefix or a function for creating one
  * @returns {void} - Nothing
  */
 function ExtendedItemCreateNpcDialogFunction(Asset, FunctionPrefix, NpcPrefix) {
 	const npcDialogFunctionName = `${FunctionPrefix}NpcDialog`;
+	const namespace = /** @type {Record<string, unknown>} */ (globalThis);
 	if (typeof NpcPrefix === "function") {
-		globalThis[npcDialogFunctionName] = function (C, Option, PreviousOption) {
+		/** @type {(C: Character, Option: OptionType, PreviousOption: OptionType) => void} */
+		namespace[npcDialogFunctionName] = function (C, Option, PreviousOption) {
 			const Prefix = NpcPrefix(C, Option, PreviousOption);
 			C.CurrentDialog = DialogFind(C, Prefix, Asset.Group.Name);
 		};
 	} else {
-		globalThis[npcDialogFunctionName] = function (C, Option, PreviousOption) {
+		/** @type {(C: Character, Option: OptionType, PreviousOption: OptionType) => void} */
+		namespace[npcDialogFunctionName] = function (C, Option, PreviousOption) {
 			C.CurrentDialog = DialogFind(C, `${NpcPrefix}${Option.Name}`, Asset.Group.Name);
 		};
 	}
@@ -801,19 +836,19 @@ function ExtendedItemCreateNpcDialogFunction(Asset, FunctionPrefix, NpcPrefix) {
  * @returns {void} Nothing
  */
 function ExtendedItemCustomDraw(Name, X, Y, imagePath=null, IsSelected=false, ChangeWhenLocked=true) {
+	const item = DialogFocusItem;
+	if (!item) return;
 	// Use a `name` for a "fictional" item option for interfacing with the extended item API
 	// TODO: Add a proper archetype rather than relying on `ParentData == null`
-	/** @type {ExtendedItemOption} */
-	const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: null, ChangeWhenLocked };
-	/** @type {ExtendedItemOption} */
-	const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null, ChangeWhenLocked };
+	const newOption = /** @type {ExtendedItemOption} */ (/** @type {unknown} */ ({ OptionType: "ExtendedItemOption", Name: Name, ParentData: null, ChangeWhenLocked }));
+	const previousOption = /** @type {ExtendedItemOption} */ (/** @type {unknown} */ ({ OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null, ChangeWhenLocked }));
 	/** @type {ElementData<{ drawImage: boolean, imagePath: string | null }>} */
 	const elementData = {
 		position: [X, Y, 225, imagePath != null ? 275 : 50],
 		drawImage: imagePath != null,
 		imagePath,
 	};
-	return ExtendedItemDrawButton(newOption, previousOption, "", elementData, DialogFocusItem, IsSelected);
+	return ExtendedItemDrawButton(newOption, previousOption, "", elementData, item, IsSelected);
 }
 
 /**
@@ -822,34 +857,35 @@ function ExtendedItemCustomDraw(Name, X, Y, imagePath=null, IsSelected=false, Ch
  * @param {number} x - The X coordinate of the checkbox
  * @param {number} y - The Y coordinate of the checkbox
  * @param {boolean} isChecked - Whether the checkbox is checked or not
- * @param {object} options
+ * @param {object} [options]
  * @param {string} [options.text] - Label associated with the checkbox
  * @param {number} [options.width] - Width of the checkbox
  * @param {number} [options.height] - Height of the checkbox
  * @param {boolean} [options.changeWhenLocked] - Whether the checkbox can be toggled when locked
  * @param {string} [options.textColor]
  */
-function ExtendedItemDrawCheckbox(name, x, y, isChecked, options=null) {
-	const { text, width, height, changeWhenLocked, textColor } = options || {};
+function ExtendedItemDrawCheckbox(name, x, y, isChecked, options) {
+	const { text, width, height, changeWhenLocked = true, textColor } = options || {};
 
 	// TODO: Add a proper archetype rather than relying on `ParentData == null`
-	/** @type {ExtendedItemOption} */
-	const newOption = {
+	const newOption = /** @type {ExtendedItemOption} */ (/** @type {unknown} */ ({
 		OptionType: "ExtendedItemOption",
 		Name: name,
 		ParentData: null,
-		ChangeWhenLocked: changeWhenLocked == null ? true : changeWhenLocked,
-	};
-	/** @type {ExtendedItemOption} */
-	const previousOption = {
+		ChangeWhenLocked: changeWhenLocked,
+	}));
+	const previousOption = /** @type {ExtendedItemOption} */ (/** @type {unknown} */ ({
 		OptionType: "ExtendedItemOption",
 		Name: `${name}Previous`,
 		ParentData: null,
-		ChangeWhenLocked: changeWhenLocked == null ? true : changeWhenLocked,
-	};
+		ChangeWhenLocked: changeWhenLocked,
+	}));
 
+	const C = CharacterGetCurrent();
+	const item = DialogFocusItem;
+	if (!C || !item) return;
 	const msg = ExtendedItemRequirementCheckMessageMemo(
-		null, CharacterGetCurrent(), DialogFocusItem, newOption, previousOption,
+		null, C, item, newOption, previousOption,
 	);
 	const disabled = !!(msg || ExtendedItemPermissionMode);
 	DrawCheckbox(x, y, width || 64, height || 64, text || "", isChecked, disabled, textColor || "Black");
@@ -864,18 +900,23 @@ function ExtendedItemDrawCheckbox(name, x, y, isChecked, options=null) {
  * @returns {boolean} `false` if the item's requirement check failed and `true` otherwise
  */
 function ExtendedItemCustomClick(Name, Callback, Worn=false, ChangeWhenLocked=true) {
+	const C = CharacterGetCurrent();
+	const item = DialogFocusItem;
+	if (!C || !item) {
+		return false;
+	}
 	// Use a `name` for a "fictional" item option for interfacing with the extended item API
 	if (ExtendedItemPermissionMode) {
-		InventoryTogglePermission(DialogFocusItem, Name, Worn);
+		InventoryTogglePermission(item, Name, Worn);
 		return true;
 	} else {
 		// Check if the option is blocked/limited/etc.
 		// TODO: Add a proper archetype rather than relying on `ParentData == null`
 		/** @type {ExtendedItemOption} */
-		const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: null, ChangeWhenLocked };
+		const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: /** @type {never} */(null), ChangeWhenLocked };
 		/** @type {ExtendedItemOption} */
-		const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null, ChangeWhenLocked };
-		const requirementMessage = ExtendedItemRequirementCheckMessage(null, CharacterGetCurrent(), DialogFocusItem, newOption, previousOption);
+		const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: /** @type {never} */(null), ChangeWhenLocked };
+		const requirementMessage = ExtendedItemRequirementCheckMessage(null, C, item, newOption, previousOption);
 		if (requirementMessage) {
 			DialogExtendedMessage = requirementMessage;
 			return false;
@@ -938,13 +979,16 @@ function ExtendedItemCustomExit(Name, Dictionary=null) {
 /**
  * Common draw function for drawing the header of the extended item menu screen.
  * Automatically applies any Locked and/or Vibrating options to the preview.
+ * @param {Item} Item - The item for whom the preview box should be drawn
  * @param {number} X - Position of the preview box on the X axis
  * @param {number} Y - Position of the preview box on the Y axis
- * @param {Item} Item - The item for whom the preview box should be drawn
  * @returns {void} Nothing
  */
-function ExtendedItemDrawHeader(X=1387, Y=55, Item=DialogFocusItem) {
-	if (Item == null) {
+function ExtendedItemDrawHeader(Item, X=1387, Y=55) {
+	if (!Item && DialogFocusItem) {
+		Item = DialogFocusItem;
+	}
+	if (!Item) {
 		return;
 	}
 	DrawItemPreview(Item, Player, X, Y);
@@ -955,10 +999,10 @@ function ExtendedItemDrawHeader(X=1387, Y=55, Item=DialogFocusItem) {
  * @template {ExtendedArchetype} Archetype
  * @param {Asset} asset - The item whose data should be extracted
  * @param {Archetype} Archetype - The archetype corresponding to the lookup table
- * @param {string} Type - The item's type. Only relevant in the case of {@link VariableHeightData}
+ * @param {string} [Type] - The item's type. Only relevant in the case of {@link VariableHeightData}
  * @returns {null | AssetArchetypeGetData<Archetype>} The item's data or `null` if the lookup failed
  */
-function ExtendedItemGetData(asset, Archetype, Type=null) {
+function ExtendedItemGetData(asset, Archetype, Type) {
 	if (asset == null) {
 		return null;
 	}
@@ -1016,21 +1060,25 @@ function ExtendedItemBuildChatMessageDictionary(chatData, { chatTags, dictionary
  * Return {@link ExtendedItemDialog.chat} if it's a string or call it using chat data based on a fictional extended item option.
  * Generally used for getting a chat prefix for extended item buttons with custom functionality.
  * @param {string} Name - The name of the pseudo-type
- * @param {ExtendedItemData} Data - The extended item data
+ * @param {ExtendedItemData<any>} Data - The extended item data
  * @returns {string} The dialogue prefix for the custom chatroom messages
  */
 function ExtendedItemCustomChatPrefix(Name, Data) {
-	if (typeof Data.dialogPrefix.chat === "function") {
-		return Data.dialogPrefix.chat({
-			C: CharacterGetCurrent(),
-			previousOption: { OptionType: "ExtendedItemOption", Name: Name },
-			newOption: { OptionType: "ExtendedItemOption", Name: Name },
+	const C = CharacterGetCurrent();
+	if (!C) {
+		return "";
+	}
+	const chat = Data.dialogPrefix.chat;
+	if (typeof chat === "function") {
+		return chat({
+			C,
+			previousOption: { OptionType: "ExtendedItemOption", Name: Name, ParentData: Data },
+			newOption: { OptionType: "ExtendedItemOption", Name: Name, ParentData: Data },
 			previousIndex: -1,
 			newIndex: -1,
 		});
-	} else {
-		return Data.dialogPrefix.chat;
 	}
+	return chat ?? "";
 }
 
 /**
@@ -1217,6 +1265,7 @@ function ExtendedItemManualRegister() {
 
 	for (const { group, name, config } of items) {
 		const asset = AssetGet("Female3DCG", group, name);
+		if (!asset) continue;
 		AssetBuildExtended(asset, config, AssetFemale3DCGExtended, null, false);
 	}
 }
@@ -1238,16 +1287,18 @@ function ExtendedItemGetDrawData(drawData, defaults) {
 	/** @type {ElementData<MetaData>[]} */
 	let elementData;
 	if (Array.isArray(drawData.elementData)) {
-		if (drawData.elementData.length > defaults.elementData.length) {
-			throw new Error(`Custom DrawData.elementData length (${drawData.elementData.length}) larger than expected length (${defaults.elementData.length})`);
+		const elementDataConfig = drawData.elementData;
+		if (elementDataConfig.length > defaults.elementData.length) {
+			throw new Error(`Custom DrawData.elementData length (${elementDataConfig.length}) larger than expected length (${defaults.elementData.length})`);
 		}
 		elementData = defaults.elementData.map((buttonDataRef, i) => {
-			const buttonData = drawData.elementData[i];
+			const buttonData = elementDataConfig[i];
 			/** @type {RectTuple} */
 			let position;
-			if (buttonData?.position) {
+			const positionOverride = buttonData?.position;
+			if (positionOverride) {
 				position = /** @type {RectTuple} */(buttonDataRef.position.map((j, idx) => {
-					return buttonData.position[idx] || j;
+					return positionOverride[idx] || j;
 				}));
 			} else {
 				position = buttonDataRef.position;
@@ -1290,7 +1341,8 @@ const ExtendedItemGatherOptions = (function () {
 	function gatherOptions(item) {
 		/** @type {ExtendedItemOptionUnion[]} */
 		const options = [];
-		const data = ExtendedItemGetData(item.Asset, item.Asset.Archetype);
+		const archetype = item.Asset.Archetype;
+		const data = archetype && ExtendedItemGetData(item.Asset, archetype);
 		const typeKeySet = new Set(Object.keys(item.Property?.TypeRecord ?? {}));
 		if (data) {
 			_dfs(data, item, options, typeKeySet);
@@ -1391,19 +1443,20 @@ function ExtendedItemParseOptions(option, asset) {
 	if (!parsedOption.Property) {
 		return parsedOption;
 	}
+	const property = parsedOption.Property;
 
 	if (parsedOption.Property.SetPose || parsedOption.Property.AllowActivePose) {
 		const prereq = parsedOption.Prerequisite;
 		const data = {
-			AllowActivePose: option.Property.AllowActivePose,
-			SetPose: option.Property.SetPose,
-			Prerequisite: Array.isArray(prereq) ? prereq : (prereq != null ? [prereq] : null),
-			Effect: option.Property.Effect,
+			AllowActivePose: property.AllowActivePose,
+			SetPose: property.SetPose,
+			Prerequisite: Array.isArray(prereq) ? prereq : (prereq != null ? [prereq] : undefined),
+			Effect: property.Effect,
 		};
 		const { Prerequisite, AllowActivePose, SetPose } = AssetParsePosePrerequisite(data);
 		parsedOption.Prerequisite = Prerequisite;
-		parsedOption.Property.AllowActivePose = AllowActivePose;
-		parsedOption.Property.SetPose = SetPose;
+		property.AllowActivePose = AllowActivePose;
+		property.SetPose = SetPose;
 	}
 	return parsedOption;
 }
@@ -1413,14 +1466,14 @@ function ExtendedItemParseOptions(option, asset) {
  * @param {Character} C - The character in question
  * @param {AssetGroupName | Item} itemOrGroupName - The item or the item's group
  * @param {null | TypeRecord} typeRecord - The archetypical items type record. If `null` only apply `options.properties`
- * @param {object} options
+ * @param {object} [options]
  * @param {boolean} [options.push] - Whether to push the item changes to the server
- * @param {Character} [options.C_Source] - The character updating the item (if any)
+ * @param {null | Character} [options.C_Source] - The character updating the item (if any)
  * @param {boolean} [options.refresh] - Whether to refresh the character after setting the item properties
  * @param {ItemProperties} [options.properties] - Extra item properties to be set on the item, the allowed list of properties being defined by {@link ExtendedItemData.baselineProperty}
  * @returns {void}
  */
-function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, options=null) {
+function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, options) {
 	const { push, C_Source, refresh, properties } = options || {};
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 	if (!item) return;
@@ -1453,20 +1506,21 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 			},
 		});
 
-		const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
+		/** @type {TypedItemOption | ModularItemOption | VibratingItemOption} */
+		let previousOption;
 		for (const newOption of newOptions) {
-			/** @type {TypedItemOption | ModularItemOption | VibratingItemOption} */
-			let previousOption;
 			switch (newOption.OptionType) {
 				case "ModularItemOption": {
 					const module = newOption.ParentData.modules.find(m => m.Name === newOption.ModuleName);
+					if (!module) {
+						continue;
+					}
 					previousOption = /** @type {typeof previousOption[]} */(previousOptions).find(o => "ModuleName" in o && o.ModuleName === module.Name) || module.Options[0];
 					break;
 				}
 				case "TypedItemOption":
 				case "VibratingItemOption": {
-					const data = newOption.ParentData;
-					previousOption = /** @type {typeof previousOption[]} */(previousOptions).find(o => o.ParentData.name === data.name) || data.options[0];
+					previousOption = /** @type {typeof previousOption[]} */(previousOptions).find(o => o.ParentData.name === newOption.ParentData.name) || newOption.ParentData.options[0];
 					break;
 				}
 				default:
@@ -1479,7 +1533,15 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 				propertyKeys.add(prop);
 			}
 
-			const requirementMessage = validationCallback(newOption.ParentData, C, item, newOption, previousOption);
+			/** @type {ExtendedItemOption} */
+			const option = newOption;
+			/** @type {ExtendedItemOption} */
+			const previous = previousOption;
+			/** @type {ExtendedItemData<any>} */
+			const data = newOption.ParentData;
+			const requirementMessage = (C_Source && C_Source.IsPlayer())
+				? ExtendedItemRequirementCheckMessage(data, C, item, option, previous)
+				: TypedItemValidateOption(data, C, item, option, previous);
 			if (requirementMessage && newOption.Name !== previousOption.Name) {
 				console.error(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
 			} else {
@@ -1520,7 +1582,8 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
  * @returns {TypeRecord} The newly created type record
  */
 function ExtendedItemTypeToRecord(asset, type) {
-	const data = ExtendedItemGetData(asset, asset.Archetype);
+	const archetype = asset.Archetype;
+	const data = archetype && ExtendedItemGetData(asset, archetype);
 	if (data == null || typeof type !== "string") {
 		return {};
 	}
@@ -1535,9 +1598,10 @@ function ExtendedItemTypeToRecord(asset, type) {
 			/** @type {TypeRecord} */
 			const typeRecord = {};
 			const typeList = type.split(/([a-zA-Z]+\d+)/).filter(Boolean).map(i => i.split(/([a-zA-Z]+)(\d+)/));
-			for (const [_, k, i] of typeList) {
+			for (const [, k, i] of typeList) {
 				const module = data.modules.find(m => m.Key === k);
-				const index = module && module.Options[i] ? Number(i) : null;
+				const parsedIndex = Number(i);
+				const index = module && module.Options[parsedIndex] ? parsedIndex : null;
 				if (index != null) {
 					typeRecord[k] = index;
 				}
@@ -1586,7 +1650,7 @@ const ExtendedItemTighten = {
 			DrawText(`${InterfaceTextGet("Tightness")} ${Difficulty}`, 1200, 140, "White", "Silver");
 
 			const C = CharacterGetCurrent();
-			const canUnlock = (Player.CanInteract() && (!InventoryItemHasEffect(item, "Lock") || DialogCanUnlock(C, item)));
+			const canUnlock = !!C && (Player.CanInteract() && (!InventoryItemHasEffect(item, "Lock") || DialogCanUnlock(C, item)));
 			if (canUnlock) {
 				DrawButton(...buttonCoords, InterfaceTextGet("AdjustTightness"), "White");
 			} else {
@@ -1608,7 +1672,7 @@ const ExtendedItemTighten = {
 		}
 
 		const C = CharacterGetCurrent();
-		const canUnlock = (Player.CanInteract() && (!InventoryItemHasEffect(item, "Lock") || DialogCanUnlock(C, item)));
+		const canUnlock = !!C && (Player.CanInteract() && (!InventoryItemHasEffect(item, "Lock") || DialogCanUnlock(C, item)));
 		if (
 			asset.AllowTighten
 			&& canUnlock

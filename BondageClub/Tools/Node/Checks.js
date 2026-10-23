@@ -21,8 +21,7 @@ const CHEAP_CHECKS = /** @type {const} */([
 	"assets:check",
 	"assets:prettier",
 	"assets:eslint",
-	"scripts:typecheck:tsc",
-	"scripts:typecheck:strict",
+	"scripts:typecheck",
 	"scripts:lint",
 	"files:case",
 	"files:csvtypescript",
@@ -83,9 +82,6 @@ function runCheck(name) {
 
 		const env = { ...process.env };
 		switch (name) {
-			case "scripts:typecheck:strict":
-				env.CI = "1";
-				break;
 			case "files:csvtypescript": {
 				// Filter and _only_ look at `csvtypescript_tmp_output`-related content
 				const textKeys = /'TextKeys([a-zA-Z0-9_]+)'/;

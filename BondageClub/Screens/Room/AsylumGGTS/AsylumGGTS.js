@@ -336,8 +336,7 @@ function AsylumGGTSMessage(Msg, Target) {
 	const Dict = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.if(!!Target)
-		// @ts-ignore-error Strict-TS: We checked that but good luck making TS grasp that
-		.targetCharacter(Target)
+		.targetCharacter(/** @type {Character} */ (Target))
 		.endif()
 		.build();
 	if (Target != null) {

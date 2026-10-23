@@ -38,7 +38,7 @@ var GameLARPEntryClass = "";
 var GameLARPEntryTeam = "";
 /** @type { { Sender: number, Time: number, RNG: number, Data: ServerChatRoomGameResponseBase<ServerGameLARPData>["Data"], Success?: boolean }[] } */
 var GameLARPProgress = [];
-/** @type {Character[]} */
+/** @type {OnlineCharacter[]} */
 var GameLARPPlayer = [];
 /** @type {GameLARPOption[]} */
 var GameLARPOption = [];
@@ -94,7 +94,7 @@ function GameLARPSetStatus(NewStatus) {
 
 /**
  * Checks if the character is an admin or the LARP admin while the game is going.
- * @param {Character} C - Character to check for
+ * @param {OnlineCharacter} C - Character to check for
  * @returns {boolean} -  Returns TRUE if that character is an admin/the game administrator
  */
 function GameLARPIsAdmin(C) {

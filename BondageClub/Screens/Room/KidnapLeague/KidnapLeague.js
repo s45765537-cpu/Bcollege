@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var KidnapLeagueBackground = "KidnapLeague";
-/** @type {null | NPCCharacter} */
-var KidnapLeagueTrainer = null;
+/** @type {NPCCharacter} */
+var KidnapLeagueTrainer = /** @type {never} */ (null);
 /** @type {null | NPCCharacter} */
 var KidnapLeagueRandomKidnapper = null;
 var KidnapLeagueRandomKidnapperScenario = "0";
@@ -10,16 +9,30 @@ var KidnapLeagueRandomKidnapperDifficulty = 0;
 /** @type {null | "" | "Maid" | "Mistress" | "AnimeGirl"} */
 var KidnapLeagueArchetype = null;
 var KidnapLeagueWillPayForFreedom = false;
+/** @type {KidnapActivity[]} */
 var KidnapLeagueRandomActivityList = ["AddGag", "RemoveGag", "AddFeet", "RemoveFeet", "AddLegs", "RemoveLegs", "Tickle", "Spank", "Kiss", "Fondle"];
+/** @type {KidnapActivity | ""} */
 var KidnapLeagueRandomActivity = "";
 var KidnapLeagueRandomActivityCount = 0;
-/** @type {null | NPCCharacter} */
+/** @type {null | { Bounty: NPCCharacter; Difficulty: number; Location: string; Victory?: boolean }} */
+var KidnapLeagueBountyState = null;
+/**
+ * @type {null | NPCCharacter}
+ * @deprecated
+ */
 var KidnapLeagueBounty = null;
-/** @type {null | number} */
+/**
+ * @type {null | number}
+ * @deprecated
+ */
 var KidnapLeagueBountyDifficulty = null;
+/** @deprecated */
 var KidnapLeagueBountyLocation = "";
 var KidnapLeagueBountyLocationList = ["Introduction", "MaidQuarters", "Shibari", "Shop"];
-/** @type {null | boolean} */
+/**
+ * @type {null | boolean}
+ * @deprecated
+ */
 var KidnapLeagueBountyVictory = null;
 var KidnapLeagueVisitRoom = false;
 
@@ -44,22 +57,22 @@ function KidnapLeagueIsTrainerRestrained() { return KidnapLeagueTrainer.IsRestra
  * Checks if the player can take a new kidnap league bounty.
  * @returns {boolean} - Returns TRUE if the player has no active bounty.
  */
-function KidnapLeagueCanTakeBounty() { return ((ReputationGet("Kidnap") > 0) && (KidnapLeagueBounty == null)); }
+function KidnapLeagueCanTakeBounty() { return (ReputationGet("Kidnap") > 0) && !KidnapLeagueBountyState; }
 /**
  * Checks if a kidnap league bounty was taken.
  * @returns {boolean} - Returns TRUE if the player has an active and unfinished bounty.
  */
-function KidnapLeagueBountyTaken() { return ((ReputationGet("Kidnap") > 0) && (KidnapLeagueBounty != null) && (KidnapLeagueBountyVictory == null)); }
+function KidnapLeagueBountyTaken() { return (ReputationGet("Kidnap") > 0) && !!KidnapLeagueBountyState && KidnapLeagueBountyState?.Victory === undefined; }
 /**
  * Checks if the current bounty resulted in a victory.
  * @returns {boolean} - Returns TRUE if the current bounty resulted in a victory.
  */
-function KidnapLeagueBountyWasVictory() { return ((ReputationGet("Kidnap") > 0) && (KidnapLeagueBounty != null) && (KidnapLeagueBountyVictory == true)); }
+function KidnapLeagueBountyWasVictory() { return (ReputationGet("Kidnap") > 0) && KidnapLeagueBountyState?.Victory === true; }
 /**
  * Checks if the current bounty resulted in a defeat.
  * @returns {boolean} - Returns TRUE if the current bounty resulted in a defeat.
  */
-function KidnapLeagueBountyWasDefeat() { return ((ReputationGet("Kidnap") > 0) && (KidnapLeagueBounty != null) && (KidnapLeagueBountyVictory == false)); }
+function KidnapLeagueBountyWasDefeat() { return (ReputationGet("Kidnap") > 0) && KidnapLeagueBountyState?.Victory === false; }
 /**
  * Checks if a NPC can be transfered to the player's private room.
  * @returns {boolean} - Returns TRUE if the player has an accessible private room and a free spot for a NPC.
@@ -74,7 +87,7 @@ function KidnapLeagueWontVisitRoom() { return (!KidnapLeagueVisitRoom && KidnapL
  * Checks if both players can kiss.
  * @returns {boolean} - Returns TRUE if both players are able to talk which means they can kiss.
  */
-function KidnapLeagueCanKiss() { return (Player.CanTalk() && CurrentCharacter.CanTalk()); }
+function KidnapLeagueCanKiss() { return !!CurrentCharacter && Player.CanTalk() && CurrentCharacter.CanTalk(); }
 
 
 /**
@@ -96,24 +109,21 @@ function KidnapLeagueDoesNotHaveBountyPermissions() {
  * @returns {boolean} - Returns TRUE if the player can start the online bounty game
  */
 function KidnapLeagueCanStartOnlineBounty() {
-	let misc = InventoryGet(Player, "ItemMisc");
-	return (ReputationGet("Kidnap") > 0 && Player.CanTalk() && CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract() && !misc);
+	return ReputationGet("Kidnap") > 0 && Player.CanTalk() && !!CurrentCharacter && CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract() && InventoryIsWorn(Player, "ItemMisc", "None");
 }
 /**
  * Checks if the player can end early the online bounty quest
  * @returns {boolean} - Returns TRUE if the player can end the online bounty game
  */
 function KidnapLeagueOnlineBountyOngoing() {
-	let misc = InventoryGet(Player, "ItemMisc");
-	return (CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract() && misc && misc.Asset && misc.Asset.Name == "BountySuitcase");
+	return !!CurrentCharacter && CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract() && InventoryIsWorn(Player, "ItemMisc", "BountySuitcase");
 }
 /**
  * Checks if the player can end the online bounty quest
  * @returns {boolean} - Returns TRUE if the player can end the online bounty game
  */
 function KidnapLeagueOnlineBountyEnded() {
-	let misc = InventoryGet(Player, "ItemMisc");
-	return (CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract() && misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty");
+	return !!CurrentCharacter && CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract() && InventoryIsWorn(Player, "ItemMisc", "BountySuitcaseEmpty");
 }
 
 /**
@@ -163,6 +173,10 @@ function KidnapLeagueResetOnlineBountyProgress() {
  */
 async function KidnapLeagueLoad() {
 	KidnapLeagueBackground = "KidnapLeague";
+	if (KidnapLeagueTrainer) {
+		CharacterDelete(KidnapLeagueTrainer);
+		KidnapLeagueTrainer = /** @type {never} */ (null);
+	}
 	KidnapLeagueTrainer = CharacterLoadNPC("NPC_KidnapLeague_Trainer");
 	KidnapLeagueTrainer.AllowItem = ((KidnapLeagueTrainer.Stage == "100") || (KidnapLeagueTrainer.Stage == "110"));
 }
@@ -203,19 +217,28 @@ function KidnapLeagueClick() {
 
 /**
  * Triggered when the player takes a bounty of a given difficulty. An easy bounty lowers the kidnap reputation.
- * @param {number} Difficulty - Difficulty factor of the bounty.
+ * @param {number} difficulty - Difficulty factor of the bounty.
  * @returns {void} - Nothing
  */
-function KidnapLeagueTakeBounty(Difficulty) {
-	KidnapLeagueBountyDifficulty = parseInt(Difficulty) + Math.floor(Math.random() * 4);
-	CharacterDelete(KidnapLeagueBounty);
-	KidnapLeagueBounty = CharacterLoadNPC("NPC_KidnapLeague_RandomKidnapper");
-	KidnapLeagueBountyLocation = CommonRandomItemFromList(KidnapLeagueBountyLocation, KidnapLeagueBountyLocationList);
-	KidnapLeagueArchetype = (KidnapLeagueBountyLocation == "MaidQuarters") ? "Maid" : null;
+function KidnapLeagueTakeBounty(difficulty) {
+	const lastLocation = KidnapLeagueBountyState?.Location;
+	if (KidnapLeagueBountyState) {
+		CharacterDelete(KidnapLeagueBountyState.Bounty);
+		KidnapLeagueBountyState = null;
+	}
+	const Bounty = CharacterLoadNPC("NPC_KidnapLeague_RandomKidnapper");
+	const Difficulty = difficulty + Math.floor(Math.random() * 4);
+	const Location = CommonRandomItemFromList(lastLocation ?? "", KidnapLeagueBountyLocationList);
+	KidnapLeagueBountyState = { Bounty, Difficulty, Location, };
+
+	KidnapLeagueArchetype = (Location == "MaidQuarters") ? "Maid" : null;
 	KidnapLeagueBountyRemind();
-	KidnapLeagueBountyVictory = null;
-	if (KidnapLeagueBountyLocation == "MaidQuarters") { InventoryWear(KidnapLeagueBounty, "MaidOutfit1", "Cloth", "Default"); InventoryWear(KidnapLeagueBounty, "MaidHairband1", "Hat", "Default"); }
-	if (KidnapLeagueBountyLocation == "Shibari") InventoryWear(KidnapLeagueBounty, "ChineseDress1", "Cloth");
+	if (Location == "MaidQuarters") {
+		InventoryWear(Bounty, "MaidOutfit1", "Cloth", "Default");
+		InventoryWear(Bounty, "MaidHairband1", "Hat", "Default");
+	} else if (Location == "Shibari") {
+		InventoryWear(Bounty, "ChineseDress1", "Cloth");
+	}
 }
 
 /**
@@ -223,7 +246,8 @@ function KidnapLeagueTakeBounty(Difficulty) {
  * @returns {void} - Nothing
  */
 function KidnapLeagueBountyRemind() {
-	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "Bounty" + KidnapLeagueBountyLocation).replace("BOUNTYNAME", KidnapLeagueBounty.Name).replace("BOUNTYAMOUNT", CharacterMoneyFormat(25 + KidnapLeagueBountyDifficulty * 2));
+	if (!KidnapLeagueBountyState) return;
+	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "Bounty" + KidnapLeagueBountyState.Location).replace("BOUNTYNAME", KidnapLeagueBountyState.Bounty.Name).replace("BOUNTYAMOUNT", CharacterMoneyFormat(25 + KidnapLeagueBountyState.Difficulty * 2));
 }
 
 /**
@@ -231,11 +255,13 @@ function KidnapLeagueBountyRemind() {
  * @returns {SafePromise<void>} - Nothing
  */
 async function KidnapLeagueBountyStart() {
+	if (!KidnapLeagueBountyState) return;
 	await CommonSetScreen("Room", "KidnapLeague");
-	KidnapLeagueBackground = KidnapLeagueBountyLocation;
-	KidnapLeagueBounty.Stage = "50";
-	CharacterSetCurrent(KidnapLeagueBounty);
-	KidnapLeagueBounty.CurrentDialog = DialogFind(KidnapLeagueBounty, "Bounty" + KidnapLeagueBountyLocation);
+	const { Bounty, Location } = KidnapLeagueBountyState;
+	KidnapLeagueBackground = Location;
+	Bounty.Stage = "50";
+	CharacterSetCurrent(Bounty);
+	Bounty.CurrentDialog = DialogFind(Bounty, "Bounty" + Location);
 }
 
 /**
@@ -243,7 +269,9 @@ async function KidnapLeagueBountyStart() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueBountyFightStart() {
-	KidnapStart(KidnapLeagueBounty, KidnapLeagueBountyLocation, KidnapLeagueBountyDifficulty, "KidnapLeagueBountyFightEnd()");
+	if (!KidnapLeagueBountyState) return;
+	const { Bounty, Location, Difficulty } = KidnapLeagueBountyState;
+	KidnapStart(Bounty, Location, Difficulty, "KidnapLeagueBountyFightEnd()");
 }
 
 /**
@@ -251,18 +279,20 @@ function KidnapLeagueBountyFightStart() {
  * @returns {SafePromise<void>} - Nothing
  */
 async function KidnapLeagueBountyFightEnd() {
+	if (!KidnapLeagueBountyState) return;
 	CurrentDarkFactor = 1.0;
 	KidnapLeagueRandomActivityCount = 0;
-	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(KidnapLeagueBounty));
-	KidnapLeagueBounty.AllowItem = KidnapVictory;
-	KidnapLeagueBountyVictory = KidnapVictory;
-	KidnapLeagueBounty.Stage = (KidnapVictory) ? "101" : "201";
-	KidnapLeagueRandomKidnapper = KidnapLeagueBounty;
-	if (!KidnapVictory) CharacterRelease(KidnapLeagueBounty);
+	const { Bounty, Location } = KidnapLeagueBountyState;
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(Bounty));
+	Bounty.AllowItem = KidnapVictory;
+	KidnapLeagueBountyState.Victory = KidnapVictory;
+	Bounty.Stage = (KidnapVictory) ? "101" : "201";
+	KidnapLeagueRandomKidnapper = Bounty;
+	if (!KidnapVictory) CharacterRelease(Bounty);
 	await CommonSetScreen("Room", "KidnapLeague");
-	KidnapLeagueBackground = KidnapLeagueBountyLocation;
-	CharacterSetCurrent(KidnapLeagueBounty);
-	KidnapLeagueBounty.CurrentDialog = DialogFind(KidnapLeagueBounty, (KidnapVictory) ? "BountyVictory" : "BountyDefeat");
+	KidnapLeagueBackground = Location;
+	CharacterSetCurrent(Bounty);
+	Bounty.CurrentDialog = DialogFind(Bounty, (KidnapVictory) ? "BountyVictory" : "BountyDefeat");
 	KidnapLeagueWillPayForFreedom = false;
 }
 
@@ -271,8 +301,10 @@ async function KidnapLeagueBountyFightEnd() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueBountyPay() {
-	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "BountyPay").replace("BOUNTYAMOUNT", CharacterMoneyFormat(25 + KidnapLeagueBountyDifficulty * 2));
-	CharacterChangeMoney(Player, 25 + KidnapLeagueBountyDifficulty * 2);
+	if (!KidnapLeagueBountyState) return;
+	const { Difficulty } = KidnapLeagueBountyState;
+	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "BountyPay").replace("BOUNTYAMOUNT", CharacterMoneyFormat(25 + Difficulty * 2));
+	CharacterChangeMoney(Player, 25 + Difficulty * 2);
 	KidnapLeagueBountyReset();
 }
 
@@ -281,10 +313,11 @@ function KidnapLeagueBountyPay() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueBountyReset() {
-	ReputationProgress("Kidnap", KidnapLeagueBountyVictory ? 2 + Math.floor(KidnapLeagueBountyDifficulty / 2) : 1);
-	CharacterDelete(KidnapLeagueBounty);
-	KidnapLeagueBounty = null;
-	KidnapLeagueBountyVictory = null;
+	if (!KidnapLeagueBountyState) return;
+	const { Bounty, Difficulty, Victory } = KidnapLeagueBountyState;
+	ReputationProgress("Kidnap", Victory ? 2 + Math.floor(Difficulty / 2) : 1);
+	CharacterDelete(Bounty);
+	KidnapLeagueBountyState = null;
 }
 
 /**
@@ -340,7 +373,10 @@ async function KidnapLeagueRandomIntro() {
 	// Sets the kidnapping scene
 	await CommonSetScreen("Room", "KidnapLeague");
 	KidnapLeagueBackground = "MainHall";
-	CharacterDelete(KidnapLeagueRandomKidnapper, false);
+	if (KidnapLeagueRandomKidnapper) {
+		CharacterDelete(KidnapLeagueRandomKidnapper, false);
+		KidnapLeagueRandomKidnapper = null;
+	}
 	KidnapLeagueRandomKidnapper = CharacterLoadNPC("NPC_KidnapLeague_RandomKidnapper");
 	CharacterSetCurrent(KidnapLeagueRandomKidnapper);
 
@@ -376,6 +412,7 @@ async function KidnapLeagueRandomIntro() {
  * @returns {SafePromise<void>} - Nothing
  */
 async function KidnapLeagueRandomOutro(Surrender) {
+	if (!KidnapLeagueRandomKidnapper) return;
 	KidnapLeagueRandomActivityCount = 0;
 	await CommonSetScreen("Room", "KidnapLeague");
 	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(KidnapLeagueRandomKidnapper));
@@ -398,6 +435,7 @@ async function KidnapLeagueRandomOutro(Surrender) {
  * @returns {void} - Nothing
  */
 function KidnapLeagueRandomStart() {
+	if (!KidnapLeagueRandomKidnapper) return;
 	KidnapStart(KidnapLeagueRandomKidnapper, "MainHall", KidnapLeagueRandomKidnapperDifficulty, "KidnapLeagueRandomOutro()");
 }
 
@@ -426,6 +464,7 @@ function KidnapLeagueRandomSurrender() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueRandomEnd() {
+	if (!KidnapLeagueRandomKidnapper) return;
 	if ((InventoryGet(Player, "Cloth") == null) && (KidnapPlayerCloth != null)) {
 		InventoryWear(Player, KidnapPlayerCloth.Asset.Name, "Cloth", KidnapPlayerCloth.Color);
 		if (KidnapPlayerClothAccessory != null) InventoryWear(Player, KidnapPlayerClothAccessory.Asset.Name, "ClothAccessory", KidnapPlayerClothAccessory.Color);
@@ -445,6 +484,7 @@ function KidnapLeagueRandomEnd() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueRandomMoneyAmount() {
+	if (!KidnapLeagueRandomKidnapper) return;
 	KidnapLeagueRandomKidnapper.CurrentDialog = KidnapLeagueRandomKidnapper.CurrentDialog.replace("DIALOGMONEY", (10 + KidnapLeagueRandomKidnapperDifficulty * 2).toString());
 }
 
@@ -464,6 +504,7 @@ function KidnapLeagueRandomEndMoney() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueRandomActivityStart(A) {
+	if (!KidnapLeagueRandomKidnapper) return;
 	KidnapLeagueRandomKidnapper.CurrentDialog = DialogFind(KidnapLeagueRandomKidnapper, "Activity" + A + "Intro");
 	KidnapLeagueRandomKidnapper.Stage = "Activity" + A;
 }
@@ -491,6 +532,15 @@ function KidnapLeagueRandomActivityLaunch() {
 		return;
 	}
 
+	const targetGroups = /** @type {const} */ ({
+		"AddGag": "ItemMouth",
+		"RemoveGag": "ItemMouth",
+		"AddFeet": "ItemFeet",
+		"RemoveFeet": "ItemFeet",
+		"AddLegs": "ItemLegs",
+		"RemoveLegs": "ItemLegs",
+	});
+
 	// Finds an activity to do on the player
 	while (true) {
 
@@ -498,20 +548,45 @@ function KidnapLeagueRandomActivityLaunch() {
 		KidnapLeagueRandomActivity = CommonRandomItemFromList(KidnapLeagueRandomActivity, KidnapLeagueRandomActivityList);
 
 		// Add or remove an item
-		if ((KidnapLeagueRandomActivity == "AddGag") && (InventoryGet(Player, "ItemMouth") == null)) { InventoryWearRandom(Player, "ItemMouth", KidnapLeagueRandomKidnapperDifficulty); KidnapLeagueRandomActivityStart(KidnapLeagueRandomActivity); return; }
-		if ((KidnapLeagueRandomActivity == "RemoveGag") && (InventoryGet(Player, "ItemMouth") != null) && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemMouth")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemMouth")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemMouth"))){
-			InventoryRemove(Player, "ItemMouth"); KidnapLeagueRandomActivityStart(KidnapLeagueRandomActivity); return; }
-		if ((KidnapLeagueRandomActivity == "AddFeet") && (InventoryGet(Player, "ItemFeet") == null) && !Player.IsKneeling()) { InventoryWearRandom(Player, "ItemFeet", KidnapLeagueRandomKidnapperDifficulty); KidnapLeagueRandomActivityStart(KidnapLeagueRandomActivity); return; }
-		if ((KidnapLeagueRandomActivity == "RemoveFeet") && (InventoryGet(Player, "ItemFeet") != null) && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemFeet")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemFeet")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemFeet"))) {
-			InventoryRemove(Player, "ItemFeet"); KidnapLeagueRandomActivityStart(KidnapLeagueRandomActivity); return; }
-		if ((KidnapLeagueRandomActivity == "AddLegs") && (InventoryGet(Player, "ItemLegs") == null) && !Player.IsKneeling()) { InventoryWearRandom(Player, "ItemLegs", KidnapLeagueRandomKidnapperDifficulty); KidnapLeagueRandomActivityStart(KidnapLeagueRandomActivity); return; }
-		if ((KidnapLeagueRandomActivity == "RemoveLegs") && (InventoryGet(Player, "ItemLegs") != null) && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemLegs")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemLegs")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemLegs"))) {
-			InventoryRemove(Player, "ItemLegs"); KidnapLeagueRandomActivityStart(KidnapLeagueRandomActivity); return; }
+		switch (KidnapLeagueRandomActivity) {
+			case "AddGag":
+			case "AddFeet":
+			case "AddLegs": {
+				const group = targetGroups[KidnapLeagueRandomActivity];
+				if (!InventoryIsWorn(Player, group, "None")) continue;
+				if ((group === "ItemLegs" || group === "ItemFeet") && !Player.IsKneeling()) continue;
+				InventoryWearRandom(Player, group, KidnapLeagueRandomKidnapperDifficulty);
+				KidnapLeagueRandomActivityStart(KidnapLeagueRandomActivity);
+				return;
+			}
 
-		// Physical activities
-		if ((KidnapLeagueRandomActivity == "Kiss") && (InventoryGet(Player, "ItemMouth") == null)) { KidnapLeagueRandomActivityStart(KidnapLeagueRandomActivity); return; }
-		if ((KidnapLeagueRandomActivity == "Spank") || (KidnapLeagueRandomActivity == "Fondle") || (KidnapLeagueRandomActivity == "Tickle")) { KidnapLeagueRandomActivityStart(KidnapLeagueRandomActivity); return; }
+			case "RemoveGag":
+			case "RemoveFeet":
+			case "RemoveLegs": {
+				const group = targetGroups[KidnapLeagueRandomActivity];
+				const item = InventoryGet(Player, group);
+				if (!item) continue;
+				if (InventoryOwnerOnlyItem(item) || InventoryLoverOnlyItem(item) || InventoryFamilyOnlyItem(item)) continue;
+				InventoryRemove(Player, group);
+				KidnapLeagueRandomActivityStart(KidnapLeagueRandomActivity);
+				return;
+			}
 
+			// Physical activities
+			case "Kiss":
+				if (!InventoryIsWorn(Player, "ItemMouth", "None")) continue;
+				KidnapLeagueRandomActivityStart(KidnapLeagueRandomActivity);
+				return;
+
+			case "Tickle":
+			case "Spank":
+			case "Fondle":
+				KidnapLeagueRandomActivityStart(KidnapLeagueRandomActivity);
+				return;
+
+			default:
+				break;
+		}
 	}
 }
 
@@ -520,6 +595,7 @@ function KidnapLeagueRandomActivityLaunch() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueTransferToRoom() {
+	if (!KidnapLeagueRandomKidnapper) return;
 	KidnapLeagueRandomEnd();
 	CharacterRelease(Player);
 	CommonSetScreen("Room", "Private");
@@ -540,9 +616,10 @@ function KidnapLeagueRandomClubCardStart() {
  * @returns {SafePromise<void>}
  */
 async function KidnapLeagueRandomClubCardEnd() {
+	if (!KidnapLeagueRandomKidnapper) return;
 	await CommonSetScreen("Room", "KidnapLeague");
 	CharacterSetCurrent(KidnapLeagueRandomKidnapper);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	KidnapLeagueRandomKidnapper.CurrentDialog = DialogFind(KidnapLeagueRandomKidnapper, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 	if (!MiniGameVictory) InventoryWearRandom(Player, "ItemArms", 8);
 	KidnapLeagueRandomActivityCount = 0;
 	KidnapLeagueRandomKidnapper.AllowItem = MiniGameVictory;

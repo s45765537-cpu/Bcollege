@@ -1,11 +1,11 @@
-// @ts-strict-ignore
 "use strict";
 var PlatformRunStandaloneMode = false;
 /** @type {Platform.Character[]} */
 var PlatformChar = [];
 /** @type {Platform.DialogCharacter | null} */
 var PlatformFocusCharacter = null;
-var PlatformPlayer = null;
+/** @type {Platform.Character} */
+var PlatformPlayer = /** @type {never} */ (null);
 /** @type {number | null} */
 var PlatformLastTime = null;
 /** @type {Platform.KeyCode[]} */
@@ -13,8 +13,9 @@ var PlatformKeys = [];
 var PlatformFloor = 1180;
 var PlatformViewX = 0;
 var PlatformViewY = 200;
-/** @type {Platform.Room | null} */
-var PlatformRoom = null;
+/** @type {Platform.Room} */
+var PlatformRoom = /** @type {never} */ (null);
+/** @type {HTMLAudioElement | null} */
 var PlatformMusic = null;
 var PlatformAllowAudio = true;
 var PlatformGravitySpeed = 6;
@@ -22,15 +23,20 @@ var PlatformLastKeyCode = "";
 var PlatformLastKeyTime = 0;
 var PlatformExperienceForLevel = [0, 10, 15, 25, 40, 60, 90, 135, 200, 300];
 var PlatformShowHitBox = false;
+/** @type {{ Text: string, Timer: number } | null} */
 var PlatformMessage = null;
+/** @type {number | null} */
 var PlatformHeal = null;
 /** @type {Platform.Event[]} */
 var PlatformEvent = [];
+/** @type {Platform.Event[]} */
 var PlatformTempEvent = [];
+/** @type {number | null} */
 var PlatformPlayerIdleTimer = null;
 var PlatformPlayerIdleLast = "";
-var PlatformDrawUpArrow = [null, null];
-/** @type {readonly GamepadButton[]} */
+/** @type {[number, number] | null} */
+var PlatformDrawUpArrow = null;
+/** @type {(readonly GamepadButton[]) | null} */
 var PlatformButtons = null;
 var PlatformRunDirection = "";
 var PlatformRunTime = 0;
@@ -47,7 +53,9 @@ var PlatformRegen = 0;
 var PlatformCooldown = [];
 var PlatformHeartEffect = false;
 var PlatformTimedScreenFilter = { End: 0, Filter: "" };
+/** @type {string[]} */
 var PlatformRightButtons = [];
+/** @type {{ Name: Platform.ItemName, Quantity: number }[]} */
 var PlatformInventory = [];
 /** @type {Platform.Item[]} */
 var PlatformInventoryList = [
@@ -858,7 +866,7 @@ var PlatformRoomList = [
 	{
 		Name: "CastleHall3C",
 		Entry: function() {
-			if (PlatformEventDone("OliviaBath")) {
+			if (PlatformEventDone("OliviaBath") && PlatformRoom.Door) {
 				PlatformRoom.Door.push({ Name: "CastleHall2C", FromX: 1950, FromY: 0, FromW: 300, FromH: 1200, FromType: "Up", ToX: 1100, ToFaceLeft: false });
 				PlatformRoom.Background = "Castle/Hall3Cv2";
 			}
@@ -1088,10 +1096,10 @@ var PlatformRoomList = [
 	{
 		Name: "CastleTerrace",
 		Entry: function() {
-			if (PlatformEventDone("Curse") && PlatformEventDone("CamilleDefeat") && PlatformEventDone("OliviaCurseRelease") && !PlatformEventDone("OliviaTerrace") && (PlatformPlayer.Name != "Olivia")) PlatformCreateCharacter("Olivia", "Oracle", 400, true, false, "OliviaTerrace");
-			if (PlatformEventDone("Curse") && PlatformEventDone("CamilleDefeat") && PlatformEventDone("OliviaCurseRelease") && !PlatformEventDone("OliviaTerrace") && (PlatformPlayer.Name != "Melody")) PlatformCreateCharacter("Melody", "Maid", 600, true, false, "OliviaTerrace", true);
-			if (PlatformEventDone("EdlaranJoin") && !PlatformEventDone("OliviaTerrace") && (PlatformPlayer.Name != "Edlaran")) PlatformCreateCharacter("Edlaran", "Archer", 800, true, false, "EdlaranTerrace", true);
-			if (PlatformEventDone("OliviaTerrace")) PlatformRoom.Door.push({ Name: "ForestCastleWall", FromX: 400, FromY: 0, FromW: 550, FromH: 1200, FromType: "Up", ToX: 500, ToFaceLeft: false });
+			if (PlatformEventDone("Curse") && PlatformEventDone("CamilleDefeat") && PlatformEventDone("OliviaCurseRelease") && !PlatformEventDone("OliviaTerrace") && (PlatformPlayer?.Name != "Olivia")) PlatformCreateCharacter("Olivia", "Oracle", 400, true, false, "OliviaTerrace");
+			if (PlatformEventDone("Curse") && PlatformEventDone("CamilleDefeat") && PlatformEventDone("OliviaCurseRelease") && !PlatformEventDone("OliviaTerrace") && (PlatformPlayer?.Name != "Melody")) PlatformCreateCharacter("Melody", "Maid", 600, true, false, "OliviaTerrace", true);
+			if (PlatformEventDone("EdlaranJoin") && !PlatformEventDone("OliviaTerrace") && (PlatformPlayer?.Name != "Edlaran")) PlatformCreateCharacter("Edlaran", "Archer", 800, true, false, "EdlaranTerrace", true);
+			if (PlatformEventDone("OliviaTerrace")) PlatformRoom.Door?.push({ Name: "ForestCastleWall", FromX: 400, FromY: 0, FromW: 550, FromH: 1200, FromType: "Up", ToX: 500, ToFaceLeft: false });
 		},
 		Text: "Countess Terrace",
 		Background: "Castle/Terrace",
@@ -1135,13 +1143,13 @@ var PlatformRoomList = [
 				return;
 			}
 
-			if (PlatformEventDone("LynJoin") && PlatformEventDone("EdlaranJoin") && (PlatformPlayer.Name != "Lyn") && (PlatformPlayer.Name != "Edlaran") && PlatformDialogCharacterIsSingle("Lyn") && PlatformDialogCharacterIsSingle("Edlaran") && !PlatformTempEvent.includes("EdlaranLynWineCellar")) {
+			if (PlatformEventDone("LynJoin") && PlatformEventDone("EdlaranJoin") && (PlatformPlayer?.Name != "Lyn") && (PlatformPlayer?.Name != "Edlaran") && PlatformDialogCharacterIsSingle("Lyn") && PlatformDialogCharacterIsSingle("Edlaran") && !PlatformTempEvent.includes("EdlaranLynWineCellar")) {
 				PlatformCreateCharacter("Edlaran", "Archer", 2500, true, false, "EdlaranLynWineCellar", true);
 				PlatformCreateCharacter("Lyn", "Thief", 2200, true, false, "EdlaranLynWineCellar", false);
 				return;
 			}
 
-			if (PlatformEventDone("LynJoin") && PlatformEventDone("EdlaranJoin") && (PlatformPlayer.Name != "Lyn") && (PlatformPlayer.Name != "Edlaran") && PlatformDialogCharactersAreLovers("Lyn", "Edlaran") && !PlatformTempEvent.includes("EdlaranLynWineCellar")) {
+			if (PlatformEventDone("LynJoin") && PlatformEventDone("EdlaranJoin") && (PlatformPlayer?.Name != "Lyn") && (PlatformPlayer?.Name != "Edlaran") && PlatformDialogCharactersAreLovers("Lyn", "Edlaran") && !PlatformTempEvent.includes("EdlaranLynWineCellar")) {
 				PlatformCreateCharacter("Edlaran", "Archer", 2500, true, false, "EdlaranLynWineCellarBreakUp", true);
 				PlatformCreateCharacter("Lyn", "Thief", 2200, true, false, "EdlaranLynWineCellarBreakUp", false);
 				return;
@@ -1343,10 +1351,10 @@ var PlatformRoomList = [
 		Entry: function() {
 			PlatformChar.splice(1, 100);
 			if (!PlatformEventDone("ForestCapture") || PlatformEventDone("ForestCaptureEnd")) {
-				if (PlatformPlayer.Name != "Olivia") PlatformCreateCharacter("Olivia", "Oracle", 1300, true, false, "OliviaCabin");
-				if (PlatformPlayer.Name != "Melody") PlatformCreateCharacter("Melody", "Maid", 1600, true, false, PlatformPlayer.Name + "Cabin", true);
-				if (PlatformEventDone("EdlaranJoin") && (PlatformPlayer.Name != "Edlaran")) PlatformCreateCharacter("Edlaran", "Archer", 1900, true, false, "EdlaranCabin", true);
-				if (PlatformEventDone("LynJoin") && (PlatformPlayer.Name != "Lyn")) PlatformCreateCharacter("Lyn", "Thief", 2200, true, false, "LynCabin", true);
+				if (PlatformPlayer?.Name != "Olivia") PlatformCreateCharacter("Olivia", "Oracle", 1300, true, false, "OliviaCabin");
+				if (PlatformPlayer?.Name != "Melody") PlatformCreateCharacter("Melody", "Maid", 1600, true, false, PlatformPlayer?.Name + "Cabin", true);
+				if (PlatformEventDone("EdlaranJoin") && (PlatformPlayer?.Name != "Edlaran")) PlatformCreateCharacter("Edlaran", "Archer", 1900, true, false, "EdlaranCabin", true);
+				if (PlatformEventDone("LynJoin") && (PlatformPlayer?.Name != "Lyn")) PlatformCreateCharacter("Lyn", "Thief", 2200, true, false, "LynCabin", true);
 			}
 		},
 		Text: "Wooden Cabin (heal and save)",
@@ -1390,7 +1398,7 @@ var PlatformRoomList = [
 			{ Name: "ForestBirchEast", FromX: 3100, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false }
 		],
 		Entry: function() {
-			if (PlatformPlayer.X <= 1000) {
+			if ((PlatformPlayer?.X ?? 0) <= 1000) {
 				PlatformCreateProjectile("Barrel", "Wood", false, 500, 1, 24, 0, 6);
 			} else {
 				PlatformCreateProjectile("Barrel", "Wood", true, 2700, 1, 24, 0, 6);
@@ -1419,9 +1427,11 @@ var PlatformRoomList = [
 		Entry: function() {
 			if (!PlatformEventDone("EdlaranForestIntro") && !PlatformEventDone("EdlaranJoin")) PlatformDialogStart("IntroForestBanditKidnapEdlaran");
 			if (!PlatformEventDone("EdlaranJoin")) {
-				let Char = PlatformCreateCharacter("Edlaran", "Archer", 2200, true, false, "EdlaranForestBeg");
-				Char.Health = 0;
-				Char.Bound = true;
+				const Char = PlatformCreateCharacter("Edlaran", "Archer", 2200, true, false, "EdlaranForestBeg");
+				if (Char) {
+					Char.Health = 0;
+					Char.Bound = true;
+				}
 			}
 		},
 		Text: "Giant Oak",
@@ -1469,8 +1479,8 @@ var PlatformRoomList = [
 			if (!PlatformEventDone("BarnThiefRescueMelody")) PlatformCreateCharacter("Lyn", "Thief", 1800, true, false, PlatformEventDone("ForestCaptureRescueMelody") ? "BarnThiefRescueMelody" : "BarnThief", true);
 			if (PlatformEventDone("BarnThiefRescueMelody")) {
 				PlatformCreateCharacter("Hazel", "Maid", 1800, false, true, null, true);
-				PlatformRoom.Heal = null;
-				PlatformRoom.Door.push({ Name: "ForestBarnExterior", FromX: 900, FromY: 0, FromW: 250, FromH: 1200, FromType: "Up", ToX: 1050, ToFaceLeft: false });
+				PlatformRoom.Heal = undefined;
+				PlatformRoom.Door?.push({ Name: "ForestBarnExterior", FromX: 900, FromY: 0, FromW: 250, FromH: 1200, FromType: "Up", ToX: 1050, ToFaceLeft: false });
 				PlatformMessageSet("Wooden Barn");
 				PlatformHeal = null;
 			}
@@ -1501,7 +1511,7 @@ var PlatformRoomList = [
 		Music: "ForestTheme",
 		Entry: function() {
 			if (PlatformEventDone("ForestCaptureEnd")) {
-				PlatformRoom.Door.push({ Name: "ForestLakeShore", FromX: 200, FromY: 0, FromW: 400, FromH: 1200, FromType: "Up", ToX: 3100, ToFaceLeft: true });
+				PlatformRoom.Door?.push({ Name: "ForestLakeShore", FromX: 200, FromY: 0, FromW: 400, FromH: 1200, FromType: "Up", ToX: 3100, ToFaceLeft: true });
 				PlatformRoom.LimitLeft = 200;
 				PlatformRoom.Background = "Forest/CampGroundRaft";
 			}
@@ -1559,7 +1569,7 @@ var PlatformRoomList = [
 			{ Name: "ForestPond", FromX: 1900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false }
 		],
 		Entry: function() {
-			if (PlatformPlayer.X <= 1000) {
+			if ((PlatformPlayer?.X ?? 0) <= 1000) {
 				PlatformCreateProjectile("Barrel", "Wood", false, 100, 1, 24, 0, 6);
 			} else {
 				PlatformCreateProjectile("Barrel", "Wood", true, 1900, 1, 24, 0, 6);
@@ -1731,14 +1741,16 @@ var PlatformRoomList = [
 		Entry: function() {
 			if (!PlatformEventDone("ThiefBossDefeat") || !PlatformEventDone("ThiefBossSecondDefeat")) {
 				PlatformDialogStart(!PlatformEventDone("ThiefBossDefeat") ? "ThiefBossBattle" : "ThiefBossSecondBattle");
-				let Lyn = PlatformCreateCharacter("Lyn", "Thief", 400);
-				Lyn.MaxHealth = PlatformEventDone("ThiefBossDefeat") ? 73 : 57;
-				Lyn.Health = Lyn.MaxHealth;
-				Lyn.Projectile = PlatformEventDone("ThiefBossDefeat") ? 30 : 15;
-				Lyn.RunSpeed = PlatformEventDone("ThiefBossDefeat") ? 18 : 15;
-				Lyn.JumpForce = PlatformEventDone("ThiefBossDefeat") ? 60 : 50;
-				Lyn.ProjectileDamage = [11, 11];
-				Lyn.ProjectileBothSides = true;
+				const Lyn = PlatformCreateCharacter("Lyn", "Thief", 400);
+				if (Lyn) {
+					Lyn.MaxHealth = PlatformEventDone("ThiefBossDefeat") ? 73 : 57;
+					Lyn.Health = Lyn.MaxHealth;
+					Lyn.Projectile = PlatformEventDone("ThiefBossDefeat") ? 30 : 15;
+					Lyn.RunSpeed = PlatformEventDone("ThiefBossDefeat") ? 18 : 15;
+					Lyn.JumpForce = PlatformEventDone("ThiefBossDefeat") ? 60 : 50;
+					Lyn.ProjectileDamage = [11, 11];
+					Lyn.ProjectileBothSides = true;
+				}
 			} else {
 				PlatformCreateCharacter("Vera", "Leather", 800);
 				PlatformCreateCharacter("Vera", "Leather", 1200);
@@ -1765,7 +1777,7 @@ var PlatformRoomList = [
 			{ Name: "SavannahEdge", FromX: 2700, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
 		],
 		Entry: function() {
-			if (PlatformPlayer.X <= 1000) {
+			if ((PlatformPlayer?.X ?? 0) <= 1000) {
 				PlatformCreateProjectile("Barrel", "Wood", false, 100, 1, 24, 0, 6);
 				PlatformCreateProjectile("Barrel", "Wood", false, 1000, 1, 24, 0, 6);
 			} else {
@@ -1813,10 +1825,10 @@ var PlatformRoomList = [
 		Heal: 250,
 		Entry: function() {
 			PlatformChar.splice(1, 100);
-			if (PlatformPlayer.Name != "Olivia") PlatformCreateCharacter("Olivia", "Oracle", 1700, true, false, "OliviaTent", true);
-			if (PlatformPlayer.Name != "Melody") PlatformCreateCharacter("Melody", "Maid", 1400, true, false, PlatformPlayer.Name + "Tent", (PlatformPlayer.Name == "Olivia"));
-			if (PlatformPlayer.Name != "Edlaran") PlatformCreateCharacter("Edlaran", "Archer", 1100, true, false, "EdlaranTent");
-			if ((PlatformPlayer.Name != "Lyn") && PlatformEventDone("LynJoin")) PlatformCreateCharacter("Lyn", "Thief", 800, true, false, "LynTent");
+			if (PlatformPlayer?.Name != "Olivia") PlatformCreateCharacter("Olivia", "Oracle", 1700, true, false, "OliviaTent", true);
+			if (PlatformPlayer?.Name != "Melody") PlatformCreateCharacter("Melody", "Maid", 1400, true, false, PlatformPlayer?.Name + "Tent", (PlatformPlayer?.Name == "Olivia"));
+			if (PlatformPlayer?.Name != "Edlaran") PlatformCreateCharacter("Edlaran", "Archer", 1100, true, false, "EdlaranTent");
+			if ((PlatformPlayer?.Name != "Lyn") && PlatformEventDone("LynJoin")) PlatformCreateCharacter("Lyn", "Thief", 800, true, false, "LynTent");
 		},
 		Door: [
 			{ Name: "SavannahTentExterior", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1000, ToFaceLeft: false },
@@ -1917,10 +1929,12 @@ var PlatformRoomList = [
 		],
 		Entry: function() {
 			if ((PlatformPlayer.Name != "Zara") && !PlatformEventDone("ZaraJoin")) {
-				let Zara = PlatformCreateCharacter("Zara", "Slave", 1000, true, false, "ZaraPetrified");
-				Zara.Health = 0;
-				Zara.Bound = true;
-				Zara.Petrified = true;
+				const Zara = PlatformCreateCharacter("Zara", "Slave", 1000, true, false, "ZaraPetrified");
+				if (Zara) {
+					Zara.Health = 0;
+					Zara.Bound = true;
+					Zara.Petrified = true;
+				}
 			}
 		},
 	},
@@ -1980,16 +1994,16 @@ var PlatformRoomList = [
  * @param {string} CharacterName - The character name to load
  * @param {string} StatusName - The status of that character
  * @param {number} X - The X position of the character
- * @param {boolean} [Fix] - TRUE if the character won't move
- * @param {boolean} [Combat] - TRUE if the character will deal and receive combat damage
- * @param {string} [Dialog] - The dialog name to open when talking to that character
- * @param {boolean} [FaceLeft]  - TRUE if the character should be facing left
- * @param {number} [ReplaceAtPos]  - The position in the index to replace the char, if NULL we add it
- * @returns {Platform.Character | undefined} - Returns the platform character
+ * @param {boolean | null} [Fix] - TRUE if the character won't move
+ * @param {boolean | null} [Combat] - TRUE if the character will deal and receive combat damage
+ * @param {string | null} [Dialog] - The dialog name to open when talking to that character
+ * @param {boolean | null} [FaceLeft]  - TRUE if the character should be facing left
+ * @param {number | null} [ReplaceAtPos]  - The position in the index to replace the char, if NULL we add it
+ * @returns {Platform.Character | null} - Returns the platform character
  */
 function PlatformCreateCharacter(CharacterName, StatusName, X, Fix = undefined, Combat = undefined, Dialog = undefined, FaceLeft = undefined, ReplaceAtPos = undefined) {
 	const template = PlatformTemplate.find(t => t.Name === CharacterName && t.Status === StatusName);
-	if (!template) return undefined;
+	if (!template) return null;
 
 	const NewChar = /** @type {Platform.Character} */({ ...template });
 
@@ -2010,7 +2024,7 @@ function PlatformCreateCharacter(CharacterName, StatusName, X, Fix = undefined, 
 	NewChar.BaseProjectile = NewChar.Projectile;
 	NewChar.BaseProjectileTime = NewChar.ProjectileTime;
 	NewChar.BaseWalkSpeed = NewChar.WalkSpeed;
-	NewChar.BaseRunSpeed = NewChar.RunSpeed;
+	NewChar.BaseRunSpeed = NewChar.RunSpeed ?? NewChar.WalkSpeed;
 	NewChar.WalkSpeed = Math.round(NewChar.BaseWalkSpeed * (1 + (PlatformDialogLoverAndSlaveFactor(NewChar.Name, "Edlaran") * 0.1)));
 	NewChar.RunSpeed = Math.round(NewChar.BaseRunSpeed * (1 + (PlatformDialogLoverAndSlaveFactor(NewChar.Name, "Edlaran") * 0.1)));
 	PlatformSetHealth(NewChar);
@@ -2072,7 +2086,7 @@ function PlatformMessageSet(Text) {
  */
 function PlatformLoadRoom(RoomName) {
 	if (RoomName == null) RoomName = PlatformRoom.Name;
-	PlatformRoom = null;
+	PlatformRoom = /** @type {never} */ (null);
 	PlatformSaveMode = false;
 	PlatformGiftMode = false;
 	for (let Room of PlatformRoomList)
@@ -2082,7 +2096,7 @@ function PlatformLoadRoom(RoomName) {
 	if (PlatformRoom.Text != null) PlatformMessageSet(PlatformRoom.Text);
 	PlatformHeal = (PlatformRoom.Heal == null) ? null : CommonTime() + PlatformRoom.Heal;
 	if (PlatformHeal) PlatformTempEvent = [];
-	if (PlatformPlayer.Name == "Lyn") PlatformPlayer.Projectile = PlatformPlayer.MaxProjectile;
+	if (PlatformPlayer?.Name == "Lyn") PlatformPlayer.Projectile = PlatformPlayer.MaxProjectile;
 	PlatformChar.splice(1, 100);
 	if (PlatformRoom.Character != null)
 		for (let Char of PlatformRoom.Character)
@@ -2118,10 +2132,10 @@ function PlatformPartyAdd(C) {
  */
 function PlatformPartySave() {
 	for (let P of PlatformParty)
-		if (P.Character == PlatformPlayer.Name) {
+		if (P.Character == PlatformPlayer?.Name) {
 			P.Experience = PlatformPlayer.Experience;
 			P.Level = PlatformPlayer.Level;
-			P.Perk = PlatformPlayer.Perk;
+			P.Perk = PlatformPlayer.Perk ?? "";
 			return;
 		}
 }
@@ -2132,7 +2146,7 @@ function PlatformPartySave() {
  */
 function PlatformPartyLoad() {
 	for (let P of PlatformParty)
-		if (P.Character == PlatformPlayer.Name) {
+		if (P.Character == PlatformPlayer?.Name) {
 			PlatformPlayer.Experience = P.Experience;
 			PlatformPlayer.Level = P.Level;
 			PlatformPlayer.Perk = P.Perk;
@@ -2151,14 +2165,16 @@ function PlatformPartyNext() {
 	PlatformKeys = [];
 	let Pos = 0;
 	for (let P = 0; P < PlatformParty.length - 1; P++)
-		if (PlatformParty[P].Character == PlatformPlayer.Name)
+		if (PlatformParty[P].Character == PlatformPlayer?.Name)
 			Pos = P + 1;
-	PlatformPlayer = PlatformCreateCharacter(PlatformParty[Pos].Character, PlatformParty[Pos].Status, PlatformPlayer.X, null, null, null, PlatformPlayer.FaceLeft, 0);
-	PlatformPlayer.Camera = true;
-	PlatformPlayer.Level = PlatformParty[Pos].Level;
-	PlatformPlayer.Experience = PlatformParty[Pos].Experience;
-	PlatformPlayer.Perk = PlatformParty[Pos].Perk;
-	PlatformSetHealth(PlatformPlayer);
+	PlatformPlayer = /** @type {Platform.Character} */ (PlatformCreateCharacter(PlatformParty[Pos].Character, PlatformParty[Pos].Status, PlatformPlayer?.X ?? 0, null, null, null, PlatformPlayer?.FaceLeft, 0));
+	if (PlatformPlayer) {
+		PlatformPlayer.Camera = true;
+		PlatformPlayer.Level = PlatformParty[Pos].Level;
+		PlatformPlayer.Experience = PlatformParty[Pos].Experience;
+		PlatformPlayer.Perk = PlatformParty[Pos].Perk;
+		PlatformSetHealth(PlatformPlayer);
+	}
 	PlatformDialogEvent();
 	for (let Room of PlatformRoomList)
 		if ((Room.Name == PlatformRoom.Name) && (Room.Entry != null))
@@ -2167,11 +2183,11 @@ function PlatformPartyNext() {
 
 /**
  * Activates a specific character by name
- * @param {string} CharacterName - The character name to activate
+ * @param {Platform.CharacterName} CharacterName - The character name to activate
  * @returns {void} - Nothing
  */
 function PlatformPartyActivate(CharacterName) {
-	PlatformPlayer.Name = "";
+	PlatformPlayer.Name = /** @type {never} */ ("");
 	while (PlatformPlayer.Name != CharacterName)
 		PlatformPartyNext();
 }
@@ -2222,7 +2238,8 @@ async function PlatformLoad() {
 
 	// In mobile mode, we try to remove all events that could alter the experience
 	if (CommonIsMobile) {
-		let CV = document.getElementById("MainCanvas");
+		const CV = document.getElementById("MainCanvas");
+		if (!CV) return;
 		CV.onselectstart = function (e) { e.preventDefault(); return false; };
 		CV.oncontextmenu = function(e) { e.preventDefault(); return false; };
 		CV.ondragstart  = function(e) { e.preventDefault(); return false; };
@@ -2243,20 +2260,20 @@ async function PlatformLoad() {
  * Get the proper animation from the cycle to draw
  * @param {Platform.Character} C - The character to evaluate
  * @param {Platform.AnimationName} Pose - The pose we want
- * @param {boolean} Cycle - TRUE if we must use the animation cycle
+ * @param {boolean | null} [Cycle] - TRUE if we must use the animation cycle
  * @returns {Platform.AnimationSpec} - An object with the image, width & height to draw
  */
 function PlatformGetAnim(C, Pose, Cycle = null) {
 	for (let A = 0; A < C.Animation.length; A++)
 		if (C.Animation[A].Name == Pose) {
-			let CycleList = ((C.FaceLeft === true) && (C.Animation[A].CycleLeft != null)) ? C.Animation[A].CycleLeft : C.Animation[A].Cycle;
+			let CycleList = (((C.FaceLeft === true) && (C.Animation[A].CycleLeft != null)) ? C.Animation[A].CycleLeft : C.Animation[A].Cycle) ?? [];
 			let AnimPos;
-			if ((Cycle == null) || Cycle) AnimPos = Math.floor(CommonTime() / C.Animation[A].Speed + C.ID) % CycleList.length;
-			else AnimPos = Math.floor((CommonTime() - C.Action.Start) / C.Animation[A].Speed);
+			if ((Cycle == null) || Cycle) AnimPos = Math.floor(CommonTime() / (C.Animation[A].Speed ?? 0) + C.ID) % CycleList.length;
+			else AnimPos = Math.floor((CommonTime() - (C.Action?.Start ?? 0)) / (C.Animation[A].Speed ?? 0));
 			if (AnimPos < 0) AnimPos = 0;
 			if (AnimPos >= CycleList.length) AnimPos = CycleList.length - 1;
 			if ((C.FaceLeft === true) && (C.Animation[A].CycleLeft != null)) Pose = Pose + "Left";
-			if ((C.Anim == null) || (C.Anim.Name == null) || (C.Anim.Name != C.Animation[A].Name)) PlatformSoundEffect("Animation", C.Animation[A].Audio);
+			if ((C.Anim == null) || (C.Anim.Name == null) || (C.Anim.Name != C.Animation[A].Name)) PlatformSoundEffect("Animation", C.Animation[A].Audio ?? []);
 			return {
 				Name: Pose,
 				Image: CycleList[AnimPos],
@@ -2267,8 +2284,7 @@ function PlatformGetAnim(C, Pose, Cycle = null) {
 				Mirror: ((C.FaceLeft === true) && (C.Animation[A].CycleLeft == null))
 			};
 		}
-	console.error("Anim: " + Pose + " not found for character: " + C.Name);
-	return null;
+	throw new Error("Anim: " + Pose + " not found for character: " + C.Name);
 }
 
 /**
@@ -2288,14 +2304,15 @@ function PlatformActionIs(C, ActionName) {
  * @returns {void} - Nothing
  */
 function PlatformDrawBackground() {
+	if (!PlatformRoom || !PlatformPlayer) return;
 
 	// Draws the background within the borders
-	PlatformViewX = PlatformPlayer.X - 1000;
+	PlatformViewX = (PlatformPlayer?.X ?? 0) - 1000;
 	if (PlatformViewX < 0) PlatformViewX = 0;
-	if (PlatformViewX > PlatformRoom.Width - 2000) PlatformViewX = PlatformRoom.Width - 2000;
-	PlatformViewY = PlatformPlayer.Y - 400;
+	if (PlatformViewX > (PlatformRoom.Width ?? 0) - 2000) PlatformViewX = (PlatformRoom.Width ?? 0) - 2000;
+	PlatformViewY = (PlatformPlayer?.Y ?? 0) - 400;
 	if (PlatformViewY < 0) PlatformViewY = 0;
-	if (PlatformViewY > PlatformRoom.Height - 1000) PlatformViewY = PlatformRoom.Height - 1000;
+	if (PlatformViewY > (PlatformRoom.Height ?? 0) - 1000) PlatformViewY = (PlatformRoom.Height ?? 0) - 1000;
 	DrawImageZoomCanvas("Screens/Room/Platform/Background/" + PlatformRoom.Background + ".jpg", MainCanvas, PlatformViewX, PlatformViewY, 2000, 1000, 0, 0, 2000, 1000);
 	if (PlatformRoom.BackgroundFilter != null) DrawRect(0, 0, 2000, 1000, PlatformRoom.BackgroundFilter);
 	if (PlatformTimedScreenFilter.End >= CommonTime()) DrawRect(0, 0, 2000, 1000, PlatformTimedScreenFilter.Filter);
@@ -2304,23 +2321,23 @@ function PlatformDrawBackground() {
 	DrawText(PlatformPlayer.Health.toString(), 210, 32, "White", "Black");
 	DrawProgressBar(120, 60, 180, 40, PlatformPlayer.Experience / PlatformExperienceForLevel[PlatformPlayer.Level] * 100, "#600060", "Black");
 	DrawText(PlatformPlayer.Level.toString(), 210, 82, "White", "Black");
-	if (PlatformActionIs(PlatformPlayer, "Bind"))
+	if (PlatformActionIs(PlatformPlayer, "Bind") && PlatformPlayer.Action)
 		DrawProgressBar(120, 110, 180, 40, (CommonTime() - PlatformPlayer.Action.Start) / (PlatformPlayer.Action.Expire - PlatformPlayer.Action.Start) * 100, "White", "Black");
 	else if ((PlatformPlayer.Health <= 0) && !PlatformPlayer.Bound && (PlatformPlayer.RiseTime != null) && (PlatformPlayer.RiseTime >= CommonTime()))
 		DrawProgressBar(120, 110, 180, 40, 100 - ((PlatformPlayer.RiseTime - CommonTime()) / 100), "White", "Black");
 
 	// Draws the magic or projectile reserve
 	if ((PlatformPlayer.MaxMagic != null) && (PlatformPlayer.MaxMagic > 0) && PlatformHasPerk(PlatformPlayer, "Apprentice")) {
-		DrawProgressBar(310, 10, 180, 40, PlatformPlayer.Magic / PlatformPlayer.MaxMagic * 100, "#0000B0", "#000000");
-		DrawText(PlatformPlayer.Magic.toString(), 400, 32, "White", "Black");
+		DrawProgressBar(310, 10, 180, 40, (PlatformPlayer.Magic ?? 0) / PlatformPlayer.MaxMagic * 100, "#0000B0", "#000000");
+		DrawText(`${PlatformPlayer.Magic}`, 400, 32, "White", "Black");
 	}
 	if ((PlatformPlayer.MaxProjectile != null) && (PlatformPlayer.MaxProjectile > 0)) {
-		DrawProgressBar(310, 10, 180, 40, PlatformPlayer.Projectile / PlatformPlayer.MaxProjectile * 100, "#808000", "#000000");
-		DrawText(PlatformPlayer.Projectile.toString(), 400, 32, "White", "Black");
+		DrawProgressBar(310, 10, 180, 40, (PlatformPlayer.Projectile ?? 0) / PlatformPlayer.MaxProjectile * 100, "#808000", "#000000");
+		DrawText(`${PlatformPlayer.Projectile}`, 400, 32, "White", "Black");
 	}
 	if ((PlatformPlayer.ProjectileAim == null) && PlatformMoveActive("Aim")) PlatformPlayer.ProjectileAim = CommonTime();
 	if (PlatformPlayer.ProjectileAim != null) {
-		let Progress = (CommonTime() - PlatformPlayer.ProjectileAim) / (PlatformPlayer.ProjectileTime / 50);
+		let Progress = (CommonTime() - PlatformPlayer.ProjectileAim) / ((PlatformPlayer.ProjectileTime ?? 1) / 50);
 		if (Progress > 100) Progress = 100;
 		DrawProgressBar(310, 60, 180, 40, Progress, (Progress >= 100) ? "#00FF00" : (Progress >= 50) ? "#FFFF00" : "#FF0000", "#000000");
 	}
@@ -2366,26 +2383,26 @@ function PlatformDrawBackground() {
  * @returns {void} - Nothing
  */
 function PlatformDrawCharacter(C, Time) {
-	if (C.Anim == null) return;
-	let X = C.X - C.Anim.Width / 2 - PlatformViewX;
-	let Y = C.Y - C.Anim.Height - PlatformViewY - 1200 + PlatformRoom.Height;
+	if (!C.Anim) return;
+	let X = C.X - (C.Anim.Width ?? 0) / 2 - PlatformViewX;
+	let Y = C.Y - (C.Anim.Height ?? 0) - PlatformViewY - 1200 + (PlatformRoom.Height ?? 0);
 	if ((X >= 2000) || (Y >= 1000)) return;
-	if ((X + C.Anim.Width <= 0) || (Y + C.Anim.Height <= 0)) return;
-	DrawImageEx("Screens/Room/Platform/Character/" + C.Name + "/" + C.Status + "/" + C.Anim.Name + "/" + C.Anim.Image.toString() + ".png", MainCanvas, X + C.Anim.OffsetX, Y + C.Anim.OffsetY, { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );
-	if (PlatformHeartEffect && (PlatformDialogCharactersAreLovers(C.Name, PlatformPlayer.Name) || C.Camera))
+	if ((X + (C.Anim.Width ?? 0) <= 0) || (Y + (C.Anim.Height ?? 0) <= 0)) return;
+	DrawImageEx("Screens/Room/Platform/Character/" + C.Name + "/" + C.Status + "/" + C.Anim.Name + "/" + C.Anim.Image?.toString() + ".png", MainCanvas, X + (C.Anim.OffsetX ?? 0), Y + (C.Anim.OffsetY ?? 0), { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );
+	if (PlatformPlayer && PlatformHeartEffect && (PlatformDialogCharactersAreLovers(C.Name, PlatformPlayer.Name) || C.Camera))
 		DrawImageZoomCanvas("Screens/Room/Platform/Effect/Love.png", MainCanvas, 0, 0, 1000, 1000, X, Y + (((C.Anim.Name === "Crouch") || (C.Anim.Name === "Crawl")) ? C.Height / 3 : 0), C.Width, C.Height);
 	if ((C.Effect != null) && (C.Effect.Name != null) && (C.Effect.End != null) && (C.Effect.End >= Time))
-		DrawImageEx("Screens/Room/Platform/Effect/" + C.Effect.Name + ".png", MainCanvas, X + C.Anim.OffsetX, Y + C.Anim.OffsetY, { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );
+		DrawImageEx("Screens/Room/Platform/Effect/" + C.Effect.Name + ".png", MainCanvas, X + (C.Anim.OffsetX ?? 0), Y + (C.Anim.OffsetY ?? 0), { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );
 	if (C.Damage != null)
 		for (let Damage of C.Damage)
 			if (Damage.Expire >= Time) {
-				DrawImageZoomCanvas("Screens/Room/Platform/" + (Damage.Value < 0 ? "Green" : (C.Camera ? "Enemy" : "Player")) + "Hit.png", MainCanvas, 0, 0, 512, 512, X + C.Anim.Width / 2 - 50, Y - 250 + Math.floor((Damage.Expire - Time) / 10), 100, 100);
-				DrawText(Math.abs(Damage.Value).toString(), X + C.Anim.Width / 2, Y - 200 + Math.floor((Damage.Expire - Time) / 10), (C.Camera && Damage.Value >= 0 ? "White" : "Black"), (C.Camera && Damage.Value >= 0 ? "Black" : "White"));
+				DrawImageZoomCanvas("Screens/Room/Platform/" + (Damage.Value < 0 ? "Green" : (C.Camera ? "Enemy" : "Player")) + "Hit.png", MainCanvas, 0, 0, 512, 512, X + (C.Anim.Width ?? 0) / 2 - 50, Y - 250 + Math.floor((Damage.Expire - Time) / 10), 100, 100);
+				DrawText(Math.abs(Damage.Value).toString(), X + (C.Anim.Width ?? 0) / 2, Y - 200 + Math.floor((Damage.Expire - Time) / 10), (C.Camera && Damage.Value >= 0 ? "White" : "Black"), (C.Camera && Damage.Value >= 0 ? "Black" : "White"));
 			}
 	if (C.Loot != null)
 		for (let L of C.Loot)
 			if (L.Expire >= Time)
-				DrawImageZoomCanvas("Screens/Room/Platform/Inventory/" + L.Name + ".png", MainCanvas, 0, 0, 120, 120, X + C.Anim.Width / 2 - 45, Y - 250 + Math.floor((L.Expire - Time) / 10), 90, 90);
+				DrawImageZoomCanvas("Screens/Room/Platform/Inventory/" + L.Name + ".png", MainCanvas, 0, 0, 120, 120, X + (C.Anim.Width ?? 0) / 2 - 45, Y - 250 + Math.floor((L.Expire - Time) / 10), 90, 90);
 }
 
 /**
@@ -2398,7 +2415,7 @@ function PlatformSetHealth(C) {
 	C.MaxMagic = C.BaseMagic;
 	C.MaxProjectile = C.BaseProjectile;
 	if (C.HealthPerLevel != null) C.MaxHealth = C.MaxHealth + C.HealthPerLevel * C.Level;
-	if (C.MagicPerLevel != null) C.MaxMagic = C.MaxMagic + C.MagicPerLevel * C.Level;
+	if (C.MagicPerLevel != null) C.MaxMagic = (C.MaxMagic ?? 0) + C.MagicPerLevel * C.Level;
 	C.MaxHealth = Math.round(C.MaxHealth * (1 + ((PlatformHasPerk(C, "Healthy") ? 0.1 : 0) + (PlatformHasPerk(C, "Robust") ? 0.15 : 0) + (PlatformDialogLoverAndSlaveFactor(C.Name, "Melody") * 0.1))));
 	if (C.MaxMagic != null) C.MaxMagic = Math.round(C.MaxMagic * (1 + (PlatformHasPerk(C, "Witch") ? 0.2 : 0)));
 	if ((C.MaxProjectile != null) && PlatformHasPerk(C, "Capacity")) C.MaxProjectile = C.MaxProjectile + 5;
@@ -2463,7 +2480,7 @@ function PlatformSteal(C, Value) {
  * @returns {void} - Nothing
  */
 function PlatformAddRandomInventory(Target) {
-	let Item = CommonRandomItemFromList(null, PlatformInventoryList);
+	let Item = CommonGetRandomItemFromList(PlatformInventoryList);
 	PlatformInventoryAdd(Item.Name);
 	if (Target.Loot == null) Target.Loot = [];
 	Target.Loot.push({ Name: Item.Name, Expire: CommonTime() + 2000});
@@ -2487,7 +2504,7 @@ function PlatformFindInventory(Source, Target) {
  * @returns {void} - TRUE if active
  */
 function PlatformCreateTreasure() {
-	let X = Math.round(PlatformRoom.Width / 2);
+	let X = Math.round((PlatformRoom.Width ?? 0) / 2);
 	if ((PlatformChar.length >= 2) && (PlatformChar[1].X >= X)) X = X - 500;
 	else if ((PlatformChar.length >= 2) && (PlatformChar[1].X <= X)) X = X + 500;
 	PlatformCreateCharacter("Treasure", "Metal", X, true, true);
@@ -2520,15 +2537,15 @@ function PlatformDamage(Source, Target, Damage, Time, Type, AttackName = "") {
 	if (Target.Camera && PlatformMoveActive("Block") && (Target.FaceLeft != Source.FaceLeft)) {
 		Target.ForceX = 0;
 		Damage = Math.ceil(Damage / 2);
-		if (PlatformHasPerk(PlatformPlayer, "Deflect") && (Type == "Collision")) {
+		if (PlatformPlayer && PlatformHasPerk(PlatformPlayer, "Deflect") && (Type == "Collision")) {
 			Source.FaceLeft = !Source.FaceLeft;
 			Source.ForceX = (30 + Math.random() * 30) * (Source.FaceLeft ? -1 : 1);
 		}
 	} else {
-		Target.ForceX = (Target.DamageKnockForce + Math.random() * Target.DamageKnockForce) * ((Source.X - Target.X < 0) ? 1 : -1);
+		Target.ForceX = ((Target.DamageKnockForce ?? 0) + Math.random() * (Target.DamageKnockForce ?? 0)) * ((Source.X - Target.X < 0) ? 1 : -1);
 		if ((Target.Y < PlatformFloor) && (Type == "Action")) {
 			Target.ForceY = (AttackName === "Uppercut") ? -35 : -25;
-			if ((AttackName === "Uppercut") && PlatformHasPerk(PlatformPlayer, "Impact")) {
+			if ((AttackName === "Uppercut") && PlatformPlayer && PlatformHasPerk(PlatformPlayer, "Impact")) {
 				Target.ForceY = -45;
 				Damage = Math.ceil(Damage * 1.5);
 			}
@@ -2543,9 +2560,11 @@ function PlatformDamage(Source, Target, Damage, Time, Type, AttackName = "") {
 		Target.Health = 0;
 		Target.RiseTime = Time + (PlatformHasPerk(Target, "Vigorous") ? 7000 : 10000);
 		Target.Immunity = Time + 2000;
-		if (!Target.Petrified) PlatformSoundEffect("Down", Target.DownAudio);
+		if (!Target.Petrified && Target.DownAudio) PlatformSoundEffect("Down", Target.DownAudio);
 		if (AutoRestrain || Target.Petrified) PlatformBindTarget(Source, Target);
-	} else PlatformSoundEffect("Damage", Target.DamageAudio);
+	} else if (Target.DamageAudio) {
+		PlatformSoundEffect("Damage", Target.DamageAudio);
+	}
 }
 
 /**
@@ -2645,14 +2664,14 @@ function PlatformProcessAction(Source, Time) {
 			if (Source.Attack != null)
 				for (let Attack of Source.Attack)
 					if ((Attack.Name == Source.Anim.Name) && (Attack.HitAnimation != null) && (Attack.HitAnimation.indexOf(Source.Anim.Image) >= 0)) {
-						Damage = Attack.Damage[Source.Level];
+						Damage = Attack.Damage?.[Source.Level] ?? 0;
 						AttackName = Attack.Name;
 						HitBox = Attack.HitBox;
 						Audio = Attack.HitAudio;
 						break;
 					}
-			if (PlatformHitBoxClash(Source, Target, HitBox)) {
-				PlatformSoundEffect("Hit", Audio);
+			if (HitBox && PlatformHitBoxClash(Source, Target, HitBox)) {
+				if (Audio) PlatformSoundEffect("Hit", Audio);
 				PlatformDamage(Source, Target, Damage, Time, "Action", AttackName);
 				return;
 			}
@@ -2678,9 +2697,9 @@ function PlatformWalkFrame(Speed, Frame) {
 function PlatformCollisionDamage(Target, Time) {
 	if ((Target == null) || (PlatformChar == null) || (Target.Health <= 0)) return;
 	for (let Source of PlatformChar)
-		if ((Source.ID != Target.ID) && (Source.Health > 0) && Source.Combat && (Source.CollisionDamage > 0) && ((Target.Immunity == null) || (Target.Immunity < Time)))
+		if ((Source.ID != Target.ID) && (Source.Health > 0) && Source.Combat && ((Source.CollisionDamage ?? 0) > 0) && ((Target.Immunity == null) || (Target.Immunity < Time)))
 			if (PlatformHitBoxClash(Source, Target, Source.HitBox))
-				return PlatformDamage(Source, Target, Source.CollisionDamage, Time, "Collision");
+				return PlatformDamage(Source, Target, Source.CollisionDamage ?? 0, Time, "Collision");
 }
 
 /**
@@ -2690,6 +2709,7 @@ function PlatformCollisionDamage(Target, Time) {
  * @returns {void} - Nothing
  */
 function PlatformBindPlayer(Source, Time) {
+	if (!PlatformPlayer) return;
 	if ((PlatformPlayer.Health > 0) || (Source.Health <= 0)) return;
 	if (PlatformPlayer.Bound || Source.Bound) return;
 	if ((PlatformPlayer.Immunity != null) && (PlatformPlayer.Immunity > Time)) return;
@@ -2728,14 +2748,14 @@ function PlatformMoveActive(Move) {
 	if ((Move == "Jump") && CommonTouchActive(1800, 850, 125, 125)) return true;
 
 	// Aiming requires holding the K key for a set time, only for Edlaran if she has arrows left
-	if ((Move == "Aim") && (PlatformPlayer.ForceX == 0) && (PlatformPlayer.ForceY == 0) && (PlatformPlayer.Name == "Edlaran") && (PlatformPlayer.Projectile != null) && (PlatformPlayer.Projectile > 0)) {
+	if ((Move == "Aim") && (PlatformPlayer?.ForceX == 0) && (PlatformPlayer.ForceY == 0) && (PlatformPlayer.Name == "Edlaran") && (PlatformPlayer.Projectile != null) && (PlatformPlayer.Projectile > 0)) {
 		if (!CommonIsMobile && PlatformKeys.indexOf("KeyK") >= 0) return true;
 		if (ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.X]?.pressed) return true;
 		if (CommonTouchActive(1675, 700, 125, 125)) return true;
 	}
 
 	// Blocking can be done using P, but you need to get the perk first
-	if ((Move == "Block") && (PlatformPlayer.ForceX == 0) && PlatformHasPerk(PlatformPlayer, "Block")) {
+	if ((Move == "Block") && (PlatformPlayer?.ForceX == 0) && PlatformHasPerk(PlatformPlayer, "Block")) {
 		if (!CommonIsMobile && (PlatformKeys.indexOf("KeyP") >= 0)) return true;
 		if (ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.TriggerR]?.pressed) return true;
 		if (CommonTouchActive(1825, 700, 125, 125)) return true;
@@ -2773,13 +2793,14 @@ function PlatformAnimAvailable(C, AnimationName) {
  * @returns {void} - Nothing
  */
 function PlatformCreateProjectile(Name, Type, FaceLeft, X, Y, Force, Gravity = 0.25, Damage, HitAudio) {
-	let Proj = PlatformCreateCharacter(Name, Type, X, false, true, null, FaceLeft, null);
+	const Proj = PlatformCreateCharacter(Name, Type, X, false, true, null, FaceLeft, null);
+	if (!Proj) return;
 	Proj.Y = PlatformFloor - Y;
 	Proj.IsProjectile = true;
 	Proj.Gravity = Gravity;
 	Proj.CollisionDamage = Damage;
 	Proj.ProjectileForce = Force * (FaceLeft ? -1 : 1);
-	Proj.HitAudio = HitAudio;
+	Proj.HitAudio = HitAudio ?? [];
 }
 
 /**
@@ -2795,7 +2816,7 @@ function PlatformProcessProjectile(Time) {
 			let Remove = false;
 			if (PlatformChar[C].Y == PlatformFloor) Remove = true;
 			else if (PlatformChar[C].X <= 100) Remove = true;
-			else if (PlatformChar[C].X >= PlatformRoom.Width - 100) Remove = true;
+			else if (PlatformChar[C].X >= (PlatformRoom.Width ?? 0) - 100) Remove = true;
 			else if ((PlatformRoom.LimitLeft != null) && (PlatformChar[C].X <= PlatformRoom.LimitLeft)) Remove = true;
 			else if ((PlatformRoom.LimitRight != null) && (PlatformChar[C].X >= PlatformRoom.LimitRight)) Remove = true;
 			if (Remove) {
@@ -2806,13 +2827,13 @@ function PlatformProcessProjectile(Time) {
 
 	// Second, we remove projectiles that hit a target, applying damage
 	for (let C = 0; C < PlatformChar.length; C++)
-		if ((PlatformChar[C].IsProjectile != null) && (PlatformChar[C].IsProjectile == true) && (PlatformChar[C].CollisionDamage != null) && (PlatformChar[C].CollisionDamage > 0)) {
+		if ((PlatformChar[C].IsProjectile != null) && (PlatformChar[C].IsProjectile == true) && (PlatformChar[C].CollisionDamage != null) && ((PlatformChar[C].CollisionDamage ?? 0) > 0)) {
 			let Remove = false;
 			let Source = PlatformChar[C];
 			for (let Target of PlatformChar)
 				if ((Source.ID != Target.ID) && (Target.Health > 0) && !Remove && Target.Combat && ((Target.Immunity == null) || (Target.Immunity < Time)))
 					if (PlatformHitBoxClash(Source, Target, Source.HitBox)) {
-						PlatformDamage(Source, Target, Source.CollisionDamage, Time, "Collision");
+						PlatformDamage(Source, Target, Source.CollisionDamage ?? 0, Time, "Collision");
 						PlatformSoundEffect("Hit", Source.HitAudio);
 						Remove = true;
 					}
@@ -2831,13 +2852,14 @@ function PlatformProcessProjectile(Time) {
  * @returns {void} - Nothing
  */
 function PlatformProjectile(C, LongShot) {
+	C.Projectile ??= 0;
 	C.Projectile--;
-	let Damage = C.ProjectileDamage[C.Level];
+	let Damage = C.ProjectileDamage?.[C.Level];
 	if ((Damage == null) || (Damage < 1)) Damage = 1;
 	if (PlatformHasPerk(C, "Archery")) Damage++;
 	let Y = (C.Height * 0.8) - C.Y + PlatformFloor;
-	PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, C.FaceLeft, C.X + ((C.FaceLeft) ? -100 : 100), Y, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
-	if (C.ProjectileBothSides || PlatformHasPerk(C, "Duplicate")) PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, !C.FaceLeft, C.X + ((!C.FaceLeft) ? -100 : 100), Y, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
+	PlatformCreateProjectile(C.ProjectileName ?? "Arrow", C.ProjectileType ?? "Wood", C.FaceLeft, C.X + ((C.FaceLeft) ? -100 : 100), Y, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
+	if (C.ProjectileBothSides || PlatformHasPerk(C, "Duplicate")) PlatformCreateProjectile(C.ProjectileName ?? "Arrow", C.ProjectileType ?? "Wood", !C.FaceLeft, C.X + ((!C.FaceLeft) ? -100 : 100), Y, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
 }
 
 /**
@@ -2847,9 +2869,9 @@ function PlatformProjectile(C, LongShot) {
  * @returns {void} - Nothing
  */
 function PlatformBindTarget(Source, Target) {
-	PlatformAddExperience(Source, Target.ExperienceValue);
+	PlatformAddExperience(Source, Target.ExperienceValue ?? 0);
 	PlatformFindInventory(Source, Target);
-	PlatformSteal(Source, Target.ExperienceValue);
+	PlatformSteal(Source, Target.ExperienceValue ?? 0);
 	Target.Bound = true;
 	if (Target.OnBind != null) Target.OnBind();
 }
@@ -2859,6 +2881,7 @@ function PlatformBindTarget(Source, Target) {
  * @returns {void} - Nothing
  */
 function PlatformDrawGame() {
+	if (!PlatformPlayer) return;
 
 	// Check if we must enter a new room
 	PlatformEnterRoom(PlatformPlayer.FaceLeft ? "Left" : "Right");
@@ -2877,7 +2900,7 @@ function PlatformDrawGame() {
 			PlatformPlayer.FaceLeft = true;
 			if (!PlatformMoveActive("Aim")) {
 				if (PlatformPlayer.ForceX > 0) PlatformPlayer.ForceX = 0;
-				else PlatformPlayer.ForceX = PlatformPlayer.ForceX - PlatformWalkFrame(((PlatformPlayer.Y == PlatformFloor) && PlatformMoveActive("Crouch")) ? PlatformPlayer.CrawlSpeed : (PlatformPlayer.Run ? PlatformPlayer.RunSpeed : PlatformPlayer.WalkSpeed), Frame);
+				else PlatformPlayer.ForceX = PlatformPlayer.ForceX - PlatformWalkFrame(((PlatformPlayer.Y == PlatformFloor) && PlatformMoveActive("Crouch")) ? PlatformPlayer.CrawlSpeed : (PlatformPlayer.Run ? PlatformPlayer.RunSpeed : PlatformPlayer.WalkSpeed) ?? 0, Frame);
 			}
 		}
 
@@ -2886,19 +2909,19 @@ function PlatformDrawGame() {
 			PlatformPlayer.FaceLeft = false;
 			if (!PlatformMoveActive("Aim")) {
 				if (PlatformPlayer.ForceX < 0) PlatformPlayer.ForceX = 0;
-				else PlatformPlayer.ForceX = PlatformPlayer.ForceX + PlatformWalkFrame(((PlatformPlayer.Y == PlatformFloor) && PlatformMoveActive("Crouch")) ? PlatformPlayer.CrawlSpeed : (PlatformPlayer.Run ? PlatformPlayer.RunSpeed : PlatformPlayer.WalkSpeed), Frame);
+				else PlatformPlayer.ForceX = PlatformPlayer.ForceX + PlatformWalkFrame(((PlatformPlayer.Y == PlatformFloor) && PlatformMoveActive("Crouch")) ? PlatformPlayer.CrawlSpeed : (PlatformPlayer.Run ? PlatformPlayer.RunSpeed : PlatformPlayer.WalkSpeed) ?? 0, Frame);
 			}
 		}
 
 		// Jump forces the player up on the Y axis
 		if (PlatformMoveActive("Jump") && (PlatformPlayer.Y == PlatformFloor)) {
-			PlatformPlayer.ForceY = PlatformPlayer.JumpForce * ((PlatformHasPerk(PlatformPlayer, "Spring") && !PlatformHasPerk(PlatformPlayer, "Bounce")) ? 1.1667 : 1) * -1;
+			PlatformPlayer.ForceY = (PlatformPlayer.JumpForce ?? 0) * ((PlatformHasPerk(PlatformPlayer, "Spring") && !PlatformHasPerk(PlatformPlayer, "Bounce")) ? 1.1667 : 1) * -1;
 			PlatformJumpPhase = "Jump1";
 		}
 
 		// Double jump allows for a second spring
 		if (PlatformMoveActive("Jump") && (PlatformPlayer.Y != PlatformFloor) && PlatformHasPerk(PlatformPlayer, "Bounce") && (PlatformJumpPhase == "Release1")) {
-			PlatformPlayer.ForceY = PlatformPlayer.JumpForce * -1;
+			PlatformPlayer.ForceY = (PlatformPlayer.JumpForce ?? 0) * -1;
 			PlatformJumpPhase = "Jump2";
 		}
 
@@ -2928,8 +2951,8 @@ function PlatformDrawGame() {
 
 		// Fires a projectile if the aim was on
 		if ((C.ProjectileAim != null) && !PlatformMoveActive("Aim")) {
-			if (PlatformTime - C.ProjectileAim >= C.ProjectileTime) PlatformProjectile(C, (PlatformTime - C.ProjectileAim >= C.ProjectileTime * 2));
-			C.ProjectileAim = null;
+			if (PlatformTime - C.ProjectileAim >= (C.ProjectileTime ?? 0)) PlatformProjectile(C, (PlatformTime - C.ProjectileAim >= (C.ProjectileTime ?? 0) * 2));
+			C.ProjectileAim = undefined;
 		}
 
 		// Enemies will stand up at half health if they were not restrained
@@ -2942,16 +2965,16 @@ function PlatformDrawGame() {
 		if (MustHeal && (C.Projectile != null) && (C.MaxProjectile != null) && (C.MaxProjectile > 0) && (C.Projectile < C.MaxProjectile)) C.Projectile++;
 
 		// If the player character is using a projectile
-		if (C.Camera && (C.Health > 0) && !C.HalfBound && PlatformActionIs(C, "FireProjectile"))
-			if ((PlatformTime >= C.Action.Start + C.ProjectileTime) && (C.Action.Done == null)) {
+		if (C.Camera && (C.Health > 0) && !C.HalfBound && PlatformActionIs(C, "FireProjectile") && C.Action)
+			if ((PlatformTime >= C.Action.Start + (C.ProjectileTime ?? 0)) && (C.Action.Done == null)) {
 				PlatformProjectile(C, false);
 				C.Action.Done = true;
 			}
 
 		// AI walks from left to right, some can throw projectiles
 		if (!C.Camera && (C.Health > 0) && !C.Fix) {
-			if (PlatformActionIs(C, "FireProjectile")) {
-				if ((PlatformTime >= C.Action.Start + C.ProjectileTime) && (C.Action.Done == null)) {
+			if (PlatformActionIs(C, "FireProjectile") && C.Action) {
+				if ((PlatformTime >= C.Action.Start + (C.ProjectileTime ?? 0)) && (C.Action.Done == null)) {
 					PlatformProjectile(C, false);
 					C.Action.Done = true;
 				}
@@ -2960,18 +2983,18 @@ function PlatformDrawGame() {
 					if (C.X <= ((PlatformRoom.LimitLeft != null) ? PlatformRoom.LimitLeft + 50 : 100)) {
 						C.FaceLeft = false;
 						C.ForceX = 0;
-					} else C.ForceX = C.ForceX - PlatformWalkFrame(C.Run ? C.RunSpeed : C.WalkSpeed, Frame);
+					} else C.ForceX = C.ForceX - PlatformWalkFrame((C.Run ? C.RunSpeed : C.WalkSpeed) ?? 0, Frame);
 				} else {
-					if (C.X >= ((PlatformRoom.LimitRight != null) ? PlatformRoom.LimitRight - 50 : PlatformRoom.Width - 100)) {
+					if (C.X >= ((PlatformRoom.LimitRight != null) ? PlatformRoom.LimitRight - 50 : (PlatformRoom.Width ?? 0) - 100)) {
 						C.FaceLeft = true;
 						C.ForceX = 0;
-					} else C.ForceX = C.ForceX + PlatformWalkFrame(C.Run ? C.RunSpeed : C.WalkSpeed, Frame);
+					} else C.ForceX = C.ForceX + PlatformWalkFrame((C.Run ? C.RunSpeed : C.WalkSpeed) ?? 0, Frame);
 				}
 				if ((C.JumpOdds != null) && (C.JumpOdds > 0) && (Math.random() < C.JumpOdds * Frame) && (C.Y == PlatformFloor) && (C.NextJump <= PlatformTime) && !PlatformActionIs(C, "Any"))
-					C.ForceY = (C.JumpForce + Math.random() * C.JumpForce) * -0.5;
+					C.ForceY = ((C.JumpForce ?? 0) + Math.random() * (C.JumpForce ?? 0)) * -0.5;
 				if ((C.RunOdds != null) && (C.RunOdds > 0) && (Math.random() < C.RunOdds * Frame) && ((C.Y == PlatformFloor) || (C.FlyingHeight != null)))
 					C.Run = !C.Run;
-				if (C.RunOdds >= 1)
+				if ((C.RunOdds ?? 0) >= 1)
 					C.Run = true;
 				if ((C.StandAttackSlowOdds != null) && (C.StandAttackSlowOdds > 0) && (Math.random() < C.StandAttackSlowOdds * Frame))
 					PlatformAttack(C, "StandAttackSlow");
@@ -2988,7 +3011,7 @@ function PlatformDrawGame() {
 				for (let Target of PlatformChar)
 					if (Target.ID == C.Action.Target)
 						PlatformBindTarget(C, Target);
-				C.Action = null;
+				C.Action = undefined;
 			}
 		}
 
@@ -2996,7 +3019,7 @@ function PlatformDrawGame() {
 		C.X = C.X + ((C.ProjectileForce != null) ? C.ProjectileForce : C.ForceX) * Frame / 16.6667;
 		if (C.X < 100) C.X = 100;
 		if ((PlatformRoom.LimitLeft != null) && (C.X < PlatformRoom.LimitLeft) && !C.Fix) C.X = PlatformRoom.LimitLeft;
-		if (C.X > PlatformRoom.Width - 100) C.X = PlatformRoom.Width - 100;
+		if (C.X > (PlatformRoom.Width ?? 0) - 100) C.X = (PlatformRoom.Width ?? 0) - 100;
 		if ((PlatformRoom.LimitRight != null) && (C.X > PlatformRoom.LimitRight) && !C.Fix) C.X = PlatformRoom.LimitRight;
 		if (C.FlyingHeight == null) C.Y = C.Y + C.ForceY * ((C.Gravity != null) ? C.Gravity : 1) * Frame / 16.6667;
 		else {
@@ -3024,10 +3047,10 @@ function PlatformDrawGame() {
 		else if ((C.Health <= 0) && C.Bound) C.Anim = PlatformGetAnim(C, "Bound");
 		else if (C.Health <= 0 && C.HalfBound) C.Anim = PlatformGetAnim(C, "HalfBoundWounded");
 		else if (C.Health <= 0) C.Anim = PlatformGetAnim(C, "Wounded");
-		else if ((C.ProjectileAim != null) && (PlatformTime - C.ProjectileAim < C.ProjectileTime)) C.Anim = PlatformGetAnim(C, "Aim");
-		else if ((C.ProjectileAim != null) && (PlatformTime - C.ProjectileAim < C.ProjectileTime * 2)) C.Anim = PlatformGetAnim(C, "AimReady");
+		else if ((C.ProjectileAim != null) && (PlatformTime - C.ProjectileAim < (C.ProjectileTime ?? 0))) C.Anim = PlatformGetAnim(C, "Aim");
+		else if ((C.ProjectileAim != null) && (PlatformTime - C.ProjectileAim < (C.ProjectileTime ?? 0) * 2)) C.Anim = PlatformGetAnim(C, "AimReady");
 		else if (C.ProjectileAim != null) C.Anim = PlatformGetAnim(C, "AimFull");
-		else if (PlatformActionIs(C, "Any")) C.Anim = PlatformGetAnim(C, C.Action.Name, false);
+		else if (PlatformActionIs(C, "Any") && C.Action) C.Anim = PlatformGetAnim(C, C.Action.Name, false);
 		else if ((C.Y != PlatformFloor) && (C.FlyingHeight == null) && C.HalfBound) C.Anim = PlatformGetAnim(C, "HalfBoundJump");
 		else if ((C.Y != PlatformFloor) && (C.FlyingHeight == null)) C.Anim = PlatformGetAnim(C, "Jump");
 		else if ((C.ForceX != 0) && Crouch) C.Anim = PlatformGetAnim(C, "Crawl");
@@ -3076,18 +3099,18 @@ function PlatformDrawGame() {
 	PlatformProcessProjectile(PlatformTime);
 
 	// Draws the up arrow
-	if (PlatformDrawUpArrow[0] != null || PlatformDrawUpArrow[1] != null)
+	if (PlatformDrawUpArrow !== null)
 		DrawImage("Screens/Room/Platform/Icon/UpArrow.png", PlatformDrawUpArrow[0] - PlatformViewX - 43, 177);
 
 	// Draws the left arrow
 	if ((PlatformRoom.LimitLeft == null) && (PlatformViewX == 0))
-		for (let Door of PlatformRoom.Door)
+		for (let Door of PlatformRoom.Door ?? [])
 			if (Door.FromType == "Left")
 				DrawImage("Screens/Room/Platform/Icon/LeftArrow.png", 14, 177);
 
 	// Draws the right arrow
-	if ((PlatformRoom.LimitRight == null) && (PlatformViewX == PlatformRoom.Width - 2000))
-		for (let Door of PlatformRoom.Door)
+	if ((PlatformRoom.LimitRight == null) && (PlatformViewX == (PlatformRoom.Width ?? 0) - 2000))
+		for (let Door of PlatformRoom.Door ?? [])
 			if (Door.FromType == "Right")
 				DrawImage("Screens/Room/Platform/Icon/RightArrow.png", 1900, 177);
 
@@ -3122,7 +3145,7 @@ function PlatformDrawGame() {
 		// Plays the idle speech if the timer is out
 		if (PlatformTime > PlatformPlayerIdleTimer) {
 			PlatformPlayerIdleTimer = null;
-			PlatformPlayerIdleLast = CommonRandomItemFromList(PlatformPlayerIdleLast, PlatformPlayer.IdleAudio);
+			PlatformPlayerIdleLast = CommonRandomItemFromList(PlatformPlayerIdleLast, PlatformPlayer.IdleAudio ?? []);
 			PlatformSoundEffect("Idle", PlatformPlayerIdleLast, 1);
 		}
 
@@ -3143,7 +3166,7 @@ function PlatformDrawRightButtons() {
 	PlatformRightButtons = [];
 	let C1 = null;
 	let C2 = null;
-	if (PlatformPlayer.Name == "Melody") {
+	if (PlatformPlayer?.Name == "Melody") {
 		C1 = PlatformDialogGetCharacter(PlatformPlayer.Name);
 		for (let Char of PlatformChar)
 			if ((Char.Dialog != null) && (Math.abs(PlatformPlayer.X - Char.X) <= 150) && (Math.abs(PlatformPlayer.Y - Char.Y) <= 450))
@@ -3151,7 +3174,7 @@ function PlatformDrawRightButtons() {
 	} else {
 		C2 = PlatformDialogGetCharacter(PlatformPlayer.Name);
 		for (let Char of PlatformChar)
-			if ((Char.Dialog != null) && (Math.abs(PlatformPlayer.X - Char.X) <= 150) && (Math.abs(PlatformPlayer.Y - Char.Y) <= 450))
+			if ((Char.Dialog != null) && (Math.abs((PlatformPlayer?.X ?? 0) - Char.X) <= 150) && (Math.abs((PlatformPlayer?.Y ?? 0) - Char.Y) <= 450))
 				C1 = PlatformDialogGetCharacter(Char.Name);
 	}
 
@@ -3159,11 +3182,11 @@ function PlatformDrawRightButtons() {
 	if ((C1 == null) || (C2 == null)) return;
 	if (C1.Name != "Melody") return;
 	if ((PlatformInventory != null) && (PlatformInventory.length > 0)) PlatformRightButtons.push("Gift");
-	if ((C2.Love >= 20) && ((C1.LoverName == null) || (C1.LoverName == ""))&& ((C2.LoverName == null) || (C2.LoverName == ""))) PlatformRightButtons.push(C2.Name + "Lover1Start");
+	if (((C2.Love ?? 0) >= 20) && ((C1.LoverName == null) || (C1.LoverName == ""))&& ((C2.LoverName == null) || (C2.LoverName == ""))) PlatformRightButtons.push(C2.Name + "Lover1Start");
 	if ((C2.LoverName != null) && (C2.LoverName == C1.Name)) PlatformRightButtons.push(C2.Name + "Lover1End");
-	if ((C2.Domination >= 20) && ((C2.OwnerName == null) || (C2.OwnerName == ""))) PlatformRightButtons.push(C2.Name + "Domination1Start");
+	if (((C2.Domination ?? 0) >= 20) && ((C2.OwnerName == null) || (C2.OwnerName == ""))) PlatformRightButtons.push(C2.Name + "Domination1Start");
 	if ((C2.OwnerName != null) && (C2.OwnerName == C1.Name)) PlatformRightButtons.push(C2.Name + "Domination1End");
-	if ((C2.Domination <= -20) && ((C1.OwnerName == null) || (C1.OwnerName == ""))) PlatformRightButtons.push(C2.Name + "Submission1Start");
+	if (((C2.Domination ?? 0) <= -20) && ((C1.OwnerName == null) || (C1.OwnerName == ""))) PlatformRightButtons.push(C2.Name + "Submission1Start");
 	if ((C1.OwnerName != null) && (C1.OwnerName == C2.Name)) PlatformRightButtons.push(C2.Name + "Submission1End");
 	PlatformFocusCharacter = C2;
 
@@ -3178,7 +3201,7 @@ function PlatformDrawRightButtons() {
 
 /**
  * Plays the dialog ambient music
- * @param {string} Music - The URL of the music to play
+ * @param {string | null} Music - The URL of the music to play
  * @returns {void} - Nothing
  */
 function PlatformBackgroundMusic(Music) {
@@ -3193,19 +3216,19 @@ function PlatformBackgroundMusic(Music) {
 	// If volume is more than zero, we start the background music at lower volume
 	const vol = ((Player.AudioSettings == null) || (Player.AudioSettings.MusicVolume == null)) ? 100 : Player.AudioSettings.MusicVolume;
 	if (vol > 0) {
-		if (PlatformMusic == null) PlatformMusic = new Audio();
+		const music = (PlatformMusic ??= new Audio());
 		let FileName = "Screens/Room/Platform/Audio/Background/" + Music + ".mp3";
-		if ((PlatformMusic.src == null) || (PlatformMusic.src.indexOf(FileName) < 0)) {
-			PlatformMusic.currentTime = 0;
-			PlatformMusic.src = FileName;
-			PlatformMusic.volume = Math.min(vol, 1) * 0.125;
-			PlatformMusic.play();
-			PlatformMusic.addEventListener('ended', function() {
-				PlatformMusic.currentTime = 0;
-				PlatformMusic.play();
+		if ((music.src == null) || (music.src.indexOf(FileName) < 0)) {
+			music.currentTime = 0;
+			music.src = FileName;
+			music.volume = Math.min(vol, 1) * 0.125;
+			CommonPromiseCatch(music.play());
+			music.addEventListener('ended', function() {
+				music.currentTime = 0;
+				CommonPromiseCatch(music.play());
 			}, false);
 		}
-		if (PlatformMusic.paused) PlatformMusic.play();
+		if (music.paused) CommonPromiseCatch(music.play());
 	}
 
 }
@@ -3275,18 +3298,18 @@ function PlatformAttack(Source, Type) {
 				if ((Attack.JumpForce != null) && (Source.ForceY == 0)) Source.ForceY = Attack.JumpForce * -1;
 				if ((Attack.Cooldown != null) && (Attack.Cooldown > 0) && PlatformCooldownActive(Type)) return;
 				if ((Attack.Magic != null) && (Attack.Magic > 0)) {
-					if ((PlatformPlayer.Magic == null) || (PlatformPlayer.Magic < Attack.Magic)) return;
+					if ((PlatformPlayer?.Magic == null) || (PlatformPlayer.Magic < Attack.Magic)) return;
 					PlatformPlayer.Magic = PlatformPlayer.Magic - Attack.Magic;
 				}
 				if ((Attack.Cooldown != null) && (Attack.Cooldown > 0)) {
 					let Time = Attack.Cooldown;
-					if ((Type == "Scream") && (PlatformHasPerk(PlatformPlayer, "Howl"))) Time = Time - 1000;
+					if ((Type == "Scream") && PlatformPlayer && (PlatformHasPerk(PlatformPlayer, "Howl"))) Time = Time - 1000;
 					if (Type == "Scream") PlatformTimedScreenFilter = { End: CommonTime() + 1000, Filter: "#00000060" };
 					PlatformCooldown.push({Type: Attack.Name, Time: CommonTime() + Time, Delay: Time});
 				}
 				if (Type == "Backflip") Source.ForceX = (Source.FaceLeft ? 1 : -1) * (PlatformHasPerk(Source, "Acrobat") ? 180 : 120);
 				Source.Action = { Name: Type, Start: CommonTime(), Expire: CommonTime() + Attack.Speed };
-				PlatformSoundEffect("Attack", Attack.StartAudio);
+				PlatformSoundEffect("Attack", Attack.StartAudio ?? []);
 			}
 }
 
@@ -3361,7 +3384,7 @@ function PlatformClick() {
 				PlatformGiftMode = false;
 				return;
 			}
-	if (!CommonIsMobile && !PlatformPlayer.HalfBound) PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackFast" : "StandAttackFast");
+	if (!CommonIsMobile && PlatformPlayer && !PlatformPlayer?.HalfBound) PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackFast" : "StandAttackFast");
 }
 
 /**
@@ -3379,7 +3402,8 @@ function PlatformLeave() {
  * @returns {void} - Nothing
  */
 function PlatformEnterRoom(FromType) {
-	PlatformDrawUpArrow = [null,null];
+	if (!PlatformPlayer) return;
+	PlatformDrawUpArrow = null;
 	if ((PlatformRoom == null) || (PlatformRoom.Door == null)) return;
 	for (let Door of PlatformRoom.Door)
 		if ((PlatformPlayer.X >= Door.FromX) && (PlatformPlayer.X <= Door.FromX + Door.FromW) && (PlatformPlayer.Y >= Door.FromY) && (PlatformPlayer.Y <= Door.FromY + Door.FromH) && ("Up" === Door.FromType)) {
@@ -3390,7 +3414,7 @@ function PlatformEnterRoom(FromType) {
 			PlatformLoadRoom(Door.Name);
 			PlatformPlayer.Run = false;
 			PlatformPlayer.X = Door.ToX;
-			PlatformPlayer.FaceLeft = Door.ToFaceLeft;
+			PlatformPlayer.FaceLeft = Door.ToFaceLeft ?? false;
 			return;
 		}
 	if (FromType == "Up") {
@@ -3413,8 +3437,8 @@ function PlatformBindStart(Source) {
 		if ((Source.ID != C.ID) && (C.Bound == null) && (C.Status != "Bound") && (C.Health == 0) && (Math.abs(Source.X - C.X + (Source.FaceLeft ? -75 : 75)) < 150) && (Math.abs(Source.Y - C.Y) < 150) && (Source.Y == PlatformFloor)) {
 			C.RiseTime = CommonTime() + 10000;
 			Source.ForceX = 0;
-			Source.Action = { Name: "Bind", Target: C.ID, Start: CommonTime(), Expire: CommonTime() + (PlatformHasPerk(PlatformPlayer, "Rigger") ? 1200 : 2400)};
-			PlatformSoundEffect("Bind", Source.BindAudio, 1);
+			Source.Action = { Name: "Bind", Target: C.ID, Start: CommonTime(), Expire: CommonTime() + (!!PlatformPlayer && (PlatformHasPerk(PlatformPlayer, "Rigger")) ? 1200 : 2400)};
+			PlatformSoundEffect("Bind", Source.BindAudio ?? [], 1);
 			return;
 		}
 }
@@ -3428,12 +3452,12 @@ function PlatformSaveGame(Slot) {
 	PlatformPartySave();
 	PlatformSaveMode = false;
 	let SaveDialog = [];
-	for (let Char of PlatformDialogCharacter)
+	for (let Char of PlatformDialogCharacter ?? [])
 		if ((Char.Love != null) || (Char.Domination != null) || (Char.LoverName != null) || (Char.LoverLevel != null) || (Char.OwnerName != null) || (Char.OwnerLevel != null))
 			SaveDialog.push({ Name: Char.Name, Love: Char.Love, Domination: Char.Domination, LoverName: Char.LoverName, LoverLevel: Char.LoverLevel, OwnerName: Char.OwnerName, OwnerLevel: Char.OwnerLevel });
 	let SaveObj = {
-		Character: PlatformPlayer.Name,
-		Status: PlatformPlayer.Status,
+		Character: PlatformPlayer?.Name,
+		Status: PlatformPlayer?.Status,
 		Party: PlatformParty,
 		Room: PlatformRoom.Name,
 		Event: PlatformEvent,
@@ -3487,7 +3511,7 @@ function PlatformLoadGame(Slot) {
 	// Gets the saved JSON object and make sure it's valid
 	let LoadStr = localStorage.getItem("BondageBrawlSave" + Slot.toString());
 	if (LoadStr == null) return;
-	let LoadObj = JSON.parse(LoadStr);
+	let LoadObj = /** @type {Platform.SaveData} */ (JSON.parse(LoadStr));
 	if (
 		!CommonIsObject(LoadObj)
 		|| LoadObj.Character == null
@@ -3536,7 +3560,7 @@ function PlatformLoadGame(Slot) {
 
 	// Loads the current room and launches it
 	PlatformLoadRoom(LoadObj.Room);
-	PlatformPlayer.X = Math.round(PlatformRoom.Width / 2);
+	if (PlatformPlayer) PlatformPlayer.X = Math.round((PlatformRoom.Width ?? 0) / 2);
 	CommonSetScreen("Room", "Platform");
 
 }
@@ -3584,10 +3608,11 @@ function PlatformCastHeal(C) {
  * @returns {void} - Nothing
  */
 function PlatformEventKeyDown(Code) {
+	if (!PlatformPlayer) return;
 	PlatformPlayer.Run = ((Code == PlatformLastKeyCode) && (CommonTime() <= PlatformLastKeyTime + 333) && (["KeyA", "KeyD"].indexOf(Code) >= 0) && (PlatformKeys.indexOf(Code) < 0)) || ((Code == PlatformLastKeyCode) && PlatformPlayer.Run && (PlatformKeys.indexOf(Code) >= 0));
 	if (PlatformPlayer.Health <= 0) return;
-	if (PlatformActionIs(PlatformPlayer, "Bind")) PlatformPlayer.Action = null;
-	if (Code == "Space") PlatformPlayer.Action = null;
+	if (PlatformActionIs(PlatformPlayer, "Bind")) PlatformPlayer.Action = undefined;
+	if (Code == "Space") PlatformPlayer.Action = undefined;
 	if (Code == "KeyW") return PlatformEnterRoom("Up");
 	if ((Code == "KeyS") && PlatformPlayer.HalfBound) return;
 	if ((Code == "KeyI") && !PlatformPlayer.HalfBound && PlatformHasPerk(PlatformPlayer, "Teleport")) return PlatformCastTeleport(PlatformPlayer);
@@ -3598,7 +3623,7 @@ function PlatformEventKeyDown(Code) {
 	if ((Code == "KeyK") && !PlatformPlayer.HalfBound && !PlatformMoveActive("Crouch") && PlatformHasPerk(PlatformPlayer, "Apprentice")) return PlatformAttack(PlatformPlayer, "Scream");
 	if ((Code == "KeyK") && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "StandAttackSlow")) return PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackSlow" : "StandAttackSlow");
 	if ((Code == "KeyI") && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "Uppercut")) return PlatformAttack(PlatformPlayer, "Uppercut");
-	if ((Code == "KeyI") && !PlatformPlayer.HalfBound && (PlatformPlayer.Name == "Lyn") && (PlatformPlayer.Projectile > 0)) return PlatformAttack(PlatformPlayer, "FireProjectile");
+	if ((Code == "KeyI") && !PlatformPlayer.HalfBound && (PlatformPlayer.Name == "Lyn") && ((PlatformPlayer.Projectile ?? 0) > 0)) return PlatformAttack(PlatformPlayer, "FireProjectile");
 	if ((Code == "KeyO") && (PlatformHeal != null)) return PlatformPartyNext();
 	if ((Code == "KeyO") && (PlatformHeal == null)) return PlatformBindStart(PlatformPlayer);
 	if ((PlatformRoom.Heal != null) && (Code >= "Digit0") && (Code <= "Digit9")) return PlatformSaveGame(parseInt(Code.substring(5)));
@@ -3639,12 +3664,13 @@ function PlatformKeyUp(e) {
  * @returns {boolean} - Always TRUE to indicate that the controller is handled
  */
 function PlatformController(buttons) {
+	if (!PlatformPlayer) return true;
 
 	// If we just came back for the dialog screen, we skip the controller inputs
 	if (PlatformDialogControllerHandle) {
 		PlatformButtons = buttons;
 		PlatformDialogControllerHandle = false;
-		return false;
+		return true;
 	}
 
 	// Stops any binding if buttons have changed
@@ -3656,7 +3682,7 @@ function PlatformController(buttons) {
 			|| buttons[ControllerButton.DPadL]?.pressed
 			|| buttons[ControllerButton.DPadR]?.pressed
 			|| buttons[ControllerButton.TriggerR]?.pressed)
-			PlatformPlayer.Action = null;
+			PlatformPlayer.Action = undefined;
 	}
 
 	// Double-tap management to run left

@@ -36,7 +36,7 @@ function OnlineGameDictionaryText(KeyWord) {
 
 /**
  * Catches the character click from chat rooms and make sure the online game doesn't need to handle them
- * @param {Character} C - Character that has been clicked on
+ * @param {OnlineCharacter} C - Character that has been clicked on
  * @returns {boolean} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
  */
 function OnlineGameClickCharacter(C) {

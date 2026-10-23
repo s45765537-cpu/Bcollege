@@ -1,4 +1,4 @@
-// @ts-strict-ignore
+// @ts-check
 "use strict";
 
 let KDDoorKnobChance = 0.1; // Chance to open door with mitts and arms bound

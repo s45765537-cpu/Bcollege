@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -6,7 +5,8 @@
  * @returns {number} - The number of perks
  */
 function PlatformProfileGetFreePerk() {
-	return PlatformPlayer.Level - PlatformPlayer.Perk.split("1").length + 1;
+	if (!PlatformPlayer) return 0;
+	return PlatformPlayer.Level - (PlatformPlayer.Perk?.split("1").length ?? 0) + 1;
 }
 
 /**
@@ -43,6 +43,7 @@ async function PlatformProfileLoad() {
  */
 function PlatformProfileDrawPerkButton(X, Y, PerkNum, Prerequisite1, Prerequisite2) {
 	let Color = "White";
+	if (!PlatformPlayer) return;
 	if (PlatformHasPerk(PlatformPlayer, PlatformPlayer.PerkName[PerkNum])) Color = "#AAFFAA";
 	if ((Prerequisite1 != null) && !PlatformHasPerk(PlatformPlayer, Prerequisite1)) Color = "#FFAAAA";
 	if ((Prerequisite2 != null) && !PlatformHasPerk(PlatformPlayer, Prerequisite2)) Color = "#FFAAAA";
@@ -76,13 +77,17 @@ function PlatformGetLoverBonus(PlatformChar) {
  * @returns {void} - Nothing
  */
 function PlatformProfileRun() {
+	if (!PlatformPlayer) return;
+	const dialogPlayer = PlatformDialogGetCharacter(PlatformPlayer.Name);
+	if (!dialogPlayer) return;
+
 	DrawRect(0, 0, 2000, 1000, "#EEEEEE");
 	DrawImageResize("Screens/Room/PlatformDialog/Character/" + PlatformPlayer.Name + "/" + PlatformPlayer.Status + "/Idle.png", -50, 0, 500, 1000);
 	DrawText(TextGet("Name") + " " + PlatformPlayer.Name, 700, 50, "Black", "Silver");
 	DrawText(TextGet("Class") + " " + PlatformPlayer.Status, 700, 100, "Black", "Silver");
 	DrawText(TextGet("Age" + PlatformPlayer.Name), 700, 150, "Black", "Silver");
-	DrawText(TextGet("Owner" + ((PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerLevel == null) ? "0" : PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerLevel.toString())) + " " + (((PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerName == null) || (PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerName == "")) ? TextGet("None") : PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerName), 700, 200, "Black", "Silver");
-	DrawText(TextGet("Lover" + ((PlatformDialogGetCharacter(PlatformPlayer.Name).LoverLevel == null) ? "0" : PlatformDialogGetCharacter(PlatformPlayer.Name).LoverLevel.toString())) + " " + (((PlatformDialogGetCharacter(PlatformPlayer.Name).LoverName == null) || (PlatformDialogGetCharacter(PlatformPlayer.Name).LoverName == "")) ? TextGet("None") : PlatformDialogGetCharacter(PlatformPlayer.Name).LoverName), 700, 300, "Black", "Silver");
+	DrawText(TextGet("Owner" + ((dialogPlayer.OwnerLevel == null) ? "0" : dialogPlayer.OwnerLevel.toString())) + " " + (((dialogPlayer.OwnerName == null) || (dialogPlayer.OwnerName == "")) ? TextGet("None") : dialogPlayer.OwnerName), 700, 200, "Black", "Silver");
+	DrawText(TextGet("Lover" + ((dialogPlayer.LoverLevel == null) ? "0" : dialogPlayer.LoverLevel.toString())) + " " + (((dialogPlayer.LoverName == null) || (dialogPlayer.LoverName == "")) ? TextGet("None") : dialogPlayer.LoverName), 700, 300, "Black", "Silver");
 	MainCanvas.font = "italic " + CommonGetFont(30);
 	DrawText(PlatformGetOwnerBonus(PlatformPlayer), 700, 250, "Black", "Silver");
 	DrawText(PlatformGetLoverBonus(PlatformPlayer), 700, 350, "Black", "Silver");
@@ -90,7 +95,7 @@ function PlatformProfileRun() {
 	DrawText(TextGet("Health") + " " + PlatformPlayer.MaxHealth.toString(), 700, 400, "Black", "Silver");
 	DrawText(TextGet("Level") + " " + PlatformPlayer.Level.toString() + " (" + (PlatformPlayer.Level >= 10 ? 0 : Math.floor(PlatformPlayer.Experience / PlatformExperienceForLevel[PlatformPlayer.Level] * 100)).toString() + "%)", 700, 450, "Black", "Silver");
 	DrawText(TextGet("Perks") + " " + PlatformProfileGetFreePerk().toString(), 700, 500, "Black", "Silver");
-	DrawTextWrap(TextGet("Intro" + PlatformPlayer.Name), 420, 520, 600, 480, "Black", null, 9);
+	DrawTextWrap(TextGet("Intro" + PlatformPlayer.Name), 420, 520, 600, 480, "Black", undefined, 9);
 	if (PlatformPlayer.Name == "Melody") {
 		PlatformProfileDrawArrow(1150, 50, 1250, 150);
 		PlatformProfileDrawArrow(1150, 50, 1250, 250);
@@ -175,7 +180,7 @@ function PlatformProfileRun() {
  * @returns {void} - Nothing
  */
 function PlatformProfileBuyPerk(PerkNum) {
-	if (PlatformProfileGetFreePerk() <= 0) return;
+	if (!PlatformPlayer || PlatformProfileGetFreePerk() <= 0) return;
 	if (PlatformHasPerk(PlatformPlayer, PlatformPlayer.PerkName[PerkNum])) return;
 	PlatformPlayer.Perk = PlatformPlayer.Perk.substring(0, PerkNum) + "1" + PlatformPlayer.Perk.substring(PerkNum + 1);
 	PlatformSetHealth(PlatformPlayer);
@@ -190,6 +195,7 @@ function PlatformProfileBuyPerk(PerkNum) {
  * @returns {void} - Nothing
  */
 function PlatformProfileResetPerk() {
+	if (!PlatformPlayer) return;
 	PlatformPlayer.Perk = PlatformHasPerk(PlatformPlayer, "Apprentice") ? "1000000000" : "0000000000";
 	PlatformSetHealth(PlatformPlayer);
 }
@@ -199,6 +205,7 @@ function PlatformProfileResetPerk() {
  * @returns {void} - Nothing
  */
 function PlatformProfileClick() {
+	if (!PlatformPlayer) return;
 	if (MouseIn(1700, 10, 90, 90) && (PlatformHeal != null) && (PlatformParty.length >= 2)) return PlatformPartyNext();
 	if (MouseIn(1800, 10, 90, 90)) return PlatformProfileResetPerk();
 	if (MouseIn(1900, 10, 90, 90)) return PlatformProfileExit();
