@@ -73,7 +73,7 @@ function TestingValidateDefaultColor() {
 	/** @type {TestingStruct<string[]>[]} */
 	const ret = [];
 	for (const asset of Asset) {
-		const invalid = asset.DefaultColor.filter(i => !(validColorNonhex.has(i) || CommonIsColor(i)));
+		const invalid = asset.Layer.flatMap(layer => layer.Color).filter(i => !(validColorNonhex.has(i) || CommonIsColor(i)));
 		if (invalid.length) {
 			ret.push({ Group: asset.Group.Name, Name: asset.Name, Invalid: invalid });
 		}

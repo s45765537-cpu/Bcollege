@@ -1153,11 +1153,6 @@ interface AssetGroup {
 	readonly AllowCustomize: boolean;
 	readonly Random?: boolean;
 	readonly ColorSchema: readonly BCColor[];
-	/**
-	 * The first color in the groups {@link ColorSchema}.
-	 * The value is used for padding the {@link Asset.DefaultColor} array if required.
-	 */
-	readonly DefaultColor: BCColor;
 	readonly ParentSize: AssetGroupName | "";
 	readonly ParentColor: AssetGroupName | "";
 	readonly Clothing: boolean;
@@ -1286,7 +1281,16 @@ interface AssetLayer {
 	readonly TextureMask?: AssetLayerMaskTexureDefinition;
 	readonly LockLayer: boolean;
 	readonly MirrorExpression?: AssetGroupName;
-	/** The coloring index for this layer */
+	/**
+	 * Preset colors for this layer.
+	 *
+	 * The first entry is the layer's default color. Further entries are reserved for a future extension of
+	 * layer color cycling and palette selection for randomized appearance.
+	 * Colorable layers always have at least one entry, and layers that copy another layer's colors share this list.
+	 * Non-colorable layers get an empty list.
+	 */
+	readonly Color: readonly BCColor[];
+	/** The coloring index for this layer, into {@link Item.Color} and {@link Asset.DefaultColor} */
 	readonly ColorIndex: number;
 	/**
 	 * Any group-specific alpha masks that should be applied when drawing the layer.
@@ -1429,7 +1433,9 @@ interface Asset {
 	readonly AllowHideItem?: readonly AssetFullName[];
 	readonly AllowTighten: boolean;
 	/**
-	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of {@link AssetGroup.DefaultColor} and/or valid color hex codes.
+	 * The default color of the item.
+	 *
+	 * An array of length {@link Asset.ColorableLayerCount}, containing the first color of each layer's color schema, in {@link AssetLayer.ColorIndex} order.
 	 */
 	readonly DefaultColor: readonly BCColor[];
 	readonly EditOpacity: boolean;
@@ -1468,7 +1474,7 @@ interface Asset {
 	readonly MirrorExpression?: AssetGroupName;
 	readonly FixedPosition: boolean;
 	readonly Layer: readonly AssetLayer[];
-	/** The number of colorable layers. Guaranteed to be >= 1 */
+	/** The number of color slots. `0` when the asset has no colorable layer. */
 	readonly ColorableLayerCount: number;
 	readonly Archetype?: ExtendedArchetype;
 	readonly Attribute: readonly AssetAttribute[];
