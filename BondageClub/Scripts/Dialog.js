@@ -555,7 +555,7 @@ function DialogPrerequisite(dialog) {
 		const [, neg, target, method] = match;
 		const obj = target === "Player" ? Player : CurrentCharacter;
 		// eslint-disable-next-line jsdoc/valid-types
-		const booleanMethod = /** @type {keyof { [k in keyof Character as Character[k] extends () => boolean ? k : never]: Character[k] }} */(method);
+		const booleanMethod = /** @type {keyof { [k in keyof Character as Character[k] extends () => unknown ? k : never]: Character[k] }} */(method);
 		const fn = obj?.[booleanMethod];
 
 		if (typeof fn !== "function") {
@@ -567,7 +567,7 @@ function DialogPrerequisite(dialog) {
 		}
 
 		const result = fn();
-		return neg ? !result : result;
+		return neg ? !result : !!result;
 	}
 
 	if (prereq.indexOf("(") > 0) {
@@ -589,7 +589,7 @@ function DialogPrerequisite(dialog) {
 	const namespace = /** @type {Record<string, unknown>} */ (/** @type {unknown} */ (window));
 	if (globalKey in namespace) {
 		const value = !!namespace[globalKey];
-		return negated ? !value : value;
+		return negated ? !value : !!value;
 	}
 
 	console.error(
