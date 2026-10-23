@@ -5493,6 +5493,8 @@ interface ChatRoomMapDoodad {
 	Name?: string;
 	/** On load, this doodad is replaced by another doodad with this id */
 	DeprecatedID?: number;
+	/** Palette image name. Only shown in the editor. */
+	PaletteImage?: string;
 }
 
 /** {@link MapDoodadIsPhysicalElement}  */

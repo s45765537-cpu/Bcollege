@@ -677,13 +677,13 @@ function ChatRoomMapViewCreateMapElementItem(item, updateRecent=true, readOnly=f
 	let rotation = 0;
 	if (MapDoodadIsObject(item)) {
 		type = "Object";
-		imageUrl = item.Type === "EmptySpace" ? null : MapGetDoodadAssetUrl(item);
+		imageUrl = MapGetAssetUrl("Object", item.Type, item.PaletteImage ?? item.Style);
 		if (item.Rotation != null) rotation = item.Rotation;
 		if ((item.AssetName != null) && (item.AssetGroup != null) && !InventoryAvailable(Player, item.AssetName, item.AssetGroup)) isOwned = false;
 	} else if (MapDoodadIsTile(item)) {
 		type = "Tile";
 		if (item.Rotation != null) rotation = item.Rotation;
-		imageUrl = MapGetDoodadAssetUrl(item);
+		imageUrl = MapGetAssetUrl("Tile", item.Type, item.PaletteImage ?? item.Style);
 	} else if (MapDoodadIsEffect(item)) {
 		type = "Effect";
 		buttonStyle.Background = RgbaArrayToHTMLColor(item.Color);
@@ -691,13 +691,16 @@ function ChatRoomMapViewCreateMapElementItem(item, updateRecent=true, readOnly=f
 	} else {
 		console.warn("Unknown map element type: " + JSON.stringify(item));
 	}
+	const classList = ["element-button-group-button", "chat-room-map-view-item-button"];
+	const selected = ChatRoomMapViewEditObject?.ID === item.ID && ChatRoomMapViewEditObject.Type === item.Type;
+	if (selected) classList.push("chat-room-map-view-item-selected");
 	const element = ElementButton.Create(null, function () {
 		ChatRoomMapViewSetSelection(item, type, updateRecent);
 	}, {
 		image: imageUrl?.endsWith("/Blank.png") != false ? undefined : imageUrl,
 	}, {
 		button: {
-			classList: ["element-button-group-button", "chat-room-map-view-item-button", ...(ChatRoomMapViewEditObject?.ID === item.ID && ChatRoomMapViewEditObject.Type === item.Type) ? ["chat-room-map-view-item-selected"] : []],
+			classList,
 			style: buttonStyle,
 			attributes: {
 				role: "radio",
@@ -705,7 +708,7 @@ function ChatRoomMapViewCreateMapElementItem(item, updateRecent=true, readOnly=f
 				"aria-hidden": readOnly ? "true" : undefined,
 				value: `${type}-${item.Type}-${item.ID}`,
 				tabindex: "-1",
-				"aria-checked": "false",
+				"aria-checked": selected ? "true" : "false",
 				"readonly": readOnly ? "true" : undefined
 			},
 		}
@@ -1065,6 +1068,40 @@ function ChatRoomMapViewGetObjectAtPos(x, y) {
 }
 
 /**
+ * True when the player cannot stand on this object right now.
+ * @param {ChatRoomMapObject} object
+ * @returns {boolean}
+ */
+function ChatRoomMapViewObjectBlocksStanding(object) {
+	return !!object.CanEnter && object.CanEnter("") === false;
+}
+
+/**
+ * Draws a red X over a cell the player cannot stand on.
+ * @param {Rect} rect
+ * @returns {void}
+ */
+function ChatRoomMapViewDrawObstacleMark(rect) {
+	const insetX = rect.w * 0.18;
+	const insetY = rect.h * 0.18;
+	const x0 = rect.x + insetX;
+	const y0 = rect.y + insetY;
+	const x1 = rect.x + rect.w - insetX;
+	const y1 = rect.y + rect.h - insetY;
+	MainCanvas.save();
+	MainCanvas.beginPath();
+	MainCanvas.lineWidth = Math.max(2, Math.min(rect.w, rect.h) * 0.08);
+	MainCanvas.lineCap = "round";
+	MainCanvas.strokeStyle = "#e02020";
+	MainCanvas.moveTo(x0, y0);
+	MainCanvas.lineTo(x1, y1);
+	MainCanvas.moveTo(x1, y0);
+	MainCanvas.lineTo(x0, y1);
+	MainCanvas.stroke();
+	MainCanvas.restore();
+}
+
+/**
  * Returns TRUE if a given position cannot be entered
  * @param {number} X - The X position on the map
  * @param {number} Y - The Y position on the map
@@ -1407,6 +1444,10 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 				);
 				if (nearlyInvisible) DrawCircle(Left + ScreenX + TileWidth / 2, Top + ScreenY + TileHeight / 2, TileWidth * 0.47, 1.5, "#FFFFFF80");
 			}
+			// While placing empty space, show what currently blocks standing, including an impassable cell with no sprite
+			if (!Fog && ChatRoomMapViewEditMode === "Object" && ChatRoomMapViewEditSubMode === "EmptySpace" && ChatRoomMapViewObjectBlocksStanding(Obj)) {
+				ChatRoomMapViewDrawObstacleMark({ x: Left + ScreenX, y: Top + ScreenY, w: TileWidth, h: TileHeight });
+			}
 		}
 
 		const leftMousePos = Left + ScreenX - EditWidth;
@@ -1559,9 +1600,6 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 				if (ChatRoomMapViewTileFog[Pos] > 0)
 					DrawImageResize(MapGetAssetUrl("Tile", "Fog", "Half"), Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 		}
-
-
-
 
 	// Name tags to pick each character sharing a tile, hidden while editing since clicks place doodads then
 	ChatRoomMapViewNameTags = [];

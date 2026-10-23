@@ -521,7 +521,7 @@ const AssetsMapDataTiles = [
 /** @type {ChatRoomMapObject[]} */
 const AssetsMapDataObjects = [
 	{ ID: 100, Type: "EmptySpace", Style: "Passable", CanPlaceOnFloors: true, CanPlaceOnWalls: true, CanPlaceInWalls: true },
-	{ ID: 101, Type: "EmptySpace", Style: "Impassable", CanEnter: function() { return false; }, CanPlaceOnFloors: true, CanPlaceOnWalls: true, CanPlaceInWalls: true },
+	{ ID: 101, Type: "EmptySpace", Style: "Impassable", PaletteImage: "Impassable", CanEnter: function() { return false; }, CanPlaceOnFloors: true, CanPlaceOnWalls: true, CanPlaceInWalls: true },
 	{ ID: 200, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
 	{ ID: 211, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
 	{ ID: 249, Type: "EmptySpace", Style: "Passable", DeprecatedID: 100 },
