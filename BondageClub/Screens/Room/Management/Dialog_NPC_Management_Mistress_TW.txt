@@ -1054,8 +1054,8 @@ Miss, I wish to complete my contract.
 Very good, did you enjoy your experience?
 很好，你享受你的經歷嗎？
 ###_PLAYER
-(Bow your head and leave her.)
-（低下頭並離開她。）
+(Lower your gaze and leave her.)
+（垂下目光，離開她。）
 It was very kinky Miss.
 那非常的色，女士。
 ###_NPC

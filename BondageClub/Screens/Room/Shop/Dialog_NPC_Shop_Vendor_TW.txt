@@ -56,20 +56,12 @@ Greetings Mistress DialogPlayerName.  What are you looking for today?
 Welcome to the Bondage Club store.  How can I help you today?
 歡迎光臨束縛俱樂部商店。今天有什麼我能幫你的嗎？
 ###_PLAYER
-I'd like to buy something.
-我想買點什麼
+I'd like to browse the shop.
+我想要瀏覽商店商品。
 ###_NPC
 Of course! What are you looking for?
 當然！你想要什麼?
 ###_PLAYER
-I want to return something I bought.
-我想要退回一些我買過的東西
-###_NPC
-Sure! You can sell back anything for half of the original price. What kind of item is it?
-當然！你可以以原價的一半退回任何你購買的東西。是什麼類型的物品呢？
-###_PLAYER
-Can you show me everything that I don't have?
-你向我展示一下所有我沒有的東西嗎？
 What are you selling?
 你這裡都賣什麼？
 ###_NPC
@@ -183,154 +175,9 @@ Can I try again?
   恐怕你得先從這些拘束器裡出來你才能再試一遍
 Alright.  Let me find an item to promote.  (She checks on the shelves for an item to use on you.)
 好的。讓我找找該推銷哪個商品（她在貨架尋找要在你身上使用的物品）
-###_PLAYER
-Clothes and accessories.
-衣服和配飾
-###_NPC
-What kind of clothes?
-什麼類型的衣服？
-###_PLAYER
-Underwear.
-內衣
-###_NPC
-What kind of underwear?
-什麼類型的內衣
-###_PLAYER
-Exotic accessories.
-異域風情的配飾
-###_NPC
-What kind of accessories?
-什麼類型的配飾
-###_PLAYER
-Something for the head.
-戴在頭上的東西
-###_NPC
-For which body part exactly?
-具體來說是用在身體哪個部位的呢？
-###_PLAYER
-Something for the body or arms.
-某些裝在身上或者手臂上的東西
-Something for private parts or legs.
-某些裝在私處或者腿上的東西
-I've changed my mind.
-我改變我的主意了
-###_NPC
-Can I help you with anything else?
-還有什麼我能幫你的嗎？
-###_PLAYER
-Regular clothes or outfits.
-常規的衣服或連體衣
-Accesories to go with clothes.
-與衣服配套的配飾
-Suits.
-連體衣
-Pants or skirts.
-褲子或裙子
-Hats or head accessories.
-帽子或頭飾
-Glasses.
-眼鏡
-It's another type of clothes.
-其他類型的服飾
-###_NPC
-What kind is it?
-什麼種類的？
-###_PLAYER
-What else do you have?
-你還有別的什麼嗎？
-###_NPC
-We have many items available.
-我們有很多商品可供選擇
-###_PLAYER
-Actually it's something else.
-事實上，是別的什麼東西
-###_NPC
-What kind of item is it?
-它是什麼類型的商品
-###_PLAYER
-Masks.
-面具
-Necklaces.
-項鍊
-Gloves.
-眼鏡
-Shoes.
-鞋子
-Corsets.
-緊身胸衣
-Bracelets.
-手鐲
-Bras.
-胸罩
-Panties.
-內褲
-Socks.
-襪子
-Garters.
-襪帶
-Outfits or accessories for the body.
-連體衣或身體的配飾
-Tail straps.
-尾巴
-Hair accessories.
-髮飾
-Special bondage devices.
-特殊捆綁裝置
-Addons for special bondage devices.
-特殊束縛設備的插件
-Blindfolds.
-眼罩
-Earplugs.
-耳塞
-Gags.
-口塞
-Collars.
-頸環
-Accessories for collars.
-頸環配飾
-Restraints to go on collars.
-用於頸環的拘束器
-It's another type of head item.
-別的類型的頭部用品
-###_NPC
-What sort is it?
-它是什麼類型的？
-###_PLAYER
-Hoods.
-面罩
-Items for the nose.
-用在鼻子上的東西
-Locks and keys.
-鎖和鑰匙
-Arm restraints.
-手臂拘束器
-Items for hands.
-用在手上的東西
-Items for breasts.
-用在胸上的東西
-Toys for the nipples.
-乳頭玩具
-Items to decorate the nipples.
-乳頭裝飾品
-Harnesses for the torso.
-軀幹束縛帶
-Chastity belts.
-貞操帶
-Kinky items for the kinky region.
-用在色色地方的色色東西
-Piercings for down below.
-下身穿刺用品
-Something to be used on the butt.
-給屁股用的東西
-Something to restrain the legs.
-束縛腿的東西
-Something for the feet.
-給腳用的東西
-Boots.
-靴子
 ###_NPC
 (She struggles in her restraints.)  Help!
-（她在她的拘束器內掙扎著）救命！
+（她在她的拘束內掙扎著）救命！
 (She gives you a thumbs up.)  Everything is back to normal, thanks to you and the sorority.
 （她向你豎起大拇指）多虧了你和姐妹會，一切都恢復正常了
 ###_PLAYER
