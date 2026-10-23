@@ -63,6 +63,8 @@ function sanitizeFunctionString(funcName, prefix) {
 	return `${reverse ? "!" : ""}${funcName}(${Params.map(i => isNumeric(i) ? i : `"${i}"`).join(", ")})`;
 }
 
+let _symbolID = 0;
+
 /**
  * @param {string} inputName
  * @param {string} outputName
@@ -91,11 +93,12 @@ function csvToTs(inputName, outputName, prefix) {
 
 	let fileOutput = `"use strict";\n// See "${inputName}"\n\n`;
 	for (const [i, { Function, Prerequisite }] of Object.entries(csvFunctions)) {
+		_symbolID++;
 		if (Function) {
 			fileOutput += `${Function}; // line ${i} - col 5 - Function\n`;
 		}
 		if (Prerequisite) {
-			fileOutput += `${Prerequisite}; // line ${i} - col 6 - Prerequisite\n`;
+			fileOutput += `const _${_symbolID}: ScalarType = ${Prerequisite}; // line ${i} - col 6 - Prerequisite\n`;
 		}
 		fileOutput += "\n";
 	}
@@ -137,7 +140,7 @@ function AllCsvToTS(root, output) {
 			&& screenName
 			&& !voodooList.has(fileName)
 		) {
-			status = csvToTs(path.join(root, file), path.join(output, `${fileName}.js`), screenName) || status;
+			status = csvToTs(path.join(root, file), path.join(output, `${fileName}.ts`), screenName) || status;
 		}
 	}
 	return status;
