@@ -104,21 +104,25 @@
 	position: relative;
 	border: var(--border-width) solid black;
 }
-.chat-search-input-search-box {
-	height: 100%;
-	padding-right: 2.5em;
-	width: 14.75em;
-	border: none;
-}
 #chat-search-clear-input-search {
 	right: 0;
 	position: absolute;
 	filter: invert(1);
 }
-.chat-search-input-filter-box {
+#chat-search-input-search input {
 	height: 100%;
 	width: 14.75em;
 	border: none;
+}
+.chat-search-input-filter-box::placeholder {
+	font-size: 90%;
+}
+#chat-search-input-search input:not(:placeholder-shown) {
+	padding-right: 2.5em;
+}
+/* Hide the clear button if the visible input is empty */
+#chat-search-clear-input-search:not(input:not([hidden]):not(:placeholder-shown) ~ *) {
+	display: none;
 }
 .chat-search-room-button {
 	height: 100%;
