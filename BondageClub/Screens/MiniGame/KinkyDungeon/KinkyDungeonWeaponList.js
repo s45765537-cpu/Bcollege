@@ -1,3 +1,4 @@
+// @ts-check
 "use strict";
 
 let KinkyDungeonStatStaminaCostAttack = -1.0; // Cost to attack

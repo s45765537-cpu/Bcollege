@@ -1,4 +1,4 @@
-// @ts-strict-ignore
+// @ts-check
 "use strict";
 // Glossary of spell effects
 // manacost: Number of turns of no stamina regen after casting the spell. Stacks

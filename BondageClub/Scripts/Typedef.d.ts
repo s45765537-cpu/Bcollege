@@ -1916,6 +1916,19 @@ type PrivatePunishmentType =
 	| "Asylum"
 	| ""
 ;
+
+type CharacterOnlineStatus =
+	| "Crawl"
+	| "Preference"
+	| "Shop"
+	| "Struggle"
+	| "Talk"
+	| "Wardrobe"
+	| ""
+	| "null"
+	| null
+;
+
 interface Character {
 	/**
 	 * The character's cache slot ID in the Character array
@@ -2260,7 +2273,7 @@ interface Character {
 	ArousalZoom?: boolean;
 	FixedImage?: string;
 	Rule?: LogRecord[];
-	Status?: string | null;
+	Status?: CharacterOnlineStatus;
 	StatusTimer?: number;
 	Crafting?: (CraftingItem | null)[];
 	LastMapData?: ChatRoomMapData;
@@ -2379,6 +2392,8 @@ interface Character {
 
 type KidnapModeType = "Intro" | "SelectItem" | "SelectMove" | "ShowMove" | "UpperHand" | "SuddenDeath" | "End";
 
+type KidnapActivity = "AddGag" | "RemoveGag" | "AddFeet" | "RemoveFeet" | "AddLegs" | "RemoveLegs" | "Tickle" | "Spank" | "Kiss" | "Fondle";
+
 type PandoraPrisonActivity = "Beat" | "Water" | "Transfer" | "Quickie" | "Strip" | "Chastity" | "Tickle" | "ChangeBondage";
 
 /** Pandora NPCs */
@@ -2460,7 +2475,7 @@ interface OnlineCharacter extends Character {
 		LastChange?: number;
 	};
 	Rule?: LogRecord[];
-	Status?: string | null;
+	Status?: CharacterOnlineStatus;
 	StatusTimer?: number;
 	LastMapData?: ChatRoomMapData;
 	Crafting: (CraftingItem | null)[];
@@ -2689,7 +2704,7 @@ type InfiltrationPerks = (
 );
 
 interface PlayerCharacter {
-	Infiltration?: InfiltrationType;
+	Infiltration: InfiltrationType;
 }
 
 interface InfiltrationType {
@@ -2697,10 +2712,10 @@ interface InfiltrationType {
 		Minutes: number;
 		Timer?: number;
 		Background: string;
-		Difficulty: number;
+		Difficulty: 0 | 1 | 2 | 3 | 4;
 		FightDone?: boolean;
 	}
-	Perks?: "" | `${number}`;
+	Perks: "" | `${number}`;
 }
 
 /** Kinky Dungeon Player extension */
@@ -2906,10 +2921,10 @@ interface ExtendedItemScriptHookStruct<
 	DataType extends ExtendedItemData<any>,
 	OptionType extends ExtendedItemOption
 > {
-	init: ExtendedItemScriptHookCallbacks.Init<DataType>,
-	load: ExtendedItemScriptHookCallbacks.Load<DataType>,
-	draw: ExtendedItemScriptHookCallbacks.Draw<DataType>,
-	click: ExtendedItemScriptHookCallbacks.Click<DataType>,
+	init: null | ExtendedItemScriptHookCallbacks.Init<DataType>,
+	load: null | ExtendedItemScriptHookCallbacks.Load<DataType>,
+	draw: null | ExtendedItemScriptHookCallbacks.Draw<DataType>,
+	click: null | ExtendedItemScriptHookCallbacks.Click<DataType>,
 	exit: null | ExtendedItemScriptHookCallbacks.Exit<DataType>,
 	validate: null | ExtendedItemScriptHookCallbacks.Validate<DataType, OptionType>,
 	publishAction: null | ExtendedItemScriptHookCallbacks.PublishAction<DataType, OptionType>,
@@ -3895,11 +3910,13 @@ interface AppearanceUpdateParameters {
 	sourceMemberNumber: number;
 }
 
+type PartialNull<T> = { [P in keyof T]?: T[P] | null; }
+
 /**
  * A map containing appearance item diffs, keyed according to the item group. Used to compare and validate before/after
  * for appearance items.
  */
-type AppearanceDiffMap = Partial<Record<AssetGroupName, [before: Item, after: Item]>>
+type AppearanceDiffMap = Partial<Record<AssetGroupName, [before: Item | null, after: Item | null]>>;
 
 /**
  * A wrapper object containing the results of a diff resolution. This includes the final item that the diff resolved to
@@ -4698,9 +4715,61 @@ interface DynamicScriptCallbackData<T extends AnimationPersistentData = Animatio
 
 //#region Infiltration/Pandora
 
+interface InfiltrationMissionStateBase {
+	// Mission: InfiltrationMissionType;
+	Difficulty: 0 | 1 | 2 | 3 | 4;
+	Found: boolean;
+	Fail?: boolean;
+}
+
+interface InfiltrationMissionStateRescue extends InfiltrationMissionStateBase {
+	Mission: "Rescue";
+	Target: "NPC";
+	Name: string;
+	PrivateRoom: boolean;
+}
+
+interface InfiltrationMissionStateKidnap extends InfiltrationMissionStateBase {
+	Mission: "Kidnap";
+	Target: "NPC";
+	Name: string;
+	PrivateRoom: boolean;
+}
+
+interface InfiltrationMissionStateRetrieve extends InfiltrationMissionStateBase {
+	Mission: "Retrieve";
+	Target: InfiltrationObjectListType;
+	Name: string;
+}
+
+interface InfiltrationMissionStateCatBurglar extends InfiltrationMissionStateBase {
+	Mission: "CatBurglar";
+}
+
+interface InfiltrationMissionStateReverseMaid extends InfiltrationMissionStateBase {
+	Mission: "ReverseMaid";
+}
+
+interface InfiltrationMissionStateSteal extends InfiltrationMissionStateBase {
+	Mission: "Steal";
+	Target: InfiltrationObjectListType;
+	Name: string;
+}
+
+type InfiltrationMissionStateType =
+	| InfiltrationMissionStateRescue
+	| InfiltrationMissionStateKidnap
+	| InfiltrationMissionStateRetrieve
+	| InfiltrationMissionStateCatBurglar
+	| InfiltrationMissionStateReverseMaid
+	| InfiltrationMissionStateSteal
+;
+
 type InfiltrationMissionType = "Rescue" | "Kidnap" | "Retrieve" | "CatBurglar" | "ReverseMaid" | "Steal";
 
-type InfiltrationTargetType = "NPC" | "USBKey" | "BDSMPainting" | "GoldCollar" | "GeneralLedger" | "SilverVibrator" | "DiamondRing" | "SignedPhoto" | "PandoraPadlockKeys";
+type InfiltrationObjectListType = "USBKey" | "BDSMPainting" | "GoldCollar" | "GeneralLedger" | "SilverVibrator" | "DiamondRing" | "SignedPhoto" | "PandoraPadlockKeys";
+
+type InfiltrationTargetType = "NPC";
 
 interface InfiltrationMissionTarget {
 	Type: InfiltrationTargetType;

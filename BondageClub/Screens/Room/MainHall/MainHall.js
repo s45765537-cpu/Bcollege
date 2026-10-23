@@ -390,7 +390,7 @@ function MainHallWalk(RoomName) {
 		var PlayerClubSlave = (ManagementIsClubSlave()) ? (Math.random() * 3) : 0;
 		var PlayerEscapedAsylum = (AsylumHasEscaped() && (CheatFactor("BlockRandomKidnap", 0) == 1)) ? (Math.random() * 3) : 0;
 		var MeetEscapedPatient = ((ReputationGet("Asylum") > 0) && !Player.IsRestrained() && AsylumEntranceIsWearingNurseClothes()) ? (Math.random() * 2) : 0;
-		var MeetKidnapper = ((ReputationGet("Kidnap") > 0) && (KidnapLeagueBounty == null) && (CheatFactor("BlockRandomKidnap", 0) == 1)) ? Math.random() : 0;
+		var MeetKidnapper = ((ReputationGet("Kidnap") > 0) && !KidnapLeagueBountyState && (CheatFactor("BlockRandomKidnap", 0) == 1)) ? Math.random() : 0;
 		var MeetClubSlave = Math.random();
 		var MeetPolice = (LogQuery("Joined", "BadGirl")) ? (Math.random() * PrisonWantedPlayer()) : 0;
 		var PandoraRevenge = (SkillGetLevel(Player, "Infiltration") >= 3) ? Math.random() * (SkillGetLevel(Player, "Infiltration") / 7) : 0;
@@ -411,8 +411,11 @@ function MainHallWalk(RoomName) {
 		// Each time the player travels, the odds get better for a random event
 		MainHallRandomEventOdds = MainHallRandomEventOdds + 2;
 		if (ManagementIsClubSlave()) MainHallRandomEventOdds = MainHallRandomEventOdds + 4;
-		if ((KidnapLeagueBountyLocation == RoomName) && (KidnapLeagueBounty != null) && (KidnapLeagueBountyVictory == null) && Player.CanInteract() && (ReputationGet("Kidnap") > 0)) KidnapLeagueBountyStart();
-		else CommonSetScreen(.../** @type {ScreenSpecifier} */(["Room", RoomName]));
+		if (KidnapLeagueBountyState && KidnapLeagueBountyState.Location === RoomName && KidnapLeagueBountyState.Victory === undefined && Player.CanInteract() && (ReputationGet("Kidnap") > 0)) {
+			KidnapLeagueBountyStart();
+		} else {
+			CommonSetScreen(.../** @type {ScreenSpecifier} */(["Room", RoomName]));
+		}
 
 	}
 

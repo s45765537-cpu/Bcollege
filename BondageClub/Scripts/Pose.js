@@ -229,7 +229,7 @@ function PoseSetActive(C, poseName, ForceChange=false, RefreshDialog=true) {
 
 	if (!CommonObjectEqual(before, C.ActivePoseMapping)) {
 		CharacterRefresh(C, false);
-		if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C.ID === C.ID) {
+		if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C?.ID === C.ID) {
 			CommonPromiseCatch(DialogSelfMenuMapping.Pose.Reload());
 		}
 	}

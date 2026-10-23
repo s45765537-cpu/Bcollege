@@ -1,6 +1,6 @@
 "use strict";
 var AdvancedRuleBackground = "Sheet";
-/** @type {null | Character | NPCCharacter} */
+/** @type {null | OnlineCharacter} */
 var AdvancedRuleTarget = null;
 /** @type {LogNameAdvanced} */
 var AdvancedRuleType = /** @type {never} */ ("");
@@ -43,6 +43,7 @@ async function AdvancedRuleLoad() {
  * @returns {void} - Nothing
  */
 function AdvancedRuleOpen(RuleType) {
+	if (!CurrentCharacter || !CurrentCharacter.IsOnline()) return;
 	AdvancedRuleType = RuleType;
 	AdvancedRuleTarget = CurrentCharacter;
 	if (RuleType == "BlockScreen") AdvancedRuleOption = [...AdvancedRuleScreens];

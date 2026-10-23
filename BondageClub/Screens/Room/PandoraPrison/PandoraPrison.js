@@ -1,11 +1,10 @@
-// @ts-strict-ignore
 "use strict";
 var PandoraPrisonBackground = "Cell";
 var PandoraWillpowerTimer = 0;
-/** @type {null | NPCCharacter} */
-var PandoraPrisonMaid = null;
-/** @type {null | NPCCharacter} */
-var PandoraPrisonGuard = null;
+/** @type {NPCCharacter} */
+var PandoraPrisonMaid = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var PandoraPrisonGuard = /** @type {never} */ (null);
 /** @type {null | NPCCharacter} */
 var PandoraPrisonCharacter = null;
 var PandoraPrisonCharacterTimer = 0;
@@ -21,13 +20,13 @@ var PandoraQuickiePleasure = 0;
 async function PandoraPrisonLoad() {
 	PandoraParty = [];
 	if (!PandoraPrisonEscaped) PandoraPrisonCharacter = null;
-	if (PandoraPrisonMaid == null) {
+	if (!PandoraPrisonMaid) {
 		PandoraPrisonMaid = CharacterLoadNPC("NPC_PandoraPrison_Maid");
 		PandoraPrisonMaid.AllowItem = false;
 		PandoraPrisonMaid.TriggerIntro = false;
 		PandoraDress(PandoraPrisonMaid, "Maid");
 	}
-	if (PandoraPrisonGuard == null) {
+	if (!PandoraPrisonGuard) {
 		PandoraPrisonGuard = CharacterLoadNPC("NPC_PandoraPrison_Guard");
 		PandoraPrisonGuard.AllowItem = false;
 		PandoraPrisonGuard.TriggerIntro = true;
@@ -35,7 +34,7 @@ async function PandoraPrisonLoad() {
 	}
 	if (PandoraWillpowerTimer == 0) PandoraWillpowerTimer = CommonTime() + ((InfiltrationPerksActive("Recovery")) ? 20000 : 30000);
 	PandoraMaxWillpower = 20 + (SkillGetLevel(Player, "Willpower") * 2) + (InfiltrationPerksActive("Resilience") ? 5 : 0) + (InfiltrationPerksActive("Endurance") ? 5 : 0);
-	PandoraPrisonBackground = Player.Infiltration.Punishment.Background;
+	PandoraPrisonBackground = Player.Infiltration.Punishment?.Background ?? "Cell";
 	PandoraPrisonCharacterTimer = CommonTime() + 30000 + Math.floor(Math.random() * 30000);
 	PoseSetActive(Player, null);
 }
@@ -46,10 +45,18 @@ async function PandoraPrisonLoad() {
  */
 function PandoraPrisonRun() {
 
+	let { Timer = 0, Minutes = 0 } = Player.Infiltration.Punishment ?? {};
+
 	// When time is up, a maid comes to escort the player out, validates that prison time cannot go over 1 hour
-	if (Player.Infiltration.Punishment.Timer > CurrentTime + MS_PER_HOUR) Player.Infiltration.Punishment.Timer = CurrentTime + MS_PER_HOUR;
-	if ((Player.Infiltration.Punishment.Timer < CurrentTime) && (CurrentCharacter == null) && !PandoraPrisonEscaped)
+	if (Timer > CurrentTime + MS_PER_HOUR) {
+		Timer = CurrentTime + MS_PER_HOUR;
+		if (Player.Infiltration.Punishment) {
+			Player.Infiltration.Punishment.Timer = Timer;
+		}
+	}
+	if (Timer < CurrentTime && !CurrentCharacter && !PandoraPrisonEscaped) {
 		PandoraPrisonCharacter = PandoraPrisonMaid;
+	}
 
 	// When the willpower timer ticks, we raise willpower by 1
 	if (PandoraWillpowerTimer < CommonTime()) {
@@ -58,7 +65,7 @@ function PandoraPrisonRun() {
 	}
 
 	// When the character timer ticks, the guard can come in or leave
-	if ((Player.Infiltration.Punishment.Timer >= CurrentTime) && (PandoraPrisonCharacterTimer < CommonTime()) && (CurrentCharacter == null) && !PandoraPrisonEscaped) {
+	if (Timer >= CurrentTime && PandoraPrisonCharacterTimer < CommonTime() && !CurrentCharacter && !PandoraPrisonEscaped) {
 		PandoraPrisonBribeEnabled = true;
 		PandoraPrisonCharacter = (PandoraPrisonCharacter == null) ? PandoraPrisonGuard : null;
 		PandoraPrisonCharacterTimer = CommonTime() + 30000 + Math.floor(Math.random() * 30000);
@@ -71,9 +78,9 @@ function PandoraPrisonRun() {
 	} else DrawCharacter(Player, 750, 0, 1);
 	if (Player.CanKneel()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Kneel.png", TextGet("Kneel"));
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
-	if (Player.Infiltration.Punishment.Timer > CurrentTime) {
-		DrawText(TextGet("Sentence") + " " + Player.Infiltration.Punishment.Minutes.toString() + " " + TextGet("Minutes"), 1800, 870, "White", "Black");
-		DrawText(TextGet("EndsIn") + " " + TimerToString(Player.Infiltration.Punishment.Timer - CurrentTime), 1800, 920, "White", "Black");
+	if (Timer > CurrentTime) {
+		DrawText(TextGet("Sentence") + " " + Minutes.toString() + " " + TextGet("Minutes"), 1800, 870, "White", "Black");
+		DrawText(TextGet("EndsIn") + " " + TimerToString(Timer - CurrentTime), 1800, 920, "White", "Black");
 	}
 
 	// Draw the willpower / max
@@ -89,10 +96,10 @@ function PandoraPrisonRun() {
 function PandoraPrisonGuardNewActivity() {
 	let Activity = "";
 	while (Activity == "") {
-		Activity = CommonRandomItemFromList(PandoraPrisonGuard.LastActivity, ["Beat", "Water", "Transfer", "Quickie", "Strip", "Chastity", "Tickle", "ChangeBondage"]);
+		Activity = CommonRandomItemFromList(PandoraPrisonGuard.LastActivity ?? "", ["Beat", "Water", "Transfer", "Quickie", "Strip", "Chastity", "Tickle", "ChangeBondage"]);
 		if ((Activity == "Beat") && (PandoraWillpower * 2 < PandoraMaxWillpower)) Activity = ""; // Beat only happen at 50% health or more
 		if ((Activity == "Water") && (PandoraWillpower * 2 >= PandoraMaxWillpower)) Activity = ""; // Water only happen at 50% health or less
-		if ((Activity == "Water") && (Player.Infiltration.Punishment.FightDone != null) && Player.Infiltration.Punishment.FightDone) Activity = ""; // Water cannot happen if there was a fight
+		if ((Activity == "Water") && (Player.Infiltration.Punishment?.FightDone != null) && Player.Infiltration.Punishment.FightDone) Activity = ""; // Water cannot happen if there was a fight
 		if ((Activity == "Strip") && CharacterIsNaked(Player)) Activity = ""; // Strip cannot happen if already naked
 		if ((Activity == "Chastity") && Player.IsChaste()) Activity = ""; // Chastity cannot happen if the player is already chaste
 		if ((Activity == "Tickle") && !CharacterIsNaked(Player)) Activity = ""; // Tickle can only happen when the player is naked
@@ -142,7 +149,7 @@ function PandoraPrisonExitPrison() {
 	ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 	DialogLeave();
 	CharacterDelete(PandoraPrisonMaid);
-	PandoraPrisonMaid = null;
+	PandoraPrisonMaid = /** @type {never} */ (null);
 	if (InfiltrationSupervisor == null) CommonSetScreen("Room", "MainHall");
 	else CommonSetScreen("Room", "Infiltration");
 }
@@ -168,12 +175,12 @@ function PandoraPrisonPlayerUngag() {
 function PandoraPrisonPlayerRestrain(Level) {
 	PoseSetActive(Player, null);
 	CharacterRelease(Player);
-	CharacterFullRandomRestrain(Player, Level);
+	CharacterFullRandomRestrain(Player, Level ? Level : undefined);
 	let Item = InventoryGet(Player, "ItemArms");
 	if (Item != null) {
-		if (Item.Difficulty == null) Item.Difficulty = 0;
-		Item.Difficulty = parseInt(Item.Difficulty) + parseInt(InfiltrationDifficulty) + 1;
-		if ((Player.Infiltration.Punishment.FightDone != null) && Player.Infiltration.Punishment.FightDone) Item.Difficulty = Item.Difficulty + 5;
+		Item.Difficulty ??= 0;
+		Item.Difficulty = Item.Difficulty + (InfiltrationMissionState?.Difficulty ?? 0) + 1;
+		if (Player.Infiltration.Punishment?.FightDone) Item.Difficulty = Item.Difficulty + 5;
 	}
 }
 
@@ -208,6 +215,7 @@ function PandoraPrisonPlayerChastity(LockType) {
  * @returns {void} - Nothing
  */
 function PandoraPrisonCharacterRemove() {
+	if (!CurrentCharacter) return;
 	InventoryRemove(CurrentCharacter, "ItemHandheld");
 	PandoraPrisonCharacter = null;
 	PandoraPrisonCharacterTimer = CommonTime() + 30000 + Math.floor(Math.random() * 30000);
@@ -228,8 +236,9 @@ function PandoraPrisonCanStartFight() {
  * @returns {void} - Nothing
  */
 function PandoraPrisonStartFight() {
+	if (!CurrentCharacter) return;
 	PoseSetActive(Player, null);
-	let Difficulty = (InfiltrationDifficulty * 2) + 2;
+	let Difficulty = ((InfiltrationMissionState?.Difficulty ?? 0) * 2) + 2;
 	KidnapStart(CurrentCharacter, PandoraPrisonBackground, Difficulty, "PandoraPrisonFightEnd()");
 }
 
@@ -239,8 +248,9 @@ function PandoraPrisonStartFight() {
  */
 function PandoraPrisonFightEnd() {
 	CharacterSetCurrent(PandoraPrisonGuard);
+	if (!CurrentCharacter) return;
 	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(CurrentCharacter));
-	PandoraWillpower = Player.KidnapWillpower;
+	PandoraWillpower = Player.KidnapWillpower ?? 0;
 	CurrentCharacter.Stage = (KidnapVictory) ? "100" : "200";
 	CharacterRelease(KidnapVictory ? Player : CurrentCharacter);
 	CurrentCharacter.AllowItem = KidnapVictory;
@@ -248,7 +258,9 @@ function PandoraPrisonFightEnd() {
 	CommonSetScreen("Room", "PandoraPrison");
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, (KidnapVictory) ? "FightVictory" : "FightDefeat");
 	if (!KidnapVictory) {
-		Player.Infiltration.Punishment.FightDone = true;
+		if (Player.Infiltration.Punishment) {
+			Player.Infiltration.Punishment.FightDone = true;
+		}
 		ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 		PandoraDress(PandoraPrisonGuard, "Guard");
 	}
@@ -259,6 +271,7 @@ function PandoraPrisonFightEnd() {
  * @returns {void} - Nothing
  */
 function PandoraPrisonCharacterNaked() {
+	if (!CurrentCharacter) return;
 	CharacterNaked(CurrentCharacter);
 }
 
@@ -294,7 +307,8 @@ function PandoraPrisonBribeStart() {
  * @returns {boolean} - TRUE if bribing the guard is allowed
  */
 function PandoraPrisonBribeAllowed() {
-	return (PandoraPrisonBribeEnabled && (Player.Infiltration.Punishment.Timer > CurrentTime + MS_PER_MIN) && (Player.Money >= 10) && Player.CanTalk());
+	const { Timer = 0 } = Player.Infiltration.Punishment ?? {};
+	return PandoraPrisonBribeEnabled && Timer > CurrentTime + MS_PER_MIN && Player.Money >= 10 && Player.CanTalk();
 }
 
 /**
@@ -314,8 +328,8 @@ function PandoraPrisonHasPerk(Type) {
  */
 function PandoraPrisonBribeProcess(Money, Minutes) {
 	if (Money != 0) CharacterChangeMoney(Player, Money * -1);
-	if (Minutes != 0) {
-		Player.Infiltration.Punishment.Timer = Player.Infiltration.Punishment.Timer - (Minutes * MS_PER_MIN);
+	if (Minutes != 0 && Player.Infiltration.Punishment) {
+		Player.Infiltration.Punishment.Timer = (Player.Infiltration.Punishment.Timer ?? 0) - (Minutes * MS_PER_MIN);
 		if (Player.Infiltration.Punishment.Timer < CurrentTime + MS_PER_MIN) Player.Infiltration.Punishment.Timer = CurrentTime + MS_PER_MIN;
 		ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 	}
@@ -337,7 +351,6 @@ function PandoraPrisonPickWeapon() {
  * @returns {void} - Nothing
  */
 function PandoraPrisonPlayerBeat(Damage, Blush) {
-	Damage = parseInt(Damage);
 	Damage = Math.round(Damage * PandoraMaxWillpower / 100);
 	PandoraWillpower = PandoraWillpower - Damage;
 	if (PandoraWillpower < 0) PandoraWillpower = 0;
@@ -359,16 +372,15 @@ function PandoraPrisonPickTickle() {
 
 /**
  * When the player squeals, it shorten her sentence
- * @param {string|number} Minutes - The number of minutes to remove from the sentence
+ * @param {number} Minutes - The number of minutes to remove from the sentence
  * @returns {void} - Nothing
  */
 function PandoraPrisonPlayerSqueal(Minutes) {
-	Minutes = parseInt(Minutes);
-	if (Minutes > 0) {
-		Player.Infiltration.Punishment.Timer = Player.Infiltration.Punishment.Timer - (Minutes * MS_PER_MIN);
-		if (Player.Infiltration.Punishment.Timer < CurrentTime + MS_PER_MIN) Player.Infiltration.Punishment.Timer = CurrentTime + MS_PER_MIN;
-		ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
-	}
+	if (Minutes <= 0) return;
+	if (!Player.Infiltration.Punishment) return;
+	Player.Infiltration.Punishment.Timer = (Player.Infiltration.Punishment.Timer ?? 0) - (Minutes * MS_PER_MIN);
+	if (Player.Infiltration.Punishment.Timer < CurrentTime + MS_PER_MIN) Player.Infiltration.Punishment.Timer = CurrentTime + MS_PER_MIN;
+	ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 }
 
 /**
@@ -404,7 +416,9 @@ function PandoraPrisonAddHood() {
  */
 function PandoraPrisonRemoveHood() {
 	PandoraPrisonBackground = CommonRandomItemFromList(PandoraPrisonBackground, ["Pandora/Underground/Cell0", "Pandora/Underground/Cell1", "Pandora/Underground/Cell2", "Pandora/Underground/Cell3", "Pandora/Underground/Cell4", "Pandora/Underground/Cell5", "Pandora/Underground/Cell6"]);
-	Player.Infiltration.Punishment.Background = PandoraPrisonBackground;
+	if (Player.Infiltration.Punishment) {
+		Player.Infiltration.Punishment.Background = PandoraPrisonBackground;
+	}
 	ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 	InventoryRemove(Player, "ItemHood");
 }
@@ -423,11 +437,11 @@ function PandoraPrisonQuikieStart() {
 
 /**
  * Process the quickie scene, the player must progress slowly but only has 5 tries
- * @param {string|number} Factor - The pleasure factor to apply
+ * @param {number} Factor - The pleasure factor to apply
  * @returns {void} - Nothing
  */
 function PandoraPrisonQuikieProcess(Factor) {
-	Factor = parseInt(Factor);
+	if (!PandoraPrisonCharacter) return;
 	PandoraQuickieCount++;
 	if (Factor > PandoraQuickiePleasure) {
 		if (PandoraQuickieCount >= 5) {
@@ -443,8 +457,10 @@ function PandoraPrisonQuikieProcess(Factor) {
 			CharacterSetFacialExpression(PandoraPrisonCharacter, "Blush", "High", 7);
 			CharacterSetFacialExpression(PandoraPrisonCharacter, "Eyes", "Closed", 7);
 			CharacterSetFacialExpression(PandoraPrisonCharacter, "Eyes2", "Closed", 7);
-			Player.Infiltration.Punishment.Timer = Player.Infiltration.Punishment.Timer - 300000;
-			if (Player.Infiltration.Punishment.Timer < CurrentTime + MS_PER_MIN) Player.Infiltration.Punishment.Timer = CurrentTime + MS_PER_MIN;
+			if (Player.Infiltration.Punishment) {
+				Player.Infiltration.Punishment.Timer = (Player.Infiltration.Punishment.Timer ?? 0) - 300000;
+				if (Player.Infiltration.Punishment.Timer < CurrentTime + MS_PER_MIN) Player.Infiltration.Punishment.Timer = CurrentTime + MS_PER_MIN;
+			}
 			ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 			PandoraPrisonCharacter.CurrentDialog = DialogFind(PandoraPrisonCharacter, "QuickieOrgasm");
 			PandoraPrisonCharacter.Stage = "QuickieSuccess";
@@ -458,6 +474,7 @@ function PandoraPrisonQuikieProcess(Factor) {
  * @returns {void} - Nothing
  */
 function PandoraPrisonQuickieEnd(Message) {
+	if (!PandoraPrisonCharacter) return;
 	if ((Message != null) && (Message != "")) PandoraPrisonCharacter.CurrentDialog = DialogFind(PandoraPrisonCharacter, Message);
 	PandoraPrisonCharacter.Stage = "QuickieLeave";
 	PandoraDress(PandoraPrisonGuard, "Guard");

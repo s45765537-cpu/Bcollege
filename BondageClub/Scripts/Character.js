@@ -909,13 +909,13 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		activeExpression,
 		{
 			set(...args) {
-				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.ID === NewCharacter.ID) {
+				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C?.ID === NewCharacter.ID) {
 					CommonPromiseCatch(DialogSelfMenuMapping.Expression.Reload());
 				}
 				return Reflect.set(...args);
 			},
 			deleteProperty(...args) {
-				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.ID === NewCharacter.ID) {
+				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C?.ID === NewCharacter.ID) {
 					CommonPromiseCatch(DialogSelfMenuMapping.Expression.Reload());
 				}
 				return Reflect.deleteProperty(...args);

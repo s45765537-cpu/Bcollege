@@ -1400,7 +1400,7 @@ function PrivateCancelSecurity() {
 
 /**
  * Loads a given private room character.
- * @param {PrivateCharacterData} data - The packed character data recieved from the server
+ * @param {ServerPrivateCharacterData} data - The packed character data recieved from the server
  * @returns {boolean} - Update required.
  */
 function PrivateLoadCharacter(data) {

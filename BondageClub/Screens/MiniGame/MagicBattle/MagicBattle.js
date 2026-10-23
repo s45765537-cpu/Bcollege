@@ -66,7 +66,7 @@ function MagicBattleGetDifficulty(C) {
 
 /**
  * Returns the spells that are available based on opponent (C) clothing and restraints
- * @param {Character} C
+ * @param {Character | null} C
  * @returns {Array<number>} - Nothing
  */
 function MagicBattleGetAvailSpells(C) {

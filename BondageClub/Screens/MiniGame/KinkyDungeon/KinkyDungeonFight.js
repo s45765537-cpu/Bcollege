@@ -1,4 +1,4 @@
-// @ts-strict-ignore
+// @ts-check
 "use strict";
 let KinkyDungeonKilledEnemy = null;
 let KinkyDungeonAlert = 0;

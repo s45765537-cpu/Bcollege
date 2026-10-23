@@ -1,4 +1,4 @@
-// @ts-strict-ignore
+// @ts-check
 "use strict";
 
 let KDRecentRepIndex = 0;

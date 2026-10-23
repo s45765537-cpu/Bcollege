@@ -1,18 +1,24 @@
-// @ts-strict-ignore
 "use strict";
+/** @type {Platform.Dialog | null} */
 var PlatformDialog = null;
 /** @type {undefined | string} */
 var PlatformDialogBackground = undefined;
+/** @type {string | null} */
 var PlatformDialogText = null;
+/** @type {Platform.DialogLine['Answer'] | null} */
 var PlatformDialogAnswer = null;
 var PlatformDialogAnswerPosition = 0;
 var PlatformDialogAnswerLength = 0;
+/** @type {string | null} */
 var PlatformDialogReply = null;
+/** @type {string | null} */
 var PlatformDialogGoto = null;
-var PlatformDialogCharacterDisplay = null;
+/** @type {Platform.DialogLineCharacter[]} */
+var PlatformDialogCharacterDisplay = [];
 var PlatformDialogPosition = 0;
-/** @type {Platform.DialogCharacter[]} */
+/** @type {Platform.DialogCharacter[] | null} */
 var PlatformDialogCharacter = null;
+/** @type {HTMLAudioElement | null} */
 var PlatformDialogAudio = null;
 var PlatformDialogControllerHandle = false;
 var PlatformDialogAudioStyle = ["", "angry", "calm", "chat", "cheerful", "friendly", "sad", "serious", "shouting", "terrified", "unfriendly", "whispering"];
@@ -21,6 +27,8 @@ var PlatformDialogCharacterTemplate = [
 	{
 		Name: "Melody",
 		Color: "#fe92cf",
+		Love: 0,
+		Domination: 0,
 	},
 	{
 		Name: "Olivia",
@@ -52,21 +60,29 @@ var PlatformDialogCharacterTemplate = [
 		Name: "Yuna",
 		NickName: "Senior Maid",
 		Color: "#efb5ff",
+		Love: 0,
+		Domination: 0,
 	},
 	{
 		Name: "Hazel",
 		NickName: "Junior Maid",
 		Color: "#e1dd57",
+		Love: 0,
+		Domination: 0,
 	},
 	{
 		Name: "Lucy",
 		NickName: "Guard",
 		Color: "#6fd9d3",
+		Love: 0,
+		Domination: 0,
 	},
 	{
 		Name: "Vera",
 		NickName: "Forest Bandit",
 		Color: "#e38d00",
+		Love: 0,
+		Domination: 0,
 	},
 	{
 		Name: "Lyn",
@@ -76,6 +92,7 @@ var PlatformDialogCharacterTemplate = [
 	},
 ];
 
+/** @type {Platform.Dialog[]} */
 var PlatformDialogData = [
 	{
 		Name: "IntroMelody",
@@ -473,7 +490,7 @@ var PlatformDialogData = [
 			},
 			{
 				TextScript:  function () { return (PlatformDialogGetCharacter("Olivia").Domination < 0) ? "Yes, you can have your orgasm my maid." : "(She smiles and watches you carefully.)"; },
-				AudioScript:  function () { return (PlatformDialogGetCharacter("Olivia").Domination < 0) ? "O231" : null; },
+				AudioScript:  function () { return (PlatformDialogGetCharacter("Olivia").Domination < 0) ? "O231" : undefined; },
 				Character: [{ Name: "Olivia", Status: "Chastity", Pose: "Bathing", X: 0 }]
 			},
 			{
@@ -4431,9 +4448,9 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
-				Text: "At least we'll still have each other in bed my love.", Audio: "50", AudioStyle: "Sad",
+				Text: "At least we'll still have each other in bed my love.", Audio: "50", AudioStyle: "sad",
 			},
-			{ Text: "Maybe I'll find another owner someday.  I don't know.", Audio: "60", AudioStyle: "Sad" },
+			{ Text: "Maybe I'll find another owner someday.  I don't know.", Audio: "60", AudioStyle: "sad" },
 			{ Text: "I'm a free elf after all.  I should not be controlled by a human.", Audio: "70" },
 			{ Text: "Without chains, I'll be able to do more shady businesses.", Audio: "80" },
 			{ Text: "Is it a crime to do shady businesses?  Don't answer.", Audio: "90" },
@@ -5167,11 +5184,11 @@ var PlatformDialogData = [
 
 /**
  * Players the audio track for the dialog
- * @param {string} Source - The source file to use
+ * @param {string | null} Source - The source file to use
  * @returns {void} - Nothing
  */
 function PlatformDialogVoice(Source) {
-	if (!PlatformAllowAudio) return;
+	if (!PlatformAllowAudio || !PlatformDialog) return;
 	if ((Source == null) || (Source == "")) {
 		if (PlatformDialogAudio != null) PlatformDialogAudio.pause();
 		return;
@@ -5185,7 +5202,7 @@ function PlatformDialogVoice(Source) {
 			PlatformDialogAudio.src = "Screens/Room/Platform/Audio/Dialog/" + PlatformDialog.Name + "/" + Source + ".mp3";
 		PlatformDialogAudio.currentTime = 0;
 		PlatformDialogAudio.volume = Math.min(vol, 1);
-		PlatformDialogAudio.play();
+		CommonPromiseCatch(PlatformDialogAudio.play());
 	}
 }
 
@@ -5195,6 +5212,7 @@ function PlatformDialogVoice(Source) {
  * @returns {void} - Nothing
  */
 function PlatformDialogLoadPosition(Position) {
+	if (!PlatformDialog) return;
 	PlatformDialogPosition = Position;
 	if (Position >= PlatformDialog.Dialog.length) {
 		if (PlatformDialog.Exit != null) PlatformDialog.Exit();
@@ -5203,22 +5221,26 @@ function PlatformDialogLoadPosition(Position) {
 		return;
 	}
 	if ((PlatformDialog.Dialog[Position].Prerequisite != null) && !PlatformDialog.Dialog[Position].Prerequisite()) return PlatformDialogLoadPosition(PlatformDialogPosition + 1);
-	PlatformDialogText = PlatformDialog.Dialog[Position].Text;
+	PlatformDialogText = PlatformDialog.Dialog[Position].Text ?? "";
 	if (PlatformDialog.Dialog[Position].TextScript != null) PlatformDialogText = PlatformDialog.Dialog[Position].TextScript();
 	PlatformDialogAnswer = PlatformDialog.Dialog[Position].Answer;
 	PlatformDialogAnswerPosition = 0;
 	PlatformDialogAnswerLength = (PlatformDialogAnswer == null) ? 0 : PlatformDialogAnswer.length;
 	if (PlatformDialogAnswerLength > 0)
-		for (let Answer of PlatformDialogAnswer)
+		for (let Answer of PlatformDialogAnswer ?? [])
 			if ((Answer.Perk === true) && !PlatformDialogLeaderHasPerk("Manipulation"))
 				PlatformDialogAnswerLength--;
 	PlatformDialogReply = null;
 	PlatformDialogGoto = null;
 	if ((Position == 0) || (PlatformDialog.Dialog[Position].Background != null)) PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformDialog.Dialog[Position].Background;
-	if ((Position == 0) || (PlatformDialog.Dialog[Position].Character != null)) PlatformDialogCharacterDisplay = (PlatformDialog.Dialog[Position].Character == null) ? null : CommonCloneDeep(PlatformDialog.Dialog[Position].Character);
+	if ((Position == 0) || (PlatformDialog.Dialog[Position].Character != null)) {
+		PlatformDialogCharacterDisplay = (PlatformDialog.Dialog[Position].Character == null) ? [] : CommonCloneDeep(PlatformDialog.Dialog[Position].Character);
+	}
 	let Audio = PlatformDialog.Dialog[Position].Audio;
 	if (PlatformDialog.Dialog[Position].AudioScript != null) Audio = PlatformDialog.Dialog[Position].AudioScript();
-	PlatformDialogVoice(Audio);
+	if (Audio) {
+		PlatformDialogVoice(Audio);
+	}
 	if (PlatformDialog.Dialog[Position].Entry != null) PlatformDialog.Dialog[Position].Entry();
 }
 
@@ -5260,8 +5282,8 @@ function PlatformDialogDrawDialog() {
 					if ((Char.Name == Character.Name) && (Char.Status == Character.Status))
 						for (let Anim of Char.Animation)
 							if (Anim.Name == Character.Animation) {
-								let AnimPos = Math.floor(CommonTime() / Anim.Speed) % Anim.Cycle.length;
-								DrawImage("Screens/Room/Platform/Character/" + Character.Name + "/" + Character.Status + "/" + Character.Animation + "/" + Anim.Cycle[AnimPos].toString() + ".png", (Character.X == null) ? X - 250 : Character.X, (Character.Y == null) ? Y : Character.Y);
+								let AnimPos = Math.floor(CommonTime() / (Anim.Speed ?? 0)) % (Anim.Cycle?.length ?? 0);
+								DrawImage("Screens/Room/Platform/Character/" + Character.Name + "/" + Character.Status + "/" + Character.Animation + "/" + Anim.Cycle?.[AnimPos].toString() + ".png", (Character.X == null) ? X - 250 : Character.X, (Character.Y == null) ? Y : Character.Y);
 							}
 			}
 			X = X + 500;
@@ -5269,15 +5291,19 @@ function PlatformDialogDrawDialog() {
 	}
 	if (PlatformDialogText != null) {
 		let Color;
-		let Name;
+		/** @type {Platform.CharacterName} */
+		let Name = /** @type {never} */ ("");
 		let Love;
 		let Domination;
-		let LoverLevel;
-		let OwnerLevel;
+		/** @type {number} */
+		let LoverLevel = 0;
+		/** @type {number} */
+		let OwnerLevel = 0;
 		if ((PlatformDialogCharacterDisplay != null) && (PlatformDialogCharacterDisplay.length > 0))
-			for (let Character of PlatformDialogCharacter)
+			for (let Character of PlatformDialogCharacter ?? [])
 				if (Character.Name == PlatformDialogCharacterDisplay[0].Name) {
-					Name = (Character.NickName == null) ? Character.Name : Character.NickName;
+					// XXX: this feels wrong, since we're gonna use PlatformDialogIsOwner/Lover down below
+					Name = (Character.NickName == null) ? Character.Name : /** @type {Platform.CharacterName} */ (Character.NickName);
 					Color = Character.Color;
 					Love = Character.Love;
 					Domination = Character.Domination;
@@ -5294,9 +5320,9 @@ function PlatformDialogDrawDialog() {
 		DrawEmptyRect(17, 677, 1966, 306, Color, 6);
 		DrawRect(20, 680, 1960, 300, "#000000D0");
 		if ((PlatformDialogAnswer == null) || (PlatformDialogReply != null)) {
-			DrawTextWrap((PlatformDialogReply != null) ? PlatformDialogReply : PlatformDialogText, 75, 700, 1850, 260, Color, null, 6);
+			DrawTextWrap((PlatformDialogReply != null) ? PlatformDialogReply : PlatformDialogText, 75, 700, 1850, 260, Color, undefined, 6);
 		} else {
-			DrawTextWrap(PlatformDialogText, 75, 700, 850, 260, Color, null, 6);
+			DrawTextWrap(PlatformDialogText, 75, 700, 850, 260, Color, undefined, 6);
 			DrawEmptyRect(997, 677, 0, 306, Color, 6);
 			let Pos = 0;
 			for (let Answer of PlatformDialogAnswer)
@@ -5309,7 +5335,7 @@ function PlatformDialogDrawDialog() {
 		if ((Love != null) && (Domination != null)) {
 			DrawEmptyRect(1617, 610, 366, 66, Color, 6);
 			DrawRect(1620, 613, 360, 60, "#000000D0");
-			if (PlatformDialogIsOwner(Name)) OwnerLevel = PlatformDialogGetCharacter("Melody").OwnerLevel * -1;
+			if (PlatformDialogIsOwner(Name)) OwnerLevel = (PlatformDialogGetCharacter("Melody").OwnerLevel ?? 0) * -1;
 			if (!PlatformDialogIsLover(Name)) LoverLevel = 0;
 			DrawImage("Screens/Room/PlatformDialog/Icon/Love" + LoverLevel.toString() + ".png", 1640, 613);
 			DrawImage("Screens/Room/PlatformDialog/Icon/Domination" + OwnerLevel.toString() + ".png", 1805, 613);
@@ -5327,6 +5353,7 @@ function PlatformDialogDrawDialog() {
  * @returns {void} - Nothing
  */
 function PlatformDialogRun() {
+	if (!PlatformDialog) return;
 	if ((PlatformDialogAnswer != null) && MouseIn(1050, 695, 900, 60 + (PlatformDialogAnswer.length - 1) * 70))
 		PlatformDialogAnswerPosition = Math.floor((MouseY - 695) / 70);
 	PlatformDialogDrawDialog();
@@ -5398,21 +5425,21 @@ function PlatformDialogSetIdlePose(Character, Love, Domination) {
  */
 function PlatformDialogPickAnswer(Position) {
 	let P = 0;
-	for (let Answer of PlatformDialogAnswer)
+	for (let Answer of PlatformDialogAnswer ?? [])
 		if ((Answer.Perk == null) || ((Answer.Perk == true) && PlatformDialogLeaderHasPerk("Manipulation")) || ((Answer.Perk == false) && !PlatformDialogLeaderHasPerk("Manipulation"))) {
 			if (Position == P) {
-				PlatformDialogReply = Answer.Reply;
-				PlatformDialogGoto = Answer.Goto;
+				PlatformDialogReply = Answer.Reply ?? null;
+				PlatformDialogGoto = Answer.Goto ?? null;
 				if ((PlatformDialogCharacterDisplay != null) && (PlatformDialogCharacterDisplay.length > 0))
-					for (let Character of PlatformDialogCharacter)
+					for (let Character of PlatformDialogCharacter ?? [])
 						if (Character.Name == PlatformDialogCharacterDisplay[0].Name) {
-							PlatformDialogSetIdlePose(Character, Answer.Love, Answer.Domination);
+							PlatformDialogSetIdlePose(Character, Answer.Love ?? 0, Answer.Domination ?? 0);
 							let OwnerLevel = PlatformDialogIsSlave(Character.Name) ? Character.OwnerLevel : 0;
-							if (PlatformDialogIsOwner(Character.Name)) OwnerLevel = PlatformDialogGetCharacter("Melody").OwnerLevel * -1;
-							Character.Love = PlatformDialogChangeValue(Character.Love, Answer.Love, PlatformDialogLeaderHasPerk("Seduction"), Character.LoverLevel);
-							Character.Domination = PlatformDialogChangeValue(Character.Domination, Answer.Domination, PlatformDialogLeaderHasPerk("Persuasion"), OwnerLevel);
+							if (PlatformDialogIsOwner(Character.Name)) OwnerLevel = (PlatformDialogGetCharacter("Melody").OwnerLevel ?? 0) * -1;
+							Character.Love = PlatformDialogChangeValue(Character.Love, Answer.Love ?? 0, PlatformDialogLeaderHasPerk("Seduction"), Character.LoverLevel ?? 0);
+							Character.Domination = PlatformDialogChangeValue(Character.Domination, Answer.Domination ?? 0, PlatformDialogLeaderHasPerk("Persuasion"), OwnerLevel ?? 0);
 						}
-				PlatformDialogVoice(Answer.Audio);
+				PlatformDialogVoice(Answer.Audio ?? null);
 				if (Answer.Script != null) Answer.Script();
 			}
 			P++;
@@ -5428,12 +5455,12 @@ function PlatformDialogPickAnswer(Position) {
  */
 function PlatformDialogAlterProperty(CharacterName, Property, Value) {
 	if ((Character == null) || (Property == null) || (Value == null) || (Value == 0)) return;
-	for (let Character of PlatformDialogCharacter)
+	for (let Character of PlatformDialogCharacter ?? [])
 		if (Character.Name == CharacterName) {
 			let OwnerLevel = PlatformDialogIsSlave(Character.Name) ? Character.OwnerLevel : 0;
-			if (PlatformDialogIsOwner(Character.Name)) OwnerLevel = PlatformDialogGetCharacter("Melody").OwnerLevel * -1;
-			if (Property == "Love") Character.Love = PlatformDialogChangeValue(Character.Love, Value, PlatformDialogLeaderHasPerk("Seduction"), Character.LoverLevel);
-			if (Property == "Domination") Character.Domination = PlatformDialogChangeValue(Character.Domination, Value, PlatformDialogLeaderHasPerk("Persuasion"), OwnerLevel);
+			if (PlatformDialogIsOwner(Character.Name)) OwnerLevel = (PlatformDialogGetCharacter("Melody").OwnerLevel ?? 0) * -1;
+			if (Property == "Love") Character.Love = PlatformDialogChangeValue(Character.Love, Value, PlatformDialogLeaderHasPerk("Seduction"), Character.LoverLevel ?? 0);
+			if (Property == "Domination") Character.Domination = PlatformDialogChangeValue(Character.Domination, Value, PlatformDialogLeaderHasPerk("Persuasion"), OwnerLevel ?? 0);
 		}
 }
 
@@ -5445,7 +5472,7 @@ function PlatformDialogProcess() {
 	if ((PlatformDialogAnswer != null) && (PlatformDialogReply == null)) return PlatformDialogPickAnswer(PlatformDialogAnswerPosition);
 	if (PlatformDialogGoto != null) {
 		let Pos = 0;
-		for (let Dialog of PlatformDialog.Dialog) {
+		for (let Dialog of PlatformDialog?.Dialog ?? []) {
 			if (Dialog.ID == PlatformDialogGoto)
 				return PlatformDialogLoadPosition(Pos);
 			Pos++;
@@ -5498,7 +5525,7 @@ function PlatformDialogClick() {
 
 /**
  * Returns a dialog character
- * @param {string} Name - The name of a character
+ * @param {Platform.CharacterName} Name - The name of a character
  * @returns {Platform.DialogCharacter} - The character object
  */
 function PlatformDialogGetCharacter(Name) {
@@ -5506,7 +5533,7 @@ function PlatformDialogGetCharacter(Name) {
 		for (let Character of PlatformDialogCharacter)
 			if (Character.Name == Name)
 				return Character;
-	return null;
+	throw new Error("not supposed to happen");
 }
 
 /**
@@ -5584,7 +5611,7 @@ function PlatformDialogEvent() {
 
 /**
  * Returns TRUE if the character is Melody's lover, make sure that character or Melody is currently active
- * @param {string} Name - The name of a character
+ * @param {Platform.CharacterName} Name - The name of a character
  * @returns {boolean} - TRUE if lover
  */
 function PlatformDialogIsLover(Name) {
@@ -5594,8 +5621,8 @@ function PlatformDialogIsLover(Name) {
 
 /**
  * Returns TRUE if two characters are lovers
- * @param {string} Char1 - The name of the first character
- * @param {string} Char2 - The name of the second character
+ * @param {Platform.CharacterName} Char1 - The name of the first character
+ * @param {Platform.CharacterName} Char2 - The name of the second character
  * @returns {boolean} - TRUE if lover
  */
 function PlatformDialogCharactersAreLovers(Char1, Char2) {
@@ -5607,7 +5634,7 @@ function PlatformDialogCharactersAreLovers(Char1, Char2) {
 
 /**
  * Returns TRUE if the character is Melody's slave, make sure that character or Melody is currently active
- * @param {string} Name - The name of a character
+ * @param {Platform.CharacterName} Name - The name of a character
  * @returns {boolean} - TRUE if lover
  */
 function PlatformDialogIsSlave(Name) {
@@ -5617,8 +5644,8 @@ function PlatformDialogIsSlave(Name) {
 
 /**
  * Returns TRUE if the first character is the slave of the second character
- * @param {string} Char1 - The name of the first character
- * @param {string} Char2 - The name of the second character
+ * @param {Platform.CharacterName} Char1 - The name of the first character
+ * @param {Platform.CharacterName} Char2 - The name of the second character
  * @returns {boolean} - TRUE if slave
  */
 function PlatformDialogIsSlaveOfCharacter(Char1, Char2) {
@@ -5630,7 +5657,7 @@ function PlatformDialogIsSlaveOfCharacter(Char1, Char2) {
 
 /**
  * Returns TRUE if the character is Melody's owner, make sure that character or Melody is currently active
- * @param {string} Name - The name of a character
+ * @param {Platform.CharacterName} Name - The name of a character
  * @returns {boolean} - TRUE if lover
  */
 function PlatformDialogIsOwner(Name) {
@@ -5640,7 +5667,7 @@ function PlatformDialogIsOwner(Name) {
 
 /**
  * Returns TRUE if the character doesn't have any lover
- * @param {string} Name - The name of a character
+ * @param {Platform.CharacterName} Name - The name of a character
  * @returns {boolean} - TRUE if no lover
  */
 function PlatformDialogCharacterIsSingle(Name) {
@@ -5651,8 +5678,8 @@ function PlatformDialogCharacterIsSingle(Name) {
 
 /**
  * Returns 0 if the source character and target character are not in a relationship, 1 if lover or slave, 2 if lover and slave
- * @param {string} SourceName - The source character name to evaluate
- * @param {string} TargetName - The target character name to evaluate
+ * @param {Platform.CharacterName} SourceName - The source character name to evaluate
+ * @param {Platform.CharacterName} TargetName - The target character name to evaluate
  * @returns {number} - TRUE if lover
  */
 function PlatformDialogLoverAndSlaveFactor(SourceName, TargetName) {
@@ -5668,6 +5695,7 @@ function PlatformDialogLoverAndSlaveFactor(SourceName, TargetName) {
  * @returns {void} - Nothing
  */
 function PlatformDialogRelationshipChange() {
+	if (!PlatformPlayer) return;
 	PlatformSetHealth(PlatformPlayer);
 	if (PlatformPlayer.Name == "Melody") {
 		PlatformPlayer.WalkSpeed = Math.round(PlatformPlayer.BaseWalkSpeed * (1 + (PlatformDialogLoverAndSlaveFactor(PlatformPlayer.Name, "Edlaran") * 0.1)));

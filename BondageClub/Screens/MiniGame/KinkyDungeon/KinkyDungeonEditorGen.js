@@ -1,4 +1,4 @@
-// @ts-strict-ignore
+// @ts-check
 "use strict";
 
 /** If a tile's weight is higher than this, then any time without this much weight will get culled from the list */

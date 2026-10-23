@@ -339,7 +339,7 @@ class _BitStringHelperInternal {
 			byteString = atob(b64Str);
 		} catch (e) {
 			console.error(
-				`base64ToU16String(): invalid base64 string "${b64Str}": ${e}`,
+				`base64ToU16String(): invalid base64 string "${b64Str}"`, e,
 			);
 			return undefined;
 		}

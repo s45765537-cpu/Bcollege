@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -121,16 +120,21 @@ var Layering = {
 	 * @readonly
 	 * @type {Asset}
 	 */
-	get Asset() { return this.Item.Asset; },
+	get Asset() {
+		if (!this.Item) throw new Error("called before Layering.Init()");
+		return this.Item.Asset;
+	},
 
 	/**
 	 * Get or set the items `Property.OverridePriority`
 	 * @returns {undefined | AssetLayerOverridePriority}
 	 */
 	get OverridePriority() {
+		if (!this.Item) throw new Error("called before Layering.Init()");
 		return this.Item.Property.OverridePriority;
 	},
 	set OverridePriority(value) {
+		if (!this.Item) throw new Error("called before Layering.Init()");
 		this.Item.Property.OverridePriority = value;
 	},
 
@@ -145,22 +149,29 @@ var Layering = {
 	/**
 	 * Update an item's property, optionally for a specific layer, and refresh the character.
 	 * @param {Item} item - The item to update.
-	 * @param {"Priority" | "TranslationX" | "TranslationX" | "ScaleX" | "ScaleY" | "Rotate"} propName - The property name (e.g., "Rotation", "ScaleX").
+	 * @param {"Priority" | "TranslationX" | "TranslationY" | "ScaleX" | "ScaleY" | "Rotation"} propName - The property name (e.g., "Rotation", "ScaleX").
 	 * @param {number} value - The new value.
 	 * @param {LayerName} [layerName] - Optional layer name to update. If provided, updates layer-specific property.
 	 */
 	UpdateProperty(item, propName, value, layerName) {
+		if (!this.Character) throw new Error("called before Layering.Init()");
 		if (!item.Property) item.Property = {};
 
 		if (layerName) {
 			if (propName === "Priority") {
-				if (!item.Property.OverridePriority) item.Property.OverridePriority = {};
+				if (!CommonIsObject(item.Property.OverridePriority)) {
+					item.Property.OverridePriority = {};
+				}
 				item.Property.OverridePriority[layerName] = value;
 			} else {
 				(item.Property[`Layer${propName}`] ??= {})[layerName] = value;
 			}
 		} else {
-			item.Property[propName] = value;
+			if (propName === "Priority") {
+				item.Property.OverridePriority = value;
+			} else {
+				item.Property[propName] = value;
+			}
 		}
 		this._CharacterRefresh(this.Character, false, false);
 	},
@@ -223,12 +234,12 @@ var Layering = {
 	_InitOverridePriorityObject() {
 		this.OverridePriority = {};
 		const layerElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]"));
-		layerElements.forEach(e => {
+		for (const e of layerElements) {
 			const value = e.valueAsNumber;
 			if (!Number.isNaN(value) && value.toString() !== e.dataset.layerPriority) {
-				this.OverridePriority[e.dataset.name] = CommonClamp(Math.round(value), -99, 99);
+				this.OverridePriority[e.dataset.name ?? ""] = CommonClamp(Math.round(value), -99, 99);
 			}
-		});
+		}
 	},
 
 	/**
@@ -238,11 +249,14 @@ var Layering = {
 	 * @param {string} defaultPriority - The stringified default priority of the layer
 	 */
 	_ApplyLayerPriority(name, priority, defaultPriority) {
-		const old = this.OverridePriority?.[name];
+		if (!this.OverridePriority || !this.Character) throw new Error("called before Layering.Init()");
+		const old = CommonIsObject(this.OverridePriority) ? this.OverridePriority[name] : this.OverridePriority;
 		if (!CommonIsObject(this.OverridePriority)) {
 			this._UpdateInputColors("layer-priority");
 			this._InitOverridePriorityObject();
 		}
+		// Should never happen; _InitOverridePriorityObject() turns that into an object
+		if (!CommonIsObject(this.OverridePriority)) return;
 
 		if (!Number.isNaN(priority) && priority.toString() !== defaultPriority) {
 			this.OverridePriority[name] = CommonClamp(priority, -99, 99);
@@ -261,6 +275,7 @@ var Layering = {
 	 * @param {string} defaultPriority - The stringified default priority of the layer
 	 */
 	_ApplyAssetPriority(priority, defaultPriority) {
+		if (!this.Character) throw new Error("called before Layering.Init()");
 		const old = this.OverridePriority;
 		if (!Number.isInteger(old)) {
 			this._UpdateInputColors("asset-priority");
@@ -284,7 +299,7 @@ var Layering = {
 	 */
 	_LayerInputListener(event) {
 		const target = /** @type {HTMLInputElement} */(event.target);
-		this._ApplyLayerPriority(target.dataset.name, target.valueAsNumber, target.dataset.layerPriority);
+		this._ApplyLayerPriority(target.dataset.name ?? "", target.valueAsNumber, target.dataset.layerPriority ?? "");
 	},
 
 	/**
@@ -294,7 +309,7 @@ var Layering = {
 	 */
 	_AssetInputListener(event) {
 		const target = /** @type {HTMLInputElement} */(event.target);
-		this._ApplyAssetPriority(target.valueAsNumber, target.dataset.assetPriority);
+		this._ApplyAssetPriority(target.valueAsNumber, target.dataset.assetPriority ?? "");
 	},
 
 	/**
@@ -310,6 +325,8 @@ var Layering = {
 	 * @private
 	 */
 	_ResetClickListener(_event) {
+		if (!Layering.Character) throw new Error("called before Layering.Init()");
+
 		const item = Layering.Item;
 		const defaults = Layering.Defaults;
 		if (!item || !defaults) {
@@ -323,8 +340,8 @@ var Layering = {
 				const layerElements = document.querySelectorAll("input[data-layer-priority]");
 				/** @type {NodeListOf<HTMLInputElement>} */
 				const assetElements = (document.querySelectorAll("input[data-asset-priority]"));
-				layerElements.forEach(e => e.value = e.dataset.layerPriority);
-				assetElements.forEach(e => e.value = e.dataset.assetPriority);
+				layerElements.forEach(e => e.value = e.dataset.layerPriority ?? "");
+				assetElements.forEach(e => e.value = e.dataset.assetPriority ?? "");
 				break;
 			}
 			case "rotate":
@@ -374,6 +391,8 @@ var Layering = {
 	 * @private
 	 */
 	_ShowLayersClickListener(_event) {
+		if (!Layering.Character) throw new Error("called before Layering.Init()");
+
 		const container = document.getElementById("layering-content-container");
 		if (container) {
 			container.innerHTML = "";
@@ -414,7 +433,8 @@ var Layering = {
 	 * @private
 	 */
 	_UpdateLimits() {
-		const props = ["TranslationX", "TranslationY", "ScaleX", "ScaleY", "Rotation"];
+		if (!this.Item) throw new Error("called before Layering.Init()");
+		const props = /** @type {const} */ (["TranslationX", "TranslationY", "ScaleX", "ScaleY", "Rotation"]);
 		const isPussy = this._IsPussy(this.Asset.Group);
 
 		for (const prop of props) {
@@ -442,7 +462,7 @@ var Layering = {
 				let minAllowed;
 				/** @type {number} */
 				let maxAllowed;
-				const assetVal = this.Item.Property[prop] ?? 0;
+				const assetVal = this.Item.Property?.[prop] ?? 0;
 				if (isScale) {
 					maxAllowed = maxBound / Math.max(0.1, assetVal);
 					minAllowed = minBound / Math.max(0.1, assetVal);
@@ -489,6 +509,10 @@ var Layering = {
 	 * @returns {Element[]}
 	 */
 	_CreateTabContent(propType, properties, min, max, step, defaultValue, isShowingHiddenLayers, constraints = {}) {
+		if (!this.Item || !this.Character) throw new Error("called before Layering.Init()");
+		const item = this.Item;
+		const character = this.Character;
+
 		// Reset cache for this tab
 		this._inputCache = {};
 
@@ -522,7 +546,7 @@ var Layering = {
 											tag: "input",
 											attributes: {
 												type: "number",
-												value: (this._IsPussy(this.Asset.Group) && propType === "Scale" ? (this.Item.Property.ScaleX ?? defaultValue) : (this.Item.Property[prop] ?? defaultValue)),
+												value: (this._IsPussy(this.Asset.Group) && propType === "Scale" ? (item.Property.ScaleX ?? defaultValue) : (item.Property[prop] ?? defaultValue)),
 												step, min: propMin, max: propMax,
 												id: `layering-input-${prop}-item`,
 												class: `layering-input-${prop.replace(/[XY]/, '')} layering-number-input`,
@@ -538,13 +562,13 @@ var Layering = {
 
 													// Uniform scale for Pussy/Penis
 													if (this._IsPussy(this.Asset.Group) && propType === "Scale") {
-														this.Item.Property.ScaleX = clampedVal;
-														this.Item.Property.ScaleY = clampedVal;
+														item.Property.ScaleX = clampedVal;
+														item.Property.ScaleY = clampedVal;
 													} else {
-														this.Item.Property[prop] = clampedVal;
+														item.Property[prop] = clampedVal;
 													}
 													target.value = clampedVal.toString();
-													this._CharacterRefresh(this.Character, false, false);
+													this._CharacterRefresh(character, false, false);
 													this._UpdateLimits();
 												},
 											},
@@ -574,8 +598,11 @@ var Layering = {
 	 * @param {Record<string, [min: number, max: number]>} constraints
 	 */
 	_CreateLayerFieldset(layer, propType, properties, min, max, step, defaultValue, isShowingHiddenLayers, constraints) {
+		if (!this.Item || !this.Character) throw new Error("called before Layering.Init()");
+		const item = this.Item;
+		const character = this.Character;
 		const layerName = layer.Name ?? "";
-		const isVisible = CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, this.Item.Property?.TypeRecord);
+		const isVisible = CharacterAppearanceIsLayerVisible(character, layer, layer.Asset, item.Property?.TypeRecord);
 		return {
 			tag: "fieldset",
 			classList: ["layering-layer-fieldset"],
@@ -601,7 +628,7 @@ var Layering = {
 									tag: "input",
 									attributes: {
 										type: "number",
-										value: (this._IsPussy(this.Asset.Group) && propType === "Scale" ? ((this.Item.Property.LayerScaleX ?? {})[layerName] ?? defaultValue) : ((this.Item.Property[`Layer${prop}`] ?? {})[layerName] ?? defaultValue)),
+										value: (this._IsPussy(this.Asset.Group) && propType === "Scale" ? ((item.Property.LayerScaleX ?? {})[layerName] ?? defaultValue) : ((item.Property[`Layer${prop}`] ?? {})[layerName] ?? defaultValue)),
 										step, min: propMin, max: propMax,
 										id: `layering-input-${prop}-${layerName}`,
 										class: `layering-input-${prop.replace(/[XY]/, '')} layering-number-input`,
@@ -615,13 +642,13 @@ var Layering = {
 
 											// Uniform scale for Pussy/Penis layers
 											if (this._IsPussy(this.Asset.Group) && propType === "Scale") {
-												(this.Item.Property.LayerScaleX ??= {})[layerName] = clampedVal;
-												(this.Item.Property.LayerScaleY ??= {})[layerName] = clampedVal;
+												(item.Property.LayerScaleX ??= {})[layerName] = clampedVal;
+												(item.Property.LayerScaleY ??= {})[layerName] = clampedVal;
 											} else {
-												(this.Item.Property[`Layer${prop}`] ??= {})[layerName] = clampedVal;
+												(item.Property[`Layer${prop}`] ??= {})[layerName] = clampedVal;
 											}
 											target.value = clampedVal.toString();
-											this._CharacterRefresh(this.Character, false, false);
+											this._CharacterRefresh(character, false, false);
 											this._UpdateLimits();
 										},
 									},
@@ -676,6 +703,9 @@ var Layering = {
 	 * @returns {Element[]}
 	 */
 	_GetTabContents(tabKey) {
+		if (!this.Character) throw new Error("called before Layering.Init()");
+		const character = this.Character;
+
 		const itemPriority = typeof this.OverridePriority === "number" ? this.OverridePriority : this.Asset.Group.DrawingPriority;
 		const hideButton = document.getElementById(this.ID.hideButton);
 		const isShowingHiddenLayers = hideButton?.getAttribute("aria-checked") === "true";
@@ -720,7 +750,7 @@ var Layering = {
 										eventListeners: {
 											input: (/** @type {Event} */ event) => {
 												this._ApplyAssetPriority(/** @type {HTMLInputElement} */(event.target).valueAsNumber, "-99");
-												this._CharacterRefresh(this.Character, false, false);
+												this._CharacterRefresh(character, false, false);
 											},
 										},
 									},
@@ -760,6 +790,10 @@ var Layering = {
 	 * @private
 	 */
 	_BuildLayerPriorityFieldset(isShowingHiddenLayers) {
+		if (!this.Item || !this.Character) throw new Error("called before Layering.Init()");
+		const item = this.Item;
+		const character = this.Character;
+
 		const layerGroupings = this._GroupLayers(this.Asset.Layer);
 		return ElementCreate({
 			tag: /** @type {const} */("fieldset"),
@@ -782,10 +816,11 @@ var Layering = {
 								},
 								.../** @type {HTMLOptionsUnion[]} */(layerList.map((layer) => {
 									const name = layer.Name ?? "";
+									const inputValue = (CommonIsObject(this.OverridePriority) ? this.OverridePriority[name]: this.OverridePriority) ?? layer.Priority;
 									return {
 										tag: /** @type {const} */("div"),
 										classList: ["layering-pair"],
-										attributes: { hidden: !isShowingHiddenLayers && !CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, this.Item.Property?.TypeRecord) },
+										attributes: { hidden: !isShowingHiddenLayers && !CharacterAppearanceIsLayerVisible(character, layer, layer.Asset, item.Property?.TypeRecord) },
 										children: [
 											{
 												tag: /** @type {const} */("label"),
@@ -795,13 +830,13 @@ var Layering = {
 											},
 											{
 												tag: /** @type {const} */("input"),
-												attributes: { type: "number", value: this.OverridePriority?.[name] ?? layer.Priority, id: `layering-input-${layerGroupName}-${name}`, inputmode: "numeric" },
+												attributes: { type: "number", value: inputValue, id: `layering-input-${layerGroupName}-${name}`, inputmode: "numeric" },
 												dataAttributes: { name, layerPriority: layer.Priority },
 												eventListeners: {
 													input: (/** @type {Event} */ event) => {
 														const target = /** @type {HTMLInputElement} */(event.target);
 														this._ApplyLayerPriority(name, target.valueAsNumber, "-99");
-														this._CharacterRefresh(this.Character, false, false);
+														this._CharacterRefresh(character, false, false);
 													},
 												},
 											},
@@ -849,6 +884,7 @@ var Layering = {
 	 * @returns {ItemProperties}
 	 */
 	_GetDefaults() {
+		if (!this.Item || !this.Character) throw new Error("called before Layering.Init()");
 		if (!this.Item.Property.TypeRecord) {
 			return {};
 		}
@@ -875,7 +911,7 @@ var Layering = {
 		}
 
 		const lockButton = document.getElementById(this.ID.lockButton);
-		lockButton.toggleAttribute("hidden", !isReadonly);
+		lockButton?.toggleAttribute("hidden", !isReadonly);
 	},
 
 	/**
@@ -916,6 +952,7 @@ var Layering = {
 	 * @private
 	 */
 	_ApplyTranslations() {
+		if (!this.Item || !this.Character) throw new Error("called before Layering.Init()");
 		TextCache.buildAsync(`Assets/LayerNames.csv`).then((cache) => {
 			const headers = /** @type {NodeListOf<HTMLHeadingElement>} */(document.querySelectorAll("[data-layering-group]"));
 			headers.forEach(h => {
@@ -929,6 +966,7 @@ var Layering = {
 
 	/** @type {ScreenLoadHandler} */
 	async Load() {
+		if (!this.Item || !this.Character) throw new Error("called before Layering.Init()");
 		const cache = await TextCache.buildAsync(`Assets/LayerNames.csv`);
 
 		let root = document.getElementById(this.ID.root);
@@ -972,7 +1010,7 @@ var Layering = {
 						btn.innerText = label;
 						return btn;
 					}),
-					null,
+					undefined,
 					{ menu: { classList: ["layering-tabs"] } },
 				),
 				{
@@ -1043,6 +1081,7 @@ var Layering = {
 	 * @type {ScreenResizeHandler}
 	 */
 	Resize(_load) {
+		if (!this.Display) throw new Error("called before Layering.Init()");
 		ElementPositionFixed(this.ID.root, this.Display.x, this.Display.y, this.Display.w, this.Display.h);
 	},
 
@@ -1057,10 +1096,13 @@ var Layering = {
 	 * @param {boolean} reload - Whether the exit call is part of a reload (see {@link Layering.Init})
 	 */
 	Exit(reload=false) {
+		if (!this.Character || !this.Item) throw new Error("called before Layering.Init()");
 		ElementRemove(this.ID.root);
 
 		if (!reload) {
-			this._ExitCallbacks.forEach(func => func(CurrentScreen, this.Character, this.Item));
+			for (const func of this._ExitCallbacks) {
+				func(CurrentScreen, this.Character, this.Item);
+			}
 		}
 
 		this.Item = null;
@@ -1081,9 +1123,9 @@ var Layering = {
 		for (let { screen, callback } of options) {
 			if (screen) {
 				callback ??= CommonNoop;
-				this._ExitCallbacks.push((currentScreen, ...args) => currentScreen === screen ? callback(...args) : undefined);
+				this._ExitCallbacks.push((currentScreen, ...args) => currentScreen === screen ? callback?.(...args) : undefined);
 			} else if (callback) {
-				this._ExitCallbacks.push((_currentScreen, ...args) => callback(...args));
+				this._ExitCallbacks.push((_currentScreen, ...args) => callback?.(...args));
 			}
 		}
 	},
@@ -1093,7 +1135,10 @@ Layering.RegisterExitCallbacks(
 	{
 		screen: "Crafting",
 		callback: (_C, item) => {
-			Layering.PropertyNames.forEach(propName => /** @type {Unknown<ItemProperties>} */(CraftingSelectedItem.ItemProperty)[propName] = item.Property[propName]);
+			if (!CraftingSelectedItem) return;
+			for (const propName of Layering.PropertyNames) {
+				/** @type {Unknown<ItemProperties>} */(CraftingSelectedItem.ItemProperty)[propName] = item.Property[propName];
+			}
 			CraftingModeSet("Name");
 		},
 	},

@@ -185,14 +185,14 @@ interface ServerItemBundle {
 interface ServerPrivateCharacterData {
 	Name: string;
 	Love: number;
-	Title: TitleName;
+	Title?: TitleName;
 	Trait: NPCTrait[];
 	Cage: boolean;
 	Owner: string;
-	Lover: string;
+	Lover: string | undefined;
 	AssetFamily: "Female3DCG";
 	Appearance: ServerAppearanceBundle;
-	AppearanceFull: ServerAppearanceBundle;
+	AppearanceFull: ServerAppearanceBundle | undefined;
 	ArousalSettings: ArousalSettingsType;
 	Event: NPCEvent[];
 	FromPandora?: boolean;
@@ -1027,6 +1027,7 @@ type ServerGameMagicBattleData =
 type ServerGameMagicBattleResponse = ServerChatRoomGameResponseBase<ServerGameMagicBattleData>
 
 interface ServerChatRoomGameResponseBase<T> extends ServerChatRoomMessageBase {
+	Sender: number;
 	Data: T;
 	RNG: number;
 }
@@ -1111,7 +1112,7 @@ interface ServerCharacterArousalResponse {
 
 interface ServerCharacterItemUpdate extends Omit<ServerItemBundle, "Name"> {
 	Target: number;
-	Name: AssetName;
+	Name: AssetName | null;
 }
 
 interface ServerChatRoomSyncItemResponse {

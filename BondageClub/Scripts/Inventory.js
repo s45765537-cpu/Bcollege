@@ -861,7 +861,7 @@ function InventoryLocked(C, AssetGroup, CheckProperties) {
  * Makes the character wear a random item from a body area
  * @param {Character} C - The character that must wear the item
  * @param {AssetGroupName} GroupName - The name of the asset group (body area)
- * @param {number} [Difficulty] - The difficulty, on top of the base asset difficulty, to assign to the item
+ * @param {null | number} [Difficulty] - The difficulty, on top of the base asset difficulty, to assign to the item
  * @param {null | boolean} [Refresh] - Do not call CharacterRefresh if false
  * @param {null | boolean} [MustOwn] - If TRUE, only assets that the character owns can be worn. Otherwise any asset can
  * be used
@@ -873,6 +873,7 @@ function InventoryLocked(C, AssetGroup, CheckProperties) {
  * @returns {Item | null} - The equipped item (if any)
  */
 function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn = false, Extend = true, AllowedAssets = undefined, IgnoreRequirements = false) {
+	Difficulty ??= 0;
 	if (InventoryLocked(C, /** @type {AssetGroupItemName} */(GroupName), true)) {
 		return null;
 	}
