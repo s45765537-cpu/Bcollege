@@ -4,7 +4,7 @@ const ChatRoomMapViewName = "Map";
 var ChatRoomMapViewPerceptionRange = 4;
 var ChatRoomMapViewPerceptionRangeMin = 1;
 var ChatRoomMapViewPerceptionRangeMax = 7;
-/** @type {"" |  "Tile" | "Object" | "TileType" | "ObjectType" | "Effect"} */
+/** @type {ChatRoomMapViewEditModeType} */
 var ChatRoomMapViewEditMode = "";
 var ChatRoomMapViewEditPath = "";
 var ChatRoomMapViewLastSearch = "";
@@ -361,22 +361,44 @@ function ChatRoomMapViewShowEditor() {
 }
 
 /**
- *
+ * Switches the editor palette. Changing mode or submode clears the selected doodad.
+ * @param {ChatRoomMapViewEditModeType} mode
+ * @param {"" | ChatRoomMapTileType | ChatRoomMapObjectType} subMode
+ */
+function ChatRoomMapViewEditorSetMode(mode, subMode) {
+	if (ChatRoomMapViewEditMode === mode && ChatRoomMapViewEditSubMode === subMode) return;
+	ChatRoomMapViewEditMode = mode;
+	ChatRoomMapViewEditSubMode = subMode;
+	ChatRoomMapViewEditObject = null;
+}
+
+/**
  * @param {ChatRoomMapDoodad} item
  * @param {MapDataDoodadType} type
- * @param {boolean} updateRecent
+ * @param {boolean} [updateRecent]
+ * @deprecated Use {@link ChatRoomMapViewEditorSetSelection} instead
  * @returns {void}
  */
 function ChatRoomMapViewSetSelection(item, type, updateRecent=true) {
+	ChatRoomMapViewEditorSetSelection(item, type, updateRecent);
+}
+
+/**
+ * @param {ChatRoomMapDoodad} item
+ * @param {MapDataDoodadType} type
+ * @param {boolean} [updateRecent]
+ * @returns {void}
+ */
+function ChatRoomMapViewEditorSetSelection(item, type, updateRecent=true) {
+	/** @type {"" | ChatRoomMapTileType | ChatRoomMapObjectType} */
+	let subMode = "";
+	if (MapDoodadIsObject(item) || MapDoodadIsTile(item)) {
+		subMode = item.Type;
+	}
+	ChatRoomMapViewEditorSetMode(type, subMode);
 	ChatRoomMapViewEditObject = CommonCloneDeep(item);
-	ChatRoomMapViewEditMode = type;
 	if (MapDoodadIsObject(item)) {
-		ChatRoomMapViewEditSubMode = item.Type;
 		if ((item.AssetName != null) && (item.AssetGroup != null) && !InventoryAvailable(Player, item.AssetName, item.AssetGroup)) return;
-	} else if (MapDoodadIsTile(item)) {
-		ChatRoomMapViewEditSubMode = item.Type;
-	} else if (MapDoodadIsEffect(item)) {
-		ChatRoomMapViewEditSubMode = "";
 	}
 	document.getElementById("chat-room-map-view-panel-editor-recent-items-grid")?.setAttribute("value", item.ID, );
 	if (updateRecent) {
@@ -437,21 +459,17 @@ function ChatRoomMapViewGetButtons() {
 
 	if (!ChatRoomPlayerIsAdmin()) return zoomButtons;
 	const backButton = ChatMapRoomViewCreateCategoryButton(() => {
-		if (ChatRoomMapViewEditSubMode != "") {
-			ChatRoomMapViewEditSubMode = "";
-		}
 		switch (ChatRoomMapViewEditMode) {
 			case "Object":
-				ChatRoomMapViewEditMode = "ObjectType";
+				ChatRoomMapViewEditorSetMode("ObjectType", "");
 				break;
 			case "Tile":
-				ChatRoomMapViewEditMode = "TileType";
+				ChatRoomMapViewEditorSetMode("TileType", "");
 				break;
 			case "ObjectType":
 			case "TileType":
 			case "Effect":
-				ChatRoomMapViewEditMode = "";
-				ChatRoomMapViewEditObject = null;
+				ChatRoomMapViewEditorSetMode("", "");
 				break;
 			case "":
 				break;
@@ -519,9 +537,7 @@ function ChatRoomMapViewGetButtons() {
 
 				ChatMapRoomViewCreateCategoryButton(() => {
 					if (!ChatRoomPlayerIsAdmin()) return;
-					ChatRoomMapViewEditMode = "Effect";
-					ChatRoomMapViewEditSubMode = "";
-					ChatRoomMapViewEditObject = MapDataGetEffect(AssetsMapDataEffects[1].ID);
+					ChatRoomMapViewEditorSetSelection(MapDataGetEffect(AssetsMapDataEffects[1].ID), "Effect", false);
 					ChatRoomMapViewReloadEditorPanel();
 				}, "Icons/Light.png", TextGet("EditorButtonTextEditEffects")),
 				...buttons,
@@ -532,8 +548,7 @@ function ChatRoomMapViewGetButtons() {
 				editRangeButton,
 				...[...MapDataObjectTypes].map((type) => {
 					return ChatMapRoomViewCreateCategoryButton(() => {
-						ChatRoomMapViewEditSubMode = type;
-						ChatRoomMapViewEditMode = "Object";
+						ChatRoomMapViewEditorSetMode("Object", type);
 						ChatRoomMapViewReloadEditorPanel();
 
 					}, MapGetAssetUrl("Object") + "Type/" + type + ".png", TextGet("ObjectTypeName" + type));
@@ -546,8 +561,7 @@ function ChatRoomMapViewGetButtons() {
 				editRangeButton,
 				...[...MapDataTileTypes].map((type) => {
 					return ChatMapRoomViewCreateCategoryButton(() => {
-						ChatRoomMapViewEditSubMode = type;
-						ChatRoomMapViewEditMode = "Tile";
+						ChatRoomMapViewEditorSetMode("Tile", type);
 						ChatRoomMapViewReloadEditorPanel();
 
 					}, MapGetAssetUrl("Tile") + "Type/" + type + ".png", TextGet("TileTypeName" + type));
@@ -695,7 +709,7 @@ function ChatRoomMapViewCreateMapElementItem(item, updateRecent=true, readOnly=f
 	const selected = ChatRoomMapViewEditObject?.ID === item.ID && ChatRoomMapViewEditObject.Type === item.Type;
 	if (selected) classList.push("chat-room-map-view-item-selected");
 	const element = ElementButton.Create(null, function () {
-		ChatRoomMapViewSetSelection(item, type, updateRecent);
+		ChatRoomMapViewEditorSetSelection(item, type, updateRecent);
 	}, {
 		image: imageUrl?.endsWith("/Blank.png") != false ? undefined : imageUrl,
 	}, {

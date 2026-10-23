@@ -57,3 +57,7 @@ type MapDataDoodadType = keyof MapDataLookupTable;
 type UnpackedIndex<T extends readonly [number, ...unknown[]]> = T extends readonly [number, infer Y, ...infer Rest]
 	? Y extends number ? [number, ...Rest] : T
 	: T;
+
+type ChatRoomMapViewObjectModeType = "Tile" | "Object" | "Effect";
+
+type ChatRoomMapViewEditModeType = "" | ChatRoomMapViewObjectModeType | "TileType" | "ObjectType";
