@@ -145,6 +145,8 @@ TileTypeNameWater,Water
 ObjectTypeNameLivingRoom,Living Room
 ObjectTypeNameBathroom,Bathroom
 ObjectTypeNameBedroom,Bedroom
+ObjectTypeNameKitchen,Kitchen
+ObjectTypeNameOffice,Office
 ObjectTypeNameSchool,School
 ObjectTypeNameABDL,ABDL
 ObjectTypeNameFloorDecorationThemed,Themed

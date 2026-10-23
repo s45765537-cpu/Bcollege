@@ -642,7 +642,7 @@ function ChatRoomMapViewIsChatRoomMapPhysicalElement(element) {
 function ChatRoomMapViewIsChatRoomMapObject(element) {
 	return ["FloorDecorationThemed","FloorDecorationParty","FloorDecorationCamping",
 		"FloorDecorationExpanding","FloorDecorationAnimal","FloorItem","FloorObstacle","FloorNumber",
-		"FloorLetter","FloorIcon","WallDecoration", "WallPath","Banners", "FloorFoamTiles","Functional", "Bedroom", "LivingRoom", "Bathroom", "ABDL", "School"].includes(element.Type);
+		"FloorLetter","FloorIcon","WallDecoration", "WallPath","Banners", "FloorFoamTiles","Functional", "Bedroom", "LivingRoom", "Kitchen", "Office", "Bathroom", "ABDL", "School"].includes(element.Type);
 }
 
 /**

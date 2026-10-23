@@ -5468,6 +5468,8 @@ type ChatRoomMapObjectType = (
 	| "WallPath"
 	| "Bedroom"
 	| "LivingRoom"
+	| "Kitchen"
+	| "Office"
 	| "School"
 	| "ABDL"
 	| "Bathroom"
