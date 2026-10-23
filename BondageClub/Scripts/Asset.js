@@ -84,7 +84,6 @@ function AssetGroupAdd(Family, GroupDef) {
 		AllowCustomize: (GroupDef.AllowCustomize == null) ? true : GroupDef.AllowCustomize,
 		Random: (GroupDef.Random == null) ? true : GroupDef.Random,
 		ColorSchema,
-		DefaultColor: ColorSchema[0],
 		ParentSize: (GroupDef.ParentSize == null) ? "" : GroupDef.ParentSize,
 		ParentColor: (GroupDef.ParentColor == null) ? "" : GroupDef.ParentColor,
 		Clothing: (GroupDef.Clothing == null) ? false : GroupDef.Clothing,
@@ -361,7 +360,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 	});
 
 	AssetAssignColorIndices(A);
-	A.DefaultColor = AssetParseDefaultColor(A.ColorableLayerCount, Group.DefaultColor, AssetDef.DefaultColor);
+	AssetAssignDefaultColor(A);
 
 	// Unwearable assets are not visible but can be overwritten
 	if (!A.Wear && AssetDef.Visible != true) A.Visible = false;
@@ -704,11 +703,13 @@ function AssetMapLayer(Layer, A, I, AssetDef, GroupDef) {
 	const minOpacity = A.EditOpacity ? AssetParseOpacity(Layer.MinOpacity ?? AssetDef.MinOpacity ?? GroupDef.MinOpacity ?? 1, 0, 1) : 1;
 	const maxOpacity = A.EditOpacity ? AssetParseOpacity(Layer.MaxOpacity ?? AssetDef.MaxOpacity ?? GroupDef.MaxOpacity ?? 1, 0, 1) : 1;
 	const opacity = AssetParseOpacity(Layer.Opacity ?? AssetDef.Opacity, minOpacity, maxOpacity);
+	const allowColorize = !Layer.TextureMask && (typeof Layer.AllowColorize === "boolean" ? Layer.AllowColorize : A.AllowColorize);
 
 	/** @type {AssetLayer} */
 	const L = {
 		Name: AssetParseName(Layer.Name || null, `Layer name "${A.Group.Name}/${A.Name}/${Layer.Name || null}"`),
-		AllowColorize: !Layer.TextureMask && (typeof Layer.AllowColorize === "boolean" ? Layer.AllowColorize : A.AllowColorize),
+		AllowColorize: allowColorize,
+		Color: allowColorize ? AssetParseLayerColor(A.Group.ColorSchema[0], Layer.Color) : [],
 		CopyLayerColor: typeof Layer.CopyLayerColor === "string" ? Layer.CopyLayerColor : null,
 		ColorGroup: typeof Layer.ColorGroup === "string" ? Layer.ColorGroup : null,
 		HideColoring: typeof Layer.HideColoring === "boolean" ? Layer.HideColoring : false,
@@ -904,6 +905,48 @@ function AssetAssignColorIndices(A) {
 		/** @type {Mutable<AssetLayer>} */(Layer).ColorIndex = colorMap[LayerKey];
 	});
 	A.ColorableLayerCount = colorIndex;
+}
+
+/**
+ * Parse a layer's {@link AssetLayerDefinition.Color} preset list.
+ * @param {BCColor} fillValue The group's first {@link AssetGroup.ColorSchema} entry
+ * @param {(readonly BCColor[]) | undefined} color
+ * @returns {BCColor[]}
+ */
+function AssetParseLayerColor(fillValue, color) {
+	if (!Array.isArray(color) || color.length === 0) return [fillValue];
+	return color.slice();
+}
+
+/**
+ * Generate the asset's DefaultColor list from its layers.
+ * @param {Mutable<Asset>} A
+ * @returns {void}
+ */
+function AssetAssignDefaultColor(A) {
+	const fill = A.Group.ColorSchema[0];
+	/** @type {Map<LayerName, readonly BCColor[]>} */
+	const presets = new Map();
+	for (const layer of A.Layer) {
+		if (!layer.AllowColorize || layer.CopyLayerColor) continue;
+		const key = layer.Name ?? "";
+		if (!presets.has(key)) presets.set(key, layer.Color);
+	}
+	for (const layer of A.Layer) {
+		if (!layer.AllowColorize || !layer.CopyLayerColor) continue;
+		/** @type {Mutable<AssetLayer>} */(layer).Color = presets.get(layer.CopyLayerColor) ?? [fill];
+	}
+
+	/** @type {BCColor[]} */
+	const defaults = Array(A.ColorableLayerCount).fill(fill);
+	/** @type {Set<number>} */
+	const seen = new Set();
+	for (const layer of A.Layer) {
+		if (!layer.AllowColorize || seen.has(layer.ColorIndex)) continue;
+		seen.add(layer.ColorIndex);
+		defaults[layer.ColorIndex] = layer.Color[0] ?? fill;
+	}
+	A.DefaultColor = defaults;
 }
 
 /**
@@ -1180,24 +1223,6 @@ function AssetLayerSort(layers) {
 		// fallback.
 		return l1.Asset.Name.localeCompare(l2.Asset.Name);
 	});
-}
-
-/**
- * Convert {@link AssetDefinition} default color into a {@link Asset} default color list
- * @param {number} colorableLayerCount The number of colorable layers
- * @param {BCColor} fillValue The default color. Usually `"Default"` though skin colors can also be supplied on occasion.
- * @param {BCColor | readonly BCColor[]} [color] See {@link AssetDefinition.DefaultColor}
- * @returns {BCColor[]} See {@link Asset.DefaultColor}
- */
-function AssetParseDefaultColor(colorableLayerCount, fillValue, color) {
-	/** @type {BCColor[]} */
-	const defaultColor = Array(colorableLayerCount).fill(fillValue);
-	if (typeof color === "string") {
-		defaultColor.fill(color);
-	} else if (CommonIsArray(color)) {
-		color.slice(0, colorableLayerCount).forEach((c, i) => defaultColor[i] = c);
-	}
-	return defaultColor;
 }
 
 const AssetStringsPath = "Assets/AssetStrings.csv";

@@ -154,7 +154,7 @@ function CharacterAppearanceValidate(C) {
 	for (const group of AssetGroup) {
 		if (group.AllowNone || InventoryGet(C, group.Name) !== null) continue;
 		for (const asset of group.Asset) {
-			CharacterAppearanceSetItem(C, group.Name, asset, group.DefaultColor);
+			CharacterAppearanceSetItem(C, group.Name, asset, group.ColorSchema[0]);
 			Refresh = true;
 			break;
 		}
@@ -283,7 +283,7 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false, refresh=true) {
 					continue;
 				/** @type {Readonly<ItemColor> | undefined} */
 				let SelectedColor = SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)];
-				if ((SelectedAsset.Group.DefaultColor == "Default") && (Math.random() < 0.5)) SelectedColor = "Default";
+				if ((SelectedAsset.Group.ColorSchema[0] == "Default") && (Math.random() < 0.5)) SelectedColor = "Default";
 				if (SelectedAsset.Group.InheritColor != null) SelectedColor = "Default";
 				else if (SelectedAsset.Group.ParentColor != "") {
 					SelectedColor = ItemGetColor(C, SelectedAsset.Group.ParentColor);
