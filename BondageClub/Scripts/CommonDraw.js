@@ -710,7 +710,7 @@ function CommonDrawApplyLayerAlphaMasks(
  */
 function CommonDrawResolveLayerColor(C, item, layer, groupName, initialColor) {
 	// Pick the layer's color out of the item's Color property based on the layer's index, or default it to what the group says
-	let layerColor = initialColor ?? item.Asset.Group.DefaultColor;
+	let layerColor = initialColor ?? item.Asset.Group.ColorSchema[0];
 	if (Array.isArray(item.Color)) {
 		layerColor = item.Color[layer.ColorIndex];
 	} else {

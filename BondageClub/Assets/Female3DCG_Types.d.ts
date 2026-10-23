@@ -701,7 +701,6 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	 * - The items difficulty is larger than zero (see {@link AssetDefinition.Difficulty})
 	 */
 	AllowTighten?: boolean;
-	DefaultColor?: ItemColor;
 	Audio?: AudioEffectName;
 
 	/** A list of categories. Used to prevent the asset to be used, per chatroom settings */
@@ -857,6 +856,18 @@ interface AttributionDefinition {
 interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, AssetCommonPropertiesAssetLayer {
 	/** The layer's name */
 	Name?: LayerName;
+
+	/**
+	 * Preset colors for this layer.
+	 *
+	 * The first entry is the layer's default color. Further entries are reserved for a future extension of
+	 * layer color cycling and palette selection for randomized appearance.
+	 *
+	 * Only colorable layers can set this. Layers with {@link AssetLayerDefinition.CopyLayerColor} set,
+	 * {@link AssetLayerDefinition.TextureMask} set, or {@link AssetLayerDefinition.AllowColorize} set to
+	 * `false` shouldn't set this.
+	 */
+	Color?: readonly [defaults: BCColor];
 
 	/** Uses the color of the named layer. */
 	CopyLayerColor?: LayerName;
