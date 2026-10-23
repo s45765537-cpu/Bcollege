@@ -39,7 +39,8 @@ const ValidationPropertyPermissions = {
  * target and source characters
  */
 function ValidationCreateDiffParams(C, sourceMemberNumber) {
-	const fromSelf = sourceMemberNumber === C.MemberNumber;
+	// NPCs have no member number, and the only thing loading them is the private room on unpacking
+	const fromSelf = sourceMemberNumber === C.MemberNumber || (C.IsNpc() && sourceMemberNumber === -1);
 	const fromOwner = C.IsOwnedByMemberNumber(sourceMemberNumber) || fromSelf;
 	const fromFamily = C.IsInFamilyOfMemberNumber(sourceMemberNumber);
 	const loverNumbers = CharacterGetLoversNumbers(C);
