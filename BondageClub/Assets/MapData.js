@@ -183,7 +183,7 @@ function ChatRoomMapViewShowTeleportPadMenu(x, y, message) {
 }
 
 /**
- * Opens the color picker used for clothes on a teleport pad, a two way partner gets the same color
+ * Opens or closes the color picker of a teleport pad, a two way partner gets the same color
  * @param {number} x
  * @param {number} y
  */
@@ -205,26 +205,23 @@ function ChatRoomMapViewTeleportPadPickColor(x, y) {
 		indexes: [MapCoordinatesToIndex(x, y), ...(partner ? [MapCoordinatesToIndex(partner.X, partner.Y)] : [])],
 		color: original,
 	};
-	CommonPromiseCatch(
-		ColorPickerInit({
-			colorState: { colors: [CommonColorTrimAlpha(original)], defaultColors: [CommonColorTrimAlpha(original)], opacity: [originalOpacity], editOpacity: true },
-			heading: TextGet("TeleportPadTitle"),
-			onInput: (fieldset) => {
-				const color = toColor(ColorPicker.getColor(fieldset.closest(".screen") ?? fieldset));
-				if (color && ChatRoomMapViewTeleportPadPreview) ChatRoomMapViewTeleportPadPreview.color = color;
-			},
-			onExit: (state, save) => {
-				const color = toColor(state);
-				ChatRoomMapViewTeleportPadPreview = null;
-				if (save && color) {
-					MapManager.Map.setTeleporterColor(x, y, color);
-					if (partner) MapManager.Map.setTeleporterColor(partner.X, partner.Y, color);
-					ChatRoomMapViewTeleportPadSave();
-				}
-				ChatRoomMapViewShowTeleportPadMenu(x, y);
-			},
-		})
-	);
+	ChatRoomMapViewColorPickerToggle({
+		colorState: { colors: [CommonColorTrimAlpha(original)], defaultColors: [CommonColorTrimAlpha(original)], opacity: [originalOpacity], editOpacity: true },
+		heading: TextGet("TeleportPadTitle"),
+		onInput: (fieldset) => {
+			const color = toColor(ColorPicker.getColor(fieldset.closest(".screen") ?? fieldset));
+			if (color && ChatRoomMapViewTeleportPadPreview) ChatRoomMapViewTeleportPadPreview.color = color;
+		},
+		onExit: (state, save) => {
+			const color = toColor(state);
+			if (save && color) {
+				MapManager.Map.setTeleporterColor(x, y, color);
+				if (partner) MapManager.Map.setTeleporterColor(partner.X, partner.Y, color);
+				ChatRoomMapViewTeleportPadSave();
+			}
+			ChatRoomMapViewShowTeleportPadMenu(x, y);
+		},
+	});
 }
 
 /**
