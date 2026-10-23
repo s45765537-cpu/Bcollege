@@ -96,7 +96,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	SubmissivesList?: string;
 	KinkyDungeonExploredLore?: unknown[];
 	KeybindingSettings?: string;
-	RecentlyUsedMapElements?: ChatRoomMapDoodad[];
+	RecentlyUsedMapElements?: MapDoodadRef[];
 }
 
 // TODO: Add `Lover` after figuring out why {@link ServerPlayerSync} still passes this field to the server

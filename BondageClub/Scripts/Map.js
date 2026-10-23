@@ -2524,6 +2524,19 @@ function MapGetDoodad(type, id) {
 }
 
 /**
+ * Pack an array of doodads into a flat array of doodad references.
+ * @param {ChatRoomMapDoodad[]} doodads
+ * @returns {MapDoodadRef[]}
+ */
+function MapPackDoodads(doodads) {
+	return doodads.flatMap(doodad => {
+		/** @type {MapDoodadRef | undefined} */
+		const key = doodad.DoodadType ? `${doodad.DoodadType}:${doodad.ID}` : undefined;
+		return key ? [key] : [];
+	}).slice(0, ChatRoomMapViewEditorMaxRecentElements);
+}
+
+/**
  * Gets the effect / object / tile on the map
  * @template {MapDataDoodadType} T
  * @param {T} type - The type of the tile

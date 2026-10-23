@@ -83,6 +83,8 @@ Game.load("../Screens/Online/ChatRoom/ChatRoomMapView.js");
 Game.load("../Screens/Online/ChatRoom/ChatRoomCharacterView.js");
 Game.load("../Screens/Online/ChatRoom/ChatRoom.js");
 Game.load("../Scripts/Map.js");
+Game.load("../Assets/MapData.js");
+Game.MapDataLoad();
 
 
 describe("ServerAccountDataSyncedValidate", () => {
@@ -221,6 +223,54 @@ describe("ServerAccountDataSyncedValidate", () => {
 			expect(Game.ServerAccountDataSyncedValidate.MapData({ Pos: { X: 15, Y: 15 } })).toMatchObject({});
 			expect(Game.ServerAccountDataSyncedValidate.MapData({ Pos: NaN })).toMatchObject({});
 		});
+	});
+});
+
+describe("recent map doodads", () => {
+	it("loads account keys into registry doodads", () => {
+		const tileIds = [100, 101, 102, 103, 104, 105, 106, 107, 108, 110, 115, 120, 121, 132, 170, 171, 172];
+		const keys = tileIds.map((id) => `Tile:${id}`);
+		const capped = Game.ServerAccountDataSyncedValidate.RecentlyUsedMapElements(keys);
+		expect(capped).toHaveLength(16);
+		expect(capped[0]).toBe(Game.MapDataGetTile(tileIds[0]));
+
+		const resolved = Game.ServerAccountDataSyncedValidate.RecentlyUsedMapElements([
+			"Tile:100",
+			"Object:100",
+			"Tile:100",
+			"Effect:12",
+			"nope",
+			{ ID: 101, DoodadType: "Tile", Type: "Floor", Style: "WoodWhite" },
+			{ ID: 100 },
+			{ ID: 999999, DoodadType: "Object" },
+			5,
+		]);
+		expect(Game.MapPackDoodads(resolved)).toEqual([
+			"Tile:100",
+			"Object:100",
+			"Effect:12",
+			"Tile:101",
+		]);
+		expect(resolved[0]).toBe(Game.MapDataGetTile(100));
+		expect(resolved[1]).toBe(Game.MapDataGetObject(100));
+		expect(Game.ServerAccountDataSyncedValidate.RecentlyUsedMapElements(null)).toEqual([]);
+	});
+
+	it("converts pre-reference doodads into keys", () => {
+		const stored = JSON.parse('[{"ID":370,"Type":"Bathroom","Style":"Toilet","Top":-0.65,"Left":0.05,"Height":1.5,"Width":0.9},{"ID":3027,"Type":"Bathroom","Style":"TowelRack","Top":-0.34,"Height":1.19},{"ID":3028,"Type":"Bathroom","Style":"LaundryBasket","Top":0.05,"Left":0.01,"Height":0.8,"Width":0.98},{"ID":220,"Type":"School","Style":"StudentDesk","Top":-0.1},{"ID":213,"Type":"School","Style":"Lectern","Top":-0.4,"Height":1.25},{"ID":212,"Type":"School","Style":"Globe","Top":-0.25,"Left":0.16,"Height":1.1,"Width":0.69},{"ID":389,"Type":"Bedroom","Style":"Wardrobe","Top":-0.9,"Left":0,"Height":2,"Width":1},{"ID":3510,"Type":"Functional","Style":"ConveyorBeltFast1","Top":0,"Left":0}]');
+		const resolved = Game.ServerAccountDataSyncedValidate.RecentlyUsedMapElements(stored);
+		expect(Game.MapPackDoodads(resolved)).toEqual([
+			"Object:370",
+			"Object:3027",
+			"Object:3028",
+			"Object:220",
+			"Object:213",
+			"Object:212",
+			"Object:389",
+			"Object:3510",
+		]);
+		expect(resolved[3]).toBe(Game.MapDataGetObject(220));
+		expect(resolved[3].Style).toBe("StudentDesk");
 	});
 });
 

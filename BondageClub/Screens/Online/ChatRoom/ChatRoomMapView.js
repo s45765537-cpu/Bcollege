@@ -47,6 +47,7 @@ const ChatRoomMapViewWhisperRange = 1;
 const ChatRoomMapViewInteractionRange = 1;
 const ChatRoomMapViewRemoteRange = ChatRoomMapViewPerceptionRangeMax;
 const ChatRoomMapSignTextMaxLength = 150;
+var ChatRoomMapViewEditorMaxRecentElements = 16;
 
 /**
  * @type {boolean[]}
@@ -381,9 +382,11 @@ function ChatRoomMapViewSetSelection(item, type, updateRecent=true) {
 	if (updateRecent) {
 		Player.RecentlyUsedMapElements = [
 			item,
-			...Player.RecentlyUsedMapElements.filter(existingItem => !CommonObjectEqual(existingItem, item))
-		].slice(0, 16);
-		ServerSend('AccountUpdate', { RecentlyUsedMapElements: Player.RecentlyUsedMapElements });
+			...Player.RecentlyUsedMapElements.filter((existingItem) => existingItem.DoodadType !== item.DoodadType || existingItem.ID !== item.ID),
+		].slice(0, ChatRoomMapViewEditorMaxRecentElements);
+		ServerSend('AccountUpdate', {
+			RecentlyUsedMapElements: MapPackDoodads(Player.RecentlyUsedMapElements),
+		});
 		ChatRoomMapViewReloadEditorPanel(true);
 		return;
 	}
@@ -757,16 +760,9 @@ function ChatRoomMapViewGetSelection() {
  * @returns {Element[]}
  */
 function ChatRoomMapViewGetRecentItems() {
-	const seen = new Set();
-	return Player.RecentlyUsedMapElements.reduce((items, item) => {
-		if (seen.has(item.ID)) return items;
-		seen.add(item.ID);
-		if (MapDoodadIsObject(item))  items.push(MapDataObjects.get(item.ID));
-		else if (MapDoodadIsTile(item)) items.push(MapDataTiles.get(item.ID));
-		else if (MapDoodadIsEffect(item)) items.push(MapDataEffects.get(item.ID));
-		else console.warn("Unknown map element type: " + JSON.stringify(item));
-		return items;
-	}, /** @type {(ChatRoomMapDoodad | undefined)[]}*/([])).filter(item => item != null).slice(0, 8).map(item => ChatRoomMapViewCreateMapElementItem(item, false));
+	return Player.RecentlyUsedMapElements
+		.slice(0, ChatRoomMapViewEditorMaxRecentElements)
+		.map(item => ChatRoomMapViewCreateMapElementItem(item, false));
 }
 
 /** @type {ScreenResizeHandler} */

@@ -2526,6 +2526,7 @@ interface PlayerCharacter extends OnlineCharacter {
 	ConfiscatedItems: { Group: AssetGroupName, Name: AssetName }[];
 	ExtensionSettings: ExtensionSettings;
 	ChatSearchSettings: ChatRoomSearchSettings;
+	/** Resolved from the account's {@link MapDoodadRef} list at login. */
 	RecentlyUsedMapElements: ChatRoomMapDoodad[];
 	KeybindingSettings: string;
 }
@@ -5479,6 +5480,9 @@ type ChatRoomMapObjectType = (
 );
 
 type ChatRoomMapTileType = "Floor" | "FloorExterior" | "Wall" | "Water";
+
+/** A map doodad stored on the account, such as `Object:100`. */
+type MapDoodadRef = `${"Tile" | "Object" | "Effect"}:${number}`;
 
 interface ChatRoomMapDoodad {
 	DoodadType?: "Tile" | "Object" | "Effect";
