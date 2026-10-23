@@ -220,7 +220,6 @@ async function ChatSearchLoad() {
 			value: ChatSearchQueryString,
 			placeholder: TextGet("SearchRoom"),
 			onInput: function (ev) {
-				clearButton.hidden = this.value.length === 0;
 				ChatSearchQueryString = this.value;
 			},
 			onKeydown: ChatSearchKeyDownListener,
@@ -233,7 +232,6 @@ async function ChatSearchLoad() {
 	filterInput.toggleAttribute("hidden", true);
 	filterInput.classList.add("chat-search-input-filter-box");
 	filterInput.addEventListener("input", function () {
-		clearButton.hidden = this.value.length === 0;
 		Player.ChatSearchSettings.FilterTerms = this.value;
 	});
 	filterInput.addEventListener("keydown", (event) => {
@@ -257,7 +255,6 @@ async function ChatSearchLoad() {
 	}, {
 		button: {
 			classList: ["chat-search-room-button"],
-			attributes: { hidden: !ChatSearchQueryString.length },
 		},
 	});
 	ChatSearchSearchMenuButton = ElementButton.Create(
