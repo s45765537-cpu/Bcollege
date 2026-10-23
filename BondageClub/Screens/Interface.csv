@@ -92,6 +92,8 @@ DialogGroupNameItemGlans,Glans
 DialogGroupNameItemPenis,Penis
 DialogMenuActivity,Sexual activities
 DialogMenuCancel,Cancel
+DialogMenuFilterItems,Filter Items
+DialogMenuFilterItemsExit,Close
 DialogMenuColorSelect,Use this color
 DialogMenuColorCancel,Default color
 DialogMenuColorChange,Change item color
