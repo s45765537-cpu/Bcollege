@@ -1,0 +1,165 @@
+[
+	{
+		"Group": "BodyUpper",
+		"Name": "Normal",
+		"Color": "Asian"
+	},
+	{
+		"Group": "Pussy",
+		"Name": "Pussy1"
+	},
+	{
+		"Group": "Bra",
+		"Name": "ChineseBra1",
+		"Color": "#5374E6"
+	},
+	{
+		"Group": "Panties",
+		"Name": "ChinesePanties1",
+		"Color": "#5374E6",
+		"Property": {
+			"OverridePriority": 15
+		}
+	},
+	{
+		"Group": "Socks",
+		"Name": "Stockings4",
+		"Color": "#131313"
+	},
+	{
+		"Group": "Shoes",
+		"Name": "Clogs",
+		"Color": "#212121"
+	},
+	{
+		"Group": "Height",
+		"Name": "H0990"
+	},
+	{
+		"Group": "BodyStyle",
+		"Name": "EchoV1"
+	},
+	{
+		"Group": "ArmsLeft",
+		"Name": ""
+	},
+	{
+		"Group": "ArmsRight",
+		"Name": ""
+	},
+	{
+		"Group": "HandsLeft",
+		"Name": ""
+	},
+	{
+		"Group": "HandsRight",
+		"Name": ""
+	},
+	{
+		"Group": "BodyLower",
+		"Name": "Normal"
+	},
+	{
+		"Group": "HairFront",
+		"Name": "HairFront27",
+		"Color": "#dcc787"
+	},
+	{
+		"Group": "HairBack",
+		"Name": "HairBack85"
+	},
+	{
+		"Group": "Eyebrows",
+		"Name": "Eyebrows8"
+	},
+	{
+		"Group": "Eyes",
+		"Name": "Eyes1",
+		"Color": "#aa33aa"
+	},
+	{
+		"Group": "Eyes2",
+		"Name": "Eyes1",
+		"Color": "#aa33aa"
+	},
+	{
+		"Group": "Mouth",
+		"Name": "Full"
+	},
+	{
+		"Group": "Nipples",
+		"Name": "Nipples1"
+	},
+	{
+		"Group": "Head",
+		"Name": "Default"
+	},
+	{
+		"Group": "Blush",
+		"Name": "Blush"
+	},
+	{
+		"Group": "Fluids",
+		"Name": "Fluids",
+		"Property": {
+			"Expression": "DroolLow"
+		}
+	},
+	{
+		"Group": "Emoticon",
+		"Name": "Emoticon"
+	},
+	{
+		"Group": "Pronouns",
+		"Name": "SheHer"
+	},
+	{
+		"Group": "ItemButt",
+		"Name": "BunnyTailVibePlug",
+		"Difficulty": 10,
+		"Property": {
+			"TypeRecord": {
+				"vibrating": 4
+			},
+			"Intensity": 3
+		}
+	},
+	{
+		"Group": "ItemVulva",
+		"Name": "VibratingDildo",
+		"Difficulty": 10,
+		"Property": {
+			"TypeRecord": {
+				"vibrating": 2
+			},
+			"Intensity": 1
+		}
+	},
+	{
+		"Group": "Corset",
+		"Name": "Corset3",
+		"Color": "#1E3A99"
+	},
+	{
+		"Group": "ItemTorso",
+		"Name": "HempRopeHarness",
+		"Difficulty": 13,
+		"Color": "#AE1212",
+		"Property": {
+			"OverridePriority": 22,
+			"TypeRecord": {
+				"typed": 4
+			}
+		}
+	},
+	{
+		"Group": "ItemArms",
+		"Name": "HempRope",
+		"Difficulty": 3,
+		"Property": {
+			"TypeRecord": {
+				"typed": 1
+			}
+		}
+	}
+]
