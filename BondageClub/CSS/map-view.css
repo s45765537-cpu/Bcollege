@@ -252,3 +252,24 @@ textarea.chat-room-map-view-dialog-content-text {
 	vertical-align: middle;
 	border: var(--border-width) solid black;
 }
+
+#color-picker.chat-room-map-view-color-picker {
+	border: var(--border-width) solid black;
+}
+
+#color-picker[data-colortheme="light"].chat-room-map-view-color-picker,
+#color-picker[data-colortheme="light2"].chat-room-map-view-color-picker {
+	background-color: white;
+}
+
+#color-picker[data-colortheme="light"].chat-room-map-view-color-picker .screen-hgroup,
+#color-picker[data-colortheme="light2"].chat-room-map-view-color-picker .screen-hgroup,
+#color-picker[data-colortheme="light"].chat-room-map-view-color-picker .color-picker label > span,
+#color-picker[data-colortheme="light2"].chat-room-map-view-color-picker .color-picker label > span {
+	color: black;
+}
+
+#color-picker[data-colortheme="dark"].chat-room-map-view-color-picker,
+#color-picker[data-colortheme="dark2"].chat-room-map-view-color-picker {
+	background-color: #111;
+}
