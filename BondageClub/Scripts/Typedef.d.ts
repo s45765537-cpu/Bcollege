@@ -5481,13 +5481,14 @@ type ChatRoomMapObjectType = (
 type ChatRoomMapTileType = "Floor" | "FloorExterior" | "Wall" | "Water";
 
 interface ChatRoomMapDoodad {
+	DoodadType?: "Tile" | "Object" | "Effect";
 	Type: string;
 	ID: number;
 	Unique?: boolean;
 	Name?: string;
 }
 
-/** {@link ChatRoomMapViewIsChatRoomMapPhysicalElement}  */
+/** {@link MapDoodadIsPhysicalElement}  */
 interface ChatRoomMapPhysicalElement extends ChatRoomMapDoodad {
 	Style: string;
 	Rotation?: number;
@@ -5507,12 +5508,12 @@ interface ChatRoomMapPhysicalElement extends ChatRoomMapDoodad {
 	CanPlaceInWalls?: boolean; // ex. Doors
 }
 
-/** {@link ChatRoomMapViewIsChatRoomMapTile}  */
+/** {@link MapDoodadIsTile}  */
 interface ChatRoomMapTile extends ChatRoomMapPhysicalElement {
 	Type: ChatRoomMapTileType;
 }
 
-/** {@link ChatRoomMapViewIsChatRoomMapObject}  */
+/** {@link MapDoodadIsObject}  */
 interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	Type: ChatRoomMapObjectType;
 	Exit?: boolean;
@@ -5527,7 +5528,7 @@ interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	OnClick?: (x: number, y: number) => void;
 }
 
-/** {@link ChatRoomMapViewIsChatRoomMapEffect}  */
+/** {@link MapDoodadIsEffect}  */
 interface ChatRoomMapEffectStaticLighting extends ChatRoomMapDoodad {
 	Type: "StaticLighting";
 	TypeId: 1,
@@ -5551,8 +5552,6 @@ interface ChatRoomMapTeleporterObjectConfig {
 	/** Characters can stand together on the pad and the tiles around it */
 	Shared?: boolean;
 }
-
-
 
 /**
  * A union of all effect types.

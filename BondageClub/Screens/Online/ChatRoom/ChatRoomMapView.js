@@ -369,12 +369,12 @@ function ChatRoomMapViewShowEditor() {
 function ChatRoomMapViewSetSelection(item, type, updateRecent=true) {
 	ChatRoomMapViewEditObject = CommonCloneDeep(item);
 	ChatRoomMapViewEditMode = type;
-	if (ChatRoomMapViewIsChatRoomMapObject(item)) {
+	if (MapDoodadIsObject(item)) {
 		ChatRoomMapViewEditSubMode = item.Type;
 		if ((item.AssetName != null) && (item.AssetGroup != null) && !InventoryAvailable(Player, item.AssetName, item.AssetGroup)) return;
-	} else if (ChatRoomMapViewIsChatRoomMapTile(item)) {
+	} else if (MapDoodadIsTile(item)) {
 		ChatRoomMapViewEditSubMode = item.Type;
-	} else if (ChatRoomMapViewIsChatRoomMapEffect(item)) {
+	} else if (MapDoodadIsEffect(item)) {
 		ChatRoomMapViewEditSubMode = "";
 	}
 	document.getElementById("chat-room-map-view-panel-editor-recent-items-grid")?.setAttribute("value", item.ID, );
@@ -518,7 +518,7 @@ function ChatRoomMapViewGetButtons() {
 					if (!ChatRoomPlayerIsAdmin()) return;
 					ChatRoomMapViewEditMode = "Effect";
 					ChatRoomMapViewEditSubMode = "";
-					ChatRoomMapViewEditObject = AssetsMapDataEffects[1];
+					ChatRoomMapViewEditObject = MapDataGetEffect(AssetsMapDataEffects[1].ID);
 					ChatRoomMapViewReloadEditorPanel();
 				}, "Icons/Light.png", TextGet("EditorButtonTextEditEffects")),
 				...buttons,
@@ -590,7 +590,7 @@ function ChatRoomMapViewGetItems(search) {
 
 		const searchTokens = search.toLowerCase().trim().split(/\s+/);
 		items = items.filter((item) => {
-			if (!ChatRoomMapViewIsChatRoomMapPhysicalElement(item) || !item.Style) return false;
+			if (!MapDoodadIsPhysicalElement(item) || !item.Style) return false;
 
 			const styleWords = CommonUncamelize(item.Style);
 			return searchTokens.every((sToken) =>
@@ -620,15 +620,17 @@ function ChatRoomMapViewGetItems(search) {
  * Typecheck for {@link ChatRoomMapEffect}
  * @param {ChatRoomMapDoodad} element - The element to check
  * @returns {element is ChatRoomMapEffect}
+ * @deprecated Use {@link MapDoodadIsEffect}
  */
 function ChatRoomMapViewIsChatRoomMapEffect(element) {
-	return element.Type === "StaticLighting";
+	return element.DoodadType === "Effect";
 }
 
 /**
  * Typecheck for {@link ChatRoomMapPhysicalElement}
  * @param {ChatRoomMapDoodad} element - The element to check
  * @returns {element is ChatRoomMapPhysicalElement}
+ * @deprecated Use {@link MapDoodadIsPhysicalElement}
  */
 function ChatRoomMapViewIsChatRoomMapPhysicalElement(element) {
 	return "Style" in element;
@@ -638,20 +640,20 @@ function ChatRoomMapViewIsChatRoomMapPhysicalElement(element) {
  * Typecheck for {@link ChatRoomMapObject}
  * @param {ChatRoomMapDoodad} element - The element to check
  * @returns {element is ChatRoomMapObject}
+ * @deprecated Use {@link MapDoodadIsObject}
  */
 function ChatRoomMapViewIsChatRoomMapObject(element) {
-	return ["FloorDecorationThemed","FloorDecorationParty","FloorDecorationCamping",
-		"FloorDecorationExpanding","FloorDecorationAnimal","FloorItem","FloorObstacle","FloorNumber",
-		"FloorLetter","FloorIcon","WallDecoration", "WallPath","Banners", "FloorFoamTiles","Functional", "Bedroom", "LivingRoom", "Kitchen", "Office", "Bathroom", "ABDL", "School"].includes(element.Type);
+	return element.DoodadType === "Object";
 }
 
 /**
  * Typecheck for {@link ChatRoomMapTile}
  * @param {ChatRoomMapDoodad} element - The element to check
  * @returns {element is ChatRoomMapTile}
+ * @deprecated Use {@link MapDoodadIsTile}
  */
 function ChatRoomMapViewIsChatRoomMapTile(element) {
-	return ["Floor", "FloorExterior", "Wall", "Water"].includes(element.Type);
+	return element.DoodadType === "Tile";
 }
 
 /**
@@ -669,16 +671,16 @@ function ChatRoomMapViewCreateMapElementItem(item, updateRecent=true, readOnly=f
 	let type = "Tile";
 	let isOwned = true;
 	let rotation = 0;
-	if (ChatRoomMapViewIsChatRoomMapObject(item)) {
+	if (MapDoodadIsObject(item)) {
 		type = "Object";
 		imageUrl = MapGetDoodadAssetUrl(item);
 		if (item.Rotation != null) rotation = item.Rotation;
 		if ((item.AssetName != null) && (item.AssetGroup != null) && !InventoryAvailable(Player, item.AssetName, item.AssetGroup)) isOwned = false;
-	} else if (ChatRoomMapViewIsChatRoomMapTile(item)) {
+	} else if (MapDoodadIsTile(item)) {
 		type = "Tile";
 		if (item.Rotation != null) rotation = item.Rotation;
 		imageUrl = MapGetDoodadAssetUrl(item);
-	} else if (ChatRoomMapViewIsChatRoomMapEffect(item)) {
+	} else if (MapDoodadIsEffect(item)) {
 		type = "Effect";
 		buttonStyle.Background = RgbaArrayToHTMLColor(item.Color);
 		imageUrl = null;
@@ -720,11 +722,11 @@ function ChatRoomMapViewGetSelection() {
 	const format = (string) => CommonUncamelize(string).map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");
 	if (item != null)  {
 
-		if (ChatRoomMapViewIsChatRoomMapObject(item)) {
+		if (MapDoodadIsObject(item)) {
 			tooltip = `${TextGet(`ObjectTypeName${item.Type}`)}/${item.Name ?? format(item.Style)} (${item.ID})`;
-		} else if (ChatRoomMapViewIsChatRoomMapTile(item)) {
+		} else if (MapDoodadIsTile(item)) {
 			tooltip = `${TextGet(`TileTypeName${item.Type}`)}/${item.Name ?? format(item.Style)} (${item.ID})`;
-		} else if (ChatRoomMapViewIsChatRoomMapEffect(item)) {
+		} else if (MapDoodadIsEffect(item)) {
 			tooltip = `${TextGet(`EffectTypeName${item.Type}`)}/${item.Name ?? "Effect"} ${item.ID}`;
 		} else {
 			console.warn("Unknown map element type: " + JSON.stringify(item));
@@ -759,9 +761,9 @@ function ChatRoomMapViewGetRecentItems() {
 	return Player.RecentlyUsedMapElements.reduce((items, item) => {
 		if (seen.has(item.ID)) return items;
 		seen.add(item.ID);
-		if (ChatRoomMapViewIsChatRoomMapObject(item))  items.push(MapDataObjects.get(item.ID));
-		else if (ChatRoomMapViewIsChatRoomMapTile(item)) items.push(MapDataTiles.get(item.ID));
-		else if (ChatRoomMapViewIsChatRoomMapEffect(item)) items.push(MapDataEffects.get(item.ID));
+		if (MapDoodadIsObject(item))  items.push(MapDataObjects.get(item.ID));
+		else if (MapDoodadIsTile(item)) items.push(MapDataTiles.get(item.ID));
+		else if (MapDoodadIsEffect(item)) items.push(MapDataEffects.get(item.ID));
 		else console.warn("Unknown map element type: " + JSON.stringify(item));
 		return items;
 	}, /** @type {(ChatRoomMapDoodad | undefined)[]}*/([])).filter(item => item != null).slice(0, 8).map(item => ChatRoomMapViewCreateMapElementItem(item, false));

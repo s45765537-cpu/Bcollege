@@ -2305,7 +2305,7 @@ function MapDataLoadTiles(tiles) {
 			console.error("Duplicate map tile ID: " + tile.ID);
 			continue;
 		}
-		MapDataTiles.set(tile.ID, tile);
+		MapDataTiles.set(tile.ID, { ...tile, DoodadType: "Tile", });
 		MapDataTileTypes.add(tile.Type);
 	}
 }
@@ -2320,7 +2320,8 @@ function MapDataLoadObjects(object) {
 			console.error("Duplicate map object ID: " + obj.ID);
 			continue;
 		}
-		MapDataObjects.set(obj.ID, ChatRoomMapViewObjectDefaultValues[obj.Type] != null ? Object.assign({},ChatRoomMapViewObjectDefaultValues[obj.Type], obj) : obj);
+		const defaults = ChatRoomMapViewObjectDefaultValues[obj.Type] ?? {};
+		MapDataObjects.set(obj.ID, { ...defaults, ...obj, DoodadType: "Object", });
 		MapDataObjectTypes.add(obj.Type);
 	}
 }
@@ -2335,7 +2336,7 @@ function MapDataLoadEffects(effects) {
 			console.error("Duplicate map effect ID: " + effect.ID);
 			continue;
 		}
-		MapDataEffects.set(effect.ID, effect);
+		MapDataEffects.set(effect.ID, { ...effect, DoodadType: "Effect", });
 		MapDataEffectTypes.add(effect.Type);
 	}
 }
@@ -2376,14 +2377,50 @@ function MapGetAssetUrl(doodadType, type, style) {
 function MapGetDoodadAssetUrl(doodad) {
 	/** @type {MapDataDoodadType} */
 	let type;
-	if (ChatRoomMapViewIsChatRoomMapTile(doodad)) {
+	if (MapDoodadIsTile(doodad)) {
 		type = "Tile";
-	} else if (ChatRoomMapViewIsChatRoomMapObject(doodad)) {
+	} else if (MapDoodadIsObject(doodad)) {
 		type = "Object";
 	} else {
 		return undefined;
 	}
 	return type ? MapGetAssetUrl(type, doodad.Type, doodad.Style) : undefined;
+}
+
+/**
+ * Typecheck for {@link ChatRoomMapEffect}
+ * @param {ChatRoomMapDoodad} element - The element to check
+ * @returns {element is ChatRoomMapEffect}
+ */
+function MapDoodadIsEffect(element) {
+	return element.DoodadType === "Effect";
+}
+
+/**
+ * Typecheck for {@link ChatRoomMapPhysicalElement}
+ * @param {ChatRoomMapDoodad} element - The element to check
+ * @returns {element is ChatRoomMapPhysicalElement}
+ */
+function MapDoodadIsPhysicalElement(element) {
+	return "Style" in element;
+}
+
+/**
+ * Typecheck for {@link ChatRoomMapObject}
+ * @param {ChatRoomMapDoodad} element - The element to check
+ * @returns {element is ChatRoomMapObject}
+ */
+function MapDoodadIsObject(element) {
+	return element.DoodadType === "Object";
+}
+
+/**
+ * Typecheck for {@link ChatRoomMapTile}
+ * @param {ChatRoomMapDoodad} element - The element to check
+ * @returns {element is ChatRoomMapTile}
+ */
+function MapDoodadIsTile(element) {
+	return element.DoodadType === "Tile";
 }
 
 /**
