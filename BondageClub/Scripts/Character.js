@@ -805,7 +805,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 						return 30*24*60*60;
 					case "LockTimerLimitYear":
 						return 365*24*60*60;
-					case "LockTimerLimitDecade":
+					case "LockTimerLimitUnlimited":
 						return 10*365*24*60*60;
 				}
 			}
