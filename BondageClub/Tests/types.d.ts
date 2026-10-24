@@ -25,12 +25,13 @@ class BrowserCache {
 	private _releasePattern: RegExpstring;
 	private _revalidated: Set<string>;
 	private new (cache: Cache, name: string);
-	static async open(): Promise<BrowserCache>;
+	static async open(origins?: readonly string[]): Promise<BrowserCache>;
 	key(url: string): string;
 	async match(url: string): Promise<Response | undefined>;
 	revalidate(url: string, cached: Response): Promise<Response | null>;
 	async put(url: string, response: Response): Promise<void>;
 	async delete(url: string): Promise<boolean>;
+	async purge(): Promise<void>;
 	async clear(): Promise<boolean>;
 }
 

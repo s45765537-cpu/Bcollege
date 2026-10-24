@@ -800,6 +800,13 @@ class FakeCache {
 		const hit = this.store.get(key);
 		return hit ? hit.clone() : undefined;
 	}
+	async keys() {
+		return [...this.store.keys()].map((url) => ({ url }));
+	}
+	delete = jest.fn(async (request: { url: string } | string) => {
+		const url = typeof request === "string" ? request : request.url;
+		return this.store.delete(url);
+	});
 }
 
 class FakeCacheStorage {
@@ -1328,6 +1335,39 @@ describe("persistent store", () => {
 
 			expect(storage.open).toHaveBeenCalledTimes(1);
 			expect(Game.CommonFetch).toHaveBeenCalledTimes(2);
+		});
+	});
+
+	describe("origins", () => {
+		const MOD = "https://cdn.jsdelivr.net/gh/SugarChain-Studio/echo-clothing-ext@feae46427eb16ab1dc1e29ec1d323a167309e75f/resources/Assets/x.png";
+
+		it("drops entries from other origins and refuses to store new ones", async () => {
+			const store = await bucket();
+			store.store.set(KEY, new StoreResponse(200, { body: "png" }));
+			store.store.set(MOD, new StoreResponse(200, { body: "mod" }));
+
+			const limited = await Game.BrowserCacheClass.open(["https://frontend.server"]);
+			// The origin purge walks the bucket in the background, so opening does not wait on it.
+			await flush();
+
+			expect(store.store.has(KEY)).toBe(true);
+			expect(store.store.has(MOD)).toBe(false);
+
+			await limited.put(MOD, asResponse(new StoreResponse(200, { body: "mod" })));
+			expect(store.store.has(MOD)).toBe(false);
+			expect(await limited.match(MOD)).toBeUndefined();
+
+			await limited.put(URL_V123, asResponse(new StoreResponse(200, { body: "fresh" })));
+			expect(store.store.get(KEY)!.body).toBe("fresh");
+		});
+
+		it("leaves every entry in place when no origins were given", async () => {
+			const store = await bucket();
+			store.store.set(MOD, new StoreResponse(200, { body: "mod" }));
+
+			await Game.BrowserCacheClass.open();
+
+			expect(store.store.has(MOD)).toBe(true);
 		});
 	});
 

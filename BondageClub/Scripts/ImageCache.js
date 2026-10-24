@@ -322,9 +322,10 @@ class BrowserCache {
 	/**
 	 * @param {Cache} cache
 	 * @param {string} name
+	 * @param {string[] | undefined} origins
 	 * @private
 	 */
-	constructor(cache, name) {
+	constructor(cache, name, origins) {
 		if (!cache) throw new Error("BrowserCache requires an open Cache");
 		/**
 		 * Name of the Cache bucket. Bump only if what's stored in it
@@ -356,16 +357,26 @@ class BrowserCache {
 		 * @private
 		 */
 		this._revalidating = new Map();
+		/**
+		 * Origins this store will keep. Unset means any http(s) URL.
+		 * @type {Set<string> | null}
+		 * @private
+		 */
+		this._origins = origins ? new Set(origins.map((origin) => new URL(origin).origin)) : null;
 	}
 
 	/**
 	 * Open the named bucket.
+	 *
+	 * @param {string[]} [origins] When set, only these origins are stored. Entries from anywhere else are removed.
 	 * @returns {Promise<BrowserCache>}
 	 */
-	static async open() {
+	static async open(origins) {
 		if (typeof caches === "undefined") throw new Error("Cache API unavailable");
 		const cacheName = "bc-images-v1";
-		return new BrowserCache(await caches.open(cacheName), cacheName);
+		const store = new BrowserCache(await caches.open(cacheName), cacheName, origins);
+		CommonPromiseCatch(store.purge());
+		return store;
 	}
 
 	/**
@@ -431,8 +442,15 @@ class BrowserCache {
 	 * @private
 	 */
 	_isCacheable(url) {
-		const protocol = new URL(url, location.href).protocol;
-		return protocol === "http:" || protocol === "https:";
+		let parsed;
+		try {
+			parsed = new URL(url, location.href);
+		} catch {
+			return false;
+		}
+		if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;
+		if (this._origins && !this._origins.has(parsed.origin)) return false;
+		return true;
 	}
 
 	/**
@@ -557,6 +575,26 @@ class BrowserCache {
 			console.warn(`Failed to delete cached response "${key}"`, err);
 			return false;
 		}
+	}
+
+	/**
+	 * Remove stored entries this store is not allowed to keep.
+	 * @returns {Promise<void>}
+	 */
+	async purge() {
+		if (!this._origins) return;
+		const requests = await this.cache.keys();
+		await Promise.all(requests.map(async (request) => {
+			if (this._isCacheable(request.url)) return;
+			try {
+				const key = this.key(request.url);
+				this._revalidated.delete(key);
+				this._revalidating.delete(key);
+			} catch {
+				// The entry's URL is unusable. It is still removed below.
+			}
+			await this.cache.delete(request);
+		}));
 	}
 
 	/**
