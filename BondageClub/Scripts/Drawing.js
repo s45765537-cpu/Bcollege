@@ -1485,20 +1485,23 @@ function DrawGetDarkFactor() {
 }
 
 /**
- * Display the loading screen
- * @param {number} time - The current time for frame
+ * Display the loading screen shown while {@link CommonSetScreen} is loading.
+ * @returns {HTMLDivElement} - The loading screen element
  */
-function DrawLoadingScreen(time) {
-	DrawClearRect(MainCanvas, 0, 0, MainCanvasWidth, MainCanvasHeight);
+function DrawLoadingScreen() {
 	const msg = InterfaceTextGet("ScreenLoading");
-	if (msg.startsWith("MISSING")) return;
-	MainCanvas.save();
-	MainCanvas.textAlign = "left";
-	DrawText(msg, MainCanvasWidth / 2 - 160, MainCanvasHeight / 2, "White", "Gray");
-	MainCanvas.textAlign = "center";
-	const loadingMsg = ".".repeat((time / 1000) % 7);
-	DrawText(loadingMsg, MainCanvasWidth / 2, MainCanvasHeight / 2 + ChatRoomFontSize, "White", "Gray");
-	MainCanvas.restore();
+	const label = msg.startsWith("MISSING") ? "" : msg;
+	return ElementCreate({
+		tag: "div",
+		attributes: { id: "screen-loading", role: "status" },
+		classList: ["screen-loading"],
+		children: [
+			label || null,
+			ElementCreateLoader("dots"),
+		],
+		style: { "font-family": CommonGetFontName() },
+		parent: document.body,
+	});
 }
 
 /**
@@ -1578,7 +1581,6 @@ DrawSkipVFX.register(
  */
 function DrawProcess(time) {
 	if (ScreenIsLoading) {
-		DrawLoadingScreen(time);
 		return;
 	}
 	// Clear the list of characters that were drawn last frame
