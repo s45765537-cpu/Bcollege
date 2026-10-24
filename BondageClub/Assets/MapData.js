@@ -1212,7 +1212,7 @@ const AssetsMapDataObjects = [
 		OnClick: ChatRoomMapViewCreateOnClickTeleportLogic(),
 	},
 
-	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
+	{ ID: 4000, Type: "WallPath", Style: "Blank" },
 	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
 	{ ID: 4011, Type: "WallPath", Style: "WoodClosed", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract(); } },
 	{ ID: 4012, Type: "WallPath", Style: "WoodLocked", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract() && ChatRoomPlayerIsAdmin(); } },
