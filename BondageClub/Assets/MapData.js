@@ -1070,6 +1070,44 @@ const AssetsMapDataObjects = [
 		},
 		Top: -0.35
 	},
+	{
+		ID: 2034,
+		Type: "FloorObstacle",
+		Style: "FarmFenceSingle",
+		Top: -0.15,
+		Height: 1.1,
+		CanEnter: () => false,
+		// Row join; intermediate post every 2 tiles from the left end of the run
+		BuildImageName: function(x, y) {
+			const left = MapManager.Map.getObjectId(x - 1, y) === this.ID;
+			const right = MapManager.Map.getObjectId(x + 1, y) === this.ID;
+			if (!left && !right) return "FarmFenceSingle";
+			if (!left && right) return "FarmFenceLeft";
+			if (left && !right) return "FarmFenceRight";
+			let dist = 0;
+			while (MapManager.Map.getObjectId(x - dist - 1, y) === this.ID) dist++;
+			return (dist % 2 === 0) ? "FarmFenceMiddlePost" : "FarmFenceMiddle";
+		},
+	},
+	{
+		ID: 2036,
+		Type: "FloorObstacle",
+		Style: "HomeFenceSingle",
+		Top: -0.15,
+		Height: 1.1,
+		CanEnter: () => false,
+		// Row join; intermediate post every 2 tiles from the left end of the run
+		BuildImageName: function(x, y) {
+			const left = MapManager.Map.getObjectId(x - 1, y) === this.ID;
+			const right = MapManager.Map.getObjectId(x + 1, y) === this.ID;
+			if (!left && !right) return "HomeFenceSingle";
+			if (!left && right) return "HomeFenceLeft";
+			if (left && !right) return "HomeFenceRight";
+			let dist = 0;
+			while (MapManager.Map.getObjectId(x - dist - 1, y) === this.ID) dist++;
+			return (dist % 2 === 0) ? "HomeFenceMiddlePost" : "HomeFenceMiddle";
+		},
+	},
 	{ ID: 2035, Type: "FloorObstacle", Style: "Bush", Top: -0.25, Height: 1, CanEnter: () => false, },
 	{ ID: 2040, Type: "FloorObstacle", Style: "OakTree", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5, CanEnter: () => false, },
 	{ ID: 2045, Type: "FloorObstacle", Style: "OakTree_Fall", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5, CanEnter: () => false, },
