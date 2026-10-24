@@ -795,7 +795,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return /** @type {CharacterPronouns} */(pronouns);
 		},
 		GetLockTimerLimit: function () {
-			if (this.IsOnline()) {
+			if (this.IsPlayer() || this.IsOnline()) {
 				switch (this.OnlineSharedSettings.LockTimerLimit) {
 					case "LockTimerLimitDay":
 						return 1*24*60*60;
