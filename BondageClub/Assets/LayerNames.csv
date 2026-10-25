@@ -2347,15 +2347,12 @@ ItemHeadAnimeLensesLeftEyelids,Left Eyelids
 ItemHeadAnimeLensesLeftIris,Left Lens
 ItemHeadAnimeLensesRightEyelids,Right Eyelids
 ItemHeadAnimeLensesRightIris,Right Lens
+ItemHeadLeatherBlindfold,BlindFold
+ItemHeadLeatherBlindfoldLock,Lock
 ItemHeadAsylumBlindfoldMain,Blindfold
 ItemHeadAsylumBlindfoldPad,Padded layer
 ItemHeadAsylumBlindfoldMetal,Metal
 ItemHeadAsylumBlindfoldLock,Padlocks
-ItemHeadBigMouthHoodCollar,Collar
-ItemHeadBigMouthHoodDetail,Detail
-ItemHeadBigMouthHoodEyes,Eyes
-ItemHeadBigMouthHoodMain,Head
-ItemHeadBigMouthHoodMouth,Mouth
 ItemHeadBlackoutLensesLeft,Left Lens
 ItemHeadBlackoutLensesRight,Right Lens
 ItemHeadDroneMaskBarcode,Pattern
@@ -2370,15 +2367,28 @@ ItemHeadFuturisticMaskLock,Lock Icon
 ItemHeadFuturisticMaskText,HUD
 ItemHeadInteractiveVRHeadsetBody,Body
 ItemHeadInteractiveVRHeadsetDisplay,Display
+ItemHeadInteractiveVRHeadsetLock,Lock
 ItemHeadKittyBlindfoldBase,Base
 ItemHeadKittyBlindfoldEars,Ears
 ItemHeadKittyBlindfoldEyes,Eyes
+ItemHeadKittyBlindfoldLock,Lock
+ItemHeadSmallBlindfold,Blindfold
+ItemHeadSmallBlindfoldLock,Lock
+ItemHeadFullBlindfold,Blindfold
+ItemHeadFullBlindfoldLock,Lock
+ItemHeadLewdBlindfold,Blindfold
+ItemHeadLewdBlindfoldLock,Lock
+ItemHeadLatexBlindfold,Blindfold
+ItemHeadLatexBlindfoldLock,Lock
 ItemHeadMedicalPatchLeft,Left Eye
 ItemHeadMedicalPatchLeftHeart,Left Eye Sticker
 ItemHeadMedicalPatchRight,Right Eye
 ItemHeadMedicalPatchRightHeart,Right Eye Sticker
 ItemHeadPaddedBlindfoldBase,Blindfold
 ItemHeadPaddedBlindfoldTrim,Trim
+ItemHeadPaddedBlindfoldLock,Lock
+ItemHeadInteractiveVisor,Visor
+ItemHeadInteractiveVisorLock,Lock
 ItemHeadStitchesStraight,Thread Right
 ItemHeadStitchesStraight2,Thread Left
 ItemHeadHypnoticVisorFrameA,Frame
@@ -2387,6 +2397,8 @@ ItemHeadHypnoticVisorDecalBunny,Decal
 ItemHeadHypnoticVisorBead,Head Bead
 ItemHeadHypnoticVisorBeadSupport,Head Bead Support
 ItemHeadHypnoticVisorText,Text
+ItemHeadStuddedBlindfold,Blindfold
+ItemHeadStuddedBlindfoldLock,Lock
 ItemHoodBalloonHead,Rubber balloon
 ItemHoodBalloonShine,Balloon shine
 ItemHoodBalloonRope,Neck rope
@@ -2395,6 +2407,7 @@ ItemHoodBigMouthHoodDetail,Detail
 ItemHoodBigMouthHoodEyes,Eyes
 ItemHoodBigMouthHoodMain,Head
 ItemHoodBigMouthHoodMouth,Mouth
+ItemHoodBigMouthHoodLock,Lock
 ItemHoodCanvasHoodHood,Canvas
 ItemHoodCanvasHoodText,Text
 ItemHoodCollarHoodCollar,Collar
