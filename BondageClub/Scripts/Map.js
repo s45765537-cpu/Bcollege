@@ -2296,6 +2296,38 @@ const ChatRoomMapViewObjectDefaultValues = {
 function ChatRoomMapViewCheckForDuplicateIds() {}
 
 /**
+ * Check that a doodad's {@link ChatRoomMapDoodad.DeprecatedID} chain resolves.
+ * The chain may point at a doodad already stored in `registry`, or at one still waiting in `incoming`.
+ * @template {ChatRoomMapDoodad} T
+ * @param {T} doodad
+ * @param {Map<number, T>} registry - Doodads of this kind already loaded
+ * @param {readonly T[]} incoming - The list being loaded, so later entries can be referenced
+ * @param {string} kind - "tile", "object" or "effect", used in error messages
+ * @returns {boolean} - false when the chain cycles or points at an unknown id
+ */
+function MapDataCheckDeprecatedChain(doodad, registry, incoming, kind) {
+	if (doodad.DeprecatedID === undefined) return true;
+
+	const seen = new Set([doodad.ID]);
+	let current = doodad;
+	while (current.DeprecatedID !== undefined) {
+		const deprecatedId = current.DeprecatedID;
+		if (seen.has(deprecatedId)) {
+			console.error("Deprecated map " + kind + " cycle at " + doodad.ID);
+			return false;
+		}
+		seen.add(deprecatedId);
+		const next = registry.get(deprecatedId) ?? incoming.find((candidate) => candidate.ID === deprecatedId);
+		if (!next) {
+			console.error("Unknown map " + kind + " " + deprecatedId);
+			return false;
+		}
+		current = next;
+	}
+	return true;
+}
+
+/**
  * Load map tiles into the registry
  * @param {ChatRoomMapTile[]} tiles
  */
@@ -2305,7 +2337,8 @@ function MapDataLoadTiles(tiles) {
 			console.error("Duplicate map tile ID: " + tile.ID);
 			continue;
 		}
-		MapDataTiles.set(tile.ID, tile);
+		if (!MapDataCheckDeprecatedChain(tile, MapDataTiles, tiles, "tile")) continue;
+		MapDataTiles.set(tile.ID, { ...tile, DoodadType: "Tile", });
 		MapDataTileTypes.add(tile.Type);
 	}
 }
@@ -2320,7 +2353,9 @@ function MapDataLoadObjects(object) {
 			console.error("Duplicate map object ID: " + obj.ID);
 			continue;
 		}
-		MapDataObjects.set(obj.ID, ChatRoomMapViewObjectDefaultValues[obj.Type] != null ? Object.assign({},ChatRoomMapViewObjectDefaultValues[obj.Type], obj) : obj);
+		if (!MapDataCheckDeprecatedChain(obj, MapDataObjects, object, "object")) continue;
+		const defaults = ChatRoomMapViewObjectDefaultValues[obj.Type] ?? {};
+		MapDataObjects.set(obj.ID, { ...defaults, ...obj, DoodadType: "Object", });
 		MapDataObjectTypes.add(obj.Type);
 	}
 }
@@ -2335,7 +2370,8 @@ function MapDataLoadEffects(effects) {
 			console.error("Duplicate map effect ID: " + effect.ID);
 			continue;
 		}
-		MapDataEffects.set(effect.ID, effect);
+		if (!MapDataCheckDeprecatedChain(effect, MapDataEffects, effects, "effect")) continue;
+		MapDataEffects.set(effect.ID, { ...effect, DoodadType: "Effect", });
 		MapDataEffectTypes.add(effect.Type);
 	}
 }
@@ -2376,14 +2412,59 @@ function MapGetAssetUrl(doodadType, type, style) {
 function MapGetDoodadAssetUrl(doodad) {
 	/** @type {MapDataDoodadType} */
 	let type;
-	if (ChatRoomMapViewIsChatRoomMapTile(doodad)) {
+	if (MapDoodadIsTile(doodad)) {
 		type = "Tile";
-	} else if (ChatRoomMapViewIsChatRoomMapObject(doodad)) {
+	} else if (MapDoodadIsObject(doodad)) {
 		type = "Object";
 	} else {
 		return undefined;
 	}
 	return type ? MapGetAssetUrl(type, doodad.Type, doodad.Style) : undefined;
+}
+
+/**
+ * Typecheck for {@link ChatRoomMapEffect}
+ * @param {ChatRoomMapDoodad} element - The element to check
+ * @returns {element is ChatRoomMapEffect}
+ */
+function MapDoodadIsEffect(element) {
+	return element.DoodadType === "Effect";
+}
+
+/**
+ * Typecheck for {@link ChatRoomMapPhysicalElement}
+ * @param {ChatRoomMapDoodad} element - The element to check
+ * @returns {element is ChatRoomMapPhysicalElement}
+ */
+function MapDoodadIsPhysicalElement(element) {
+	return "Style" in element;
+}
+
+/**
+ * Typecheck for {@link ChatRoomMapObject}
+ * @param {ChatRoomMapDoodad} element - The element to check
+ * @returns {element is ChatRoomMapObject}
+ */
+function MapDoodadIsObject(element) {
+	return element.DoodadType === "Object";
+}
+
+/**
+ * Typecheck for {@link ChatRoomMapTile}
+ * @param {ChatRoomMapDoodad} element - The element to check
+ * @returns {element is ChatRoomMapTile}
+ */
+function MapDoodadIsTile(element) {
+	return element.DoodadType === "Tile";
+}
+
+/**
+ * Typecheck for deprecated doodads
+ * @param {ChatRoomMapDoodad} element - The element to check
+ * @returns {boolean}
+ */
+function MapDoodadIsDeprecated(element) {
+	return element.DeprecatedID !== undefined;
 }
 
 /**
@@ -2397,12 +2478,18 @@ function MapDataGetTile(tileId) {
 }
 
 /**
+ * Returns the object for an id.
  * @param {number} objectId
  * @returns {ChatRoomMapObject}
  */
 function MapDataGetObject(objectId) {
-	const object = MapDataObjects.get(objectId);
+	let object = MapDataObjects.get(objectId);
 	if (!object) throw new Error(`Unknown map object ${objectId}`);
+	while (object.DeprecatedID !== undefined) {
+		const next = MapDataObjects.get(object.DeprecatedID);
+		if (!next) throw new Error(`Unknown map object ${object.DeprecatedID}`);
+		object = next;
+	}
 	return object;
 }
 
@@ -2484,6 +2571,19 @@ function MapGetDoodad(type, id) {
 		case "Effect": return /** @type {MapDataLookupTable[T] | null} */ (MapDataEffects.get(id) ?? null);
 	}
 	return null;
+}
+
+/**
+ * Pack an array of doodads into a flat array of doodad references.
+ * @param {ChatRoomMapDoodad[]} doodads
+ * @returns {MapDoodadRef[]}
+ */
+function MapPackDoodads(doodads) {
+	return doodads.flatMap(doodad => {
+		/** @type {MapDoodadRef | undefined} */
+		const key = doodad.DoodadType ? `${doodad.DoodadType}:${doodad.ID}` : undefined;
+		return key ? [key] : [];
+	}).slice(0, ChatRoomMapViewEditorMaxRecentElements);
 }
 
 /**

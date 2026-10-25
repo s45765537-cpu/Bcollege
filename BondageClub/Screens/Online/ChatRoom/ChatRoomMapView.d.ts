@@ -57,3 +57,15 @@ type MapDataDoodadType = keyof MapDataLookupTable;
 type UnpackedIndex<T extends readonly [number, ...unknown[]]> = T extends readonly [number, infer Y, ...infer Rest]
 	? Y extends number ? [number, ...Rest] : T
 	: T;
+
+type ChatRoomMapViewObjectModeType = "Tile" | "Object" | "Effect";
+
+type ChatRoomMapViewEditModeType = "" | ChatRoomMapViewObjectModeType | "TileType" | "ObjectType";
+
+type ChatRoomMapViewTool = {
+	canPaint: () => boolean;
+	paint: (x: number, y: number, range: number, event: PointerEvent) => void;
+	selectionColor: string;
+};
+
+type ChatRoomMapViewToolName = keyof typeof ChatRoomMapViewTools;

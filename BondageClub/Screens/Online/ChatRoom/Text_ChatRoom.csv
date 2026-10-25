@@ -142,6 +142,7 @@ TileTypeNameFloor,Floors
 TileTypeNameFloorExterior,Exterior Floors 
 TileTypeNameWater,Water
 
+ObjectTypeNameEmptySpace,Empty Space
 ObjectTypeNameLivingRoom,Living Room
 ObjectTypeNameBathroom,Bathroom
 ObjectTypeNameBedroom,Bedroom
@@ -177,6 +178,8 @@ EditorButtonTextEditTiles,Tiles
 EditorButtonTextEditObjects,Objects
 EditorButtonTextEditEffects,Effects
 EditorButtonTextBack,Back
+EditorButtonTextEraser,Eraser
+EditorButtonTextEraserAlt,Eraser. Hold Alt to paint an impassable empty space
 TeleportPadTitle,Teleport Pad
 TeleportPadNoDestination,Doesn't send anywhere yet
 TeleportPadSendsTo,Sends to the outlined tile
