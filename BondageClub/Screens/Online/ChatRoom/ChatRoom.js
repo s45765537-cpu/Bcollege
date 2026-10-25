@@ -3889,7 +3889,7 @@ var ChatRoomMessageHandlers = [
 		Callback: (data, sender, msg, metadata) => {
 			if (!metadata) return false;
 			let intensity = null;
-			if (data.Type === "Action" && (metadata.ShockIntensity ?? 0) >= 0) {
+			if (data.Type === "Action" && (metadata.ShockIntensity ?? 0) > 0) {
 				intensity = metadata.ShockIntensity;
 			} else if (data.Type === "Activity" && data.Content.includes("ShockItem")) {
 				intensity = 1.5;
