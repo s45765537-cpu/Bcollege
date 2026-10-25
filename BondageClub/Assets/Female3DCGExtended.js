@@ -5808,6 +5808,89 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // PetUpperSuit
+		RestraintPillow: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "StrapStatus",
+					Key: "s",
+					DrawImages: false,
+					Options: [
+						{},
+						{
+							Property: {
+								Block: ["ItemHands", "ItemHandheld"],
+								Effect: [E.Block, E.BlockWardrobe],
+								SetPose: ["BaseUpper"],
+								Difficulty: 20,
+							},
+							Effect: [E.Block, E.BlockWardrobe],
+						},
+						{
+							Property: {
+								Block: ["ItemHands", "ItemHandheld"],
+								Effect: [E.Block, E.BlockWardrobe],
+								SetPose: ["BaseUpper"],
+								Difficulty: 20,
+							},
+						},
+					],
+				},
+				{
+					Name: "NippleVibrator",
+					Key: "n",
+					DrawImages: false,
+					Options: [
+						{
+							Property: { Intensity: -1, Effect: ["Egged"] },
+						},
+						{
+							Prerequisite: ["AccessBreast"],
+							Property: { Intensity: 0, Effect: ["Egged", "Vibrating"] },
+						},
+						{
+							Prerequisite: ["AccessBreast"],
+							Property: { Intensity: 1, Effect: ["Egged", "Vibrating"] },
+						},
+						{
+							Prerequisite: ["AccessBreast"],
+							Property: { Intensity: 2, Effect: ["Egged", "Vibrating"] },
+						},
+						{
+							Prerequisite: ["AccessBreast"],
+							Property: { Intensity: 3, Effect: ["Egged", "Vibrating"] },
+						},
+					],
+				},
+				{
+					Name: "ClitorisVibrator",
+					Key: "c",
+					DrawImages: false,
+					Options: [
+						{
+							Property: { Intensity: -1, Effect: ["Egged"] },
+						},
+						{
+							Prerequisite: ["AccessCrotch"],
+							Property: { Intensity: 0, Effect: ["Egged", "Vibrating"] },
+						},
+						{
+							Prerequisite: ["AccessCrotch"],
+							Property: { Intensity: 1, Effect: ["Egged", "Vibrating"] },
+						},
+						{
+							Prerequisite: ["AccessCrotch"],
+							Property: { Intensity: 2, Effect: ["Egged", "Vibrating"] },
+						},
+						{
+							Prerequisite: ["AccessCrotch"],
+							Property: { Intensity: 3, Effect: ["Egged", "Vibrating"] },
+						},
+					],
+				},
+			],
+		}, // RestraintPillow
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {
