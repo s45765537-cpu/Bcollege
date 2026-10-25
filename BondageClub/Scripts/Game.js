@@ -34,7 +34,7 @@ async function GameStart(isNode=false) {
 	CommonIsMobile = CommonDetectMobile();
 	TranslationLoad();
 	try {
-		BrowserStorageCache = await BrowserCache.open();
+		BrowserStorageCache = await BrowserCache.open([location.origin]);
 	} catch (err) {
 		if (typeof caches !== "undefined")
 			console.warn("Persistent image cache unavailable", err);

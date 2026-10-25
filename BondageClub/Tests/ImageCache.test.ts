@@ -27,7 +27,12 @@ function makeBlob() {
 }
 
 function okResponse(blob = makeBlob()) {
-	return { ok: true, status: 200, blob: jest.fn(async () => blob) } as unknown as Response;
+	return {
+		ok: true,
+		status: 200,
+		headers: { get: (name: string) => name.toLowerCase() === "content-type" ? blob.type : null },
+		blob: jest.fn(async () => blob),
+	} as unknown as Response;
 }
 
 function errorResponse(status: number) {
@@ -155,6 +160,21 @@ describe("get() over the network", () => {
 		expect(Game.createImageBitmap).not.toHaveBeenCalled();
 	});
 
+	it("ends FAILED when the response is not an image", async () => {
+		Game.CommonFetch.mockResolvedValue(okResponse(new Blob(["<!DOCTYPE html>"], { type: "text/html;charset=UTF-8" })));
+
+		const img = cache.get(URL_A);
+		await flush();
+
+		expect(img.state).toBe(Game.CachedImageState.FAILED);
+		expect(img.data).toBeNull();
+		expect(Game.createImageBitmap).not.toHaveBeenCalled();
+		expect(console.error).toHaveBeenCalledWith(
+			expect.stringContaining("Failed to load image " + URL_A),
+			expect.objectContaining({ message: expect.stringContaining("text/html") }),
+		);
+	});
+
 	it("ends FAILED when the bytes cannot be decoded", async () => {
 		Game.CommonFetch.mockResolvedValue(okResponse());
 		createImageBitmap.mockRejectedValue(new DOMException("bad image", "InvalidStateError"));
@@ -224,25 +244,30 @@ describe("dropping in-flight loads", () => {
 });
 
 describe("background updates from the persistent store", () => {
-	/** Stub the cache's fetch so the test controls when an update arrives */
+	/** Stub the store so the test controls when a revalidation arrives */
 	function stubFetch() {
-		let onUpdate: ((response: Response) => void) | undefined;
-		const fetch = jest.fn(async (_url: string, options?: BrowserCache.FetchOptions) => {
-			onUpdate = options?.onUpdate;
-			return okResponse();
-		});
-		cache.browserCache = { fetch } as unknown as BrowserCache;
-		return { fetch, update: (response: Response) => onUpdate!(response) };
+		const cached = okResponse();
+		const resolvers: Array<(response: Response | null) => void> = [];
+		const match = jest.fn(async () => cached);
+		const revalidate = jest.fn(() => new Promise<Response | null>((resolve) => {
+			resolvers.push(resolve);
+		}));
+		const remove = jest.fn(async () => true);
+		cache.browserCache = { match, revalidate, put: jest.fn(), delete: remove } as unknown as BrowserCache;
+		return {
+			revalidate,
+			remove,
+			update: (response: Response, index = resolvers.length - 1) => resolvers[index](response),
+		};
 	}
 
-	it("passes an update hook to the store", async () => {
+	it("revalidates a cached image without waiting on it", async () => {
 		const rc = stubFetch();
 		const img = cache.get(URL_A);
 		await flush();
 
-		expect(cache.browserCache!.fetch).toHaveBeenCalledWith(URL_A, { onUpdate: expect.any(Function) });
+		expect(rc.revalidate).toHaveBeenCalledWith(URL_A, expect.anything());
 		expect(img.isLoaded()).toBe(true);
-		expect(rc.update).toBeDefined();
 	});
 
 	it("swaps the bitmap in and rebuilds what depended on the old one", async () => {
@@ -302,23 +327,37 @@ describe("background updates from the persistent store", () => {
 		const rc = stubFetch();
 		const img = cache.get(URL_A);
 		await flush();
-		const firstHook = rc.fetch.mock.calls[0][1]!.onUpdate!;
 
-		// Unload and reload: a new generation, with its own update hook
+		// Unload and reload: a new generation, with its own revalidation
 		img.unload();
 		cache.get(URL_A);
 		await flush();
 		const reloaded = img.data;
-		expect(rc.fetch).toHaveBeenCalledTimes(2);
-		expect(rc.fetch.mock.calls[1][1]!.onUpdate).not.toBe(firstHook);
+		expect(rc.revalidate).toHaveBeenCalledTimes(2);
 
 		const stale = makeBitmap();
 		createImageBitmap.mockResolvedValueOnce(stale);
-		firstHook(okResponse());
+		rc.update(okResponse(), 0);
 		await flush();
 
 		expect(stale.close).toHaveBeenCalledTimes(1);
 		expect(img.data).toBe(reloaded);
+	});
+
+	it("keeps the current bitmap if the update is not an image", async () => {
+		const rc = stubFetch();
+		const img = cache.get(URL_A);
+		await flush();
+		const current = img.data;
+
+		rc.update(okResponse(new Blob(["<!DOCTYPE html>"], { type: "text/html" })));
+		await flush();
+
+		expect(img.data).toBe(current);
+		expect(img.isLoaded()).toBe(true);
+		expect(rc.remove).toHaveBeenCalledWith(URL_A);
+		expect(Game.createImageBitmap).toHaveBeenCalledTimes(1);
+		expect(console.warn).not.toHaveBeenCalled();
 	});
 
 	it("keeps the current bitmap if the update cannot be decoded", async () => {
@@ -749,6 +788,11 @@ class StoreResponse {
 	async blob() { return this.body; }
 }
 
+/** The double only implements what the store reads. */
+function asResponse(response: StoreResponse): Response {
+	return response as unknown as Response;
+}
+
 class FakeCache {
 	store = new Map<string, StoreResponse>();
 	put = jest.fn(async (key: string, response: StoreResponse) => { this.store.set(key, response); });
@@ -756,6 +800,13 @@ class FakeCache {
 		const hit = this.store.get(key);
 		return hit ? hit.clone() : undefined;
 	}
+	async keys() {
+		return [...this.store.keys()].map((url) => ({ url }));
+	}
+	delete = jest.fn(async (request: { url: string } | string) => {
+		const url = typeof request === "string" ? request : request.url;
+		return this.store.delete(url);
+	});
 }
 
 class FakeCacheStorage {
@@ -785,6 +836,7 @@ class FakeRequest {
 
 describe("persistent store", () => {
 	const LAST_MODIFIED = "Wed, 01 Jan 2025 00:00:00 GMT";
+	const INTERSTITIAL = "private, no-cache, no-store, must-revalidate, max-age=0";
 	const URL_V122 = "https://frontend.server/R122/Game/Assets/Female3DCG/Cloth/Cloth_Red.png";
 	const URL_V123 = "https://frontend.server/R123/Game/Assets/Female3DCG/Cloth/Cloth_Red.png";
 	const KEY = "https://frontend.server/Game/Assets/Female3DCG/Cloth/Cloth_Red.png";
@@ -833,58 +885,65 @@ describe("persistent store", () => {
 		});
 	});
 
-	describe("cache miss", () => {
-		it("fetches, stores a clone under the key, and returns the original", async () => {
+	describe("put", () => {
+		it("stores a clone and leaves the response the caller holds", async () => {
 			const response = new StoreResponse(200, { body: "png", headers: { "Last-Modified": LAST_MODIFIED } });
-			Game.CommonFetch.mockResolvedValue(response);
 
-			const result = await cache.browserCache!.fetch(URL_V123);
+			await cache.browserCache!.put(URL_V123, asResponse(response));
 
-			expect(result).toBe(response);
-			expect(Game.CommonFetch).toHaveBeenCalledTimes(1);
-			expect(Game.CommonFetch).toHaveBeenCalledWith(URL_V123);
 			const store = await bucket();
 			expect(store.put).toHaveBeenCalledTimes(1);
 			const stored = store.store.get(KEY);
 			expect(stored).not.toBe(response);
 			expect(stored!.body).toBe("png");
+			expect(response.body).toBe("png");
 			expect(stored!.headers.get("Last-Modified")).toBe(LAST_MODIFIED);
 		});
 
-		it("does not revalidate what it just downloaded", async () => {
-			Game.CommonFetch.mockResolvedValue(new StoreResponse(200, { body: "png" }));
+		it("marks the key revalidated so a later check does not hit the network", async () => {
+			await cache.browserCache!.put(URL_V123, asResponse(new StoreResponse(200, { body: "png" })));
 
-			await cache.browserCache!.fetch(URL_V123);
-			const again = await cache.browserCache!.fetch(URL_V123);
+			const cached = await cache.browserCache!.match(URL_V123);
+			await cache.browserCache!.revalidate(URL_V123, cached!);
 			await flush();
 
-			expect(again?.body).toBe("png");
-			expect(Game.CommonFetch).toHaveBeenCalledTimes(1);
+			expect(cached!.body).toBe("png");
+			expect(Game.CommonFetch).not.toHaveBeenCalled();
+		});
+
+		it("does not store a response the server marked uncacheable", async () => {
+			await cache.browserCache!.put(URL_V123, asResponse(new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: { "Content-Type": "text/html", "Cache-Control": INTERSTITIAL },
+			})));
+
+			expect((await bucket()).store.size).toBe(0);
+		});
+
+		it("stores a cacheable response whatever its media type", async () => {
+			await cache.browserCache!.put(URL_V123, asResponse(new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, max-age=31536000" },
+			})));
+
+			expect((await bucket()).store.get(KEY)!.body).toBe("<!DOCTYPE html>");
 		});
 
 		it("does not store failures or partial content", async () => {
-			Game.CommonFetch
-				.mockResolvedValueOnce(new StoreResponse(404))
-				.mockResolvedValueOnce(new StoreResponse(206, { body: "part" }));
+			await cache.browserCache!.put(URL_V123, asResponse(new StoreResponse(404)));
+			await cache.browserCache!.put(URL_V123, asResponse(new StoreResponse(206, { body: "part" })));
 
-			const missing = await cache.browserCache!.fetch(URL_V123);
-			const partial = await cache.browserCache!.fetch(URL_V123);
-
-			expect(missing.status).toBe(404);
-			expect(partial.status).toBe(206);
 			expect((await bucket()).store.size).toBe(0);
-			expect(Game.CommonFetch).toHaveBeenCalledTimes(2);
 		});
 
 		it("survives a storage failure", async () => {
 			const response = new StoreResponse(200, { body: "png" });
-			Game.CommonFetch.mockResolvedValue(response);
 			const store = await bucket();
 			store.put.mockRejectedValue(new DOMException("full", "QuotaExceededError"));
 
-			const result = await cache.browserCache!.fetch(URL_V123);
+			await expect(cache.browserCache!.put(URL_V123, asResponse(response))).resolves.toBeUndefined();
 
-			expect(result).toBe(response);
+			expect(response.body).toBe("png");
 			expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("Failed to cache image"), expect.any(DOMException));
 		});
 	});
@@ -901,28 +960,30 @@ describe("persistent store", () => {
 			await seed();
 			Game.CommonFetch.mockReturnValue(new Promise(() => {}));
 
-			const result = await cache.browserCache!.fetch(URL_V123);
+			const result = await cache.browserCache!.match(URL_V123);
+			void cache.browserCache!.revalidate(URL_V123, result!);
 
-			expect(result.status).toBe(200);
-			expect(result.body).toBe("old");
+			expect(result!.status).toBe(200);
+			expect(result!.body).toBe("old");
 		});
 
-		it("revalidates once in the background with a conditional request", async () => {
+		it("revalidates once with a conditional request", async () => {
 			await seed();
 			Game.CommonFetch.mockResolvedValue(new StoreResponse(304));
-			const onUpdate = jest.fn();
+			const cached = await cache.browserCache!.match(URL_V123);
 
-			await cache.browserCache!.fetch(URL_V123, { onUpdate });
-			await cache.browserCache!.fetch(URL_V123, { onUpdate });
+			const first = cache.browserCache!.revalidate(URL_V123, cached!);
+			const second = cache.browserCache!.revalidate(URL_V123, cached!);
 			await flush();
 
+			expect(second).toBe(first);
+			await expect(first).resolves.toBeNull();
 			expect(Game.CommonFetch).toHaveBeenCalledTimes(1);
 			const request = Game.CommonFetch.mock.calls[0][0];
 			expect(request).toBeInstanceOf(FakeRequest);
 			expect(request.url).toBe(URL_V123);
 			expect(request.headers.get("If-Modified-Since")).toBe(LAST_MODIFIED);
 			expect(request.headers.has("If-None-Match")).toBe(false);
-			expect(onUpdate).not.toHaveBeenCalled();
 			expect((await bucket()).store.get(KEY)!.body).toBe("old");
 		});
 
@@ -931,7 +992,8 @@ describe("persistent store", () => {
 			store.store.set(KEY, new StoreResponse(200, { body: "old", headers: { ETag: '"abc"' } }));
 			Game.CommonFetch.mockResolvedValue(new StoreResponse(304));
 
-			await cache.browserCache!.fetch(URL_V123);
+			const cached = await cache.browserCache!.match(URL_V123);
+			await cache.browserCache!.revalidate(URL_V123, cached!);
 			await flush();
 
 			const request = Game.CommonFetch.mock.calls[0][0];
@@ -943,14 +1005,13 @@ describe("persistent store", () => {
 			await seed();
 			const fresh = new StoreResponse(200, { body: "new", headers: { "Last-Modified": "Thu, 02 Jan 2025 00:00:00 GMT" } });
 			Game.CommonFetch.mockResolvedValue(fresh);
-			const onUpdate = jest.fn();
 
-			const result = await cache.browserCache!.fetch(URL_V123, { onUpdate });
-			await flush();
+			const cached = await cache.browserCache!.match(URL_V123);
+			const delivered = await cache.browserCache!.revalidate(URL_V123, cached!);
 
-			expect(result.body).toBe("old");
-			expect(onUpdate).toHaveBeenCalledTimes(1);
-			expect(onUpdate).toHaveBeenCalledWith(fresh);
+			expect(cached!.body).toBe("old");
+			expect(delivered).toBe(fresh);
+			expect((await bucket()).store.get(KEY)).not.toBe(fresh);
 			expect((await bucket()).store.get(KEY)!.body).toBe("new");
 		});
 
@@ -958,13 +1019,11 @@ describe("persistent store", () => {
 			await seed();
 			Game.CommonFetch
 				.mockRejectedValueOnce(new TypeError("offline"));
-			const onUpdate = jest.fn();
 
-			const result = await cache.browserCache!.fetch(URL_V123, { onUpdate });
-			await flush();
+			const cached = await cache.browserCache!.match(URL_V123);
+			await expect(cache.browserCache!.revalidate(URL_V123, cached!)).resolves.toBeNull();
 
-			expect(result.body).toBe("old");
-			expect(onUpdate).not.toHaveBeenCalled();
+			expect(cached!.body).toBe("old");
 			expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("Failed to revalidate image \"" + URL_V123), expect.any(TypeError));
 			expect((await bucket()).store.get(KEY)!.body).toBe("old");
 		});
@@ -972,13 +1031,260 @@ describe("persistent store", () => {
 		it("does not replace the entry with an error response", async () => {
 			await seed();
 			Game.CommonFetch.mockResolvedValue(new StoreResponse(500));
-			const onUpdate = jest.fn();
 
-			await cache.browserCache!.fetch(URL_V123, { onUpdate });
+			const cached = await cache.browserCache!.match(URL_V123);
+			await expect(cache.browserCache!.revalidate(URL_V123, cached!)).resolves.toBeNull();
+
+			expect((await bucket()).store.get(KEY)!.body).toBe("old");
+		});
+
+		it("does not replace a stored image with an uncacheable response", async () => {
+			await seed();
+			Game.CommonFetch.mockResolvedValue(new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: { "Content-Type": "text/html", "Cache-Control": INTERSTITIAL },
+			}));
+
+			const cached = await cache.browserCache!.match(URL_V123);
+			await expect(cache.browserCache!.revalidate(URL_V123, cached!)).resolves.toBeNull();
+
+			expect(cached!.body).toBe("old");
+			expect((await bucket()).store.get(KEY)!.body).toBe("old");
+		});
+
+		it("replaces a stored response with a cacheable one of any media type", async () => {
+			await seed();
+			const fresh = new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: { "Content-Type": "text/html", "Cache-Control": "public, max-age=31536000" },
+			});
+			Game.CommonFetch.mockResolvedValue(fresh);
+
+			const cached = await cache.browserCache!.match(URL_V123);
+			await expect(cache.browserCache!.revalidate(URL_V123, cached!)).resolves.toBe(fresh);
+
+			expect((await bucket()).store.get(KEY)!.body).toBe("<!DOCTYPE html>");
+		});
+
+		it("does not replace a stored response with an uncacheable image", async () => {
+			await seed();
+			Game.CommonFetch.mockResolvedValue(new StoreResponse(200, {
+				body: "new",
+				headers: { "Content-Type": "image/png", "Cache-Control": "no-cache, max-age=0" },
+			}));
+
+			const cached = await cache.browserCache!.match(URL_V123);
+			await expect(cache.browserCache!.revalidate(URL_V123, cached!)).resolves.toBeNull();
+
+			expect((await bucket()).store.get(KEY)!.body).toBe("old");
+		});
+
+		it("replaces a stored non-image when revalidation returns one", async () => {
+			const store = await bucket();
+			store.store.set(KEY, new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: {
+					"Content-Type": "text/html",
+					"Cache-Control": "public, max-age=31536000",
+					"Last-Modified": "Thu, 02 Jan 2026 00:00:00 GMT",
+					ETag: '"check-page"',
+				},
+			}));
+			const fresh = new StoreResponse(200, {
+				body: "png",
+				headers: { "Content-Type": "image/png", "Last-Modified": LAST_MODIFIED },
+			});
+			Game.CommonFetch.mockResolvedValue(fresh);
+
+			const cached = await cache.browserCache!.match(URL_V123);
+			const delivered = await cache.browserCache!.revalidate(URL_V123, cached!);
+
+			expect(cached!.body).toBe("<!DOCTYPE html>");
+			expect(delivered).toBe(fresh);
+			const request = Game.CommonFetch.mock.calls[0][0];
+			expect(request.headers.get("If-Modified-Since")).toBe("Thu, 02 Jan 2026 00:00:00 GMT");
+			expect(request.headers.get("If-None-Match")).toBe('"check-page"');
+			expect(store.store.get(KEY)).not.toBe(fresh);
+			expect(store.store.get(KEY)!.body).toBe("png");
+		});
+
+		it("finishes an image load that hit a stale text/html entry", async () => {
+			const store = await bucket();
+			store.store.set(KEY, new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: { "Content-Type": "text/html" },
+			}));
+			Game.CommonFetch.mockResolvedValue(new StoreResponse(200, {
+				body: "png",
+				headers: { "Content-Type": "image/png", "Last-Modified": LAST_MODIFIED },
+			}));
+			createImageBitmap.mockResolvedValue(makeBitmap(8, 8));
+
+			const img = cache.get(URL_V123);
 			await flush();
 
-			expect(onUpdate).not.toHaveBeenCalled();
-			expect((await bucket()).store.get(KEY)!.body).toBe("old");
+			expect(img.isLoaded()).toBe(true);
+			expect(img.data).toEqual(expect.objectContaining({ width: 8, height: 8 }));
+			expect(store.store.get(KEY)!.headers.get("Content-Type")).toBe("image/png");
+			expect(console.error).not.toHaveBeenCalled();
+		});
+
+		it("fails the load when revalidation of a stale text/html entry is not an image", async () => {
+			const store = await bucket();
+			store.store.set(KEY, new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: { "Content-Type": "text/html" },
+			}));
+			Game.CommonFetch.mockResolvedValue(new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: { "Content-Type": "text/html", "Cache-Control": INTERSTITIAL },
+			}));
+
+			const img = cache.get(URL_V123);
+			await flush();
+
+			expect(img.isFailing()).toBe(true);
+			expect(store.store.has(KEY)).toBe(false);
+			expect(Game.createImageBitmap).not.toHaveBeenCalled();
+			expect(console.error).toHaveBeenCalledWith(
+				expect.stringContaining("Failed to load image " + URL_V123),
+				expect.objectContaining({ message: expect.stringContaining("text/html") }),
+			);
+		});
+
+		it("clears a cached non-image even when the fresh response is cacheable HTML", async () => {
+			const store = await bucket();
+			store.store.set(KEY, new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: {
+					"Content-Type": "text/html; charset=utf-8",
+					"Cache-Control": "public, max-age=31536000",
+					"Last-Modified": "Thu, 02 Jan 2026 00:00:00 GMT",
+					ETag: '"check-page"',
+				},
+			}));
+			Game.CommonFetch.mockResolvedValue(new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, max-age=31536000" },
+			}));
+
+			const img = cache.get(URL_V123);
+			await flush();
+
+			expect(img.isFailing()).toBe(true);
+			expect(store.store.has(KEY)).toBe(false);
+			expect(Game.CommonFetch).toHaveBeenCalledWith(URL_V123);
+			expect(Game.createImageBitmap).not.toHaveBeenCalled();
+		});
+
+		it("clears a cached non-image when the refetch fails", async () => {
+			const store = await bucket();
+			store.store.set(KEY, new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: {
+					"Content-Type": "text/html",
+					"Cache-Control": "public, max-age=31536000",
+					"Last-Modified": "Thu, 02 Jan 2026 00:00:00 GMT",
+				},
+			}));
+			Game.CommonFetch.mockRejectedValue(new TypeError("offline"));
+
+			const img = cache.get(URL_V123);
+			await flush();
+
+			expect(img.isFailing()).toBe(true);
+			expect(store.store.has(KEY)).toBe(false);
+			expect(Game.createImageBitmap).not.toHaveBeenCalled();
+		});
+
+		it("loads an older image that would 304 against a cached check page", async () => {
+			const store = await bucket();
+			store.store.set(KEY, new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: {
+					"Content-Type": "text/html",
+					"Cache-Control": "public, max-age=31536000",
+					"Last-Modified": "Thu, 02 Jan 2026 00:00:00 GMT",
+					ETag: '"check-page"',
+				},
+			}));
+			const image = new StoreResponse(200, {
+				body: "png",
+				headers: { "Content-Type": "image/png", "Last-Modified": LAST_MODIFIED },
+			});
+			Game.CommonFetch.mockImplementation((fetched: unknown) => {
+				if (fetched instanceof FakeRequest) {
+					const headers = fetched.headers;
+					if (headers.has("If-Modified-Since") || headers.has("If-None-Match"))
+						return new StoreResponse(304);
+				}
+				return image;
+			});
+			createImageBitmap.mockResolvedValue(makeBitmap(8, 8));
+
+			const img = cache.get(URL_V123);
+			await flush();
+
+			expect(img.isLoaded()).toBe(true);
+			expect(img.data).toEqual(expect.objectContaining({ width: 8, height: 8 }));
+			expect(Game.CommonFetch).toHaveBeenCalledWith(URL_V123);
+			expect(store.store.get(KEY)!.headers.get("Content-Type")).toBe("image/png");
+			expect(store.store.get(KEY)!.body).toBe("png");
+		});
+
+		it("loads an uncacheable image found in place of a stored non-image and drops that entry", async () => {
+			const store = await bucket();
+			store.store.set(KEY, new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: {
+					"Content-Type": "text/html",
+					"Cache-Control": "public, max-age=31536000",
+					"Last-Modified": "Thu, 02 Jan 2026 00:00:00 GMT",
+					ETag: '"check-page"',
+				},
+			}));
+			Game.CommonFetch.mockResolvedValue(new StoreResponse(200, {
+				body: "png",
+				headers: { "Content-Type": "image/png", "Cache-Control": "no-cache, max-age=0" },
+			}));
+			createImageBitmap.mockResolvedValue(makeBitmap(4, 4));
+
+			const img = cache.get(URL_V123);
+			await flush();
+
+			expect(img.isLoaded()).toBe(true);
+			expect(store.store.has(KEY)).toBe(false);
+			expect(Game.CommonFetch).toHaveBeenCalledWith(URL_V123);
+		});
+
+		it("does not keep a cacheable non-image fetched on a miss", async () => {
+			Game.CommonFetch.mockResolvedValue(new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: { "Content-Type": "text/html", "Cache-Control": "public, max-age=31536000" },
+			}));
+
+			const img = cache.get(URL_V123);
+			await flush();
+
+			expect(img.isFailing()).toBe(true);
+			expect((await bucket()).store.size).toBe(0);
+		});
+
+		it("drops a cacheable non-image that a revalidation stored over an image", async () => {
+			const store = await seed();
+			Game.CommonFetch.mockResolvedValue(new StoreResponse(200, {
+				body: "<!DOCTYPE html>",
+				headers: { "Content-Type": "text/html", "Cache-Control": "public, max-age=31536000" },
+			}));
+			createImageBitmap.mockResolvedValue(makeBitmap(8, 8));
+
+			const img = cache.get(URL_V123);
+			await flush();
+
+			expect(img.isLoaded()).toBe(true);
+			expect(img.data).toEqual(expect.objectContaining({ width: 8, height: 8 }));
+			expect(store.store.has(KEY)).toBe(false);
+			expect(console.warn).not.toHaveBeenCalled();
 		});
 
 		it("finds an entry stored under a previous release", async () => {
@@ -986,10 +1292,10 @@ describe("persistent store", () => {
 			Game.CommonFetch.mockResolvedValue(new StoreResponse(304));
 
 			// Stored from an R122 URL, requested with R123
-			const result = await cache.browserCache!.fetch(URL_V123);
-			await flush();
+			const result = await cache.browserCache!.match(URL_V123);
+			await cache.browserCache!.revalidate(URL_V123, result!);
 
-			expect(result.body).toBe("old");
+			expect(result!.body).toBe("old");
 			expect(Game.CommonFetch).toHaveBeenCalledTimes(1);
 			expect(Game.CommonFetch.mock.calls[0][0].url).toBe(URL_V123);
 		});
@@ -1032,19 +1338,64 @@ describe("persistent store", () => {
 		});
 	});
 
+	describe("origins", () => {
+		const MOD = "https://cdn.jsdelivr.net/gh/SugarChain-Studio/echo-clothing-ext@feae46427eb16ab1dc1e29ec1d323a167309e75f/resources/Assets/x.png";
+
+		it("drops entries from other origins and refuses to store new ones", async () => {
+			const store = await bucket();
+			store.store.set(KEY, new StoreResponse(200, { body: "png" }));
+			store.store.set(MOD, new StoreResponse(200, { body: "mod" }));
+
+			const limited = await Game.BrowserCacheClass.open(["https://frontend.server"]);
+			// The origin purge walks the bucket in the background, so opening does not wait on it.
+			await flush();
+
+			expect(store.store.has(KEY)).toBe(true);
+			expect(store.store.has(MOD)).toBe(false);
+
+			await limited.put(MOD, asResponse(new StoreResponse(200, { body: "mod" })));
+			expect(store.store.has(MOD)).toBe(false);
+			expect(await limited.match(MOD)).toBeUndefined();
+
+			await limited.put(URL_V123, asResponse(new StoreResponse(200, { body: "fresh" })));
+			expect(store.store.get(KEY)!.body).toBe("fresh");
+		});
+
+		it("leaves every entry in place when no origins were given", async () => {
+			const store = await bucket();
+			store.store.set(MOD, new StoreResponse(200, { body: "mod" }));
+
+			await Game.BrowserCacheClass.open();
+
+			expect(store.store.has(MOD)).toBe(true);
+		});
+	});
+
 	describe("clear", () => {
 		it("deletes the bucket and forgets what was revalidated", async () => {
-			Game.CommonFetch.mockResolvedValue(new StoreResponse(200, { body: "png" }));
-			await cache.browserCache!.fetch(URL_V123);
+			await cache.browserCache!.put(URL_V123, asResponse(new StoreResponse(200, {
+				body: "png",
+				headers: { "Last-Modified": LAST_MODIFIED },
+			})));
+			const cached = await cache.browserCache!.match(URL_V123);
+			await cache.browserCache!.revalidate(URL_V123, cached!);
+			expect(Game.CommonFetch).not.toHaveBeenCalled();
 			expect(storage.caches.has(cache.browserCache!.name)).toBe(true);
 
 			await expect(cache.browserCache!.clear()).resolves.toBe(true);
 
 			expect(storage.delete).toHaveBeenCalledWith(cache.browserCache!.name);
 
-			// The next fetch is a miss again, in a freshly opened bucket
-			await cache.browserCache!.fetch(URL_V123);
-			expect(Game.CommonFetch).toHaveBeenCalledTimes(2);
+			// A previous-session entry in the fresh bucket is checked again
+			const reopened = storage.caches.get(cache.browserCache!.name)!;
+			reopened.store.set(KEY, new StoreResponse(200, {
+				body: "png",
+				headers: { "Last-Modified": LAST_MODIFIED },
+			}));
+			Game.CommonFetch.mockResolvedValue(new StoreResponse(304));
+			const again = await cache.browserCache!.match(URL_V123);
+			await cache.browserCache!.revalidate(URL_V123, again!);
+			expect(Game.CommonFetch).toHaveBeenCalledTimes(1);
 			expect(storage.open).toHaveBeenCalledTimes(2);
 		});
 	});

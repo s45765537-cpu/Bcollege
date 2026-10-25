@@ -80,9 +80,9 @@ class CachedImage {
 	 * Load the cached image if it's not already available.
 	 *
 	 * Reports its outcome through the state, and never rejects.
-	 * @param {undefined | Error} errCause - An error object the be attached as cause for failed fetch responses. Used primarily for extending the traceback
+	 * @param {Error} [errCause] - An error object the be attached as cause for failed fetch responses. Used primarily for extending the traceback
 	 */
-	async _load(errCause=undefined) {
+	async _load(errCause) {
 		// Ensure there's only one image load in progress
 		if (this.isLoading() || this.isDoneLoading()) return;
 
@@ -151,14 +151,66 @@ class CachedImage {
 	 */
 	async _fetch(generation, errCause=undefined) {
 		const store = this.cache.browserCache;
-		const response = store
-			? await store.fetch(this.url, {
-				onUpdate: (fresh) => void this._update(generation, fresh),
-			})
-			: await CommonFetch(this.url);
+		/** @type {Response} */
+		let response;
+		if (store) {
+			const cached = await store.match(this.url);
+			if (!cached) {
+				response = await CommonFetch(this.url);
+				if (this._isImage(response))
+					await store.put(this.url, response);
+			} else if (this._isImage(cached)) {
+				void store.revalidate(this.url, cached).then((fresh) => {
+					if (!fresh) return;
+					// The store keeps any cacheable body. This one cannot be
+					// decoded, so drop it and leave the bitmap we already have.
+					if (!this._isImage(fresh)) {
+						void store.delete(this.url);
+						return;
+					}
+					void this._update(generation, fresh);
+				});
+				response = cached;
+			} else {
+				// The stored body cannot be decoded. Drop it, and fetch again without them.
+				await store.delete(this.url);
+				response = await CommonFetch(this.url);
+				if (this._isImage(response))
+					await store.put(this.url, response);
+			}
+		} else {
+			response = await CommonFetch(this.url);
+		}
 		if (!response.ok)
 			throw new Error(`HTTP ${response.status}`, { cause: errCause });
+		this._assertImage(response, errCause);
 		return response.blob();
+	}
+
+	/**
+	 * Does this response carry an image media type?
+	 *
+	 * @param {Response} response
+	 * @returns {boolean}
+	 * @private
+	 */
+	_isImage(response) {
+		const type = (response.headers.get("Content-Type") ?? "").split(";")[0].trim().toLowerCase();
+		return !type || type.startsWith("image/");
+	}
+
+	/**
+	 * Ensure a response carries an image media type.
+	 *
+	 * @param {Response} response
+	 * @param {undefined | Error} [errCause]
+	 * @returns {void}
+	 * @private
+	 */
+	_assertImage(response, errCause) {
+		if (this._isImage(response)) return;
+		const type = (response.headers.get("Content-Type") ?? "").split(";")[0].trim().toLowerCase();
+		throw new Error(`Expected an image, got ${type}`, { cause: errCause });
 	}
 
 	/**
@@ -194,6 +246,7 @@ class CachedImage {
 	 */
 	async _update(generation, response) {
 		try {
+			this._assertImage(response);
 			const blob = await response.blob();
 			const data = await this._decode(blob, generation);
 			if (data == null) return;
@@ -259,15 +312,20 @@ class CachedImage {
 };
 
 /**
- * Persistent browser-level Cache store for images.
+ * Persistent browser-level Cache store.
+ *
+ * What it keeps depends only on the URL and the response's caching headers.
+ * Callers decide whether a stored body is one they can use, and delete it
+ * themselves when it is not.
  */
 class BrowserCache {
 	/**
 	 * @param {Cache} cache
 	 * @param {string} name
+	 * @param {string[] | undefined} origins
 	 * @private
 	 */
-	constructor(cache, name) {
+	constructor(cache, name, origins) {
 		if (!cache) throw new Error("BrowserCache requires an open Cache");
 		/**
 		 * Name of the Cache bucket. Bump only if what's stored in it
@@ -293,16 +351,32 @@ class BrowserCache {
 		 * @private
 		 */
 		this._revalidated = new Set();
+		/**
+		 * Revalidations still in flight, so a second hit can wait on them.
+		 * @type {Map<string, Promise<Response | null>>}
+		 * @private
+		 */
+		this._revalidating = new Map();
+		/**
+		 * Origins this store will keep. Unset means any http(s) URL.
+		 * @type {Set<string> | null}
+		 * @private
+		 */
+		this._origins = origins ? new Set(origins.map((origin) => new URL(origin).origin)) : null;
 	}
 
 	/**
 	 * Open the named bucket.
+	 *
+	 * @param {string[]} [origins] When set, only these origins are stored. Entries from anywhere else are removed.
 	 * @returns {Promise<BrowserCache>}
 	 */
-	static async open() {
+	static async open(origins) {
 		if (typeof caches === "undefined") throw new Error("Cache API unavailable");
 		const cacheName = "bc-images-v1";
-		return new BrowserCache(await caches.open(cacheName), cacheName);
+		const store = new BrowserCache(await caches.open(cacheName), cacheName, origins);
+		CommonPromiseCatch(store.purge());
+		return store;
 	}
 
 	/**
@@ -323,6 +397,26 @@ class BrowserCache {
 	}
 
 	/**
+	 * Get the cache control directives from a response.
+	 *
+	 * @param {Response} response
+	 * @returns {Map<string, string | null>}
+	 * @private
+	 */
+	_cacheDirectives(response) {
+		const header = response.headers.get("Cache-Control") ?? "";
+		/** @type {Map<string, string | null>} */
+		const directives = new Map();
+		for (const part of header.split(",")) {
+			const eq = part.indexOf("=");
+			const name = (eq === -1 ? part : part.slice(0, eq)).trim().toLowerCase();
+			if (!name) continue;
+			directives.set(name, eq === -1 ? null : part.slice(eq + 1).trim());
+		}
+		return directives;
+	}
+
+	/**
 	 * Can this response go in the store?
 	 *
 	 * Only complete, successful, readable responses are worth keeping. Opaque
@@ -333,7 +427,12 @@ class BrowserCache {
 	 * @private
 	 */
 	_isStorable(response) {
-		return response.status === 200;
+		if (response.status !== 200) return false;
+
+		const directives = this._cacheDirectives(response);
+		if (directives.has("no-store") || directives.has("no-cache")) return false;
+		if (directives.get("max-age") === "0") return false;
+		return true;
 	}
 
 	/**
@@ -343,8 +442,15 @@ class BrowserCache {
 	 * @private
 	 */
 	_isCacheable(url) {
-		const protocol = new URL(url, location.href).protocol;
-		return protocol === "http:" || protocol === "https:";
+		let parsed;
+		try {
+			parsed = new URL(url, location.href);
+		} catch {
+			return false;
+		}
+		if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;
+		if (this._origins && !this._origins.has(parsed.origin)) return false;
+		return true;
 	}
 
 	/**
@@ -367,19 +473,32 @@ class BrowserCache {
 	}
 
 	/**
-	 * Check with the server whether a stored image is still current.
+	 * The response stored for this URL, if there is one.
 	 *
-	 * Runs at most once per key per session.
-	 *
-	 * @param {string} key - The cache key of the resource
-	 * @param {string} url - The URL to revalidate against
-	 * @param {Response} cached - The response we currently hold
-	 * @param {BrowserCache.FetchOptions} options
-	 * @returns {void}
-	 * @private
+	 * @param {string} url
+	 * @returns {Promise<Response | undefined>}
 	 */
-	_revalidate(key, url, cached, options) {
-		if (this._revalidated.has(key)) return;
+	async match(url) {
+		if (!this._isCacheable(url)) return undefined;
+		return this.cache.match(this.key(url));
+	}
+
+	/**
+	 * Ask the server whether a stored response is still current.
+	 *
+	 * Runs at most once per key per session. Resolves with the fresh storable
+	 * response, or null when the stored one stands.
+	 *
+	 * @param {string} url
+	 * @param {Response} cached
+	 * @returns {Promise<Response | null>}
+	 */
+	revalidate(url, cached) {
+		if (!this._isCacheable(url)) return Promise.resolve(null);
+		const key = this.key(url);
+		const pending = this._revalidating.get(key);
+		if (pending !== undefined) return pending;
+		if (this._revalidated.has(key)) return Promise.resolve(null);
 		this._revalidated.add(key);
 
 		/** @type {Record<string, string>} */
@@ -389,47 +508,93 @@ class BrowserCache {
 		const etag = cached.headers.get("ETag");
 		if (etag) headers["If-None-Match"] = etag;
 
-		void (async () => {
+		const revalidation = (async () => {
 			try {
 				const response = await CommonFetch(new Request(url, { headers }));
-				if (response.status === 304) return;
-				if (!this._isStorable(response)) return;
+				if (response.status === 304) return null;
+				if (!this._isStorable(response)) return null;
 
-				if (await this._put(key, response)) {
-					options.onUpdate?.(response);
-				}
+				// _put stores a clone, so this body stays readable for the caller.
+				await this._put(key, response);
+				return response;
 			} catch (err) {
 				// The cached copy stays in use; we'll try again next session
 				console.warn(`Failed to revalidate image "${url}"`, err);
+				return null;
+			} finally {
+				this._revalidating.delete(key);
 			}
 		})();
+		this._revalidating.set(key, revalidation);
+		return revalidation;
 	}
 
 	/**
-	 * Fetch an image, through the persistent store when possible.
+	 * Keep a response when it is allowed to be stored.
 	 *
-	 * @param {string} url - The URL of the image
-	 * @param {BrowserCache.FetchOptions} [options]
-	 * @returns {Promise<Response>}
+	 * @param {string} url
+	 * @param {Response} response
+	 * @returns {Promise<void>}
 	 */
-	async fetch(url, options = {}) {
-		if (!this._isCacheable(url))
-			return CommonFetch(url);
-
+	async put(url, response) {
+		if (!this._isCacheable(url) || !this._isStorable(response)) return;
 		const key = this.key(url);
-		const cached = await this.cache.match(key);
-		if (cached) {
-			this._revalidate(key, url, cached, options);
-			return cached;
-		}
-
-		const response = await CommonFetch(url);
-		if (this._isStorable(response)) {
-			await this._put(key, response);
-			// No point revalidating what we just downloaded
+		if (await this._put(key, response))
 			this._revalidated.add(key);
+	}
+
+	/**
+	 * Remove the stored response for a URL.
+	 *
+	 * The entry's caching directives are not consulted.
+	 *
+	 * @param {string} url
+	 * @returns {Promise<boolean>} Whether an entry was removed
+	 */
+	async delete(url) {
+		if (!this._isCacheable(url)) return false;
+		const key = this.key(url);
+		// The next revalidate in this session has to hit the network. The
+		// body we just dropped must not count as already checked.
+		this._revalidated.delete(key);
+		return this._remove(key);
+	}
+
+	/**
+	 * Remove one cache key. An in-flight revalidation of that key is left
+	 * to finish; forgetting it here would let a second request start.
+	 *
+	 * @param {string} key
+	 * @returns {Promise<boolean>}
+	 * @private
+	 */
+	async _remove(key) {
+		try {
+			return await this.cache.delete(key);
+		} catch (err) {
+			console.warn(`Failed to delete cached response "${key}"`, err);
+			return false;
 		}
-		return response;
+	}
+
+	/**
+	 * Remove stored entries this store is not allowed to keep.
+	 * @returns {Promise<void>}
+	 */
+	async purge() {
+		if (!this._origins) return;
+		const requests = await this.cache.keys();
+		await Promise.all(requests.map(async (request) => {
+			if (this._isCacheable(request.url)) return;
+			try {
+				const key = this.key(request.url);
+				this._revalidated.delete(key);
+				this._revalidating.delete(key);
+			} catch {
+				// The entry's URL is unusable. It is still removed below.
+			}
+			await this.cache.delete(request);
+		}));
 	}
 
 	/**
@@ -438,6 +603,7 @@ class BrowserCache {
 	 */
 	async clear() {
 		this._revalidated.clear();
+		this._revalidating.clear();
 		const deleted = await caches.delete(this.name);
 		this.cache = await caches.open(this.name);
 		return deleted;
