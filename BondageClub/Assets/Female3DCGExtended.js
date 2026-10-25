@@ -14470,15 +14470,13 @@ var AssetFemale3DCGExtended = {
 					Name: "Base",
 					Property: {
 						Difficulty: 0,
-						Intensity: 0,
 					},
 				},
 				{
 					Name: "Chain",
 					Property: {
 						Difficulty: 8,
-						Intensity: 1,
-						Effect: [E.Freeze, E.Egged],
+						Effect: [E.Freeze],
 					},
 					Random: false,
 				},
@@ -14486,8 +14484,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Hair",
 					Property: {
 						Difficulty: 4,
-						Intensity: 1,
-						Effect: [E.Egged],
+						Effect: [E.FixedHead],
 					},
 				},
 			],
