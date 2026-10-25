@@ -1,4 +1,5 @@
 RoomName,Room Name
+RoomNamePlaceholder,The name of the chat room
 RoomLanguage,Language
 RoomDescription,Description
 InputDescriptionPlaceholder,Description of the room
@@ -39,6 +40,8 @@ DownloadFailed,Failed to copy room code to clipboard
 DownloadSuccess,Room code copied to clipboard
 Create,Create
 Save,Save
+TitleCreate,Create Room
+TitleEdit,Room Settings
 Exit,Exit
 Cancel,Cancel
 CreatingRoom,Creating the chat room…
@@ -49,13 +52,17 @@ ResponseInvalidRoomData,Invalid chat room data detected
 ResponseChatRoomCreated,"Room created, joining it..."
 BlockCategory,Block Categories
 RoomCustomization,Customization
-ReturnMenu,(Click anywhere to return)
+ReturnMenu,Click anywhere to exit
+BackgroundPrevious,Previous background
+BackgroundNext,Next background
+MapModeHeader,Map
 MapNever,Don't use maps
 MapNeverTooltip,Never use the map exploration
 MapHybrid,Allow on and off
 MapHybridTooltip,"Hybrid map, can go on and off"
 MapAlways,Only use maps
 MapAlwaysTooltip,"Only use the map, no regular chat"
+GameModeHeader,Game
 Game,No Game
 GameClubCard,Club Card
 GameLARP,LARP
