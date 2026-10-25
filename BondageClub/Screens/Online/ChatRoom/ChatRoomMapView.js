@@ -79,6 +79,8 @@ var ChatRoomMapViewTeleportPadPicking = false;
 var ChatRoomMapViewTeleportPadIndex = null;
 /** @type {null | { indexes: number[], color: HexColor }} - The teleport pads shown in the color being picked for them */
 var ChatRoomMapViewTeleportPadPreview = null;
+/** TRUE while the color picker is open over the chat log */
+var ChatRoomMapViewColorPicker = false;
 /** @type {Map<string, HTMLCanvasElement>} - Map object images already colorized, by image and color */
 var ChatRoomMapViewColoredImages = new Map();
 /** @type {null | HTMLElement} */
@@ -771,6 +773,41 @@ function ChatRoomMapViewGetRecentItems() {
 function ChatRoomMapViewResize() {
 	if (ElementWrap("chat-room-map-view-panel-editor")) ElementPositionFixed("chat-room-map-view-panel-editor", 0, 0, 300, 800);
 	if (ElementWrap("chat-room-map-view-panel")) ElementPositionFixed("chat-room-map-view-panel", 0, 0, 1000, 1000);
+	if (ChatRoomMapViewColorPicker) ColorPickerResize(false);
+}
+
+/**
+ * Opens the color picker over the chat log, or closes it if it's open. The chat input is disabled while it's open,
+ * and closing it drops the teleport pad color preview.
+ * @param {ColorPickerInitOptions} [options] - The color picker options, used when opening it
+ * @returns {void}
+ */
+function ChatRoomMapViewColorPickerToggle(options) {
+	const chatInput = /** @type {null | HTMLTextAreaElement} */(ElementWrap("InputChat"));
+	if (!ChatRoomMapViewColorPicker) {
+		CommonPromiseCatch(
+			ColorPickerInit({
+				...options,
+				shape: ChatRoomDivRect,
+				onExit: (state, save, root) => {
+					ChatRoomMapViewColorPickerToggle();
+					options?.onExit?.(state, save, root);
+				},
+			}).then(root => {
+				root.classList.add("chat-room-map-view-color-picker");
+				ElementSetDataAttribute(root, "ColorTheme", Player.ChatSettings.ColorTheme);
+			})
+		);
+		chatInput?.blur();
+	} else {
+		ColorPickerHide();
+		ChatRoomMapViewTeleportPadPreview = null;
+		const root = ElementWrap(ColorPicker.ids.root);
+		root?.classList.remove("chat-room-map-view-color-picker");
+		root?.removeAttribute("data-colortheme");
+	}
+	ChatRoomMapViewColorPicker = !ChatRoomMapViewColorPicker;
+	if (chatInput) chatInput.disabled = ChatRoomMapViewColorPicker;
 }
 
 /**
@@ -783,10 +820,7 @@ function ChatRoomMapViewDeactivate() {
 
 function ChatRoomMapViewDestroyElements() {
 	document.removeEventListener("blur", ChatRoomMapViewBlur);
-	if (ChatRoomMapViewTeleportPadPreview) {
-		ChatRoomMapViewTeleportPadPreview = null;
-		ColorPickerExit(true);
-	}
+	if (ChatRoomMapViewColorPicker) ChatRoomMapViewColorPickerToggle();
 	if (ElementWrap("chat-room-map-view-panel")) {
 		ElementRemove("chat-room-map-view-panel");
 	}
