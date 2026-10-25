@@ -613,8 +613,10 @@ var ScreenIsLoadingPromise = Promise.resolve();
  * @returns {SafePromise<void>} - Nothing
  */
 async function CommonSetScreen(...spec) {
+	const loadingScreen = DrawLoadingScreen();
 	const promise = ScreenIsLoadingPromise = CommonSetScreenWrapped(...spec);
 	return promise.finally(() => {
+		loadingScreen.remove();
 		ScreenIsLoadingPromise = Promise.resolve();
 	});
 }
