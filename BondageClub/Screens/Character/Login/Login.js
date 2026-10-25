@@ -1087,6 +1087,12 @@ function LoginSetupPlayer(C) {
 	Player.Lover = ServerAccountDataSyncedValidate.Lover(C.Lover, Player);
 
 	Player.RecentlyUsedMapElements = ServerAccountDataSyncedValidate.RecentlyUsedMapElements(C.RecentlyUsedMapElements ?? [], Player);
+	// Pre-R134 stored doodads themselves. Write them back as doodad references.
+	if (Array.isArray(C.RecentlyUsedMapElements) && typeof C.RecentlyUsedMapElements[0] !== "string") {
+		ServerAccountUpdate.QueueData({
+			RecentlyUsedMapElements: MapPackDoodads(Player.RecentlyUsedMapElements),
+		});
+	}
 
 	// Calls the preference init to make sure the preferences are loaded correctly
 	PreferenceInitPlayer(Player, C);

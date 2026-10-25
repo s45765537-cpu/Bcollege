@@ -1832,19 +1832,40 @@ var ServerAccountDataSyncedValidate = {
 		}
 		return names;
 	},
-	/**
-	 * @param {unknown} arg
-	 * @param {Character} C
-	 * @returns {ChatRoomMapDoodad[]}
-	 */
 	RecentlyUsedMapElements: (arg, C) => {
-		if (!CommonIsArray(arg)) {
-			return [];
+		if (!CommonIsArray(arg)) return [];
+		/** @type {ChatRoomMapDoodad[]} */
+		const doodads = [];
+		/** @type {Set<ChatRoomMapDoodad>} */
+		const seen = new Set();
+		for (const raw of arg) {
+			if (doodads.length >= ChatRoomMapViewEditorMaxRecentElements) break;
+			// Account data is a `Tile:100` key. Older accounts stored the doodad object instead.
+			const entry = /** @type {unknown} */ (raw);
+			/** @type {ChatRoomMapDoodad | null} */
+			let doodad = null;
+			if (typeof entry === "string") {
+				const [type, idText] = entry.split(":");
+				if (type === "Tile" || type === "Object" || type === "Effect") {
+					const id = CommonParseInt(idText);
+					if (id !== null) doodad = MapGetDoodad(type, id);
+				}
+			} else if (CommonIsObject(entry)) {
+				const stored = /** @type {{ ID?: unknown, Type?: unknown }} */ (entry);
+				if (CommonIsInteger(stored.ID) && typeof stored.Type === "string") {
+					for (const type of /** @type {const} */ (["Tile", "Object", "Effect"])) {
+						const candidate = MapGetDoodad(type, stored.ID);
+						if (candidate?.Type !== stored.Type) continue;
+						doodad = candidate;
+						break;
+					}
+				}
+			}
+			if (!doodad || seen.has(doodad) || MapDoodadIsDeprecated(doodad)) continue;
+			seen.add(doodad);
+			doodads.push(doodad);
 		}
-		if (arg?.length > 16) {
-			arg = arg.slice(-16);
-		}
-		return /** @type {ChatRoomMapDoodad[]} */ (arg);
+		return doodads;
 	},
 	/**
 	 * @param {Partial<InfiltrationType> | undefined} arg

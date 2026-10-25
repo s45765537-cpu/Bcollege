@@ -4,13 +4,16 @@ const ChatRoomMapViewName = "Map";
 var ChatRoomMapViewPerceptionRange = 4;
 var ChatRoomMapViewPerceptionRangeMin = 1;
 var ChatRoomMapViewPerceptionRangeMax = 7;
-/** @type {"" |  "Tile" | "Object" | "TileType" | "ObjectType" | "Effect"} */
+/** @type {ChatRoomMapViewEditModeType} */
 var ChatRoomMapViewEditMode = "";
 var ChatRoomMapViewEditPath = "";
 var ChatRoomMapViewLastSearch = "";
 /** @type {"" | ChatRoomMapTileType | ChatRoomMapObjectType} */
 var ChatRoomMapViewEditSubMode = "";
+/** Currently dragging the mouse with an active tool */
 var ChatRoomMapViewEditStarted = false;
+/** @type {ChatRoomMapViewToolName | ""} */
+var ChatRoomMapViewActiveTool = "";
 /** @type {null | ChatRoomMapDoodad} */
 var ChatRoomMapViewEditObject = null;
 /**
@@ -47,6 +50,7 @@ const ChatRoomMapViewWhisperRange = 1;
 const ChatRoomMapViewInteractionRange = 1;
 const ChatRoomMapViewRemoteRange = ChatRoomMapViewPerceptionRangeMax;
 const ChatRoomMapSignTextMaxLength = 150;
+var ChatRoomMapViewEditorMaxRecentElements = 16;
 
 /**
  * @type {boolean[]}
@@ -362,30 +366,60 @@ function ChatRoomMapViewShowEditor() {
 }
 
 /**
+ * Switches the editor palette mode.
  *
+ * Changing mode or submode clears the selected doodad.
+ * A tool that can no longer paint is cleared too.
+ * @param {ChatRoomMapViewEditModeType} mode
+ * @param {"" | ChatRoomMapTileType | ChatRoomMapObjectType} subMode
+ */
+function ChatRoomMapViewEditorSetMode(mode, subMode) {
+	if (ChatRoomMapViewEditMode === mode && ChatRoomMapViewEditSubMode === subMode) return;
+	ChatRoomMapViewEditMode = mode;
+	ChatRoomMapViewEditSubMode = subMode;
+	ChatRoomMapViewEditObject = null;
+	const activeTool = ChatRoomMapViewGetActiveTool();
+	if (activeTool && !activeTool.canPaint()) ChatRoomMapViewSetActiveTool("");
+}
+
+/**
  * @param {ChatRoomMapDoodad} item
  * @param {MapDataDoodadType} type
- * @param {boolean} updateRecent
+ * @param {boolean} [updateRecent]
+ * @deprecated Use {@link ChatRoomMapViewEditorSetSelection} instead
  * @returns {void}
  */
 function ChatRoomMapViewSetSelection(item, type, updateRecent=true) {
+	ChatRoomMapViewEditorSetSelection(item, type, updateRecent);
+}
+
+/**
+ * @param {ChatRoomMapDoodad} item
+ * @param {MapDataDoodadType} type
+ * @param {boolean} [updateRecent]
+ * @returns {void}
+ */
+function ChatRoomMapViewEditorSetSelection(item, type, updateRecent=true) {
+	/** @type {"" | ChatRoomMapTileType | ChatRoomMapObjectType} */
+	let subMode = "";
+	if (MapDoodadIsObject(item) || MapDoodadIsTile(item)) {
+		subMode = item.Type;
+	}
+	ChatRoomMapViewEditorSetMode(type, subMode);
 	ChatRoomMapViewEditObject = CommonCloneDeep(item);
-	ChatRoomMapViewEditMode = type;
-	if (ChatRoomMapViewIsChatRoomMapObject(item)) {
-		ChatRoomMapViewEditSubMode = item.Type;
+	ChatRoomMapViewSetActiveTool("Brush");
+	if (MapDoodadIsObject(item)) {
 		if ((item.AssetName != null) && (item.AssetGroup != null) && !InventoryAvailable(Player, item.AssetName, item.AssetGroup)) return;
-	} else if (ChatRoomMapViewIsChatRoomMapTile(item)) {
-		ChatRoomMapViewEditSubMode = item.Type;
-	} else if (ChatRoomMapViewIsChatRoomMapEffect(item)) {
-		ChatRoomMapViewEditSubMode = "";
 	}
 	document.getElementById("chat-room-map-view-panel-editor-recent-items-grid")?.setAttribute("value", item.ID, );
 	if (updateRecent) {
 		Player.RecentlyUsedMapElements = [
 			item,
-			...Player.RecentlyUsedMapElements.filter(existingItem => !CommonObjectEqual(existingItem, item))
-		].slice(0, 16);
-		ServerSend('AccountUpdate', { RecentlyUsedMapElements: Player.RecentlyUsedMapElements });
+			...Player.RecentlyUsedMapElements.filter((existingItem) => existingItem.DoodadType !== item.DoodadType || existingItem.ID !== item.ID),
+		].slice(0, ChatRoomMapViewEditorMaxRecentElements);
+		ServerSend('AccountUpdate', {
+			RecentlyUsedMapElements: MapPackDoodads(Player.RecentlyUsedMapElements),
+		});
 		ChatRoomMapViewReloadEditorPanel(true);
 		return;
 	}
@@ -436,21 +470,17 @@ function ChatRoomMapViewGetButtons() {
 
 	if (!ChatRoomPlayerIsAdmin()) return zoomButtons;
 	const backButton = ChatMapRoomViewCreateCategoryButton(() => {
-		if (ChatRoomMapViewEditSubMode != "") {
-			ChatRoomMapViewEditSubMode = "";
-		}
 		switch (ChatRoomMapViewEditMode) {
 			case "Object":
-				ChatRoomMapViewEditMode = "ObjectType";
+				ChatRoomMapViewEditorSetMode("ObjectType", "");
 				break;
 			case "Tile":
-				ChatRoomMapViewEditMode = "TileType";
+				ChatRoomMapViewEditorSetMode("TileType", "");
 				break;
 			case "ObjectType":
 			case "TileType":
 			case "Effect":
-				ChatRoomMapViewEditMode = "";
-				ChatRoomMapViewEditObject = null;
+				ChatRoomMapViewEditorSetMode("", "");
 				break;
 			case "":
 				break;
@@ -499,6 +529,30 @@ function ChatRoomMapViewGetButtons() {
 
 	];
 
+	const objectEditing = ChatRoomMapViewEditMode === "Object" || ChatRoomMapViewEditMode === "ObjectType";
+	const eraserButton = ElementWrap("chat-room-map-view-eraser") ?? ElementButton.Create("chat-room-map-view-eraser", function () {
+		if (this.getAttribute("aria-checked") === "true") {
+			ChatRoomMapViewSetActiveTool("Eraser");
+		} else if (ChatRoomMapViewTools.Brush.canPaint()) {
+			ChatRoomMapViewSetActiveTool("Brush");
+		} else {
+			ChatRoomMapViewSetActiveTool("");
+		}
+	}, {
+		image: "Icons/Eraser.svg",
+		tooltip: objectEditing ? TextGet("EditorButtonTextEraserAlt") : TextGet("EditorButtonTextEraser"),
+		tooltipPosition: "right",
+	}, {
+		button: {
+			classList: ["chat-room-map-view-category-button"],
+			attributes: {
+				role: "checkbox",
+				"aria-checked": ChatRoomMapViewActiveTool === "Eraser" ? "true" : "false",
+			},
+		},
+	});
+	const eraserButtons = ChatRoomMapViewTools.Eraser.canPaint() ? [eraserButton] : [];
+
 	switch (ChatRoomMapViewEditMode) {
 		case "":
 			return [
@@ -518,9 +572,7 @@ function ChatRoomMapViewGetButtons() {
 
 				ChatMapRoomViewCreateCategoryButton(() => {
 					if (!ChatRoomPlayerIsAdmin()) return;
-					ChatRoomMapViewEditMode = "Effect";
-					ChatRoomMapViewEditSubMode = "";
-					ChatRoomMapViewEditObject = AssetsMapDataEffects[1];
+					ChatRoomMapViewEditorSetSelection(MapDataGetEffect(AssetsMapDataEffects[1].ID), "Effect", false);
 					ChatRoomMapViewReloadEditorPanel();
 				}, "Icons/Light.png", TextGet("EditorButtonTextEditEffects")),
 				...buttons,
@@ -529,10 +581,10 @@ function ChatRoomMapViewGetButtons() {
 			return [
 				backButton,
 				editRangeButton,
+				...eraserButtons,
 				...[...MapDataObjectTypes].map((type) => {
 					return ChatMapRoomViewCreateCategoryButton(() => {
-						ChatRoomMapViewEditSubMode = type;
-						ChatRoomMapViewEditMode = "Object";
+						ChatRoomMapViewEditorSetMode("Object", type);
 						ChatRoomMapViewReloadEditorPanel();
 
 					}, MapGetAssetUrl("Object") + "Type/" + type + ".png", TextGet("ObjectTypeName" + type));
@@ -543,10 +595,10 @@ function ChatRoomMapViewGetButtons() {
 			return [
 				backButton,
 				editRangeButton,
+				...eraserButtons,
 				...[...MapDataTileTypes].map((type) => {
 					return ChatMapRoomViewCreateCategoryButton(() => {
-						ChatRoomMapViewEditSubMode = type;
-						ChatRoomMapViewEditMode = "Tile";
+						ChatRoomMapViewEditorSetMode("Tile", type);
 						ChatRoomMapViewReloadEditorPanel();
 
 					}, MapGetAssetUrl("Tile") + "Type/" + type + ".png", TextGet("TileTypeName" + type));
@@ -557,6 +609,7 @@ function ChatRoomMapViewGetButtons() {
 			return [
 				backButton,
 				editRangeButton,
+				...eraserButtons,
 				...buttons,
 			];
 		}
@@ -592,7 +645,8 @@ function ChatRoomMapViewGetItems(search) {
 
 		const searchTokens = search.toLowerCase().trim().split(/\s+/);
 		items = items.filter((item) => {
-			if (!ChatRoomMapViewIsChatRoomMapPhysicalElement(item) || !item.Style) return false;
+			if (MapDoodadIsDeprecated(item)) return false;
+			if (!MapDoodadIsPhysicalElement(item) || !item.Style) return false;
 
 			const styleWords = CommonUncamelize(item.Style);
 			return searchTokens.every((sToken) =>
@@ -608,7 +662,7 @@ function ChatRoomMapViewGetItems(search) {
 			return [...items].map((item) => ChatRoomMapViewCreateMapElementItem(item));
 		}
 		case "Object": {
-			const items = [...MapDataObjects.values()].filter((object) => object.Type == ChatRoomMapViewEditSubMode);
+			const items = [...MapDataObjects.values()].filter((object) => object.Type == ChatRoomMapViewEditSubMode && object.DeprecatedID === undefined);
 			return [...items].map((item) => ChatRoomMapViewCreateMapElementItem(item));
 		}
 		case "Effect":
@@ -622,15 +676,17 @@ function ChatRoomMapViewGetItems(search) {
  * Typecheck for {@link ChatRoomMapEffect}
  * @param {ChatRoomMapDoodad} element - The element to check
  * @returns {element is ChatRoomMapEffect}
+ * @deprecated Use {@link MapDoodadIsEffect}
  */
 function ChatRoomMapViewIsChatRoomMapEffect(element) {
-	return element.Type === "StaticLighting";
+	return element.DoodadType === "Effect";
 }
 
 /**
  * Typecheck for {@link ChatRoomMapPhysicalElement}
  * @param {ChatRoomMapDoodad} element - The element to check
  * @returns {element is ChatRoomMapPhysicalElement}
+ * @deprecated Use {@link MapDoodadIsPhysicalElement}
  */
 function ChatRoomMapViewIsChatRoomMapPhysicalElement(element) {
 	return "Style" in element;
@@ -640,20 +696,20 @@ function ChatRoomMapViewIsChatRoomMapPhysicalElement(element) {
  * Typecheck for {@link ChatRoomMapObject}
  * @param {ChatRoomMapDoodad} element - The element to check
  * @returns {element is ChatRoomMapObject}
+ * @deprecated Use {@link MapDoodadIsObject}
  */
 function ChatRoomMapViewIsChatRoomMapObject(element) {
-	return ["FloorDecorationThemed","FloorDecorationParty","FloorDecorationCamping",
-		"FloorDecorationExpanding","FloorDecorationAnimal","FloorItem","FloorObstacle","FloorNumber",
-		"FloorLetter","FloorIcon","WallDecoration", "WallPath","Banners", "FloorFoamTiles","Functional", "Bedroom", "LivingRoom", "Kitchen", "Office", "Bathroom", "ABDL", "School"].includes(element.Type);
+	return element.DoodadType === "Object";
 }
 
 /**
  * Typecheck for {@link ChatRoomMapTile}
  * @param {ChatRoomMapDoodad} element - The element to check
  * @returns {element is ChatRoomMapTile}
+ * @deprecated Use {@link MapDoodadIsTile}
  */
 function ChatRoomMapViewIsChatRoomMapTile(element) {
-	return ["Floor", "FloorExterior", "Wall", "Water"].includes(element.Type);
+	return element.DoodadType === "Tile";
 }
 
 /**
@@ -671,29 +727,34 @@ function ChatRoomMapViewCreateMapElementItem(item, updateRecent=true, readOnly=f
 	let type = "Tile";
 	let isOwned = true;
 	let rotation = 0;
-	if (ChatRoomMapViewIsChatRoomMapObject(item)) {
+	if (MapDoodadIsObject(item)) {
 		type = "Object";
-		imageUrl = MapGetDoodadAssetUrl(item);
+		imageUrl = MapGetAssetUrl("Object", item.Type, item.PaletteImage ?? item.Style);
 		if (item.Rotation != null) rotation = item.Rotation;
 		if ((item.AssetName != null) && (item.AssetGroup != null) && !InventoryAvailable(Player, item.AssetName, item.AssetGroup)) isOwned = false;
-	} else if (ChatRoomMapViewIsChatRoomMapTile(item)) {
+	} else if (MapDoodadIsTile(item)) {
 		type = "Tile";
 		if (item.Rotation != null) rotation = item.Rotation;
-		imageUrl = MapGetDoodadAssetUrl(item);
-	} else if (ChatRoomMapViewIsChatRoomMapEffect(item)) {
+		imageUrl = MapGetAssetUrl("Tile", item.Type, item.PaletteImage ?? item.Style);
+	} else if (MapDoodadIsEffect(item)) {
 		type = "Effect";
 		buttonStyle.Background = RgbaArrayToHTMLColor(item.Color);
 		imageUrl = null;
 	} else {
 		console.warn("Unknown map element type: " + JSON.stringify(item));
 	}
+	const classList = ["element-button-group-button", "chat-room-map-view-item-button"];
+	const selected = ChatRoomMapViewEditObject?.ID === item.ID && ChatRoomMapViewEditObject.Type === item.Type;
+	if (selected) {
+		classList.push("chat-room-map-view-item-selected");
+	}
 	const element = ElementButton.Create(null, function () {
-		ChatRoomMapViewSetSelection(item, type, updateRecent);
+		ChatRoomMapViewEditorSetSelection(item, type, updateRecent);
 	}, {
 		image: imageUrl?.endsWith("/Blank.png") != false ? undefined : imageUrl,
 	}, {
 		button: {
-			classList: ["element-button-group-button", "chat-room-map-view-item-button", ...(ChatRoomMapViewEditObject?.ID === item.ID && ChatRoomMapViewEditObject.Type === item.Type) ? ["chat-room-map-view-item-selected"] : []],
+			classList,
 			style: buttonStyle,
 			attributes: {
 				role: "radio",
@@ -701,7 +762,7 @@ function ChatRoomMapViewCreateMapElementItem(item, updateRecent=true, readOnly=f
 				"aria-hidden": readOnly ? "true" : undefined,
 				value: `${type}-${item.Type}-${item.ID}`,
 				tabindex: "-1",
-				"aria-checked": "false",
+				"aria-checked": selected ? "true" : "false",
 				"readonly": readOnly ? "true" : undefined
 			},
 		}
@@ -722,11 +783,11 @@ function ChatRoomMapViewGetSelection() {
 	const format = (string) => CommonUncamelize(string).map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");
 	if (item != null)  {
 
-		if (ChatRoomMapViewIsChatRoomMapObject(item)) {
+		if (MapDoodadIsObject(item)) {
 			tooltip = `${TextGet(`ObjectTypeName${item.Type}`)}/${item.Name ?? format(item.Style)} (${item.ID})`;
-		} else if (ChatRoomMapViewIsChatRoomMapTile(item)) {
+		} else if (MapDoodadIsTile(item)) {
 			tooltip = `${TextGet(`TileTypeName${item.Type}`)}/${item.Name ?? format(item.Style)} (${item.ID})`;
-		} else if (ChatRoomMapViewIsChatRoomMapEffect(item)) {
+		} else if (MapDoodadIsEffect(item)) {
 			tooltip = `${TextGet(`EffectTypeName${item.Type}`)}/${item.Name ?? "Effect"} ${item.ID}`;
 		} else {
 			console.warn("Unknown map element type: " + JSON.stringify(item));
@@ -757,16 +818,9 @@ function ChatRoomMapViewGetSelection() {
  * @returns {Element[]}
  */
 function ChatRoomMapViewGetRecentItems() {
-	const seen = new Set();
-	return Player.RecentlyUsedMapElements.reduce((items, item) => {
-		if (seen.has(item.ID)) return items;
-		seen.add(item.ID);
-		if (ChatRoomMapViewIsChatRoomMapObject(item))  items.push(MapDataObjects.get(item.ID));
-		else if (ChatRoomMapViewIsChatRoomMapTile(item)) items.push(MapDataTiles.get(item.ID));
-		else if (ChatRoomMapViewIsChatRoomMapEffect(item)) items.push(MapDataEffects.get(item.ID));
-		else console.warn("Unknown map element type: " + JSON.stringify(item));
-		return items;
-	}, /** @type {(ChatRoomMapDoodad | undefined)[]}*/([])).filter(item => item != null).slice(0, 8).map(item => ChatRoomMapViewCreateMapElementItem(item, false));
+	return Player.RecentlyUsedMapElements
+		.slice(0, ChatRoomMapViewEditorMaxRecentElements)
+		.map(item => ChatRoomMapViewCreateMapElementItem(item, false));
 }
 
 /** @type {ScreenResizeHandler} */
@@ -1100,6 +1154,40 @@ function ChatRoomMapViewGetObjectAtPos(x, y) {
 }
 
 /**
+ * True when the player cannot stand on this object right now.
+ * @param {ChatRoomMapObject} object
+ * @returns {boolean}
+ */
+function ChatRoomMapViewObjectBlocksStanding(object) {
+	return !!object.CanEnter && object.CanEnter("") === false;
+}
+
+/**
+ * Draws a red X over a cell the player cannot stand on.
+ * @param {Rect} rect
+ * @returns {void}
+ */
+function ChatRoomMapViewDrawObstacleMark(rect) {
+	const insetX = rect.w * 0.18;
+	const insetY = rect.h * 0.18;
+	const x0 = rect.x + insetX;
+	const y0 = rect.y + insetY;
+	const x1 = rect.x + rect.w - insetX;
+	const y1 = rect.y + rect.h - insetY;
+	MainCanvas.save();
+	MainCanvas.beginPath();
+	MainCanvas.lineWidth = Math.max(2, Math.min(rect.w, rect.h) * 0.08);
+	MainCanvas.lineCap = "round";
+	MainCanvas.strokeStyle = "#e02020";
+	MainCanvas.moveTo(x0, y0);
+	MainCanvas.lineTo(x1, y1);
+	MainCanvas.moveTo(x1, y0);
+	MainCanvas.lineTo(x0, y1);
+	MainCanvas.stroke();
+	MainCanvas.restore();
+}
+
+/**
  * Returns TRUE if a given position cannot be entered
  * @param {number} X - The X position on the map
  * @param {number} Y - The Y position on the map
@@ -1327,6 +1415,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	let TileHeight = Height / ((ChatRoomMapViewPerceptionRange * 2) + 1);
 	let EditWidth = (ChatRoomMapViewEditRange - 1) * TileWidth;
 	let EditHeight = (ChatRoomMapViewEditRange - 1) * TileHeight;
+	const activeTool = ChatRoomMapViewGetActiveTool();
 	const MaxVisibleRange = ChatRoomMapViewGetSightRange();
 	let CharacterUnderCursor = null;
 	let FogActive = ChatRoomMapFogIsActive();
@@ -1417,7 +1506,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 			let Char = ChatRoomMapViewGetCharacterAtPos(X, Y);
 			let shouldRender = true;
 			if (Obj.Type == "WallDecoration") shouldRender = !ChatRoomMapViewTileIsHidden(X, Y + 1);
-			else if (Obj.Style == "Blank") shouldRender = false;
+			else if (Obj.Type === "EmptySpace") shouldRender = false;
 			else if (Obj.IsVisible && !ChatRoomMapViewHasSuperPowers() && !Obj.IsVisible()) shouldRender = false;
 			else if (Char && Obj?.AssetGroup && Obj?.AssetName && InventoryIsWorn(Char, Obj.AssetGroup, Obj.AssetName)) shouldRender = false;
 
@@ -1442,6 +1531,10 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 				);
 				if (nearlyInvisible) DrawCircle(Left + ScreenX + TileWidth / 2, Top + ScreenY + TileHeight / 2, TileWidth * 0.47, 1.5, "#FFFFFF80");
 			}
+			// While placing empty space, show what currently blocks standing, including an impassable cell with no sprite
+			if (!Fog && ChatRoomMapViewEditMode === "Object" && ChatRoomMapViewEditSubMode === "EmptySpace" && ChatRoomMapViewObjectBlocksStanding(Obj)) {
+				ChatRoomMapViewDrawObstacleMark({ x: Left + ScreenX, y: Top + ScreenY, w: TileWidth, h: TileHeight });
+			}
 		}
 
 		const leftMousePos = Left + ScreenX - EditWidth;
@@ -1454,7 +1547,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 			|| MouseIn(930, 930, 60, 60);
 
 		// Keeps the tile as selected if the mouse is within selection
-		const DrawSelectionRect = ((ChatRoomMapViewEditMode === "Tile" || ChatRoomMapViewEditMode === "Object" || ChatRoomMapViewEditMode === "Effect") && mouseInTile && !mouseOverButtons);
+		const DrawSelectionRect = (activeTool != null && activeTool.canPaint() && mouseInTile && !mouseOverButtons);
 
 		// For each characters in the chat room (don't draw when there's fog)
 		if (!Fog) {
@@ -1506,7 +1599,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 		// Draw the floor wall effect and rectancle if needed at the end
 		if (FloorWallEffect != -1) DrawImageResize(MapGetAssetUrl("Tile", "WallEffect", `${FloorWallEffect}`), Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
-		if (DrawSelectionRect) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
+		if (DrawSelectionRect && activeTool) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, activeTool.selectionColor, 3);
 		if (padMenuIndex === X + Y * ChatRoomMapViewWidth) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "white", 2);
 		if (padDestination?.X === X && padDestination?.Y === Y) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 5);
 		if (ChatRoomMapViewTeleportPadPicking && MouseIn(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight)) DrawRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "#00FFFF60");
@@ -1595,14 +1688,10 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 					DrawImageResize(MapGetAssetUrl("Tile", "Fog", "Half"), Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 		}
 
-
-
-
 	// Name tags to pick each character sharing a tile, hidden while editing since clicks place doodads then
 	ChatRoomMapViewNameTags = [];
-	const editing = ["Tile", "Object", "Effect"].includes(ChatRoomMapViewEditMode);
 	MainCanvas.font = CommonGetFont(24);
-	if (!editing) {
+	if (!activeTool || !activeTool.canPaint()) {
 		/** @type {{ C: OnlineCharacter, name: string, rect: RectTuple, charX: number, charY: number }[]} */
 		const placed = [];
 		/** @type {(rect: RectTuple) => boolean} */
@@ -2279,6 +2368,13 @@ function ChatRoomMapViewMouseDown(event) {
 		ChatRoomMapViewMouseMove(event);
 		return;
 
+	// A tool that accepts this palette can paint here, including from a category screen
+	} else if (ChatRoomMapViewGetActiveTool()?.canPaint() && MouseIn(0, 0, 1000, 1000)) {
+		if (MouseIn(10, 10, 60, 60)) { return; }
+		if (MouseIn(10, 80, 60, 60)) { return; }
+		ChatRoomMapViewEditStarted = true;
+		ChatRoomMapViewMouseMove(event);
+		return;
 	}
 
 }
@@ -2329,21 +2425,9 @@ function ChatRoomMapViewMouseMove(event) {
 	const pos = ChatRoomMapViewPixelToTileCoordinates(MouseX, MouseY);
 	if (!pos) return;
 
-	const range = ChatRoomMapViewEditRange - 1;
-
-	if (ChatRoomMapViewEditMode == "Tile") {
-		MapManager.Map.setTile(pos.X, pos.Y, /** @type {ChatRoomMapTile} */ (ChatRoomMapViewEditObject), range);
-	} else if (ChatRoomMapViewEditMode === "Object") {
-		MapManager.Map.setObject(pos.X, pos.Y, /** @type {ChatRoomMapObject} */ (ChatRoomMapViewEditObject), range);
-	} else if (ChatRoomMapViewEditMode === "Effect") {
-		const effect = /** @type {ChatRoomMapEffect} */ (ChatRoomMapViewEditObject);
-		const isBlank = effect == null || effect.ID === ChatRoomMapViewEffectStartID;
-		if (isBlank) {
-			MapManager.Map.setEffects(pos.X, pos.Y, [], range);
-		} else {
-			MapManager.Map.addEffect(pos.X, pos.Y, effect, range);
-		}
-	}
+	const tool = ChatRoomMapViewGetActiveTool();
+	if (!tool || !tool.canPaint()) return;
+	tool.paint(pos.X, pos.Y, ChatRoomMapViewEditRange - 1, event);
 
 	// Encode the changed map and write it to the global ChatRoomData.MapData.
 	// This is somewhat inefficient since we don't have to actually encode the string
@@ -2351,6 +2435,77 @@ function ChatRoomMapViewMouseMove(event) {
 	// See ChatRoomMapManager.Map.updateGlobalMapData documentation for more details.
 	MapManager.Map.updateGlobalMapData();
 }
+
+/**
+ * The tool currently painting, if one is selected.
+ * @returns {ChatRoomMapViewTool | null}
+ */
+function ChatRoomMapViewGetActiveTool() {
+	if (ChatRoomMapViewActiveTool === "") return null;
+	return ChatRoomMapViewTools[ChatRoomMapViewActiveTool];
+}
+
+/**
+ * Selects the paint tool and updates its button, if that button is on screen.
+ * @param {ChatRoomMapViewToolName | ""} tool
+ */
+function ChatRoomMapViewSetActiveTool(tool) {
+	ChatRoomMapViewActiveTool = tool;
+	document.getElementById("chat-room-map-view-eraser")?.setAttribute("aria-checked", tool === "Eraser" ? "true" : "false");
+}
+
+/**
+ * The map editing tools.
+ * @satisfies {Record<string, ChatRoomMapViewTool>}
+ */
+const ChatRoomMapViewTools = {
+	Brush: {
+		selectionColor: "cyan",
+		canPaint: () => {
+			const mode = ChatRoomMapViewEditMode;
+			return (mode === "Tile" || mode === "Object" || mode === "Effect") && ChatRoomMapViewEditObject != null;
+		},
+		paint: (x, y, range, _event) => {
+			switch (ChatRoomMapViewEditMode) {
+				case "Tile":
+					MapManager.Map.setTile(x, y, /** @type {ChatRoomMapTile} */ (ChatRoomMapViewEditObject), range);
+					break;
+				case "Object":
+					MapManager.Map.setObject(x, y, /** @type {ChatRoomMapObject} */ (ChatRoomMapViewEditObject), range);
+					break;
+				case "Effect": {
+					const effect = /** @type {ChatRoomMapEffect} */ (ChatRoomMapViewEditObject);
+					if (effect == null || effect.ID === ChatRoomMapViewEffectStartID) {
+						MapManager.Map.setEffects(x, y, [], range);
+					} else {
+						MapManager.Map.addEffect(x, y, effect, range);
+					}
+					break;
+				}
+			}
+		},
+	},
+	// Ignores the selected doodad. Alt while erasing objects paints EmptySpace/Impassable.
+	Eraser: {
+		selectionColor: "red",
+		canPaint: () => ChatRoomMapViewEditMode !== "",
+		paint: (x, y, range, event) => {
+			switch (ChatRoomMapViewEditMode) {
+				case "Tile":
+				case "TileType":
+					MapManager.Map.setTile(x, y, MapDataGetTile(ChatRoomMapViewObjectStartID), range);
+					break;
+				case "Object":
+				case "ObjectType":
+					MapManager.Map.setObject(x, y, MapDataGetObject(event.altKey ? 101 : ChatRoomMapViewObjectStartID), range);
+					break;
+				case "Effect":
+					MapManager.Map.setEffects(x, y, [], range);
+					break;
+			}
+		},
+	},
+};
 
 /**
  * Mouse up event is used to stop drawing
