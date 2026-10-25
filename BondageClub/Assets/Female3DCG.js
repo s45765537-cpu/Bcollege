@@ -49138,7 +49138,12 @@ var AssetFemale3DCG = [
 				Fetish: ["Metal"],
 				SetPose: ["OverTheHead"],
 				ParentGroup: {},
-				Layer: [{ Name: "Bar" }, { Name: "Neck" }, { Name: "Belt" }, { Name: "Lock", LockLayer: true }],
+				Layer: [
+					{ Name: "Bar" },
+					{ Name: "Neck" },
+					{ Name: "Belt" },
+					{ Name: "Lock", LockLayer: true },
+				],
 				Attribution: {
 					Author: "Echo (SugarChain)",
 					OriginalName: "举手杆",

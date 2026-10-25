@@ -1865,7 +1865,7 @@ function DialogExitSearchMode(C) {
 		 * The duration temporary status message show up for, in ms
 		 * @type {undefined | string}
 		 */
-		const gridID = DialogMenuMapping[DialogMenuMode]?.ids.grid;
+		const gridID = DialogGetMenu(DialogMenuMode)?.ids.grid;
 		if (gridID) {
 			document.querySelectorAll(`#${gridID} > .dialog-grid-button`).forEach(button => button.toggleAttribute("hidden", false));
 		}
@@ -1892,7 +1892,7 @@ function DialogEnterItemsSearchMode(C, input = undefined) {
 			 * The duration temporary status message show up for, in ms
 			 * @type {undefined | string}
 			 */
-			const gridID = DialogMenuMapping[DialogMenuMode]?.ids.grid;
+			const gridID = DialogGetMenu(DialogMenuMode)?.ids.grid;
 			if (gridID) {
 				const query = DialogItemSearchBar.value.toLocaleLowerCase().split(" ").map(i => i.trim());
 				document.querySelectorAll(`#${gridID} > .dialog-grid-button`).forEach(button => {
