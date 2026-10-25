@@ -132,10 +132,10 @@ RoomCustomizationLevel3,Always
 SensDepSetting,Sensory deprivation setting
 LockTimerLimitSetting,Lock timer limits setting
 LockTimerLimitDefault,Default
-LockTimerLimitDay,Day
-LockTimerLimitWeek,Week
-LockTimerLimitMonth,Month
-LockTimerLimitYear,Year
+LockTimerLimitDay,1 Day
+LockTimerLimitWeek,1 Week
+LockTimerLimitMonth,1 Month
+LockTimerLimitYear,1 Year
 LockTimerLimitUnlimited,Unlimited
 SensDepLight,Light
 SensDepNames,Hide names

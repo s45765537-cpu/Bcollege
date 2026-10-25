@@ -18,7 +18,7 @@ var PreferenceCalibrationStage = 0;
 /** @type {ImmersionSensDepName[]} */
 var PreferenceSettingsSensDepList = ["SensDepLight", "Normal", "SensDepNames", "SensDepTotal", "SensDepExtreme"];
 /** @type {LockTimerLimitName[]} */
-var PreferenceSettingsLockTimerLimitList = ["LockTimerLimitDefault", "LockTimerLimitDay", "LockTimerLimitWeek", "LockTimerLimitMonth", "LockTimerLimitYear", "LockTimerLimitDecade"];
+var PreferenceSettingsLockTimerLimitList = ["LockTimerLimitDefault", "LockTimerLimitDay", "LockTimerLimitWeek", "LockTimerLimitMonth", "LockTimerLimitYear", "LockTimerLimitUnlimited"];
 
 /** @type {GraphicsVFXName[]} */
 var PreferenceSettingsVFXList = ["VFXInactive", "VFXSolid", "VFXAnimatedTemp", "VFXAnimated"];
