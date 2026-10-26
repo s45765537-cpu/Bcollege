@@ -731,6 +731,11 @@ function ActivityOrgasmPrepare(C, Bypass=false) {
  * @returns {void} - Nothing
  */
 function ActivityExpression(C, Progress) {
+	// The face and the erection each have their own setting, unset means on
+	const affectExpression = C.ArousalSettings.AffectExpression ?? true;
+	const affectErection = C.ArousalSettings.AffectErection ?? true;
+	if (!affectExpression && !affectErection) return;
+
 	let refresh = false;
 
 	/** @type {Partial<ExpressionNameMap>} */
@@ -766,7 +771,7 @@ function ActivityExpression(C, Progress) {
 	if (Progress == 100) expressions.Eyes = "Closed";
 
 	// Penis gets hard at arousal 30+
-	if (InventoryGet(C, "Pussy")?.Asset.Name === "Penis") {
+	if (affectErection && InventoryGet(C, "Pussy")?.Asset.Name === "Penis") {
 		expressions.Pussy = Progress < 30 ? null : "Hard"; // Male and female genitals both use the `Pussy` group
 	}
 
@@ -775,6 +780,7 @@ function ActivityExpression(C, Progress) {
 	const expressionsSuperType = expressions;
 	for (const item of C.Appearance) {
 		const groupName = item.Asset.Group.Name === "Eyes2" ? "Eyes" : item.Asset.Group.Name;
+		if (!(groupName === "Pussy" ? affectErection : affectExpression)) continue;
 		const expression = expressionsSuperType[groupName];
 		if (expression !== undefined && item.Property.Expression !== expression) {
 			item.Property.Expression = expression;
@@ -816,7 +822,7 @@ function ActivityTimerProgress(C, Progress) {
 
 	// Out of orgasm mode, it can affect facial expressions at every 10 steps
 	if ((C.ArousalSettings.OrgasmTimer == null) || (typeof C.ArousalSettings.OrgasmTimer !== "number") || isNaN(C.ArousalSettings.OrgasmTimer) || (C.ArousalSettings.OrgasmTimer < CurrentTime))
-		if (((C.ArousalSettings.AffectExpression == null) || C.ArousalSettings.AffectExpression) && ((C.ArousalSettings.Progress + ((Progress < 0) ? 1 : 0)) % 10 == 0))
+		if ((C.ArousalSettings.Progress + ((Progress < 0) ? 1 : 0)) % 10 == 0)
 			ActivityExpression(C, C.ArousalSettings.Progress);
 
 	// Can trigger an orgasm
