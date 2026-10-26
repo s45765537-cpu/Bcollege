@@ -479,6 +479,30 @@ function DialogChatRoomPlayerIsAdmin() { return (ChatRoomPlayerIsAdmin() && Serv
 function DialogChatRoomCanSafeword() { return ServerPlayerIsInChatRoom() && !AsylumGGTSIsEnabled() && Player.GameplaySettings.EnableSafeword; }
 
 /**
+ * Checks if the player can tie her own leash to a tether point of the chat room map
+ * @returns {boolean}
+ */
+function DialogMapViewCanTetherTie() { return ChatRoomMapViewCanTetherTie(); }
+
+/**
+ * Ties the player's own leash to a tether point of the chat room map
+ * @returns {void} - Nothing
+ */
+function DialogMapViewTetherTie() { ChatRoomMapViewTetherTie(); }
+
+/**
+ * Checks if the player can untie her own leash from its tether point
+ * @returns {boolean}
+ */
+function DialogMapViewCanTetherUntie() { return ChatRoomMapViewCanTetherUntie(); }
+
+/**
+ * Unties the player's own leash from its tether point
+ * @returns {void} - Nothing
+ */
+function DialogMapViewTetherUntie() { ChatRoomMapViewTetherUntie(); }
+
+/**
  * Checks if the player is currently owned.
  * @returns {boolean} - Returns true, if the player is currently owned by an online player (not in trial)
  */

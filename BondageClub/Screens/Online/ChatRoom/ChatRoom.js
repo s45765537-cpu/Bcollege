@@ -783,6 +783,7 @@ function DialogCanPerformCharacterAction() {
 	return (
 		ChatRoomCanAssistStand() || ChatRoomCanAssistKneel() || ChatRoomCanAssistStruggle() ||
 		ChatRoomCanHoldLeash() || ChatRoomCanStopHoldLeash() ||
+		ChatRoomMapViewCanTetherTie() || ChatRoomMapViewCanTetherUntie() ||
 		DialogCanTakePhotos() ||
 		ChatRoomCanGiveLockpicks() || ChatRoomCanGiveHighSecurityKeys() || ChatRoomCanGiveHighSecurityKeysAll() ||
 		DialogHasGamingHeadset() || DialogCanWatchKinkyDungeon()
@@ -3133,6 +3134,7 @@ function ChatRoomCanLeave() {
 			return false;
 		} else ChatRoomLeashPlayer = null;
 	}
+	if (Player.MapTether && ChatRoomCanBeLeashedBy(Player.MapTether.MemberNumber, Player)) return false; // Cannot leave if tied to a tether point
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
 	// Cannot leave if locked down in Pandora Penitentiary
 	if (ChatRoomData.Game == "Prison" && PandoraPenitentiaryIsInmate(Player)) return false;
@@ -3243,6 +3245,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	DialogLentLockpicks = false;
 	ChatRoomData = null;
 	delete Player.MapData;
+	delete Player.MapTether;
 	ChatRoomCharacter = [];
 	ChatRoomJustEntered = false;
 	ChatRoomDrawFocusList = [];
@@ -4166,6 +4169,12 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 			break;
 		case "ChatRoomMapViewChangeKey":
 			ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data);
+			break;
+		case "ChatRoomMapViewTether":
+			ChatRoomMapViewTetherHiddenMessage(SenderCharacter, data);
+			break;
+		case "ChatRoomMapViewTetherSync":
+			ChatRoomMapViewTetherSyncHiddenMessage(SenderCharacter, data);
 			break;
 		case "ChatRoomFriendRequestAdd":
 			ChatRoomFriendMessage(SenderCharacter, data);
@@ -5237,6 +5246,7 @@ function ChatRoomSyncMemberJoin(data) {
 		// Ping to make sure they are still leashed
 		ServerSend("ChatRoomChat", { Content: "PingHoldLeash", Type: "Hidden", Target: newCharacter.MemberNumber });
 	}
+	if (Player.MapTether) ChatRoomMapViewSendTether(newCharacter.MemberNumber);
 	// Check whether the player's last chatroom data needs updating
 	ChatRoomCheckForLastChatRoomUpdates();
 	// The allowed menu actions may have changed
@@ -5671,6 +5681,7 @@ function ChatRoomDoHoldLeash(SenderCharacter) {
 		}
 		// Set the character as our new leasher
 		ChatRoomLeashPlayer = SenderCharacter.MemberNumber;
+		if (Player.MapTether) ChatRoomMapViewSetTether(null);
 	} else {
 		ServerSend("ChatRoomChat", { Content: "RemoveLeash", Type: "Hidden", Target: SenderCharacter.MemberNumber });
 	}

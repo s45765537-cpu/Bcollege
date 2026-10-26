@@ -32,6 +32,7 @@ Game.load("../Scripts/lib/LZString.js");
 
 Game.load("../Scripts/Common.js");
 Game.load("../Scripts/BitString.js");
+Game.load("../Scripts/DictionaryBuilder.js");
 Game.load("../Screens/Online/ChatRoom/ChatRoom.js");
 Game.load("../Screens/Online/ChatRoom/ChatRoomMapView.js");
 
@@ -535,5 +536,87 @@ describe("deprecated objects", () => {
 		expect(Game.MapManager.Map.getObjectId(3)).toBe(100);
 		expect(Game.MapManager.Map.getObject(3)).toBe(passable);
 		expect(Game.MapManager.Map.getObjectId(4)).toBe(101);
+	});
+});
+
+describe("tether points", () => {
+	const lampPost = Game.MapDataGetObject(2090);
+	const pole = Game.MapDataGetObject(1090);
+	const table = Game.MapDataGetObject(140);
+	const emptySpace = Game.MapDataGetObject(2000);
+
+	beforeEach(() => {
+		Game.ChatRoomData.Admin = [];
+		Game.ChatRoomCharacter = [];
+		Game.Player.MapData = { Pos: { X: 5, Y: 6 }, PrivateState: {} };
+		Object.assign(Game.Player, {
+			GetBlindLevel: () => 0,
+			GetDeafLevel: () => 0,
+			GetSlowLevel: () => 0,
+			IsEnclose: () => false,
+			IsSuspended: () => false,
+			IsMounted: () => false,
+			IsPlugged: () => false,
+			HasEffect: () => false,
+			CanWalk: () => true,
+			CanKneel: () => true,
+		});
+	});
+
+	afterEach(() => {
+		Game.Player.MapData = null;
+	});
+
+	it("can be made from floor obstacles and poles", () => {
+		expect(lampPost.CanBeTetherPoint).toBe(true);
+		expect(pole.CanBeTetherPoint).toBe(true);
+		expect(table.CanBeTetherPoint).toBeFalsy();
+		expect(emptySpace.CanBeTetherPoint).toBeFalsy();
+	});
+
+	it("keeps tether configs only on objects that can be tether points", () => {
+		Game.MapManager.Map.setObject(5, 5, lampPost);
+		Game.MapManager.Map.setObject(6, 5, table);
+		Game.MapManager.Map.setObjectConfig(5, 5, { Type: "Tether" });
+		Game.MapManager.Map.setObjectConfig(6, 5, { Type: "Tether" });
+		Game.MapManager.Map.setObjectConfig(7, 5, { Type: "Tether" });
+		Game.MapManager.Map.validateMap();
+		expect(Game.MapManager.Map.getObjectConfig(5, 5)).toEqual({ Type: "Tether" });
+		expect(Game.MapManager.Map.getObjectConfig(6, 5)).toBeUndefined();
+		expect(Game.MapManager.Map.getObjectConfig(7, 5)).toBeUndefined();
+	});
+
+	it("sanitizes tether configs when loading a map", () => {
+		Game.ChatRoomData.MapData.CellData = { 1: { Type: "Tether", Text: "extra" }, 2: { Type: "Unknown" } };
+		Game.MapManager.Map.loadGlobalMapData(Game.ChatRoomData.MapData);
+		expect(Game.MapManager.Map.getObjectConfig(1)).toEqual({ Type: "Tether" });
+		expect(Game.MapManager.Map.getObjectConfig(2)).toBeUndefined();
+	});
+
+	it("finds a tether point within reach of both the player and the character", () => {
+		Game.MapManager.Map.setObject(5, 5, lampPost);
+		Game.MapManager.Map.setObjectConfig(5, 5, { Type: "Tether" });
+		expect(Game.ChatRoomMapViewFindTetherPoint({ MapData: { Pos: { X: 6, Y: 6 } } })).toEqual({ X: 5, Y: 5 });
+		expect(Game.ChatRoomMapViewFindTetherPoint({ MapData: { Pos: { X: 7, Y: 7 } } })).toBeNull();
+		Game.MapManager.Map.setObjectConfig(5, 5, undefined);
+		expect(Game.ChatRoomMapViewFindTetherPoint({ MapData: { Pos: { X: 6, Y: 6 } } })).toBeNull();
+	});
+
+	it("pulls the player back within leash range", () => {
+		Game.Player.MapData.Pos = { X: 9, Y: 5 };
+		Game.ChatRoomMapViewPullWithinLeashRange({ X: 5, Y: 5 });
+		expect(Game.Player.MapData.Pos).toEqual({ X: 7, Y: 5 });
+		Game.ChatRoomMapViewPullWithinLeashRange({ X: 5, Y: 5 });
+		expect(Game.Player.MapData.Pos).toEqual({ X: 7, Y: 5 });
+	});
+
+	it("ignores a tie request while the leash is already tied", () => {
+		const tether = { Position: { X: 5, Y: 5 }, MemberNumber: 2 };
+		Game.Player.MapTether = tether;
+		const sender = { MemberNumber: 3, MapData: { Pos: { X: 6, Y: 6 } } };
+		const data = { Dictionary: [{ Tag: "MapViewTether", Tether: { Position: { X: 5, Y: 5 }, MemberNumber: 3 } }] };
+		Game.ChatRoomMapViewTetherHiddenMessage(sender, data);
+		expect(Game.Player.MapTether).toBe(tether);
+		delete Game.Player.MapTether;
 	});
 });

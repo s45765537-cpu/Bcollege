@@ -136,6 +136,8 @@ CommandModsListCopyDone,Mod list copied to your clipboard.
 CommandModsListCopyError,Could not copy mod list to clipboard.
 CommandModsListCopyTooltip,Copy mod list
 ChatRoomMapViewRecentItemsLabel,Recent Items
+MapViewTetherPoint,Tether point
+MapViewTetherPointToggle,Leashes can be tied to it
 
 TileTypeNameWall,Walls
 TileTypeNameFloor,Floors

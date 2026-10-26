@@ -306,6 +306,25 @@ function ChatRoomMapViewCreateOnClickSignLogic(name) {
 const AssetsMapDataTeleportPadColors = ["#3C8CFF", "#FF4060", "#40D080", "#FFC830", "#A050FF", "#FF60C0", "#FF8A30", "#30E0E0"];
 
 /**
+ * Lets admins make an object that can be a tether point into one, where leashes can be tied
+ * @param {number} x - The X position of the object
+ * @param {number} y - The Y position of the object
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapViewOnClickTetherPoint(x, y) {
+	if (!ChatRoomPlayerIsAdmin() || !MapManager.Map.getObject(x, y)?.CanBeTetherPoint) return;
+	ChatRoomMapViewShowDialogMenu(TextGet("MapViewTetherPoint"), ElementCheckbox.CreateLabelled(
+		null,
+		TextGet("MapViewTetherPointToggle"),
+		function() {
+			MapManager.Map.setObjectConfig(x, y, this.checked ? { Type: "Tether" } : undefined);
+			MapManager.Map.updateGlobalMapData();
+		},
+		{ checked: MapManager.Map.getObjectConfig(x, y)?.Type === "Tether" },
+	));
+}
+
+/**
  * A list of predefined lighting effects. May be replaced with a color picker in the future.
  * @type {ChatRoomMapEffect[]}
  */
@@ -974,14 +993,14 @@ const AssetsMapDataObjects = [
 	},
 
 	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
-	{ ID: 1020, Type: "FloorItem", Style: "X-Cross", Top: -1, Height: 2, AssetName: "X-Cross", AssetGroup: "ItemDevices" },
+	{ ID: 1020, Type: "FloorItem", Style: "X-Cross", Top: -1, Height: 2, AssetName: "X-Cross", AssetGroup: "ItemDevices", CanBeTetherPoint: true, OnClick: ChatRoomMapViewOnClickTetherPoint },
 	{ ID: 1030, Type: "FloorItem", Style: "BondageBench", Top: -1, Height: 2, AssetName: "BondageBench", AssetGroup: "ItemDevices" },
 	{ ID: 1040, Type: "FloorItem", Style: "Trolley", Top: -1, Height: 2, AssetName: "Trolley", AssetGroup: "ItemDevices" },
 	{ ID: 1050, Type: "School", Style: "Locker", Top: -1, Height: 2, AssetName: "Locker", AssetGroup: "ItemDevices" },
 	{ ID: 1060, Type: "FloorItem", Style: "WoodenBox", Top: -1, Height: 2, AssetName: "WoodenBox", AssetGroup: "ItemDevices" },
 	{ ID: 1070, Type: "FloorItem", Style: "Coffin", Top: -1.2, Height: 1.85, AssetName: "Coffin", AssetGroup: "ItemDevices" },
 	{ ID: 1080, Type: "FloorItem", Style: "TheDisplayFrame", Top: -1, Height: 2, AssetName: "TheDisplayFrame", AssetGroup: "ItemDevices" },
-	{ ID: 1090, Type: "FloorItem", Style: "Pole", Top: -0.85, Height: 1.8, AssetName: "Pole", AssetGroup: "ItemDevices" },
+	{ ID: 1090, Type: "FloorItem", Style: "Pole", Top: -0.85, Height: 1.8, AssetName: "Pole", AssetGroup: "ItemDevices", CanBeTetherPoint: true, OnClick: ChatRoomMapViewOnClickTetherPoint },
 	{ ID: 1095, Type: "FloorItem", Style: "MedicalBed", Top: -0.82, Left: 0.05, Height: 1.8, Width: 0.90, AssetName: "MedicalBed", AssetGroup: "ItemDevices" },
 	{ ID: 1096, Type: "FloorItem", Style: "FuturisticCrate", Top: -0.95, Height: 2, AssetName: "FuturisticCrate", AssetGroup: "ItemDevices" },
 	{ ID: 1097, Type: "ABDL", Style: "HighChair", Top: -0.95, Height: 2, AssetName: "Highchair", AssetGroup: "ItemDevices" },

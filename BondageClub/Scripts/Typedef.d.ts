@@ -2275,6 +2275,8 @@ interface Character {
 	OnlineSharedSettings?: CharacterOnlineSharedSettings;  // technically never as it is Online-only
 	Game?: CharacterGameParameters; // technically never as it is Online-only
 	MapData?: ChatRoomMapData;
+	/** The map object the character's leash is tied to */
+	MapTether?: ChatRoomMapTether;
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
 	Cage?: true;
@@ -5541,6 +5543,8 @@ interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	/** The color the object is drawn in, the way clothes are colored, opacity included (#RRGGBBAA) */
 	BuildImageColor?: (X: number, Y: number) => HexColor | null;
 	OnClick?: (x: number, y: number) => void;
+	/** Whether admins can make the object a tether point, where leashes can be tied */
+	CanBeTetherPoint?: boolean;
 }
 
 /** {@link MapDoodadIsEffect}  */
@@ -5553,7 +5557,7 @@ interface ChatRoomMapEffectStaticLighting extends ChatRoomMapDoodad {
 	Color: [r: number, g: number, b: number, a: number];
 }
 
-type ChatRoomMapObjectConfig = ChatRoomMapSignObjectConfig | ChatRoomMapTeleporterObjectConfig
+type ChatRoomMapObjectConfig = ChatRoomMapSignObjectConfig | ChatRoomMapTeleporterObjectConfig | ChatRoomMapTetherObjectConfig
 
 interface ChatRoomMapSignObjectConfig {
 	Type: "Sign";
@@ -5566,6 +5570,19 @@ interface ChatRoomMapTeleporterObjectConfig {
 	Color?: HexColor;
 	/** Characters can stand together on the pad and the tiles around it */
 	Shared?: boolean;
+}
+
+/** Makes the object a tether point */
+interface ChatRoomMapTetherObjectConfig {
+	Type: "Tether";
+}
+
+/** A leash tied to a tether point on the map */
+interface ChatRoomMapTether {
+	/** The position of the tether point */
+	Position: ChatRoomMapPos;
+	/** The member who tied the leash */
+	MemberNumber: number;
 }
 
 /**
