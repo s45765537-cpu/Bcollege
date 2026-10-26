@@ -105,6 +105,9 @@ function TextPrefetchFile(file) {
 	if (!cache) {
 		cache = new TextCache(file);
 		TextAllScreenCache.set(file, cache);
+	} else if (cache.language !== TranslationLanguage) {
+		// Consumers awaiting loadedPromise must wait for the selected language, not the previous build.
+		cache.loadedPromise = cache.buildCache();
 	}
 	return cache;
 }
@@ -168,6 +171,11 @@ class TextCache {
 		 * @type {boolean}
 		 */
 		this.loaded = false;
+		/**
+		 * Generation of the most recently requested cache build.
+		 * @type {number}
+		 */
+		this.buildGeneration = 0;
 		/**
 		 * Promised object used for building the cache (see {@link TextCache.loaded}).
 		 * @type {Promise<TextCache>}
@@ -267,11 +275,20 @@ class TextCache {
 	 */
 	async buildCache() {
 		if (!this.path) return this;
+		const generation = ++this.buildGeneration;
+		const language = TranslationLanguage;
+		this.language = language;
 		this.log("buildCache");
 		return this.fetchCsv()
-			.then((lines) => this.translate(lines))
-			.then((lines) => this.cacheLines(lines))
-			.then(() => {
+			.then((lines) => this.translate(lines, language))
+			.then((lines) => {
+				// An earlier request must not overwrite a newer build or notify its listeners.
+				if (generation !== this.buildGeneration) return this;
+				if (language !== TranslationLanguage) {
+					this.loadedPromise = this.buildCache();
+					return this.loadedPromise;
+				}
+				this.cacheLines(lines);
 				this.rebuildListeners.forEach((listener) => listener(this));
 				return this;
 			}).catch(reason => {
@@ -320,12 +337,12 @@ class TextCache {
 	/**
 	 * Translates the contents of a CSV file into the current game language
 	 * @param {string[][]} lines - An array of string arrays corresponding to lines in the CSV file
+	 * @param {ServerChatRoomLanguage | "TW"} [language] - Language captured when this build was requested
 	 * @returns {Promise<string[][]>} - A promise resolving to an array of string arrays corresponding to lines in the CSV file with the
 	 * values translated to the current game language
 	 */
-	async translate(lines) {
-		this.language = TranslationLanguage;
-		const lang = (TranslationLanguage || "").trim().toUpperCase();
+	async translate(lines, language = TranslationLanguage) {
+		const lang = (language || "").trim().toUpperCase();
 		if (!lang || lang === "EN") return lines;
 
 		const translationPath = this.path.replace(/\/([^/]+)\.csv$/, `/$1_${lang}.txt`);
