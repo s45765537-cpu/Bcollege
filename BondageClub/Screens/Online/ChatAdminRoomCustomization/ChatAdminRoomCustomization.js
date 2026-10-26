@@ -119,10 +119,10 @@ async function ChatAdminRoomCustomizationLoad() {
 	});
 	const clearButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.clearButton, () => {
 		if (!canEditCustom) return;
-		ElementValue("InputImageURL", "");
-		ElementValue("SelectImageFillMode", DrawingResizeMode.Fill.toString());
-		ElementValue("InputImageFilter", "");
-		ElementValue("InputMusicURL", "");
+		ElementValue(ChatAdminRoomCustomizationIDs.imageURLInput, "");
+		ElementValue(ChatAdminRoomCustomizationIDs.imageFillModeSelect, DrawingResizeMode.Fill.toString());
+		ElementValue(ChatAdminRoomCustomizationIDs.imageFilterInput, "");
+		ElementValue(ChatAdminRoomCustomizationIDs.musicURLInput, "");
 		ElementWrap(ChatAdminRoomCustomizationIDs.musicSyncCheckbox)?.toggleAttribute("checked", false);
 	},
 	{
@@ -131,7 +131,7 @@ async function ChatAdminRoomCustomizationLoad() {
 		disabled: !canEditCustom,
 	});
 	const saveButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.saveButton, () => {
-		const MusicURL = ElementValue("InputMusicURL").trim();
+		const MusicURL = ElementValue(ChatAdminRoomCustomizationIDs.musicURLInput).trim();
 		const syncCheckbox = /** @type {HTMLInputElement} */ (ElementWrap(ChatAdminRoomCustomizationIDs.musicSyncCheckbox));
 		// When syncing, preserve the original sync start, unless the track is different
 		const MusicStart = syncCheckbox?.checked ?
@@ -141,9 +141,9 @@ async function ChatAdminRoomCustomizationLoad() {
 			: undefined;
 		adminData.Custom = ServerChatRoomDataValidationRecord.Custom({
 			...adminData.Custom ?? {},
-			ImageURL: ElementValue("InputImageURL").trim(),
-			SizeMode: CommonParseInt(ElementValue("SelectImageFillMode")) ?? DrawingResizeMode.Fill,
-			ImageFilter: ElementValue("InputImageFilter").trim(),
+			ImageURL: ElementValue(ChatAdminRoomCustomizationIDs.imageURLInput).trim(),
+			SizeMode: CommonParseInt(ElementValue(ChatAdminRoomCustomizationIDs.imageFillModeSelect)) ?? DrawingResizeMode.Fill,
+			ImageFilter: ElementValue(ChatAdminRoomCustomizationIDs.imageFilterInput).trim(),
 			MusicURL,
 			MusicStart,
 		});
@@ -322,7 +322,7 @@ function ChatAdminRoomCustomizationRun() {
 
 	// In music library mode
 	if (ChatAdminRoomCustomizationMode === "MusicLibrary") {
-		const currentURL = ElementValue("InputMusicURL");
+		const currentURL = ElementValue(ChatAdminRoomCustomizationIDs.musicURLInput);
 		DrawText(TextGet("TitleMusicLibrary"), 1000, 120, "Black", "White");
 		DrawButton(1570, 692, 200, 65, TextGet("Return"), "White");
 		for (let L = 0; L < ChatAdminRoomCustomizationMusicLibrary.length; L++) {
@@ -368,7 +368,7 @@ function ChatAdminRoomCustomizationClick() {
 			let X = Math.floor(L % 3) * 600 + 115;
 			let Y = Math.floor(L / 3) * 100 + 210;
 			if (MouseIn(X, Y, 500, 65)) {
-				ElementValue("InputMusicURL", music.URL);
+				ElementValue(ChatAdminRoomCustomizationIDs.musicURLInput, music.URL);
 				// Send a change event so the previewed track updates
 				ElementWrap(ChatAdminRoomCustomizationIDs.musicURLInput)?.dispatchEvent(new Event("change"));
 				return;
