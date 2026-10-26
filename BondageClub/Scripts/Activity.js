@@ -771,8 +771,11 @@ function ActivityExpression(C, Progress) {
 	if (Progress == 100) expressions.Eyes = "Closed";
 
 	// Penis gets hard at arousal 30+
-	if (affectErection && InventoryGet(C, "Pussy")?.Asset.Name === "Penis") {
-		expressions.Pussy = Progress < 30 ? null : "Hard"; // Male and female genitals both use the `Pussy` group
+	const pussy = InventoryGet(C, "Pussy");
+	if (affectErection && pussy?.Asset.Name === "Penis") {
+		const expression = Progress < 30 ? null : "Hard"; // Male and female genitals both use the `Pussy` group
+		// Only when the expression menu would allow it, so arousal can't harden a caged penis or soften one a sound holds
+		expressions.Pussy = CharacterIsExpressionDisallowed(C, pussy, expression) ? undefined : expression;
 	}
 
 	// Find the expression in the character appearance and alters it
