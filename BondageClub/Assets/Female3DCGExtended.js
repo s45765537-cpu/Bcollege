@@ -25155,8 +25155,20 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				},
+				{
+					Name: "Position",
+					Key: "Position",
+					Options: [
+						{}, // In hands
+						{ Property: { OverridePriority: 57 } }, // On head
+						{ Property: { OverridePriority: 57 } }, // On the floor
+					],
+				},
 			],
 			ScriptHooks: {
+				Load: InventoryItemHandheldPlushiesLoadHook,
+				Draw: InventoryItemHandheldPlushiesDrawHook,
+				Click: InventoryItemHandheldPlushiesClickHook,
 				SetOption: InventoryItemHandheldPlushiesSetOptionHook,
 			},
 		}, // Plushie
