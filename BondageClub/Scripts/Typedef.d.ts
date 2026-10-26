@@ -5541,6 +5541,21 @@ interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	/** The color the object is drawn in, the way clothes are colored, opacity included (#RRGGBBAA) */
 	BuildImageColor?: (X: number, Y: number) => HexColor | null;
 	OnClick?: (x: number, y: number) => void;
+	/**
+	 * Recolorable layers of the object, drawn in order on top of each other.
+	 * Each layer is loaded from `<ImageName>_<Layer.Name>.png` (or the plain image with `Source: "Base"`) and must be a grayscale image.
+	 * The plain `<ImageName>.png` is still required for older clients and the object palette.
+	 */
+	ColorLayers?: readonly ChatRoomMapColorLayer[];
+	/** Layers drawn with their original colors, loaded from `<ImageName>_<Name>.png`; not shown in the Color tool */
+	FixedColorLayers?: readonly string[];
+}
+
+interface ChatRoomMapColorLayer {
+	Name: string;
+	DefaultColor: HexColor;
+	/** `"Base"` tints the plain `<ImageName>.png` instead of loading a separate layer image */
+	Source?: "Base";
 }
 
 /** {@link MapDoodadIsEffect}  */
@@ -5566,6 +5581,12 @@ interface ChatRoomMapTeleporterObjectConfig {
 	Color?: HexColor;
 	/** Characters can stand together on the pad and the tiles around it */
 	Shared?: boolean;
+}
+
+/** A color format copied from a map object, which can be pasted on other objects with the same ID */
+interface ChatRoomMapColorFormat {
+	ObjectID: number;
+	Colors: NonNullable<ChatRoomMapObjectSettings["Colors"]>;
 }
 
 /**
