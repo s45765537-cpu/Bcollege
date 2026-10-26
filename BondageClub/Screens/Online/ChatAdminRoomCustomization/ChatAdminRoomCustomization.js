@@ -7,6 +7,8 @@ var ChatAdminRoomCustomizationIsPreviewing = false;
 var ChatAdminRoomCustomizationMode = null;
 /** @type {null | HTMLAudioElement} */
 var ChatAdminRoomCustomizationAudio = null;
+/** @type {AudioYouTubeTrack} Previews the music when it's a YouTube link */
+var ChatAdminRoomCustomizationYouTube = AudioYouTubeCreateTrack();
 const ChatAdminRoomCustomizationImageFormats = [".jpg", ".jpeg", ".png", ".webp"];
 var ChatAdminRoomCustomizationMusicLibrary = [
 	{
@@ -431,7 +433,14 @@ function ChatAdminRoomCustomizationPreviewMusic() {
 	if (ChatAdminRoomCustomizationIsPreviewing) {
 		const data = ChatAdminRoomCustomizationCurrent;
 		// Enable background music preview
-		if (data?.MusicURL && data.MusicURL !== "" && ChatAdminRoomCustomizationAudio?.src !== data.MusicURL) {
+		const videoId = data?.MusicURL ? AudioYouTubeVideoId(data.MusicURL) : null;
+		if (videoId) {
+			ChatAdminRoomCustomizationAudio?.pause();
+			ChatAdminRoomCustomizationAudio = null;
+			if (ChatAdminRoomCustomizationYouTube.videoId !== videoId)
+				CommonPromiseCatch(AudioYouTubePlay(ChatAdminRoomCustomizationYouTube, videoId, undefined, Player.AudioSettings.MusicVolume));
+		} else if (data?.MusicURL && data.MusicURL !== "" && ChatAdminRoomCustomizationAudio?.src !== data.MusicURL) {
+			AudioYouTubeStop(ChatAdminRoomCustomizationYouTube);
 			ChatAdminRoomCustomizationAudio?.pause();
 			ChatAdminRoomCustomizationAudio = new Audio();
 			ChatAdminRoomCustomizationAudio.volume = CommonClamp(Player.AudioSettings.MusicVolume, 0, 1);
@@ -441,6 +450,7 @@ function ChatAdminRoomCustomizationPreviewMusic() {
 	} else {
 		ChatAdminRoomCustomizationAudio?.pause();
 		ChatAdminRoomCustomizationAudio = null;
+		AudioYouTubeStop(ChatAdminRoomCustomizationYouTube);
 	}
 }
 
@@ -553,5 +563,6 @@ function ChatAdminRoomCustomizationClick() {
 function ChatAdminRoomCustomizationExit() {
 	ChatAdminRoomCustomizationAudio?.pause();
 	ChatAdminRoomCustomizationAudio = null;
+	AudioYouTubeStop(ChatAdminRoomCustomizationYouTube);
 	CommonSetScreen("Online", "ChatAdmin");
 }
