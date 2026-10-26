@@ -5126,6 +5126,7 @@ async function ChatRoomSync(data) {
 	ChatRoomData = data;
 	ChatRoomJustEntered = true;
 
+	ChatRoomMapViewTakenRoomItems.clear();
 	ChatRoomMapViewInitializeCharacter(Player);
 
 	// Loads the room

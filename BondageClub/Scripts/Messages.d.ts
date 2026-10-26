@@ -12,6 +12,22 @@ type ChatRoomMapData = {
 	PrivateState: Record<string, any>
 }
 
+/** Who can take a room item: anyone once each, or anyone any number of times */
+type ChatRoomMapRoomItemTakeable = "OnePerPlayer" | "Unlimited";
+
+/**
+ * A hand-held item an admin placed on a map tile, saved with the map: the tile's index, the asset,
+ * then how far it's turned (0 to 359 degrees) and how big it is (50 to 200 percent), left out when unchanged
+ */
+type ChatRoomMapRoomItem = [tile: number, group: string, name: string, rotation?: number, size?: number];
+
+/** The items admins placed in a room */
+interface ChatRoomMapItems {
+	Room: ChatRoomMapRoomItem[];
+	/** Who can take one; nobody when left out */
+	Takeable?: ChatRoomMapRoomItemTakeable;
+}
+
 interface ServerAccountImmutableData {
 	/** Socket ID */
 	ID: string;
@@ -242,6 +258,8 @@ interface ServerChatRoomMapData {
 	Objects?: string;
 	Effects?: string;
 	CellData?: Record<number,ChatRoomMapObjectConfig> | undefined;
+	/** Items admins placed in the room; left out when there are none */
+	Items?: ChatRoomMapItems;
 }
 
 interface ServerChatRoomCustomData {
