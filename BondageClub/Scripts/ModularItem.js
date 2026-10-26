@@ -229,7 +229,7 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
  * @param {ModularItemData} data
  */
 function ModularItemLoad(data) {
-	const C = CurrentCharacter;
+	const C = CharacterGetCurrent();
 	const item = DialogFocusItem;
 	if (!C || !item) return;
 
@@ -637,7 +637,7 @@ function ModularItemChangePage(moduleName, delta, data, { pageCount }) {
  * @returns {void} - Nothing
  */
 function ModularItemModuleTransition(newModule, data) {
-	const C = CurrentCharacter;
+	const C = CharacterGetCurrent();
 	const item = DialogFocusItem;
 	if (!C || !item) return;
 	data.currentModule = newModule;
