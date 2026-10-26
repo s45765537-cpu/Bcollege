@@ -329,8 +329,6 @@ async function ChatAdminLoad() {
 		ChatAdminID.blockCategory,
 		() => {
 			if (!ChatAdminData) return;
-			ChatBlockItemEditable = ChatAdminCanEdit();
-			ChatBlockItemReturnScreen = CommonGetScreen();
 			ChatBlockItemCategory = ChatAdminData.BlockCategory;
 			CommonSetScreen("Online", "ChatBlockItem");
 		},
