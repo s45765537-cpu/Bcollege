@@ -71,7 +71,7 @@ var ChatAdminRoomCustomizationMusicLibrary = [
 	}
 ];
 
-const ChatAdminRoomCustomizationIDs = {
+const ChatAdminRoomCustomizationIDs = Object.freeze({
 	subscreen: "chatroom-admin-subscreen",
 	title: "chatroom-admin-subscreen-hgroup",
 	main: "chatroom-admin-subscreen-main",
@@ -86,7 +86,7 @@ const ChatAdminRoomCustomizationIDs = {
 	musicURLInput: "InputMusicURL",
 	musicSyncCheckbox: "InputMusicSync",
 	openLibraryButton: "OpenLibraryButton",
-};
+});
 
 /**
  * Loads the chat Admin Custom screen properties and creates the inputs
@@ -104,6 +104,7 @@ async function ChatAdminRoomCustomizationLoad() {
 	ChatAdminRoomCustomizationCurrent = null;
 	ChatAdminRoomCustomizationIsPreviewing = false;
 	const data = ChatAdminRoomCustomizationCurrent = ChatAdminData.Custom ? CommonCloneDeep(ChatAdminData.Custom) : { ImageURL: "", ImageFilter: "", MusicURL: "", SizeMode: DrawingResizeMode.Fill };
+	data.SizeMode ??= DrawingResizeMode.Fill;
 
 	const previewButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.previewButton, () => {
 		if (!ChatRoomPlayerIsAdmin()) return;
@@ -119,11 +120,12 @@ async function ChatAdminRoomCustomizationLoad() {
 	});
 	const clearButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.clearButton, () => {
 		if (!canEditCustom) return;
+		data.SizeMode = DrawingResizeMode.Fill;
 		ElementValue(ChatAdminRoomCustomizationIDs.imageURLInput, "");
 		ElementValue(ChatAdminRoomCustomizationIDs.imageFillModeSelect, DrawingResizeMode.Fill.toString());
 		ElementValue(ChatAdminRoomCustomizationIDs.imageFilterInput, "");
 		ElementValue(ChatAdminRoomCustomizationIDs.musicURLInput, "");
-		ElementWrap(ChatAdminRoomCustomizationIDs.musicSyncCheckbox)?.toggleAttribute("checked", false);
+		ElementSetChecked(ChatAdminRoomCustomizationIDs.musicSyncCheckbox, false);
 	},
 	{
 		image: "Icons/Reset.svg",
@@ -181,6 +183,8 @@ async function ChatAdminRoomCustomizationLoad() {
 			attributes: {
 				placeholder: "https://bondageprojects.com/images/school.jpg",
 				autocomplete: "off",
+				spellcheck: "false",
+				"aria-label": TextGet("BackgroundImageLabel"),
 				value: data.ImageURL ?? "",
 				maxlength: "250",
 				disabled: !canEditCustom,
@@ -196,7 +200,7 @@ async function ChatAdminRoomCustomizationLoad() {
 
 	const options = Object.entries(DrawingResizeMode).map(([key, value]) => /** @type {Omit<HTMLOptions<"option">, "tag">} */({ attributes: { value, label: TextGet(`BackgroundSizeMode${key}`), selected: value === data.SizeMode } }));
 
-	const imageFillSelect = ElementDropdown.CreateLabelled(ChatAdminRoomCustomizationIDs.imageFillModeSelect, options, TextGet("BackgroundImageFillModeLabel"), function () {
+	const imageFillSelect = ElementDropdown.CreateLabelled(ChatAdminRoomCustomizationIDs.imageFillModeSelect, options, TextGet("FillModeShort"), function () {
 		data.SizeMode = Number(this.value);
 	}, { disabled: !canEditCustom || !imageInput.value.trim() });
 
@@ -205,6 +209,7 @@ async function ChatAdminRoomCustomizationLoad() {
 			attributes: {
 				placeholder: "#00000080",
 				autocomplete: "off",
+				spellcheck: "false",
 				value: data.ImageFilter ?? "",
 				maxlength: "10",
 				disabled: !canEditCustom,
@@ -239,6 +244,8 @@ async function ChatAdminRoomCustomizationLoad() {
 		attributes: {
 			placeholder: "https://bondageprojects.com/music/relax.mp3",
 			autocomplete: "off",
+			spellcheck: "false",
+			"aria-label": TextGet("BackgroundMusicLabel"),
 			value: data.MusicURL ?? "",
 			maxlength: "250",
 			disabled: !canEditCustom,
@@ -246,7 +253,7 @@ async function ChatAdminRoomCustomizationLoad() {
 		eventListeners: {
 			input: function() {
 				data.MusicURL = this.value.trim();
-				musicSyncInput.querySelector("input")?.toggleAttribute('disabled', !canEditCustom || !data.MusicURL);
+				musicSyncInput.querySelector("input")?.toggleAttribute("disabled", !canEditCustom || !data.MusicURL);
 			},
 			change: function() {
 				ChatAdminRoomCustomizationPreviewMusic();
@@ -257,36 +264,68 @@ async function ChatAdminRoomCustomizationLoad() {
 	const openLibraryButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.openLibraryButton, () => {
 		ChatAdminRoomCustomizationMode = "MusicLibrary";
 		subscreen.toggleAttribute("hidden", true);
-	}, { image: "Icons/Online.png", tooltip: TextGet("OpenLibraryButtonTooltip") });
+	}, {
+		image: "Icons/Online.png",
+		tooltip: TextGet("OpenLibraryButtonTooltip"),
+		disabled: !canEditCustom,
+	});
+
+	const imageHint = ElementText.CreateHint(null, TextGet("BackgroundImageNote"), "left");
+	const filterHint = ElementText.CreateHint(null, TextGet("BackgroundFilterNote"), "left");
+	const musicHint = ElementText.CreateHint(null, TextGet("BackgroundMusicNote"), "left");
+
+	const intro = ElementText.CreateNote(TextGet("Desc"));
+	intro.classList.add("room-custom-intro");
 
 	ElementCreate({
-		tag: "fieldset",
-		attributes: { id: ChatAdminRoomCustomizationIDs.grid, disabled: !canEditCustom },
+		tag: "div",
+		parent: main,
+		attributes: { id: ChatAdminRoomCustomizationIDs.grid },
+		classList: ["room-custom-board"],
 		children: [
-			ElementText.CreateNote(TextGet("Desc")),
-			ElementCreateSettingsLabel(TextGet("BackgroundImageLabel"), imageInput, { position: "left" }),
-			imageInput,
-			ElementText.CreateNote(TextGet("BackgroundImageNote"), { describes: imageInput }),
-
-			imageFillSelect,
-
 			{
 				tag: "div",
-				classList: ["setting-group"],
+				classList: ["room-custom-fields", "scroll-box"],
 				children: [
-					ElementCreateSettingsLabel(TextGet("BackgroundFilterLabel"), filterInput, { position: "left" }),
-					filterInput,
-				]
+					{
+						tag: "section",
+						classList: ["room-custom-section"],
+						children: [
+							{ tag: "h2", children: [TextGet("SectionBackground")] },
+							{
+								tag: "div",
+								classList: ["room-custom-field"],
+								children: [imageInput, imageHint],
+							},
+							imageFillSelect,
+							{
+								tag: "div",
+								classList: ["room-custom-filter"],
+								children: [
+									ElementCreateSettingsLabel(TextGet("BackgroundFilterLabel"), filterInput, { position: "left" }),
+									filterInput,
+									filterHint,
+								],
+							},
+						],
+					},
+					{
+						tag: "section",
+						classList: ["room-custom-section"],
+						children: [
+							{ tag: "h2", children: [TextGet("SectionMusic")] },
+							{
+								tag: "div",
+								classList: ["room-custom-music-row"],
+								children: [musicInput, openLibraryButton, musicHint],
+							},
+							musicSyncInput,
+						],
+					},
+				],
 			},
-			ElementText.CreateNote(TextGet("BackgroundFilterNote"), { describes: filterInput}),
-
-			ElementCreateSettingsLabel(TextGet("BackgroundMusicLabel"), musicInput, { position: "left" }),
-			musicInput,
-			openLibraryButton,
-			ElementText.CreateNote(TextGet("BackgroundMusicNote"), { describes: musicInput }),
-			musicSyncInput,
+			intro,
 		],
-		parent: main,
 	});
 }
 
