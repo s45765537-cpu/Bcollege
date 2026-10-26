@@ -283,7 +283,8 @@ async function ChatAdminRoomCustomizationLoad() {
 		if (!ChatRoomPlayerIsAdmin()) return;
 		ChatAdminRoomCustomizationIsPreviewing = !ChatAdminRoomCustomizationIsPreviewing;
 		ChatAdminRoomCustomizationPreviewMusic();
-	}, {
+	},
+	{
 		image: "Icons/Public.png",
 		tooltip: TextGet("PreviewButtonTooltip"),
 		disabled: !isAdmin,
@@ -297,7 +298,8 @@ async function ChatAdminRoomCustomizationLoad() {
 		ElementValue("InputImageFilter", "");
 		ElementValue("InputMusicURL", "");
 		ElementWrap(ChatAdminRoomCustomizationIDs.musicSyncCheckbox)?.toggleAttribute("checked", false);
-	}, {
+	},
+	{
 		image: "Icons/Reset.svg",
 		tooltip: TextGet("ResetButtonTooltip"),
 		disabled: !canEditCustom,
@@ -320,7 +322,8 @@ async function ChatAdminRoomCustomizationLoad() {
 			MusicStart,
 		});
 		ChatAdminRoomCustomizationExit();
-	}, {
+	},
+	{
 		image: "Icons/Accept.png",
 		tooltip: TextGet("SaveButtonTooltip"),
 		disabled: !canEditCustom,
@@ -344,10 +347,23 @@ async function ChatAdminRoomCustomizationLoad() {
 
 	const main = ElementWrap(ChatAdminRoomCustomizationIDs.main);
 
-	const imageInput = ElementCreateInput(ChatAdminRoomCustomizationIDs.imageURLInput, "text", data.ImageURL ?? "", "250");
-	imageInput.setAttribute("placeholder", "https://bondageprojects.com/images/school.jpg");
-	imageInput.setAttribute("autocomplete", "off");
-	imageInput.toggleAttribute("disabled", !canEditCustom);
+	const imageInput = ElementInput.Create(ChatAdminRoomCustomizationIDs.imageURLInput, { type: "text" },
+		{
+			attributes: {
+				placeholder: "https://bondageprojects.com/images/school.jpg",
+				autocomplete: "off",
+				value: data.ImageURL ?? "",
+				maxlength: "250",
+				disabled: !canEditCustom,
+			},
+			eventListeners: {
+				input: function() {
+					data.ImageURL = this.value.trim();
+					imageFillSelect.querySelector("select")?.toggleAttribute("disabled", !canEditCustom || !data.ImageURL);
+				}
+			}
+		}
+	);
 
 	const options = Object.entries(DrawingResizeMode).map(([key, value]) => /** @type {Omit<HTMLOptions<"option">, "tag">} */({ attributes: { value, label: TextGet(`BackgroundSizeMode${key}`), selected: value === data.SizeMode } }));
 
@@ -355,38 +371,68 @@ async function ChatAdminRoomCustomizationLoad() {
 		data.SizeMode = Number(this.value);
 	}, { disabled: !canEditCustom || !imageInput.value.trim() });
 
-	imageInput.addEventListener("input", function () {
-		data.ImageURL = this.value.trim();
-		imageFillSelect.querySelector("select")?.toggleAttribute("disabled", !canEditCustom || !data.ImageURL);
-	});
+	const filterInput = ElementInput.Create(ChatAdminRoomCustomizationIDs.imageFilterInput, { type: "text" },
+		{
+			attributes: {
+				placeholder: "#00000080",
+				autocomplete: "off",
+				value: data.ImageFilter ?? "",
+				maxlength: "10",
+				disabled: !canEditCustom,
+			},
+			eventListeners: {
+				input: function() {
+					data.ImageFilter = this.value.trim();
+				}
+			}
+		}
+	);
 
-	const filterInput = ElementCreateInput(ChatAdminRoomCustomizationIDs.imageFilterInput, "text", data.ImageFilter ?? "", "10");
-	filterInput.setAttribute("autocomplete", "off");
-	filterInput.setAttribute("placeholder", "#00000080");
-	filterInput.addEventListener('input', function () {
-		data.ImageFilter = this.value.trim();
+	const musicSyncInput = ElementCheckbox.CreateLabelled(
+		ChatAdminRoomCustomizationIDs.musicSyncCheckbox,
+		TextGet("BackgroundMusicSync"),
+		null,
+		{
+			checked: data.MusicStart !== undefined
+		},
+		{
+			"container": {
+				parent: document.body
+			},
+			checkbox: {
+				attributes: {
+					disabled: !canEditCustom || !data.MusicURL,
+				}
+			}
+		}
+	);
+	const musicInput = ElementInput.Create(ChatAdminRoomCustomizationIDs.musicURLInput, { type: "text" }, {
+		attributes: {
+			placeholder: "https://bondageprojects.com/music/relax.mp3",
+			autocomplete: "off",
+			value: data.MusicURL ?? "",
+			maxlength: "250",
+			disabled: !canEditCustom,
+		},
+		eventListeners: {
+			input: function() {
+				data.MusicURL = this.value.trim();
+				musicSyncInput.querySelector("input")?.toggleAttribute('disabled', !canEditCustom || !data.MusicURL);
+			},
+			change: function() {
+				ChatAdminRoomCustomizationPreviewMusic();
+			}
+		}
 	});
-
-	const musicSyncInput = ElementCheckbox.CreateLabelled(ChatAdminRoomCustomizationIDs.musicSyncCheckbox, TextGet("BackgroundMusicSync"), null, { checked: data.MusicStart !== undefined }, { "container": { parent: document.body }});
-	const musicInput = ElementCreateInput(ChatAdminRoomCustomizationIDs.musicURLInput, "text", data.MusicURL ?? "", "250");
-	musicInput.setAttribute("autocomplete", "off");
-	musicInput.setAttribute("placeholder", "https://bondageprojects.com/music/relax.mp3");
-	musicInput.addEventListener("input", function() {
-		data.MusicURL = this.value.trim();
-		musicSyncInput.querySelector("input")?.toggleAttribute('disabled', !canEditCustom || !data.MusicURL);
-	});
-	musicInput.addEventListener("change", () => ChatAdminRoomCustomizationPreviewMusic());
-	musicSyncInput.querySelector("input")?.toggleAttribute('disabled', !canEditCustom || !musicInput.value.trim());
 
 	const openLibraryButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.openLibraryButton, () => {
 		ChatAdminRoomCustomizationMode = "MusicLibrary";
 		subscreen.toggleAttribute("hidden", true);
 	}, { image: "Icons/Online.png", tooltip: TextGet("OpenLibraryButtonTooltip") });
 
-	const grid = ElementCreate({
+	ElementCreate({
 		tag: "fieldset",
-		parent: main,
-		attributes: { id: ChatAdminRoomCustomizationIDs.grid },
+		attributes: { id: ChatAdminRoomCustomizationIDs.grid, disabled: !canEditCustom },
 		children: [
 			ElementText.CreateNote(TextGet("Desc")),
 			ElementCreateSettingsLabel(TextGet("BackgroundImageLabel"), imageInput, { position: "left" }),
@@ -410,9 +456,9 @@ async function ChatAdminRoomCustomizationLoad() {
 			openLibraryButton,
 			ElementText.CreateNote(TextGet("BackgroundMusicNote"), { describes: musicInput }),
 			musicSyncInput,
-		]
+		],
+		parent: main,
 	});
-	grid.toggleAttribute('disabled', !canEditCustom);
 }
 
 function ChatAdminRoomCustomizationResize() {
