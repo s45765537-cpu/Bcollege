@@ -2256,6 +2256,15 @@ var MapManager = (function () {
 		}
 
 		/**
+		 * Registers an undo step for a change kept beside the map data, like the settings of a placed object
+		 * @param {() => void} cb - Puts back what was there before the change
+		 * @returns {void}
+		 */
+		registerUndo(cb) {
+			this.#registerUndo(cb);
+		}
+
+		/**
 		 * Undo the last edit done to the map
 		 * @returns {boolean} Whether there was anything to undo
 		 */
@@ -2318,6 +2327,7 @@ const ChatRoomMapViewObjectDefaultValues = {
 			return name ?? "Blank";
 		}
 	},
+	"FloorDecorationExpanding": { JoinsNeighbors: true },
 	"WallDecoration": { CanPlaceOnWalls: true, CanPlaceOnFloors: false },
 	"Banners": { CanPlaceOnWalls: true, CanPlaceOnFloors: false }
 };
