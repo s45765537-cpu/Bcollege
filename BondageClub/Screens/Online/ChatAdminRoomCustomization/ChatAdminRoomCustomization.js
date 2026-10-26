@@ -163,11 +163,14 @@ async function ChatAdminRoomCustomizationLoad() {
 		ChatAdminRoomCustomizationIDs.subscreen,
 		{
 			menubarButtons: [
-				previewButton, clearButton, saveButton, cancelButton
+				cancelButton,
+				saveButton,
+				clearButton,
+				previewButton,
 			],
 			header: TextGet("Title"),
-			parent: document.body,
 			hgroupInHeader: true,
+			parent: document.body,
 		},
 	);
 
@@ -390,11 +393,7 @@ function ChatAdminRoomCustomizationExit() {
 }
 
 function ChatAdminRoomCustomizationResize() {
-	ElementPositionFixed(ChatAdminRoomCustomizationIDs.subscreen, 0, 0, 2000, 1000);
-	ElementPositionFixed(ChatAdminRoomCustomizationIDs.previewButton, 1500, 75, 90, 90);
-	ElementPositionFixed(ChatAdminRoomCustomizationIDs.clearButton, 1605, 75, 90, 90);
-	ElementPositionFixed(ChatAdminRoomCustomizationIDs.saveButton, 1710, 75, 90, 90);
-	ElementPositionFixed(ChatAdminRoomCustomizationIDs.cancelButton, 1815, 75, 90, 90);
+	ElementPositionFixed(ChatAdminRoomCustomizationIDs.subscreen, 50, 50, 1900, 900);
 }
 
 function ChatAdminRoomCustomizationUnload() {
