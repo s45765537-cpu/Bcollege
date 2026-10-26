@@ -13611,6 +13611,69 @@ var AssetFemale3DCGExtended = {
 				ScriptDraw: AssetsItemDevicesBarStoolScriptDrawHook,
 			},
 		}, // BarStool
+		LatexbeltBed: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			DrawImages: false,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
+			Modules: [
+				{
+					Name: "Cover",
+					Key: "g",
+					Options: [
+						{},
+						{},
+						{
+							Property: {
+								Effect: [
+									E.BlindHeavy,
+									E.GagLight,
+									E.BlockWardrobe,
+									E.Freeze,
+									E.Enclose,
+								],
+							},
+						},
+						{
+							Property: {
+								Block: [
+									"ItemDevices",
+									"ItemPelvis",
+									"ItemVulva",
+									"ItemVulvaPiercings",
+									"ItemButt",
+									"ItemLegs",
+								],
+								Effect: [E.BlindHeavy, E.GagLight, E.BlockWardrobe, E.Freeze],
+							},
+						},
+						{
+							Property: {
+								Block: [
+									"ItemDevices",
+									"ItemHead",
+									"ItemHood",
+									"ItemEars",
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemNeck",
+									"ItemNose",
+									"ItemNeckAccessories",
+									"ItemNeckRestraints",
+								],
+								Effect: [E.BlockWardrobe, E.Freeze],
+							},
+						},
+					],
+				},
+				{
+					Name: "LatexSleepBag",
+					Key: "l",
+					Options: [{}, {}],
+				},
+			],
+		}, // LatexbeltBed
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {

@@ -3118,6 +3118,25 @@ ItemArmsRestraintPillowSetn1,SourceCharacter sets the nipples vibrator on Destin
 ItemArmsRestraintPillowSetn2,SourceCharacter sets the nipples vibrator on DestinationCharacter pillow to medium.
 ItemArmsRestraintPillowSetn3,SourceCharacter sets the nipples vibrator on DestinationCharacter pillow to high.
 ItemArmsRestraintPillowSetn4,SourceCharacter sets the nipples vibrator on DestinationCharacter pillow to maximum.
+ItemDevicesLatexbeltBedSelectBase,Configure the case
+ItemDevicesLatexbeltBedSelectCover,Configure the cover
+ItemDevicesLatexbeltBedSelectLatexSleepBag,Configure the latex bag
+ItemDevicesLatexbeltBedModuleCover,Cover
+ItemDevicesLatexbeltBedModuleLatexSleepBag,Latex Bag
+ItemDevicesLatexbeltBedOptiong0,No Cover
+ItemDevicesLatexbeltBedOptiong1,Open Cover
+ItemDevicesLatexbeltBedOptiong2,Close Cover
+ItemDevicesLatexbeltBedOptiong3,Expose Belly
+ItemDevicesLatexbeltBedOptiong4,Expose Head
+ItemDevicesLatexbeltBedOptionl0,Use
+ItemDevicesLatexbeltBedOptionl1,Don't Use
+ItemDevicesLatexbeltBedSetg0,SourceCharacter removes the cover on DestinationCharacter case.
+ItemDevicesLatexbeltBedSetg1,SourceCharacter opens the cover on DestinationCharacter case.
+ItemDevicesLatexbeltBedSetg2,SourceCharacter closes the cover on DestinationCharacter case.
+ItemDevicesLatexbeltBedSetg3,SourceCharacter exposes the belly on DestinationCharacter case.
+ItemDevicesLatexbeltBedSetg4,SourceCharacter exposes the head on DestinationCharacter case.
+ItemDevicesLatexbeltBedSetl0,SourceCharacter uses a latex bag in DestinationCharacter case.
+ItemDevicesLatexbeltBedSetl1,SourceCharacter removes the latex bag in DestinationCharacter case.
 ItemEarsCTHeadsetModuleGlow,Glow
 ItemEarsCTHeadsetModuleEars,Ears
 ItemEarsCTHeadsetModuleMic,Mic
