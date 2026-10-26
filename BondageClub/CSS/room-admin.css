@@ -1,3 +1,5 @@
+/* #region Chat Admin Customization */
+
 #chatroom-admin-subscreen *,
 #chatroom-admin-subscreen-header *,
 #chatroom-admin-subscreen-hgroup *,
@@ -61,6 +63,50 @@
 	height: calc(1.15em + var(--border-width));
 	margin-left: 0.2em;
 }
+
+/* #endregion Chat Admin Customization */
+
+/* #region Chat Block Item */
+
+#chat-block-item-screen {
+	color: black;
+}
+
+#chat-block-item-screen-hgroup {
+	color: black;
+	direction: ltr;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#chat-block-item-screen-main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1em;
+	padding-top: 0.75em;
+}
+
+#chat-block-item-hint {
+	margin: 0;
+	text-align: center;
+	font-size: 0.9em;
+}
+
+#chat-block-item-list {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	column-gap: 1.5em;
+	row-gap: 0.45em;
+	width: 100%;
+	box-sizing: border-box;
+	padding-inline: 1em;
+}
+
+/* #endregion Chat Block Item */
+
+/* #region Chat Admin */
 
 #chat-admin-screen-hgroup {
 	color: black;
@@ -340,3 +386,5 @@
 		0 0 0.12em black,
 		0 1px 2px black;
 }
+
+/* #endregion Chat Admin */
