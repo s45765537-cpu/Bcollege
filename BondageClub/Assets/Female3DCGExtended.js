@@ -13683,12 +13683,35 @@ var AssetFemale3DCGExtended = {
 				{ Name: "OpenFlap" },
 			],
 			BaselineProperty: { Opacity: 1 },
+			ScriptHooks: {
+				Init: PropertyOpacityInit,
+				Load: PropertyOpacityLoad,
+				Draw: PropertyOpacityDraw,
+				Exit: PropertyOpacityExit,
+			},
 			DrawData: {
 				elementData: ExtendedXYClothes[3].map((tuple) => ({
 					position: [tuple[0], tuple[1] + 100],
 				})),
 			},
 		}, // TrashCan
+		GiantStuffedToy: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Bear" }],
+			BaselineProperty: { Opacity: 0.7 },
+			ScriptHooks: {
+				Init: PropertyOpacityInit,
+				Load: PropertyOpacityLoad,
+				Draw: PropertyOpacityDraw,
+				Exit: PropertyOpacityExit,
+			},
+			DrawData: {
+				elementData: ExtendedXYClothes[1].map((tuple) => ({
+					position: [tuple[0], tuple[1] + 100],
+				})),
+			},
+		}, // GiantStuffedToy
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {

@@ -3118,6 +3118,8 @@ ItemArmsRestraintPillowSetn1,SourceCharacter sets the nipples vibrator on Destin
 ItemArmsRestraintPillowSetn2,SourceCharacter sets the nipples vibrator on DestinationCharacter pillow to medium.
 ItemArmsRestraintPillowSetn3,SourceCharacter sets the nipples vibrator on DestinationCharacter pillow to high.
 ItemArmsRestraintPillowSetn4,SourceCharacter sets the nipples vibrator on DestinationCharacter pillow to maximum.
+ItemDevicesGiantStuffedToySelect,Configure the Giant Stuffed Bear
+ItemDevicesGiantStuffedToyBear,Opacity
 ItemDevicesLatexbeltBedSelectBase,Configure the case
 ItemDevicesLatexbeltBedSelectCover,Configure the cover
 ItemDevicesLatexbeltBedSelectLatexSleepBag,Configure the latex bag
