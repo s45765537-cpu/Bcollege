@@ -14,7 +14,8 @@ BackgroundMusicNote,Put the address of the background mp3 music file to use.
 BackgroundMusicSync,Synchronize music track across the room
 ResetButtonTooltip,Reset
 OpenLibraryButtonTooltip,Library
-PreviewButtonTooltip,Preview
+MusicPlay,Play
+MusicPause,Pause
 ClearButtonTooltip,Clear All
 SaveButtonTooltip,Save
 CancelButtonTooltip,Cancel

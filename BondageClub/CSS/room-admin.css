@@ -153,8 +153,28 @@
 	align-items: center;
 	display: grid;
 	gap: 0.4em;
-	grid-template-columns: minmax(0, 1fr) auto auto;
+	grid-template-columns: minmax(0, 1fr) auto auto auto;
 	position: relative;
+}
+
+.room-custom-music-play {
+	height: 1.85em;
+	width: 1.85em;
+}
+
+.room-custom-music-play .button-image {
+	height: 62%;
+	left: 50%;
+	max-height: 62%;
+	max-width: 62%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 62%;
+}
+
+.room-custom-music-play[aria-pressed="true"] {
+	--button-color: #dff6df;
+	background-color: #dff6df;
 }
 
 #chatroom-admin-subscreen .checkbox {

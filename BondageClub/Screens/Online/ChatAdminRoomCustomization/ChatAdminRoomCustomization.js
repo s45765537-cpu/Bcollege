@@ -2,9 +2,6 @@
 var ChatAdminRoomCustomizationBackground = "Sheet";
 /** @type {null | ServerChatRoomCustomData} */
 var ChatAdminRoomCustomizationCurrent = null;
-var ChatAdminRoomCustomizationIsPreviewing = false;
-/** @type {null | "MusicLibrary"} */
-var ChatAdminRoomCustomizationMode = null;
 /** @type {null | HTMLAudioElement} */
 var ChatAdminRoomCustomizationAudio = null;
 const ChatAdminRoomCustomizationImageFormats = [".jpg", ".jpeg", ".png", ".webp"];
@@ -77,7 +74,6 @@ const ChatAdminRoomCustomizationIDs = Object.freeze({
 	main: "chatroom-admin-subscreen-main",
 	grid: "chatroom-admin-subscreen-grid",
 	cancelButton: "chatroom-admin-subscreen-cancel",
-	previewButton: "chatroom-admin-subscreen-preview",
 	clearButton: "chatroom-admin-subscreen-clear",
 	saveButton: "chatroom-admin-subscreen-save",
 	imageURLInput: "InputImageURL",
@@ -85,6 +81,7 @@ const ChatAdminRoomCustomizationIDs = Object.freeze({
 	filterLabel: "room-custom-filter-label",
 	imageFillModeSelect: "SelectImageFillMode",
 	musicURLInput: "InputMusicURL",
+	musicPlayButton: "room-custom-music-play",
 	musicSyncCheckbox: "InputMusicSync",
 	openLibraryButton: "OpenLibraryButton",
 	library: "room-custom-library",
@@ -111,27 +108,12 @@ async function ChatAdminRoomCustomizationLoad() {
 		return;
 	}
 	const canEditCustom = ChatAdminRoomCustomizationCanEdit();
-	const isAdmin = ChatRoomPlayerIsAdmin();
 	const adminData = ChatAdminData;
 
-	ChatAdminRoomCustomizationMode = null;
 	ChatAdminRoomCustomizationCurrent = null;
-	ChatAdminRoomCustomizationIsPreviewing = false;
 	const data = ChatAdminRoomCustomizationCurrent = ChatAdminData.Custom ? CommonCloneDeep(ChatAdminData.Custom) : { ImageURL: "", ImageFilter: "", MusicURL: "", SizeMode: DrawingResizeMode.Fill };
 	data.SizeMode ??= DrawingResizeMode.Fill;
 
-	const previewButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.previewButton, () => {
-		if (!ChatRoomPlayerIsAdmin()) return;
-		ChatAdminRoomCustomizationIsPreviewing = !ChatAdminRoomCustomizationIsPreviewing;
-		ChatAdminRoomCustomizationPreviewMusic();
-	},
-	{
-		image: "Icons/Public.png",
-		tooltip: TextGet("PreviewButtonTooltip"),
-		disabled: !isAdmin,
-		role: "menuitemcheckbox",
-		ariaChecked: ChatAdminRoomCustomizationIsPreviewing,
-	});
 	const clearButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.clearButton, () => {
 		if (!canEditCustom) return;
 		data.SizeMode = DrawingResizeMode.Fill;
@@ -183,7 +165,6 @@ async function ChatAdminRoomCustomizationLoad() {
 				cancelButton,
 				saveButton,
 				clearButton,
-				previewButton,
 			],
 			header: TextGet("Title"),
 			hgroupInHeader: true,
@@ -265,13 +246,28 @@ async function ChatAdminRoomCustomizationLoad() {
 			input: function() {
 				data.MusicURL = this.value.trim();
 				musicSyncInput.querySelector("input")?.toggleAttribute("disabled", !canEditCustom || !data.MusicURL);
+				ChatAdminRoomCustomizationUpdateMusicPreview();
 				ChatAdminRoomCustomizationRefreshPreview();
 			},
-			change: function() {
-				ChatAdminRoomCustomizationPreviewMusic();
-			}
 		}
 	});
+
+	const playButton = ElementButton.Create(
+		ChatAdminRoomCustomizationIDs.musicPlayButton,
+		() => ChatAdminRoomCustomizationToggleMusic(),
+		{
+			image: "Icons/Play.svg",
+			tooltip: TextGet("MusicPlay"),
+			tooltipPosition: "bottom",
+			disabled: !ServerChatRoomDataValidationRecord.Custom.MusicURL(data.MusicURL),
+		},
+		{
+			button: {
+				classList: ["room-custom-music-play"],
+				attributes: { "aria-pressed": "false" },
+			},
+		}
+	);
 
 	const openLibraryButton = ElementButton.Create(
 		ChatAdminRoomCustomizationIDs.openLibraryButton,
@@ -409,7 +405,7 @@ async function ChatAdminRoomCustomizationLoad() {
 							{
 								tag: "div",
 								classList: ["room-custom-music-row"],
-								children: [musicInput, openLibraryButton, musicHint],
+								children: [musicInput, playButton, openLibraryButton, musicHint],
 							},
 							musicSyncInput,
 						],
@@ -473,35 +469,10 @@ async function ChatAdminRoomCustomizationLoad() {
 }
 
 /**
- * When the chat Admin Custom screen runs, draws the screen
+ * Required screen tick.
  * @returns {void} - Nothing
  */
-function ChatAdminRoomCustomizationRun() {
-
-	// Shows the background and plays the music if needed
-	if (ChatAdminRoomCustomizationIsPreviewing && ChatAdminRoomCustomizationCurrent) {
-		DrawRect(0, 0, 2000, 1000, "White");
-
-		const rect = { x: 500, y: 1000 * (1 - ChatRoomCharacterViewZoom) / 2, w: 1000, h: 1000 * ChatRoomCharacterViewZoom };
-		const { ImageURL, ImageFilter, SizeMode } = ServerChatRoomDataValidationRecord.Custom(ChatAdminRoomCustomizationCurrent) ?? {};
-
-		if (ImageURL) {
-			DrawRect(0, 0, 2000, 1000, "White");
-			const opts = {
-				blur: Player.GetBlurLevel(),
-				darken: DrawGetDarkFactor(),
-				tints: Player.GetTints(),
-				sizeMode: SizeMode
-			};
-			DrawRoomBackground(ImageURL, rect, opts);
-		}
-
-		// The image filter is a full rectangle over the current background
-		if (ImageFilter) {
-			DrawRect(...[0, 0, 2000, 1000], ImageFilter);
-		}
-	}
-}
+function ChatAdminRoomCustomizationRun() {}
 
 /**
  * Handles the click events on the admin custom screen. Is called from CommonClick()
@@ -514,8 +485,6 @@ function ChatAdminRoomCustomizationClick() {}
  * @type {ScreenExitHandler}
  */
 function ChatAdminRoomCustomizationExit() {
-	ChatAdminRoomCustomizationAudio?.pause();
-	ChatAdminRoomCustomizationAudio = null;
 	CommonSetScreen("Online", "ChatAdmin");
 }
 
@@ -525,6 +494,8 @@ function ChatAdminRoomCustomizationResize() {
 }
 
 function ChatAdminRoomCustomizationUnload() {
+	ChatAdminRoomCustomizationStopMusic();
+	ChatAdminRoomCustomizationAudio = null;
 	ElementRemove(ChatAdminRoomCustomizationIDs.subscreen);
 	if (ElementWrap(ColorPicker.ids.root)) ColorPickerExit(true);
 }
@@ -613,34 +584,102 @@ function ChatAdminRoomCustomizationRefreshPreview() {
 }
 
 /**
+ * Matches the play button icon, label, and disabled state to the preview audio.
+ */
+function ChatAdminRoomCustomizationSyncPlayButton() {
+	const button = /** @type {HTMLButtonElement | null} */ (ElementWrap(ChatAdminRoomCustomizationIDs.musicPlayButton));
+	if (!button) return;
+
+	const audio = ChatAdminRoomCustomizationAudio;
+	const playing = !!audio && !audio.paused && !audio.ended;
+	button.disabled = !playing && !ChatAdminRoomCustomizationCurrent?.MusicURL;
+	button.setAttribute("aria-pressed", String(playing));
+	const label = TextGet(playing ? "MusicPause" : "MusicPlay");
+	const tooltip = button.querySelector(".button-tooltip");
+	if (tooltip) tooltip.textContent = label;
+	ElementButton.SetImage(button, playing ? "Icons/Pause.svg" : "Icons/Play.svg");
+}
+
+/**
+ * Stops music preview.
+ */
+function ChatAdminRoomCustomizationStopMusic() {
+	ChatAdminRoomCustomizationAudio?.pause();
+	ChatAdminRoomCustomizationSyncPlayButton();
+}
+
+/**
+ * Starts preview playback. An aborted play is ignored when this preview is no longer the active one.
+ * @param {HTMLAudioElement} player
+ * @param {string} url
+ */
+function ChatAdminRoomCustomizationPlayPreview(player, url) {
+	player.play().catch((error) => {
+		if (player !== ChatAdminRoomCustomizationAudio || player.dataset.source !== url || !player.paused) return;
+		console.error("Caught an unhandled promise:", error);
+		ChatAdminRoomCustomizationStopMusic();
+	});
+}
+
+/**
+ * Plays or pauses the music URL currently entered on the form.
+ */
+function ChatAdminRoomCustomizationToggleMusic() {
+	const url = ChatAdminRoomCustomizationCurrent?.MusicURL;
+	const audio = ChatAdminRoomCustomizationAudio;
+	if (!url || (audio && !audio.paused && audio.dataset.source === url)) {
+		ChatAdminRoomCustomizationStopMusic();
+		return;
+	}
+
+	const player = audio ?? (ChatAdminRoomCustomizationAudio = new Audio());
+	if (!audio) {
+		player.loop = true;
+		player.addEventListener("play", ChatAdminRoomCustomizationSyncPlayButton);
+		player.addEventListener("pause", ChatAdminRoomCustomizationSyncPlayButton);
+		player.addEventListener("ended", ChatAdminRoomCustomizationSyncPlayButton);
+	}
+	player.volume = CommonClamp(Player.AudioSettings.MusicVolume, 0, 1);
+	if (player.dataset.source !== url) {
+		player.dataset.source = url;
+		player.src = url;
+	}
+	ChatAdminRoomCustomizationPlayPreview(player, url);
+}
+
+/**
+ * Keeps preview playback aligned with the music field.
+ * An empty field stops preview. Picking a library track while preview is playing switches to that track.
+ */
+function ChatAdminRoomCustomizationUpdateMusicPreview() {
+	const url = ChatAdminRoomCustomizationCurrent?.MusicURL;
+	const audio = ChatAdminRoomCustomizationAudio;
+	const playing = !!audio && !audio.paused && !audio.ended;
+	if (audio && playing && audio.dataset.source !== url) {
+		if (!ChatAdminRoomCustomizationCurrent?.MusicURL) {
+			ChatAdminRoomCustomizationStopMusic();
+			return;
+		}
+		if (url && ChatAdminRoomCustomizationMusicLibrary.some((music) => music.URL === url)) {
+			audio.dataset.source = url;
+			audio.src = url;
+			ChatAdminRoomCustomizationPlayPreview(audio, url);
+		}
+	}
+	ChatAdminRoomCustomizationSyncPlayButton();
+}
+
+/**
  * Shows or hides the in-screen music library.
  * @param {boolean} open
  */
 function ChatAdminRoomCustomizationSetLibraryOpen(open) {
-	ChatAdminRoomCustomizationMode = open ? "MusicLibrary" : null;
 	const stage = ElementWrap(ChatAdminRoomCustomizationIDs.stage);
 	stage?.setAttribute("data-mode", open ? "library" : "preview");
 	ElementWrap(ChatAdminRoomCustomizationIDs.openLibraryButton)?.setAttribute("aria-expanded", open ? "true" : "false");
 	const focusTarget = open ? ChatAdminRoomCustomizationIDs.libraryReturn : ChatAdminRoomCustomizationIDs.openLibraryButton;
 	const focusElement = ElementWrap(focusTarget);
 	if (focusElement && document.activeElement !== focusElement) focusElement.focus();
-}
-
-function ChatAdminRoomCustomizationPreviewMusic() {
-	if (ChatAdminRoomCustomizationIsPreviewing) {
-		const data = ChatAdminRoomCustomizationCurrent;
-		// Enable background music preview
-		if (data?.MusicURL && data.MusicURL !== "" && ChatAdminRoomCustomizationAudio?.src !== data.MusicURL) {
-			ChatAdminRoomCustomizationAudio?.pause();
-			ChatAdminRoomCustomizationAudio = new Audio();
-			ChatAdminRoomCustomizationAudio.volume = CommonClamp(Player.AudioSettings.MusicVolume, 0, 1);
-			ChatAdminRoomCustomizationAudio.src = data.MusicURL;
-			CommonPromiseCatch(ChatAdminRoomCustomizationAudio.play());
-		}
-	} else {
-		ChatAdminRoomCustomizationAudio?.pause();
-		ChatAdminRoomCustomizationAudio = null;
-	}
 }
 
 /**
