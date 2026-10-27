@@ -29,6 +29,12 @@
 	min-width: min(20vh, 10vw);
 }
 
+#login-password-reset-button {
+	min-width: max-content;
+	padding-inline: 0.5em;
+	white-space: nowrap;
+}
+
 .login-text {
 	text-align: center;
 	color: white;
