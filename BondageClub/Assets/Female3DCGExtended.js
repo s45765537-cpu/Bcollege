@@ -13674,6 +13674,21 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // LatexbeltBed
+		TrashCan: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{ Name: "OpenLid" },
+				{ Name: "CloseLid" },
+				{ Name: "OpenFlap" },
+			],
+			BaselineProperty: { Opacity: 1 },
+			DrawData: {
+				elementData: ExtendedXYClothes[3].map((tuple) => ({
+					position: [tuple[0], tuple[1] + 100],
+				})),
+			},
+		}, // TrashCan
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {

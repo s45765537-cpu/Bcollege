@@ -1984,6 +1984,15 @@ ItemDevicesTransportWoodenBoxWheels,Wheels
 ItemDevicesThroneDeco,Deco Item
 ItemDevicesThroneSeat,Seat
 ItemDevicesThroneThrone,Throne
+ItemDevicesTrashCanBackground,Background
+ItemDevicesTrashCanBaffle,Flap
+ItemDevicesTrashCanLid,Lid
+ItemDevicesTrashCanOuterFrame,Outer Frame
+ItemDevicesTrashCanPattern,Pattern
+ItemDevicesTrashCanTrashCan,Trash Can
+ItemDevicesTrashCanWheels,Wheels
+ItemDevicesTrashCanTrashCanMask,Trash Can Mask
+ItemDevicesTrashCanLidMask,Lid Mask
 ItemDevicesVacBedDeluxeArmsDown,Upper
 ItemDevicesVacBedDeluxeArmsYoked,Upper
 ItemDevicesVacBedDeluxeBody,Body

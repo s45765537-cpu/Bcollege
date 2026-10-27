@@ -72563,6 +72563,67 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "TrashCan",
+				InventoryID: 1426,
+				Value: 12,
+				Random: false,
+				Top: 0,
+				Left: 0,
+				AllowLock: true,
+				Extended: true,
+				EditOpacity: true,
+				MinOpacity: 0,
+				Opacity: 1,
+				Priority: 58,
+				AllowActivePose: ["Kneel"],
+				SetPose: ["Kneel"],
+				Layer: [
+					{
+						Name: "TrashCanMask",
+						HasImage: false,
+						AllowColorize: false,
+						MinOpacity: 1,
+						Alpha: [
+							{
+								Masks: [
+									[0, 695, 500, 120],
+									[0, 175, 160, 1000],
+									[340, 175, 160, 1000],
+								],
+							},
+						],
+					},
+					{
+						Name: "LidMask",
+						HasImage: false,
+						AllowColorize: false,
+						AllowTypes: { typed: [1, 2] },
+						MinOpacity: 1,
+						Alpha: [
+							{
+								Masks: [
+									[0, 0, 500, 50],
+									[0, 0, 160, 1000],
+									[340, 0, 160, 1000],
+								],
+							},
+						],
+					},
+					{ Name: "Wheels", Priority: 1, MinOpacity: 1 },
+					{ Name: "Background", Priority: 2, MinOpacity: 1 },
+					{ Name: "OuterFrame", MinOpacity: 1 },
+					{ Name: "TrashCan" },
+					{ Name: "Lid", AllowTypes: { typed: [1, 2] } },
+					{ Name: "Baffle", AllowTypes: { typed: 1 } },
+					{ Name: "Pattern", AllowTypes: { typed: 1 } },
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "垃圾桶",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",

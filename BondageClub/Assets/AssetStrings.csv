@@ -3137,6 +3137,13 @@ ItemDevicesLatexbeltBedSetg3,SourceCharacter exposes the belly on DestinationCha
 ItemDevicesLatexbeltBedSetg4,SourceCharacter exposes the head on DestinationCharacter case.
 ItemDevicesLatexbeltBedSetl0,SourceCharacter uses a latex bag in DestinationCharacter case.
 ItemDevicesLatexbeltBedSetl1,SourceCharacter removes the latex bag in DestinationCharacter case.
+ItemDevicesTrashCanSelect,Configure the trash can
+ItemDevicesTrashCanCloseLid,Close Lid
+ItemDevicesTrashCanOpenFlap,Open Flap
+ItemDevicesTrashCanOpenLid,Open Lid
+ItemDevicesTrashCanSetOpenLid,SourceCharacter opened DestinationCharacter trash can lid
+ItemDevicesTrashCanSetOpenFlap,SourceCharacter opened DestinationCharacter trash can flap
+ItemDevicesTrashCanSetCloseLid,SourceCharacter closed DestinationCharacter trash can lid
 ItemEarsCTHeadsetModuleGlow,Glow
 ItemEarsCTHeadsetModuleEars,Ears
 ItemEarsCTHeadsetModuleMic,Mic
