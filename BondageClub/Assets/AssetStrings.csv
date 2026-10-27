@@ -3118,6 +3118,11 @@ ItemArmsRestraintPillowSetn1,SourceCharacter sets the nipples vibrator on Destin
 ItemArmsRestraintPillowSetn2,SourceCharacter sets the nipples vibrator on DestinationCharacter pillow to medium.
 ItemArmsRestraintPillowSetn3,SourceCharacter sets the nipples vibrator on DestinationCharacter pillow to high.
 ItemArmsRestraintPillowSetn4,SourceCharacter sets the nipples vibrator on DestinationCharacter pillow to maximum.
+ItemDevicesBoxingBagSelect,Configure the punching bag
+ItemDevicesBoxingBagAttachPhoto,Attach Photo
+ItemDevicesBoxingBagRemovePhoto,No Photo
+ItemDevicesBoxingBagSetAttachPhoto,SourceCharacter attaches a photo on DestinationCharacter punching bag.
+ItemDevicesBoxingBagSetRemovePhoto,SourceCharacter removes the photo on DestinationCharacter punching bag.
 ItemDevicesGiantStuffedToySelect,Configure the Giant Stuffed Bear
 ItemDevicesGiantStuffedToyBear,Opacity
 ItemDevicesLatexbeltBedSelectBase,Configure the case

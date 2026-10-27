@@ -1788,6 +1788,17 @@ ItemDevicesBedMattress,Mattress
 ItemDevicesBedPillow,Pillow
 ItemDevicesBondageBenchBench,Bench
 ItemDevicesBondageBenchStraps,Straps
+ItemDevicesBoxingBagBack1,Back
+ItemDevicesBoxingBagBack2,Back
+ItemDevicesBoxingBagFront1,Front
+ItemDevicesBoxingBagFront2,Front
+ItemDevicesBoxingBagLink,Link
+ItemDevicesBoxingBagPhotoFrame,Photo Frame
+ItemDevicesBoxingBagSackFrontFrame,Sack With Photo
+ItemDevicesBoxingBagTape,Photo Tape
+ItemDevicesBoxingBagBackMask,Back Mask
+ItemDevicesBoxingBagFrontMask,Front Mask
+ItemDevicesBoxingBagBand,Bag Bands
 ItemDevicesExclusiveWaitressFront,Structure
 ItemDevicesExclusiveWaitressWindow,Legs Window
 ItemDevicesExclusiveWaitressLight,LED details
