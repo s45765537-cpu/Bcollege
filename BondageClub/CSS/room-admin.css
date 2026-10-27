@@ -39,10 +39,9 @@
 	box-sizing: border-box;
 	display: grid;
 	gap: var(--gap);
-	grid-template-columns: minmax(0, 40em);
+	grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
 	grid-template-rows: minmax(0, 1fr) auto;
 	height: 100%;
-	justify-content: center;
 	padding: 0.8em;
 }
 
@@ -69,26 +68,24 @@
 .room-custom-intro {
 	color: #333;
 	font-size: 0.8em;
+	grid-column: 1 / -1;
 	margin: 0;
 }
 
-#chatroom-admin-subscreen-grid input[type="text"],
+#chatroom-admin-subscreen-grid .room-custom-field input[type="text"],
+#chatroom-admin-subscreen-grid .room-custom-music-row input[type="text"],
 #chatroom-admin-subscreen-grid select {
 	height: 1.85em;
 	padding: 0 0.45em;
 	width: 100%;
 }
 
-#chatroom-admin-subscreen .dropdown-pair,
-.room-custom-filter {
+#chatroom-admin-subscreen .dropdown-pair {
 	align-items: center;
 	display: grid;
 	gap: 0.45em;
-	width: 100%;
-}
-
-#chatroom-admin-subscreen .dropdown-pair {
 	grid-template-columns: max-content minmax(0, 1fr);
+	width: 100%;
 }
 
 .room-custom-field {
@@ -100,7 +97,50 @@
 }
 
 .room-custom-filter {
-	grid-template-columns: max-content minmax(0, 1fr) auto;
+	align-items: center;
+	display: grid;
+	gap: 0.4em;
+	grid-template-columns: max-content minmax(4em, 1fr) auto;
+	width: 100%;
+	position: relative;
+}
+
+#room-custom-filter-picker {
+	--button-color: #fff;
+	height: 1.85em;
+	width: 100%;
+}
+
+#room-custom-filter-picker.button-styling,
+#room-custom-filter-picker.button-styling:hover,
+#room-custom-filter-picker.button-styling:active,
+#room-custom-filter-picker.button-styling:disabled {
+	background-color: #fff !important;
+	background-image:
+		linear-gradient(var(--button-color), var(--button-color)),
+		linear-gradient(45deg, #bbb 25%, transparent 25%, transparent 75%, #bbb 75%),
+		linear-gradient(45deg, #bbb 25%, #fff 25%, #fff 75%, #bbb 75%);
+	background-position:
+		0 0,
+		0 0,
+		6px 6px;
+	background-repeat: no-repeat, repeat, repeat;
+	background-size:
+		auto,
+		12px 12px,
+		12px 12px;
+}
+
+#color-picker.room-custom-color-picker {
+	background-color: white;
+	border: var(--border-width) solid black;
+	box-sizing: border-box;
+	z-index: 2;
+}
+
+#color-picker.room-custom-color-picker .screen-hgroup,
+#color-picker.room-custom-color-picker .color-picker label > span {
+	color: black;
 }
 
 #chatroom-admin-subscreen .dropdown-label,
@@ -144,6 +184,65 @@
 	white-space: normal;
 	width: auto;
 	z-index: 2;
+}
+
+.room-custom-stage {
+	height: 100%;
+}
+
+.room-custom-frame {
+	background: #e6e1d6;
+	border: var(--border-width) solid #000;
+	box-sizing: border-box;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+
+.room-custom-frame img {
+	display: block;
+	height: 100%;
+	object-fit: cover;
+	width: 100%;
+}
+
+.room-custom-frame[data-fit="fill"] img {
+	object-fit: fill;
+}
+
+.room-custom-frame[data-fit="cover"] img {
+	object-fit: cover;
+}
+
+.room-custom-frame[data-fit="contain"] img {
+	object-fit: contain;
+}
+
+.room-custom-frame[data-empty] img {
+	visibility: hidden;
+}
+
+.room-custom-empty {
+	align-items: center;
+	color: #5c574e;
+	display: flex;
+	font-size: 0.85em;
+	inset: 0;
+	justify-content: center;
+	margin: 0;
+	pointer-events: none;
+	position: absolute;
+	text-align: center;
+}
+
+.room-custom-frame:not([data-empty]) .room-custom-empty {
+	display: none;
+}
+
+.room-custom-preview-filter {
+	inset: 0;
+	pointer-events: none;
+	position: absolute;
 }
 
 /* #endregion Chat Admin Customization */

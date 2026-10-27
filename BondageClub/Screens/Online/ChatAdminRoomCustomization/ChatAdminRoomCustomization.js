@@ -81,12 +81,24 @@ const ChatAdminRoomCustomizationIDs = Object.freeze({
 	clearButton: "chatroom-admin-subscreen-clear",
 	saveButton: "chatroom-admin-subscreen-save",
 	imageURLInput: "InputImageURL",
-	imageFilterInput: "InputImageFilter",
+	filterPicker: "room-custom-filter-picker",
+	filterLabel: "room-custom-filter-label",
 	imageFillModeSelect: "SelectImageFillMode",
 	musicURLInput: "InputMusicURL",
 	musicSyncCheckbox: "InputMusicSync",
 	openLibraryButton: "OpenLibraryButton",
+	stage: "room-custom-stage",
+	previewFrame: "room-custom-preview-frame",
+	previewImage: "room-custom-preview-image",
+	previewFilter: "room-custom-preview-filter",
 });
+
+/** @type {Readonly<Record<number, "fill" | "cover" | "contain">>} */
+const ChatAdminRoomCustomizationSizeFit = {
+	[DrawingResizeMode.Fill]: "fill",
+	[DrawingResizeMode.FillOriginalRatio]: "cover",
+	[DrawingResizeMode.ShowFullOriginalRatio]: "contain",
+};
 
 /**
  * Loads the chat Admin Custom screen properties and creates the inputs
@@ -123,9 +135,10 @@ async function ChatAdminRoomCustomizationLoad() {
 		data.SizeMode = DrawingResizeMode.Fill;
 		ElementValue(ChatAdminRoomCustomizationIDs.imageURLInput, "");
 		ElementValue(ChatAdminRoomCustomizationIDs.imageFillModeSelect, DrawingResizeMode.Fill.toString());
-		ElementValue(ChatAdminRoomCustomizationIDs.imageFilterInput, "");
+		data.ImageFilter = "";
 		ElementValue(ChatAdminRoomCustomizationIDs.musicURLInput, "");
 		ElementSetChecked(ChatAdminRoomCustomizationIDs.musicSyncCheckbox, false);
+		ChatAdminRoomCustomizationRefreshPreview();
 	},
 	{
 		image: "Icons/Reset.svg",
@@ -145,7 +158,7 @@ async function ChatAdminRoomCustomizationLoad() {
 			...adminData.Custom ?? {},
 			ImageURL: ElementValue(ChatAdminRoomCustomizationIDs.imageURLInput).trim(),
 			SizeMode: CommonParseInt(ElementValue(ChatAdminRoomCustomizationIDs.imageFillModeSelect)) ?? DrawingResizeMode.Fill,
-			ImageFilter: ElementValue(ChatAdminRoomCustomizationIDs.imageFilterInput).trim(),
+			ImageFilter: data.ImageFilter,
 			MusicURL,
 			MusicStart,
 		});
@@ -193,6 +206,7 @@ async function ChatAdminRoomCustomizationLoad() {
 				input: function() {
 					data.ImageURL = this.value.trim();
 					imageFillSelect.querySelector("select")?.toggleAttribute("disabled", !canEditCustom || !data.ImageURL);
+					ChatAdminRoomCustomizationRefreshPreview();
 				}
 			}
 		}
@@ -202,25 +216,20 @@ async function ChatAdminRoomCustomizationLoad() {
 
 	const imageFillSelect = ElementDropdown.CreateLabelled(ChatAdminRoomCustomizationIDs.imageFillModeSelect, options, TextGet("FillModeShort"), function () {
 		data.SizeMode = Number(this.value);
+		ChatAdminRoomCustomizationRefreshPreview();
 	}, { disabled: !canEditCustom || !imageInput.value.trim() });
 
-	const filterInput = ElementInput.Create(ChatAdminRoomCustomizationIDs.imageFilterInput, { type: "text" },
-		{
-			attributes: {
-				placeholder: "#00000080",
-				autocomplete: "off",
-				spellcheck: "false",
-				value: data.ImageFilter ?? "",
-				maxlength: "10",
-				disabled: !canEditCustom,
-			},
-			eventListeners: {
-				input: function() {
-					data.ImageFilter = this.value.trim();
-				}
-			}
-		}
+	const filterButton = ElementButton.Create(
+		ChatAdminRoomCustomizationIDs.filterPicker,
+		() => ChatAdminRoomCustomizationOpenFilterPicker(),
+		{ disabled: !canEditCustom },
 	);
+	const filterLabel = ElementCreateSettingsLabel(
+		TextGet("BackgroundFilterLabel"),
+		filterButton,
+		{ position: "left" },
+	);
+	filterLabel.id = ChatAdminRoomCustomizationIDs.filterLabel;
 
 	const musicSyncInput = ElementCheckbox.CreateLabelled(
 		ChatAdminRoomCustomizationIDs.musicSyncCheckbox,
@@ -270,6 +279,27 @@ async function ChatAdminRoomCustomizationLoad() {
 		disabled: !canEditCustom,
 	});
 
+	const previewImage = ElementCreate({
+		tag: "img",
+		attributes: {
+			id: ChatAdminRoomCustomizationIDs.previewImage,
+			alt: "",
+			draggable: "false",
+			referrerpolicy: "no-referrer",
+			decoding: "async",
+		},
+		eventListeners: {
+			load: function() {
+				if (this.dataset.pending && this.getAttribute("src") === this.dataset.pending) {
+					ElementWrap(ChatAdminRoomCustomizationIDs.previewFrame)?.toggleAttribute("data-empty", false);
+				}
+			},
+			error: function() {
+				ElementWrap(ChatAdminRoomCustomizationIDs.previewFrame)?.toggleAttribute("data-empty", true);
+			}
+		}
+	});
+
 	const imageHint = ElementText.CreateHint(null, TextGet("BackgroundImageNote"), "left");
 	const filterHint = ElementText.CreateHint(null, TextGet("BackgroundFilterNote"), "left");
 	const musicHint = ElementText.CreateHint(null, TextGet("BackgroundMusicNote"), "left");
@@ -301,11 +331,7 @@ async function ChatAdminRoomCustomizationLoad() {
 							{
 								tag: "div",
 								classList: ["room-custom-filter"],
-								children: [
-									ElementCreateSettingsLabel(TextGet("BackgroundFilterLabel"), filterInput, { position: "left" }),
-									filterInput,
-									filterHint,
-								],
+								children: [filterLabel, filterButton, filterHint],
 							},
 						],
 					},
@@ -324,9 +350,36 @@ async function ChatAdminRoomCustomizationLoad() {
 					},
 				],
 			},
+			{
+				tag: "div",
+				classList: ["room-custom-stage"],
+				attributes: { id: ChatAdminRoomCustomizationIDs.stage },
+				children: [
+					{
+						tag: "div",
+						classList: ["room-custom-frame"],
+						attributes: { id: ChatAdminRoomCustomizationIDs.previewFrame, "data-empty": true, "data-fit": "fill" },
+						children: [
+							previewImage,
+							{
+								tag: "div",
+								classList: ["room-custom-preview-filter"],
+								attributes: { id: ChatAdminRoomCustomizationIDs.previewFilter, "aria-hidden": "true" },
+							},
+							{
+								tag: "p",
+								classList: ["room-custom-empty"],
+								children: [TextGet("PreviewEmpty")],
+							},
+						],
+					},
+				],
+			},
 			intro,
 		],
 	});
+
+	ChatAdminRoomCustomizationRefreshPreview();
 }
 
 /**
@@ -433,10 +486,90 @@ function ChatAdminRoomCustomizationExit() {
 
 function ChatAdminRoomCustomizationResize() {
 	ElementPositionFixed(ChatAdminRoomCustomizationIDs.subscreen, 50, 50, 1900, 900);
+	if (ElementWrap(ColorPicker.ids.root)) ColorPickerResize(false);
 }
 
 function ChatAdminRoomCustomizationUnload() {
 	ElementRemove(ChatAdminRoomCustomizationIDs.subscreen);
+	if (ElementWrap(ColorPicker.ids.root)) ColorPickerExit(true);
+}
+
+/**
+ * Color picker state for a background filter. An empty filter starts fully transparent.
+ * @param {string | undefined} value
+ * @returns {NonNullable<ColorPickerInitOptions["colorState"]>}
+ */
+function ChatAdminRoomCustomizationFilterState(value) {
+	const parsed = ColorPickerCSSToColor(value);
+	return {
+		colors: [parsed?.color ?? "#000000"],
+		defaultColors: ["#000000"],
+		opacity: [parsed?.opacity ?? 0],
+		defaultOpacity: [0],
+		editOpacity: true,
+	};
+}
+
+/**
+ * Opens the color picker for the background filter. Accept writes the chosen color back onto the form.
+ * @returns {void}
+ */
+function ChatAdminRoomCustomizationOpenFilterPicker() {
+	const data = ChatAdminRoomCustomizationCurrent;
+	const picker = ElementWrap(ColorPicker.ids.root);
+	if (!data || !ChatAdminRoomCustomizationCanEdit() || (picker && !picker.hidden)) return;
+
+	CommonPromiseCatch(ColorPickerInit({
+		colorState: ChatAdminRoomCustomizationFilterState(data.ImageFilter),
+		heading: TextGet("BackgroundFilterLabel"),
+		onInput: () => null,
+		onExit: (state, save) => {
+			if (!save) return;
+			data.ImageFilter = ChatAdminRoomCustomizationFilterFromState(state);
+			ChatAdminRoomCustomizationRefreshPreview();
+		},
+	}).then(root => root.classList.add("room-custom-color-picker")));
+}
+
+/**
+ * Builds a background filter hex from a color picker result. Fully transparent values count as no filter.
+ * @param {ItemColorExitState} state
+ * @returns {string}
+ */
+function ChatAdminRoomCustomizationFilterFromState(state) {
+	const opacity = CommonClamp(state.opacity[0] ?? 1, 0, 1);
+	if (Math.round(opacity * 255) === 0) return "";
+	return ColorPickerColorToCSS(state.colors[0] ?? "", opacity) ?? "";
+}
+
+/**
+ * Updates the image preview from the current form data.
+ */
+function ChatAdminRoomCustomizationRefreshPreview() {
+	const data = ChatAdminRoomCustomizationCurrent;
+	const frame = ElementWrap(ChatAdminRoomCustomizationIDs.previewFrame);
+	const image = /** @type {HTMLImageElement | null} */ (ElementWrap(ChatAdminRoomCustomizationIDs.previewImage));
+	const filter = ElementWrap(ChatAdminRoomCustomizationIDs.previewFilter);
+	if (!data || !frame || !image || !filter) return;
+
+	const fit = ChatAdminRoomCustomizationSizeFit[data.SizeMode ?? DrawingResizeMode.Fill] ?? "fill";
+	frame.setAttribute("data-fit", fit);
+
+	const url = ServerChatRoomDataValidationRecord.Custom.ImageURL(data.ImageURL) ?? "";
+	if (!url) {
+		image.dataset.pending = "";
+		image.removeAttribute("src");
+		frame.toggleAttribute("data-empty", true);
+	} else if (image.dataset.pending !== url) {
+		image.dataset.pending = url;
+		frame.toggleAttribute("data-empty", true);
+		image.src = url;
+	}
+
+	const filterValue = data.ImageFilter ?? "";
+	const filterColor = CommonIsColor(filterValue, { allowAlpha: true }) ? filterValue : "";
+	filter.style.backgroundColor = filterColor;
+	ElementWrap(ChatAdminRoomCustomizationIDs.filterPicker)?.style.setProperty("--button-color", filterColor || "#ffffff");
 }
 
 function ChatAdminRoomCustomizationPreviewMusic() {
