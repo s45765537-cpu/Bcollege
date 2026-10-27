@@ -13712,6 +13712,57 @@ var AssetFemale3DCGExtended = {
 				})),
 			},
 		}, // GiantStuffedToy
+		LegSpreadDisplayStand: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Pose",
+					DrawImages: false,
+					Key: "o",
+					Options: [
+						{ Property: { SetPose: ["BackElbowTouch", "KneelingSpread"] } },
+						{ Property: { SetPose: ["OverTheHead", "KneelingSpread"] } },
+					],
+				},
+				{
+					Name: "MouthRestraint",
+					DrawImages: false,
+					Key: "g",
+					Options: [{}, {}],
+				},
+				{
+					Name: "GenitalProp",
+					DrawImages: false,
+					Key: "v",
+					Options: [{}, {}],
+				},
+				{
+					Name: "AdjustHeight",
+					DrawImages: false,
+					Key: "d",
+					Options: [
+						{},
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.VARIABLEHEIGHT,
+								MaxHeight: 0,
+								MinHeight: -250,
+								DrawData: {
+									elementData: [
+										{ position: [1140, 650, 100, 500], icon: "rope" },
+									],
+								},
+								DialogPrefix: {
+									Chat: "SuspensionChange",
+								},
+							},
+						},
+					],
+				},
+			],
+		}, // LegSpreadDisplayStand
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
