@@ -168,9 +168,20 @@
 	width: 1.85em;
 }
 
-#chatroom-admin-subscreen #OpenLibraryButton {
+.room-custom-text-button {
 	height: 1.85em;
-	width: 1.85em;
+	min-width: 1.85em;
+	padding: 0 0.65em;
+	width: auto;
+}
+
+.room-custom-text-button .button-label {
+	text-align: center;
+	white-space: nowrap;
+}
+
+#room-custom-library-return {
+	width: 5.4em;
 }
 
 #chatroom-admin-subscreen .hint-button .button-tooltip {
@@ -243,6 +254,91 @@
 	inset: 0;
 	pointer-events: none;
 	position: absolute;
+}
+
+.room-custom-hint {
+	color: #333;
+	line-height: 1.35;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.room-custom-library {
+	display: none;
+	flex-direction: column;
+	gap: var(--gap);
+	height: 100%;
+}
+
+.room-custom-board:has(.room-custom-stage[data-mode="library"]) .room-custom-fields {
+	display: none;
+}
+
+.room-custom-board:has(.room-custom-stage[data-mode="library"]) .room-custom-stage {
+	grid-column: 1 / -1;
+}
+
+.room-custom-stage[data-mode="library"] .room-custom-frame {
+	display: none;
+}
+
+.room-custom-stage[data-mode="library"] .room-custom-library {
+	display: flex;
+}
+
+.room-custom-library-header {
+	align-items: center;
+	display: grid;
+	gap: var(--gap);
+	grid-template-columns: auto minmax(0, 1fr);
+}
+
+.room-custom-library-grid {
+	align-content: start;
+	display: grid;
+	gap: var(--gap);
+	grid-template-columns: 1fr 1fr;
+}
+
+.room-custom-track {
+	align-items: center;
+	display: grid;
+	gap: var(--half-gap);
+	grid-template-columns: minmax(0, 1fr) 1.85em;
+}
+
+.room-custom-track-select {
+	height: 1.85em;
+	width: 100%;
+}
+
+.room-custom-track-select .button-label {
+	box-sizing: border-box;
+	padding-inline: 0.5em;
+	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.room-custom-track-select[aria-pressed="true"] {
+	--button-color: #dff6df;
+	background-color: #dff6df;
+	box-shadow: inset 0 0 0 var(--inner-border-width) #000;
+}
+
+.room-custom-track-source {
+	height: 1.85em;
+	width: 1.85em;
+}
+
+.room-custom-track-source .button-image {
+	height: 65%;
+	left: 50%;
+	max-height: 65%;
+	max-width: 65%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 65%;
 }
 
 /* #endregion Chat Admin Customization */

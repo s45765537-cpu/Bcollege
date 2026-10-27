@@ -87,6 +87,8 @@ const ChatAdminRoomCustomizationIDs = Object.freeze({
 	musicURLInput: "InputMusicURL",
 	musicSyncCheckbox: "InputMusicSync",
 	openLibraryButton: "OpenLibraryButton",
+	library: "room-custom-library",
+	libraryReturn: "room-custom-library-return",
 	stage: "room-custom-stage",
 	previewFrame: "room-custom-preview-frame",
 	previewImage: "room-custom-preview-image",
@@ -174,7 +176,7 @@ async function ChatAdminRoomCustomizationLoad() {
 		tooltip: TextGet("CancelButtonTooltip"),
 	});
 
-	const subscreen = ElementDOMScreen.getTemplate(
+	ElementDOMScreen.getTemplate(
 		ChatAdminRoomCustomizationIDs.subscreen,
 		{
 			menubarButtons: [
@@ -263,6 +265,7 @@ async function ChatAdminRoomCustomizationLoad() {
 			input: function() {
 				data.MusicURL = this.value.trim();
 				musicSyncInput.querySelector("input")?.toggleAttribute("disabled", !canEditCustom || !data.MusicURL);
+				ChatAdminRoomCustomizationRefreshPreview();
 			},
 			change: function() {
 				ChatAdminRoomCustomizationPreviewMusic();
@@ -270,13 +273,76 @@ async function ChatAdminRoomCustomizationLoad() {
 		}
 	});
 
-	const openLibraryButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.openLibraryButton, () => {
-		ChatAdminRoomCustomizationMode = "MusicLibrary";
-		subscreen.toggleAttribute("hidden", true);
-	}, {
-		image: "Icons/Online.png",
-		tooltip: TextGet("OpenLibraryButtonTooltip"),
-		disabled: !canEditCustom,
+	const openLibraryButton = ElementButton.Create(
+		ChatAdminRoomCustomizationIDs.openLibraryButton,
+		() => {
+			ChatAdminRoomCustomizationSetLibraryOpen(true);
+		},
+		{
+			image: "Icons/Online.png",
+			tooltip: TextGet("OpenLibraryButtonTooltip"),
+			disabled: !canEditCustom,
+			ariaExpanded: false,
+			ariaControls: ChatAdminRoomCustomizationIDs.library,
+		},
+		{
+			button: { classList: ["room-custom-text-button"] },
+		}
+	);
+
+	const returnButton = ElementButton.Create(
+		ChatAdminRoomCustomizationIDs.libraryReturn,
+		() => {
+			ChatAdminRoomCustomizationSetLibraryOpen(false);
+		},
+		{
+			label: TextGet("Return"),
+		},
+		{
+			button: { classList: ["room-custom-text-button"] },
+		}
+	);
+
+	const tracks = ChatAdminRoomCustomizationMusicLibrary.map((music) => {
+		const selectTrack = ElementButton.Create(
+			null,
+			() => {
+				if (!canEditCustom) return;
+				ElementValue(ChatAdminRoomCustomizationIDs.musicURLInput, music.URL);
+			},
+			{
+				label: TextGet("MusicLibrary" + music.Name),
+				disabled: !canEditCustom,
+			},
+			{
+				button: {
+					classList: ["room-custom-track-select"],
+					attributes: { "aria-pressed": String(data.MusicURL === music.URL) },
+					dataAttributes: { url: music.URL },
+				},
+			}
+		);
+
+		const openSource = ElementButton.Create(
+			null,
+			() => {
+				window.open(music.Source, "_blank")?.focus();
+			},
+			{
+				image: "Icons/YouTube.png",
+				tooltip: TextGet("MusicSource"),
+				tooltipPosition: "left",
+			},
+			{
+				button: { classList: ["room-custom-track-source"] },
+			}
+		);
+
+		return /** @type {HTMLOptions<"div">} */ ({
+			tag: "div",
+			classList: ["room-custom-track"],
+			children: [selectTrack, openSource],
+		});
 	});
 
 	const previewImage = ElementCreate({
@@ -353,7 +419,7 @@ async function ChatAdminRoomCustomizationLoad() {
 			{
 				tag: "div",
 				classList: ["room-custom-stage"],
-				attributes: { id: ChatAdminRoomCustomizationIDs.stage },
+				attributes: { id: ChatAdminRoomCustomizationIDs.stage, "data-mode": "preview" },
 				children: [
 					{
 						tag: "div",
@@ -370,6 +436,30 @@ async function ChatAdminRoomCustomizationLoad() {
 								tag: "p",
 								classList: ["room-custom-empty"],
 								children: [TextGet("PreviewEmpty")],
+							},
+						],
+					},
+					{
+						tag: "div",
+						classList: ["room-custom-library"],
+						attributes: { id: ChatAdminRoomCustomizationIDs.library },
+						children: [
+							{
+								tag: "div",
+								classList: ["room-custom-library-header"],
+								children: [
+									returnButton,
+									{
+										tag: "p",
+										classList: ["room-custom-hint"],
+										children: [TextGet("TitleMusicLibrary")],
+									},
+								],
+							},
+							{
+								tag: "div",
+								classList: ["room-custom-library-grid", "scroll-box"],
+								children: tracks,
 							},
 						],
 					},
@@ -411,68 +501,13 @@ function ChatAdminRoomCustomizationRun() {
 			DrawRect(...[0, 0, 2000, 1000], ImageFilter);
 		}
 	}
-
-	// In music library mode
-	if (ChatAdminRoomCustomizationMode === "MusicLibrary") {
-		const currentURL = ElementValue(ChatAdminRoomCustomizationIDs.musicURLInput);
-		DrawText(TextGet("TitleMusicLibrary"), 1000, 120, "Black", "White");
-		DrawButton(1570, 692, 200, 65, TextGet("Return"), "White");
-		for (let L = 0; L < ChatAdminRoomCustomizationMusicLibrary.length; L++) {
-			let X = Math.floor(L % 3) * 600 + 115;
-			let Y = Math.floor(L / 3) * 100 + 210;
-			DrawButton(X, Y, 500, 65, TextGet("MusicLibrary" + ChatAdminRoomCustomizationMusicLibrary[L].Name), currentURL === ChatAdminRoomCustomizationMusicLibrary[L].URL ? "LightGreen" : "White");
-			DrawButton(X + 500, Y, 65, 65, "", "White", "Icons/YouTube.png");
-		}
-	}
 }
 
 /**
  * Handles the click events on the admin custom screen. Is called from CommonClick()
  * @returns {void} - Nothing
  */
-function ChatAdminRoomCustomizationClick() {
-	if (!ChatAdminData) {
-		return;
-	}
-
-	// If there's no special mode loaded
-	if (ChatAdminRoomCustomizationMode == null) {
-
-		// Can show a preview right away in the screen
-		if (MouseIn(1570, 722, 200, 65)) {
-			ChatAdminRoomCustomizationMode = "MusicLibrary";
-			return;
-		}
-	}
-
-	// In Music Library mode
-	if (ChatAdminRoomCustomizationMode === "MusicLibrary") {
-
-		// Can show a preview right away in the screen
-		if (MouseIn(1570, 692, 200, 65)) {
-			ChatAdminRoomCustomizationMode = null;
-			ElementWrap(ChatAdminRoomCustomizationIDs.subscreen)?.toggleAttribute("hidden", false);
-			return;
-		}
-
-		// If a button is clicked, we select that song
-		for (const [L, music] of ChatAdminRoomCustomizationMusicLibrary.entries()) {
-			let X = Math.floor(L % 3) * 600 + 115;
-			let Y = Math.floor(L / 3) * 100 + 210;
-			if (MouseIn(X, Y, 500, 65)) {
-				ElementValue(ChatAdminRoomCustomizationIDs.musicURLInput, music.URL);
-				// Send a change event so the previewed track updates
-				ElementWrap(ChatAdminRoomCustomizationIDs.musicURLInput)?.dispatchEvent(new Event("change"));
-				return;
-			}
-			if (MouseIn(X + 500, Y, 65, 65)) {
-				window.open(music.Source, '_blank')?.focus();
-				return;
-			}
-		}
-
-	}
-}
+function ChatAdminRoomCustomizationClick() {}
 
 /**
  * Handles exiting from the admin custom screen, removes the inputs
@@ -543,7 +578,7 @@ function ChatAdminRoomCustomizationFilterFromState(state) {
 }
 
 /**
- * Updates the image preview from the current form data.
+ * Updates the image preview and selected library track from the current form data.
  */
 function ChatAdminRoomCustomizationRefreshPreview() {
 	const data = ChatAdminRoomCustomizationCurrent;
@@ -570,6 +605,25 @@ function ChatAdminRoomCustomizationRefreshPreview() {
 	const filterColor = CommonIsColor(filterValue, { allowAlpha: true }) ? filterValue : "";
 	filter.style.backgroundColor = filterColor;
 	ElementWrap(ChatAdminRoomCustomizationIDs.filterPicker)?.style.setProperty("--button-color", filterColor || "#ffffff");
+
+	const musicURL = data.MusicURL ?? "";
+	ElementWrap(ChatAdminRoomCustomizationIDs.library)?.querySelectorAll(".room-custom-track-select").forEach((button) => {
+		button.setAttribute("aria-pressed", button.getAttribute("data-url") === musicURL ? "true" : "false");
+	});
+}
+
+/**
+ * Shows or hides the in-screen music library.
+ * @param {boolean} open
+ */
+function ChatAdminRoomCustomizationSetLibraryOpen(open) {
+	ChatAdminRoomCustomizationMode = open ? "MusicLibrary" : null;
+	const stage = ElementWrap(ChatAdminRoomCustomizationIDs.stage);
+	stage?.setAttribute("data-mode", open ? "library" : "preview");
+	ElementWrap(ChatAdminRoomCustomizationIDs.openLibraryButton)?.setAttribute("aria-expanded", open ? "true" : "false");
+	const focusTarget = open ? ChatAdminRoomCustomizationIDs.libraryReturn : ChatAdminRoomCustomizationIDs.openLibraryButton;
+	const focusElement = ElementWrap(focusTarget);
+	if (focusElement && document.activeElement !== focusElement) focusElement.focus();
 }
 
 function ChatAdminRoomCustomizationPreviewMusic() {
