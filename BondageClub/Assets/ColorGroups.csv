@@ -99,6 +99,10 @@ ItemDevicesGiftBoxRibbon, Ribbon
 ItemDevicesGiftBoxRibbonReflection, Ribbon Reflection
 ItemDevicesGiftBoxInner, Inner
 ItemDevicesGiftBoxInnerReflection, Inner Reflection
+ItemDevicesGlassJarBase,Base
+ItemDevicesGlassJarJarLiquid,Tube Liquid
+ItemDevicesGlassJarPipe,Pipe
+ItemDevicesGlassJarTopLid,Top Lid
 ItemDevicesInflatableRestraintBagBase,Base
 ItemDevicesInflatableRestraintBagCanister,Canister
 ItemDevicesInflatableRestraintBagHighlight,Highlight

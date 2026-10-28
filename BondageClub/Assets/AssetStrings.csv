@@ -3125,6 +3125,67 @@ ItemDevicesBoxingBagSetAttachPhoto,SourceCharacter attaches a photo on Destinati
 ItemDevicesBoxingBagSetRemovePhoto,SourceCharacter removes the photo on DestinationCharacter punching bag.
 ItemDevicesGiantStuffedToySelect,Configure the stuffed bear
 ItemDevicesGiantStuffedToyBear,Opacity
+ItemDevicesGlassJarSelectBase,Configure the glass tube
+ItemDevicesGlassJarSelectWindow,Set the window
+ItemDevicesGlassJarSelectLegRestraint,Set the leg restraint
+ItemDevicesGlassJarSelectArmRestraint,Set the arm restraint
+ItemDevicesGlassJarSelectTube,Set the tube
+ItemDevicesGlassJarSelectLiquid,Set the liquid
+ItemDevicesGlassJarSelectPleasureModule,Set the pleasure module
+ItemDevicesGlassJarSelectElectroModule,Set the electro module
+ItemDevicesGlassJarSelectOrgasmLock,Set the orgasm control
+ItemDevicesGlassJarModuleWindow,Window
+ItemDevicesGlassJarModuleLegRestraint,Leg Restraint
+ItemDevicesGlassJarModuleArmRestraint,Arm Restraint
+ItemDevicesGlassJarModuleTube,Tubes
+ItemDevicesGlassJarModuleLiquid,Liquid
+ItemDevicesGlassJarModulePleasureModule,Pleasure
+ItemDevicesGlassJarModuleElectroModule,Electro
+ItemDevicesGlassJarModuleOrgasmLock,Orgasm
+ItemDevicesGlassJarOptionc0,Glass
+ItemDevicesGlassJarOptionc1,Sealed
+ItemDevicesGlassJarOptiont0,None
+ItemDevicesGlassJarOptiont1,Belts
+ItemDevicesGlassJarOptions0,None
+ItemDevicesGlassJarOptions1,Harness
+ItemDevicesGlassJarOptiongz0,None
+ItemDevicesGlassJarOptiongz1,Attach
+ItemDevicesGlassJarOptionyt0,None
+ItemDevicesGlassJarOptionyt1,Fill
+ItemDevicesGlassJarOptionk0,Off
+ItemDevicesGlassJarOptionk1,Low
+ItemDevicesGlassJarOptionk2,Medium
+ItemDevicesGlassJarOptionk3,High
+ItemDevicesGlassJarOptionk4,Maxium
+ItemDevicesGlassJarOptiond0,Off
+ItemDevicesGlassJarOptiond1,Low
+ItemDevicesGlassJarOptiond2,Medium
+ItemDevicesGlassJarOptiond3,High
+ItemDevicesGlassJarOptiong0,Allow
+ItemDevicesGlassJarOptiong1,Deny
+ItemDevicesGlassJarOptiong2,Edge
+ItemDevicesGlassJarSetc0,SourceCharacter uses a glass window on DestinationCharacter tube.
+ItemDevicesGlassJarSetc1,SourceCharacter seals the window on DestinationCharacter tube.
+ItemDevicesGlassJarSett0,SourceCharacter removes the leg belts from DestinationCharacter glass tube.
+ItemDevicesGlassJarSett1,SourceCharacter adds the leg belts in DestinationCharacter glass tube.
+ItemDevicesGlassJarSets0,SourceCharacter removes the body harness from DestinationCharacter glass tube.
+ItemDevicesGlassJarSets1,SourceCharacter adds the body harness in DestinationCharacter glass tube.
+ItemDevicesGlassJarSetgz0,SourceCharacter removes the inner tubes from DestinationCharacter glass tube.
+ItemDevicesGlassJarSetgz1,SourceCharacter attaches the inner tubes in DestinationCharacter glass tube.
+ItemDevicesGlassJarSetyt0,SourceCharacter drains the liquid from DestinationCharacter glass tube.
+ItemDevicesGlassJarSetyt1,SourceCharacter fills DestinationCharacter glass tube with liquid.
+ItemDevicesGlassJarSetk0,SourceCharacter stops the pleasure module on DestinationCharacter glass tube.
+ItemDevicesGlassJarSetk1,SourceCharacter sets the pleasure module to low on DestinationCharacter glass tube.
+ItemDevicesGlassJarSetk2,SourceCharacter sets the pleasure module to medium on DestinationCharacter glass tube.
+ItemDevicesGlassJarSetk3,SourceCharacter sets the pleasure module to high on DestinationCharacter glass tube.
+ItemDevicesGlassJarSetk4,SourceCharacter sets the pleasure module to maximum on DestinationCharacter glass tube.
+ItemDevicesGlassJarSetd0,SourceCharacter stops the electro module on DestinationCharacter glass tube.
+ItemDevicesGlassJarSetd1,SourceCharacter sets the electro module to low on DestinationCharacter glass tube.
+ItemDevicesGlassJarSetd2,SourceCharacter sets the electro module to medium on DestinationCharacter glass tube.
+ItemDevicesGlassJarSetd3,SourceCharacter sets the electro module to high on DestinationCharacter glass tube.
+ItemDevicesGlassJarSetg0,SourceCharacter configures DestinationCharacter glass tube to allow orgasms.
+ItemDevicesGlassJarSetg1,SourceCharacter configures DestinationCharacter glass tube to deny orgasms.
+ItemDevicesGlassJarSetg2,SourceCharacter configures DestinationCharacter glass tube to edge orgasms.
 ItemDevicesLatexbeltBedSelectBase,Configure the case
 ItemDevicesLatexbeltBedSelectCover,Configure the cover
 ItemDevicesLatexbeltBedSelectLatexSleepBag,Configure the latex bag

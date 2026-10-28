@@ -13797,6 +13797,102 @@ var AssetFemale3DCGExtended = {
 				})),
 			},
 		}, // UnicornStuffedToy
+		GlassJar: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Window",
+					Key: "c",
+					DrawImages: false,
+					Options: [
+						{},
+						{
+							Property: {
+								Difficulty: 52,
+								Effect: [E.BlindHeavy, E.GagLight, E.Freeze, E.Enclose],
+							},
+						},
+					],
+				},
+				{
+					Name: "LegRestraint",
+					Key: "t",
+					DrawImages: false,
+					Options: [
+						{},
+						{
+							Property: {
+								Difficulty: 22,
+								SetPose: ["LegsClosed"],
+								Effect: [E.Freeze, E.Mounted],
+							},
+						},
+					],
+				},
+				{
+					Name: "ArmRestraint",
+					Key: "s",
+					DrawImages: false,
+					Options: [
+						{},
+						{
+							Property: {
+								Difficulty: 18,
+								SetPose: ["BackElbowTouch"],
+								Effect: ["Freeze", "Block", "Mounted"],
+								OverrideHeight: { Height: 0, Priority: 60 },
+							},
+						},
+					],
+				},
+				{
+					Name: "Tube",
+					Key: "gz",
+					DrawImages: false,
+					Options: [{}, {}],
+				},
+				{
+					Name: "Liquid",
+					Key: "yt",
+					DrawImages: false,
+					Options: [{}, { Effect: [E.GagLight] }],
+				},
+				{
+					Name: "PleasureModule",
+					Key: "k",
+					DrawImages: false,
+					Options: [
+						{ Property: { Intensity: -1, Effect: ["Egged"] } },
+						{ Property: { Intensity: 0, Effect: ["Egged", "Vibrating"] } },
+						{ Property: { Intensity: 1, Effect: ["Egged", "Vibrating"] } },
+						{ Property: { Intensity: 2, Effect: ["Egged", "Vibrating"] } },
+						{ Property: { Intensity: 3, Effect: ["Egged", "Vibrating"] } },
+					],
+				},
+				{
+					Name: "ElectroModule",
+					Key: "d",
+					DrawImages: false,
+					Options: [
+						{ Property: {} },
+						{ Property: { ShockLevel: 0 } },
+						{ Property: { ShockLevel: 1 } },
+						{ Property: { ShockLevel: 2 } },
+					],
+				},
+				{
+					Name: "OrgasmLock",
+					Key: "g",
+					DrawImages: false,
+					Options: [
+						{},
+						{ Property: { Effect: ["DenialMode"] } },
+						{ Property: { Effect: ["DenialMode", "RuinOrgasms"] } },
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // GlassJar
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
