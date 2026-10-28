@@ -320,6 +320,13 @@ function ValidationResolveModifyDiff(previousItem, newItem, params) {
 
 	let valid = ValidationResolveLockModification(previousItem, newItem, params, itemBlocked);
 
+	const lock = InventoryGetLock(previousItem);
+	if (lock && !ValidationIsLockChangePermitted(lock, params) && !CommonDeepEqual(previousItem.Craft ?? null, newItem.Craft ?? null)) {
+		console.error(`Invalid modification of craft ${ValidationItemWarningMessage(previousItem, params)}`);
+		newItem.Craft = previousItem.Craft;
+		valid = false;
+	}
+
 	// If the source wouldn't usually be able to add the item, ensure that some properties are not modified
 	if (!ValidationCanAddItem(newItem, params)) {
 		const warningSuffix = ValidationItemWarningMessage(previousItem, params);
