@@ -3123,7 +3123,7 @@ ItemDevicesBoxingBagAttachPhoto,Attach Photo
 ItemDevicesBoxingBagRemovePhoto,No Photo
 ItemDevicesBoxingBagSetAttachPhoto,SourceCharacter attaches a photo on DestinationCharacter punching bag.
 ItemDevicesBoxingBagSetRemovePhoto,SourceCharacter removes the photo on DestinationCharacter punching bag.
-ItemDevicesGiantStuffedToySelect,Configure the Giant Stuffed Bear
+ItemDevicesGiantStuffedToySelect,Configure the stuffed bear
 ItemDevicesGiantStuffedToyBear,Opacity
 ItemDevicesLatexbeltBedSelectBase,Configure the case
 ItemDevicesLatexbeltBedSelectCover,Configure the cover
@@ -3176,6 +3176,11 @@ ItemDevicesTrashCanOpenLid,Open Lid
 ItemDevicesTrashCanSetOpenLid,SourceCharacter opened DestinationCharacter trash can lid
 ItemDevicesTrashCanSetOpenFlap,SourceCharacter opened DestinationCharacter trash can flap
 ItemDevicesTrashCanSetCloseLid,SourceCharacter closed DestinationCharacter trash can lid
+ItemDevicesUnicornStuffedToyPutonHeadgear,Wear Head
+ItemDevicesUnicornStuffedToyRemoveHeadgear,Remove Head
+ItemDevicesUnicornStuffedToySelect,Configure the stuffed unicorn
+ItemDevicesUnicornStuffedToySetPutonHeadgear,SourceCharacter puts the head on TargetCharacter stuffed unicorn.
+ItemDevicesUnicornStuffedToySetRemoveHeadgear,SourceCharacter removes the head on TargetCharacter stuffed unicorn.
 ItemEarsCTHeadsetModuleGlow,Glow
 ItemEarsCTHeadsetModuleEars,Ears
 ItemEarsCTHeadsetModuleMic,Mic

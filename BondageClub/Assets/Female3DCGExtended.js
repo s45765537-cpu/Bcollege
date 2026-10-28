@@ -13780,6 +13780,23 @@ var AssetFemale3DCGExtended = {
 				})),
 			},
 		}, // BoxingBag
+		UnicornStuffedToy: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "PutonHeadgear" }, { Name: "RemoveHeadgear" }],
+			BaselineProperty: { Opacity: 0.7 },
+			ScriptHooks: {
+				Init: PropertyOpacityInit,
+				Load: PropertyOpacityLoad,
+				Draw: PropertyOpacityDraw,
+				Exit: PropertyOpacityExit,
+			},
+			DrawData: {
+				elementData: ExtendedXYClothes[2].map((tuple) => ({
+					position: [tuple[0], tuple[1] + 100],
+				})),
+			},
+		}, // UnicornStuffedToy
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {

@@ -1100,7 +1100,7 @@ ItemDevices,FoldingScreen,Folding Screen
 ItemDevices,FuckMachine,Fuck Machine
 ItemDevices,FurBlanketWrap,Fur Blanket Wrap
 ItemDevices,FuturisticCrate,Futuristic Crate
-ItemDevices,GiantStuffedToy,Giant Stuffed Bear
+ItemDevices,GiantStuffedToy,Stuffed Bear
 ItemDevices,GlueFloor,Glue's Puddle
 ItemDevices,InflatableBodyBag,Inflatable Body Bag
 ItemDevices,InflatableRestraintBag,Inflatable Restraint Bag
@@ -1141,6 +1141,7 @@ ItemDevices,TransportWoodenBox,Transport Box
 ItemDevices,TrashCan,Trash Can
 ItemDevices,Trolley,Trolley
 ItemDevices,Throne,Throne
+ItemDevices,UnicornStuffedToy,Stuffed Unicorn
 ItemDevices,Vacbed,Vacbed
 ItemDevices,VacbedClear,Clear Vacbed
 ItemDevices,VacBedDeluxe,Vacuum Bed Deluxe
