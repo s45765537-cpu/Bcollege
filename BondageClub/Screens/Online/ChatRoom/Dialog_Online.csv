@@ -98,6 +98,8 @@ ReleaseLoverConfirm,0,"(Cancel)",(Main menu),,
 40,,(Remove from focuslist.),(This member was removed from your focus list. See /focus for more details.),"ListManage(""Remove"", ""DrawFocusList"")",CurrentCharacterInDrawFocusList()
 40,,(Hold on to DialogCharacterPossessive leash.),,HoldLeash(),CanHoldLeash()
 40,,(Let go of DialogCharacterPossessive leash.),,StopHoldLeash(),CanStopHoldLeash()
+40,,(Tie DialogCharacterPossessive leash to the post.),,MapViewTetherTie(),MapViewCanTetherTie()
+40,,(Untie DialogCharacterPossessive leash from the post.),,MapViewTetherUntie(),MapViewCanTetherUntie()
 40,0,(Help DialogCharacterObject stand.),(You help DialogCharacterObject up on DialogCharacterPossessive feet.),KneelStandAssist(),CanAssistStand()
 40,0,(Help DialogCharacterObject kneel.),(You help DialogCharacterObject down on DialogCharacterPossessive knees.),KneelStandAssist(),CanAssistKneel()
 40,0,(Help DialogCharacterObject to struggle free.),,StruggleAssist(),CanAssistStruggle()

@@ -30,6 +30,8 @@ PlayerGagged,,,(You can use or remove items by selecting specific body regions o
 100,110,(Call the maids for help),(The maids are not supposed to take room calls. This will result in punishment and public humiliation. Are you sure?),,DialogCanCallMaidsPunishmentOn()
 100,0,(Call the maids for help),(The maids will be here shortly...),DialogCallMaids(),DialogCanCallMaidsPunishmentOff()
 100,120,(Use your safeword.),"(A safeword is serious and should not be used to cheat.  It can revert your clothes and restraints to when you entered the lobby, or release you completely.)",,DialogChatRoomCanSafeword()
+100,,(Tie your leash to the post.),,DialogMapViewTetherTie(),DialogMapViewCanTetherTie()
+100,,(Untie your leash from the post.),,DialogMapViewTetherUntie(),DialogMapViewCanTetherUntie()
 100,,(Take a photo of yourself.),(You can use or remove items by selecting specific body regions on yourself.),DialogPhotoPlayer(),DialogCanTakePhotos()
 100,,(Craft an item.),(You can use or remove items by selecting specific body regions on yourself.),DialogOpenCraftingScreen(),DialogCanCraft()
 100,,(Boot Kinky Dungeon),(The helmet chimes as Kinky Dungeon starts up),DialogStartKinkyDungeon(),DialogHasGamingHeadset()

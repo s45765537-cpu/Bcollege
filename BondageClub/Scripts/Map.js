@@ -207,6 +207,8 @@ var MapManager = (function () {
 					}
 					if (typeof config.Color === "string" && CommonIsColor(config.Color, { allowAlpha: true })) pad.Color = config.Color;
 					ret[index] = pad;
+				} else if (config?.Type === "Tether") {
+					ret[index] = { Type: "Tether" };
 				}
 			}
 			return ret;
@@ -1417,6 +1419,8 @@ var MapManager = (function () {
 					return false;
 				case "Teleporter":
 					return cell?.DefaultObjectConfig?.Type === "Teleporter";
+				case "Tether":
+					return !!cell?.CanBeTetherPoint;
 			}
 		}
 
@@ -2151,6 +2155,11 @@ var MapManager = (function () {
 							this.setObjectConfig(index, undefined);
 						}
 						break;
+					case "Tether":
+						if (!object || !this.isValidObjectConfig(index, "Tether")) {
+							this.setObjectConfig(index, undefined);
+						}
+						break;
 				}
 				// The pad whose menu is open is gone: its menu goes too
 				if (index === ChatRoomMapViewTeleportPadIndex && this.getObjectConfig(index)?.Type !== "Teleporter") ChatRoomMapViewHideDialogMenu();
@@ -2288,7 +2297,8 @@ const ChatRoomMapViewObjectDefaultValues = {
 		}
 	},
 	"WallDecoration": { CanPlaceOnWalls: true, CanPlaceOnFloors: false },
-	"Banners": { CanPlaceOnWalls: true, CanPlaceOnFloors: false }
+	"Banners": { CanPlaceOnWalls: true, CanPlaceOnFloors: false },
+	"FloorObstacle": { CanBeTetherPoint: true, OnClick: (x, y) => ChatRoomMapViewOnClickTetherPoint(x, y) },
 };
 
 
