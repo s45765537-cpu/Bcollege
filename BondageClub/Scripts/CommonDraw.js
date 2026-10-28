@@ -621,21 +621,7 @@ function CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName, propert
 	}
 
 	// Offset Y to counteract height modifiers for fixed-position assets
-	let fixedYOffset = 0;
-	if (asset.FixedPosition || layer.FixedPosition) {
-		if (C.IsInverted()) {
-			fixedYOffset =
-				-Y +
-				1000 -
-				(Y +
-					CharacterAppearanceYOffset(C, C.HeightRatio, true) / C.HeightRatio);
-		} else {
-			fixedYOffset =
-				C.HeightModifier +
-				(1000 * (1 - C.HeightRatio) * (1 - (C.HeightRatioProportion ?? 0))) /
-					C.HeightRatio;
-		}
-	}
+	const fixedYOffset = asset.FixedPosition || layer.FixedPosition ? CommonDrawGetFixedYOffset(C, Y) : 0;
 	Y += fixedYOffset;
 
 	// Adjust for the increased canvas size
@@ -654,6 +640,30 @@ function CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName, propert
 	}
 
 	return { X, Y, fixedYOffset };
+}
+
+/**
+ * Get the Y offset that keeps a layer at the same place whatever the character's height, like fixed-position assets
+ *
+ * @param {Character} C - The character the layer is drawn on
+ * @param {number} Y - The layer's Y position
+ * @returns {number} - The offset to add to the layer's Y position
+ */
+function CommonDrawGetFixedYOffset(C, Y) {
+	if (C.IsInverted()) {
+		return (
+			-Y +
+			1000 -
+			(Y +
+				CharacterAppearanceYOffset(C, C.HeightRatio, true) / C.HeightRatio)
+		);
+	} else {
+		return (
+			C.HeightModifier +
+			(1000 * (1 - C.HeightRatio) * (1 - (C.HeightRatioProportion ?? 0))) /
+				C.HeightRatio
+		);
+	}
 }
 
 /**

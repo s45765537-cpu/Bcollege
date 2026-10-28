@@ -52565,6 +52565,8 @@ var AssetFemale3DCG = [
 				ActivityAudio: ["Squeak"],
 				BuyGroup: "Plushie",
 				HideItem: ["ItemMiscPlushie"],
+				PoseMapping: {},
+				DynamicBeforeDraw: true,
 				Layer: [
 					{
 						Name: "Sin",
@@ -67361,8 +67363,9 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Plushie",
-				PoseMapping: { ...AssetPoseMapping.ItemHandheld },
+				PoseMapping: {},
 				DynamicGroupName: "ItemHandheld",
+				DynamicBeforeDraw: true,
 				CopyConfig: {
 					GroupName: "ItemHandheld",
 					AssetName: "Plushie",
