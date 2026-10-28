@@ -772,7 +772,7 @@ var PreferenceOnlineSharedSettingsDefault = {
 		Hide: { permission: 0 },
 		Block: { permission: 0 },
 	},
-	LockTimerLimit: "LockTimerLimitDefault"
+	LockTimerLimit: "LockTimerLimitDefault",
 };
 
 /**
