@@ -1172,6 +1172,7 @@ interface AssetGroup {
 	readonly InheritColor: AssetGroupName | null;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
+	readonly BasePose: AssetPoseName | "";
 	// FIXME: Unused?
 	readonly Reposition?: {
 		Group?: string;
@@ -5706,3 +5707,8 @@ interface LoadedCachedImage<T extends { width: number, height: number }> extends
 }
 
 type ScreenCheckCallback = (module: ModuleType, screen: ScreenName) => boolean;
+
+type Manifest = {
+	version?: number;
+	assets?: Record<string, { migratedAt?: string; groups?: string[] }>;
+};
